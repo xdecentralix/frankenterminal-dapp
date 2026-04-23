@@ -13,9 +13,9 @@ import { mainnet } from "viem/chains";
 
 // TODO: replace with deployed LeverageExecutor address once available.
 // The executor must implement IFrankencoinFlashLoanCallback and:
-//   1. receive userZCHF from sender
-//   2. call FlashloanFrankencoin.flashloan(source, flashloanAmount, data)
-//   3. in callback: swap total ZCHF → collateral, clone position, approve repayment
+//   1. pull userZCHF from sender
+//   2. call FlashloanFrankencoin.flashloan(source, mintNet, data)
+//   3. in callback: exact-output swap (n tokens out), clone position with n, approve repayment
 const LEVERAGE_EXECUTOR_ADDRESS: Address = zeroAddress;
 
 const LEVERAGE_EXECUTOR_ABI = [
@@ -26,8 +26,8 @@ const LEVERAGE_EXECUTOR_ABI = [
 		inputs: [
 			{ name: "source", type: "address" },
 			{ name: "userZCHF", type: "uint256" },
-			{ name: "flashloanAmount", type: "uint256" },
-			{ name: "mintAmount", type: "uint256" },
+			{ name: "n", type: "uint256" },       // exact collateral tokens out (exact-output swap)
+			{ name: "mintAmount", type: "uint256" }, // gross ZCHF minted by the clone
 			{ name: "expiration", type: "uint40" },
 		],
 		outputs: [{ name: "leveragedPosition", type: "address" }],
@@ -37,7 +37,7 @@ const LEVERAGE_EXECUTOR_ABI = [
 interface Props {
 	position: PositionQuery;
 	userZCHF: bigint;
-	flashloanAmount: bigint;
+	n: bigint;
 	mintAmount: bigint;
 	expirationDate: Date;
 	userAllowance: bigint;
@@ -48,7 +48,7 @@ interface Props {
 export default function LeverageAction({
 	position,
 	userZCHF,
-	flashloanAmount,
+	n,
 	mintAmount,
 	expirationDate,
 	userAllowance,
@@ -100,13 +100,12 @@ export default function LeverageAction({
 				chainId: mainnet.id,
 				abi: LEVERAGE_EXECUTOR_ABI,
 				functionName: "executeLeverage",
-				args: [position.position as Address, userZCHF, flashloanAmount, mintAmount, expirationTime],
+				args: [position.position as Address, userZCHF, n, mintAmount, expirationTime],
 			});
 
 			const toastContent = [
 				{ title: "Your ZCHF:", value: formatBigInt(userZCHF) + " ZCHF" },
-				{ title: "Flashloan:", value: formatBigInt(flashloanAmount) + " ZCHF" },
-				{ title: "Collateral:", value: position.collateralSymbol },
+				{ title: "Collateral (n):", value: formatBigInt(n, position.collateralDecimals) + " " + position.collateralSymbol },
 				{ title: "Transaction:", hash },
 			];
 

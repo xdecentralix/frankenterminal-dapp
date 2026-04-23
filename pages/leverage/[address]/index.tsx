@@ -24,6 +24,7 @@ function toDate(time: bigint | number | string) {
 
 export default function PositionLeverage() {
 	const [userZCHF, setUserZCHF] = useState(0n);
+	const [marketPriceInput, setMarketPriceInput] = useState(0n);
 	const [expirationDate, setExpirationDate] = useState<Date>(new Date(0));
 	const [expirationTab, setExpirationTab] = useState<string>("1Y");
 	const [errorDate, setErrorDate] = useState("");
@@ -50,13 +51,18 @@ export default function PositionLeverage() {
 	useEffect(() => {
 		if (isInit) return;
 		if (!position || position.expiration == 0) return;
+		const collPriceZCHF = prices[normalizeAddress(position.collateral)]?.price?.chf ?? 0;
+		if (collPriceZCHF <= 0) return; // wait for oracle price before initialising
+
+		const pd = 36 - position.collateralDecimals;
+		setMarketPriceInput(parseUnits(collPriceZCHF.toFixed(pd), pd));
 
 		const _now = new Date();
 		const oneYearOut = new Date(_now.getFullYear() + 1, _now.getMonth(), _now.getDate());
 		const expirationMax = toDate(originalExpiration ?? position.expiration);
 		setExpirationDate(oneYearOut < expirationMax ? oneYearOut : expirationMax);
 		setInit(true);
-	}, [position, isInit, originalExpiration]);
+	}, [position, isInit, originalExpiration, prices]);
 
 	useEffect(() => {
 		const acc = account.address;
@@ -89,54 +95,95 @@ export default function PositionLeverage() {
 
 	if (!position) return null;
 
-	// ── Price / LTV math ─────────────────────────────────────────────────
+	// ── Price setup ──────────────────────────────────────────────────────
 	const priceDigit = 36 - position.collateralDecimals;
 	const liqPriceBigInt = BigInt(position.price);
 	const liqPriceFloat = parseFloat(formatUnits(liqPriceBigInt, priceDigit));
 	const collKey = normalizeAddress(position.collateral);
-	const marketPrice = prices[collKey]?.price?.chf ?? 0;
-
-	// Core ratios (all in [0, 1])
-	const reserveRatio = position.reserveContribution / 1_000_000;
+	const oraclePrice = prices[collKey]?.price?.chf ?? 0; // coingecko reference (display only)
+	const oraclePriceBigInt = parseUnits(Math.max(0, oraclePrice).toFixed(priceDigit), priceDigit);
 	const expirationMax = toDate(originalExpiration ?? position.expiration);
+
+	// marketPriceInput drives all calculations; oracle price shown as reference
+	const marketPriceInputFloat = parseFloat(formatUnits(marketPriceInput, priceDigit));
+
+	// ── Interest / reserve ratios ────────────────────────────────────────
+	const reserveRatio = position.reserveContribution / 1_000_000;
 	const durationMs = Math.max(0, expirationDate.getTime() - Date.now());
-	const durationYears = durationMs / (1000 * 60 * 60 * 24 * 365.25);
+	const durationSecs = durationMs / 1000;
+	// Use 365 days to match PositionV2.calculateFee: feePPM = timePassed * annualPPM / 365 days
+	const SECS_PER_YEAR = 365 * 24 * 3600;
+	const durationYears = durationSecs / SECS_PER_YEAR;
 	const annualRate = position.annualInterestPPM / 1_000_000;
 	const feeRatio = annualRate * durationYears;
 
-	// Leverage math: credit = M_LTV − Res − I·d
-	const mLTV = marketPrice > 0 ? liqPriceFloat / marketPrice : 0;
+	// ── Leverage math: credit = M_LTV − Res − I·d ───────────────────────
+	const mLTV = marketPriceInputFloat > 0 ? liqPriceFloat / marketPriceInputFloat : 0;
 	const credit = Math.max(0, mLTV - reserveRatio - feeRatio);
 	const userRatio = 1 - credit;
 	const leverageFactor = credit > 0 ? 1 / credit : 0;
 	const canLeverage = credit > 0.001;
 
-	// ── Position sizing from user's ZCHF input ───────────────────────────
-	// User deposits ZCHF. Flashloan adds more ZCHF. Total ZCHF is swapped for collateral.
+	// ── n-based sizing (exact) ───────────────────────────────────────────
+	// n = floor( deposit_max / (p_market − p_liq*(1 − res − interest)) )
+	// All values in BigInt to get exact floor without floating-point error.
+
+	// Normalise both prices to 18 decimals for denominator computation
+	const liqPrice18 =
+		priceDigit >= 18
+			? liqPriceBigInt / 10n ** BigInt(priceDigit - 18)
+			: liqPriceBigInt * 10n ** BigInt(18 - priceDigit);
+
+	// marketPriceInput is exact BigInt — no float conversion needed
+	const marketPrice18 =
+		priceDigit >= 18
+			? marketPriceInput / 10n ** BigInt(priceDigit - 18)
+			: marketPriceInput * 10n ** BigInt(18 - priceDigit);
+
+	// Interest in PPM, mirrors PositionV2.calculateFee: feePPM = timePassed * annualPPM / 365 days
+	const interestPPM = BigInt(Math.floor((position.annualInterestPPM * durationSecs) / SECS_PER_YEAR));
+	const resPPM = BigInt(position.reserveContribution);
+	const netPPM = 1_000_000n - resPPM - interestPPM; // (1 − res − interest) scaled ×1e6
+
+	// creditPerToken18 = liqPrice18 × netPPM / 1e6  (net ZCHF flashloan credit per token)
+	const creditPerToken18 = (liqPrice18 * netPPM) / 1_000_000n;
+
+	// denominator = p_market − p_liq*(1−res−interest)  (user's net cost per token, 18 dec)
+	const denominator18 = marketPrice18 - creditPerToken18;
+
+	// n: collateral tokens to acquire (exact output swap), floored via integer division
+	const nBigInt =
+		denominator18 > 0n ? (userZCHF * 10n ** BigInt(position.collateralDecimals)) / denominator18 : 0n;
+
+	// Exact position figures from n:
+	// mintGross = n × liqPrice / 1e18  (n has collDecimals, price has 36-collDecimals → /1e18 = 18 dec ZCHF)
+	const mintGrossBigInt = (nBigInt * liqPriceBigInt) / 10n ** 18n;
+	const reserveLockedBigInt = (mintGrossBigInt * resPPM) / 1_000_000n;
+	const interestCostBigInt = (mintGrossBigInt * interestPPM) / 1_000_000n;
+	const mintNetBigInt = (mintGrossBigInt * netPPM) / 1_000_000n; // = flashloan repayment
+
+	// n × p_market = total ZCHF needed to buy n tokens (exact BigInt)
+	const totalSwapBigInt = marketPrice18 > 0n ? (nBigInt * marketPrice18) / 10n ** BigInt(position.collateralDecimals) : 0n;
+
+	// Display floats
+	const nFloat = parseFloat(formatUnits(nBigInt, position.collateralDecimals));
+	const mintGrossFloat = parseFloat(formatUnits(mintGrossBigInt, 18));
+	const mintNetFloat = parseFloat(formatUnits(mintNetBigInt, 18));
+	const reserveLockedFloat = parseFloat(formatUnits(reserveLockedBigInt, 18));
+	const interestCostFloat = parseFloat(formatUnits(interestCostBigInt, 18));
+	const totalSwapFloat = parseFloat(formatUnits(totalSwapBigInt, 18));
 	const userZCHFFloat = parseFloat(formatUnits(userZCHF, 18));
 
-	// totalValueZCHF = userZCHF / userRatio  →  userZCHF covers the "user" fraction
-	const totalValueZCHF = userRatio > 0 && canLeverage ? userZCHFFloat / userRatio : 0;
+	// Actual required / credit / leverage from real amounts: input / flashloan
+	const actualRequired = totalSwapFloat > 0 ? userZCHFFloat / totalSwapFloat : 0;
+	const actualCredit = 1 - actualRequired;
+	const actualLeverage = actualCredit > 0 ? 1 / actualCredit : 0;
 
-	// All ZCHF (user + flashloan) is swapped for collateral in one DEX trade
-	const flashloanZCHF = Math.max(0, credit * totalValueZCHF);
-	const totalSwapZCHF = userZCHFFloat + flashloanZCHF; // = totalValueZCHF
-	const totalCollFloat = marketPrice > 0 ? totalSwapZCHF / marketPrice : 0;
-
-	// What the leveraged clone mints
-	const mintGrossZCHF = Math.max(0, mLTV * totalValueZCHF);
-	const reserveLockedZCHF = reserveRatio * mintGrossZCHF;
-	const interestCostZCHF = feeRatio * mintGrossZCHF;
-
-	// Minimum ZCHF input: enough to produce at least minimumCollateral in the position
-	const minCollFloat = parseFloat(formatUnits(BigInt(position.minimumCollateral), position.collateralDecimals));
-	const minUserZCHFFloat = canLeverage ? minCollFloat * marketPrice * userRatio : 0;
-	const minUserZCHF = parseUnits(Math.max(0, minUserZCHFFloat).toFixed(18), 18);
-
-	// BigInt values for action component
-	const safeUnits = (n: number) => parseUnits(Math.max(0, n).toFixed(18), 18);
-	const flashloanAmountBigInt = safeUnits(flashloanZCHF);
-	const mintAmountBigInt = safeUnits(mintGrossZCHF);
+	// Minimum deposit: enough n to meet minimumCollateral
+	const minColl = BigInt(position.minimumCollateral);
+	const minUserZCHF =
+		denominator18 > 0n ? (minColl * denominator18) / 10n ** BigInt(position.collateralDecimals) : 0n;
+	const minUserZCHFFloat = parseFloat(formatUnits(minUserZCHF, 18));
 
 	// ── Expiration date handling ──────────────────────────────────────────
 	const _now = new Date();
@@ -218,7 +265,7 @@ export default function PositionLeverage() {
 
 					<div className="space-y-4">
 						<TokenInput
-							label="Your ZCHF"
+							label="Max Deposit"
 							symbol="ZCHF"
 							value={String(userZCHF)}
 							onChange={(v) => setUserZCHF(BigInt(v))}
@@ -230,6 +277,18 @@ export default function PositionLeverage() {
 							limit={userBalance}
 							limitDigit={18}
 							limitLabel="Balance"
+						/>
+
+						<TokenInput
+							label={`${position.collateralSymbol} Price`}
+							symbol="ZCHF"
+							value={String(marketPriceInput)}
+							onChange={(v) => setMarketPriceInput(BigInt(v))}
+							reset={oraclePriceBigInt}
+							digit={priceDigit}
+							limit={oraclePriceBigInt}
+							limitDigit={priceDigit}
+							limitLabel="Oracle"
 						/>
 
 						<DateInput
@@ -251,15 +310,11 @@ export default function PositionLeverage() {
 
 						<div className="flex justify-between text-sm">
 							<span className="text-text-secondary">Liquidation price</span>
-							<span>
-								{formatCurrency(liqPriceFloat)} ZCHF / {position.collateralSymbol}
-							</span>
+							<span>{formatCurrency(liqPriceFloat)} ZCHF</span>
 						</div>
 						<div className="flex justify-between text-sm">
 							<span className="text-text-secondary">Market price</span>
-							<span>
-								{formatCurrency(marketPrice)} ZCHF / {position.collateralSymbol}
-							</span>
+							<span>{formatCurrency(marketPriceInputFloat)} ZCHF</span>
 						</div>
 						<div className="flex justify-between text-sm">
 							<span className="text-text-secondary">Market LTV (liq / market)</span>
@@ -271,61 +326,90 @@ export default function PositionLeverage() {
 							<span>−{formatCurrency(reserveRatio * 100)}%</span>
 						</div>
 						<div className="flex justify-between text-sm">
-							<span className="text-text-secondary">Interest ({formatCurrency(annualRate * 100)}% / yr × {formatCurrency(durationYears, 0, 2)} yr)</span>
+							<span className="text-text-secondary">
+								Interest ({formatCurrency(annualRate * 100)}% / yr × {formatCurrency(durationYears, 0, 2)} yr)
+							</span>
 							<span>−{formatCurrency(feeRatio * 100)}%</span>
 						</div>
 
+					</AppBox>
+
+					{/* ── Buy Token ── */}
+					<AppBox tight={true}>
+						<div className="text-sm font-semibold text-text-secondary mb-2">Buy Token</div>
+
+						<div className="flex justify-between text-sm font-extrabold">
+							<span className="text-text-secondary">Calc amount (n)</span>
+							<span>
+								{formatCurrency(nFloat, 0, position.collateralDecimals)} {position.collateralSymbol}
+							</span>
+						</div>
+						<div className="flex justify-between text-sm">
+							<span className="text-text-secondary">Flashloan to buy (n × price)</span>
+							<span>{formatCurrency(totalSwapFloat)} ZCHF</span>
+						</div>
+
 						<div className="mt-2 border-t border-border pt-2 flex justify-between text-sm font-semibold">
-							<span className="text-text-secondary">Required (user input)</span>
-							<span>{formatCurrency(userRatio * 100)}%</span>
+							<span className="text-text-secondary">Equity (deposit)</span>
+							<span>{formatCurrency(actualRequired * 100)}%</span>
 						</div>
 						<div className="flex justify-between text-sm font-semibold">
-							<span className="text-text-secondary">Credit (flashloan fraction)</span>
-							<span className={canLeverage ? "text-green-400" : "text-red-400"}>{formatCurrency(credit * 100)}%</span>
+							<span className="text-text-secondary">Credit (borrow)</span>
+							<span className={canLeverage ? "text-green-400" : "text-red-400"}>
+								{formatCurrency(actualCredit * 100)}%
+							</span>
 						</div>
 						<div className="flex justify-between text-sm font-bold">
 							<span className="text-text-secondary">Leverage (1 / credit)</span>
 							<span className={canLeverage ? "text-purple-400" : "text-red-400"}>
-								{canLeverage ? `${formatCurrency(leverageFactor)}×` : "—"}
+								{actualLeverage > 0 ? `${formatCurrency(actualLeverage)}×` : "—"}
 							</span>
 						</div>
 					</AppBox>
 
-					{/* ── Leveraged Position Output ── */}
+					{/* ── Leveraged Position ── */}
 					<AppBox tight={true}>
 						<div className="text-sm font-semibold text-text-secondary mb-2">Leveraged Position</div>
 
 						<div className="flex justify-between text-sm">
-							<span className="text-text-secondary">Your ZCHF</span>
-							<span>{formatCurrency(userZCHFFloat)} ZCHF</span>
-						</div>
-						<div className="flex justify-between text-sm">
-							<span className="text-text-secondary">ZCHF flashloan</span>
-							<span>{formatCurrency(flashloanZCHF)} ZCHF</span>
-						</div>
-						<div className="flex justify-between text-sm">
-							<span className="text-text-secondary">Total ZCHF swapped for collateral</span>
-							<span>{formatCurrency(totalSwapZCHF)} ZCHF</span>
-						</div>
-
-						<div className="mt-2 border-t border-border pt-2 flex justify-between text-sm font-extrabold">
-							<span className="text-text-secondary">Total {position.collateralSymbol} deposited</span>
+							<span className="text-text-secondary">Coll token</span>
 							<span>
-								{formatCurrency(totalCollFloat)} {position.collateralSymbol}
+								{formatCurrency(nFloat, 0, position.collateralDecimals)} {position.collateralSymbol}
 							</span>
 						</div>
+						<div className="flex justify-between text-sm">
+							<span className="text-text-secondary">Minted gross</span>
+							<span>{formatCurrency(mintGrossFloat)} ZCHF</span>
+						</div>
+						<div className="flex justify-between text-sm">
+							<span className="text-text-secondary">Reserve ({formatCurrency(reserveRatio * 100)}%)</span>
+							<span>−{formatCurrency(reserveLockedFloat)} ZCHF</span>
+						</div>
+						<div className="flex justify-between text-sm">
+							<span className="text-text-secondary">Interest</span>
+							<span>−{formatCurrency(interestCostFloat)} ZCHF</span>
+						</div>
+						<div className="mt-2 border-t border-border pt-2 flex justify-between text-sm font-semibold">
+							<span className="text-text-secondary">Left</span>
+							<span>{formatCurrency(mintNetFloat)} ZCHF</span>
+						</div>
+					</AppBox>
 
-						<div className="mt-2 flex justify-between text-sm">
-							<span className="text-text-secondary">Minted gross (M_LTV × total)</span>
-							<span>{formatCurrency(mintGrossZCHF)} ZCHF</span>
+					{/* ── Breakdown ── */}
+					<AppBox tight={true}>
+						<div className="text-sm font-semibold text-text-secondary mb-2">Breakdown</div>
+
+						<div className="flex justify-between text-sm font-extrabold">
+							<span className="text-text-secondary">Flashloan amount</span>
+							<span>{formatCurrency(totalSwapFloat)} ZCHF</span>
 						</div>
 						<div className="flex justify-between text-sm">
-							<span className="text-text-secondary">Reserve locked ({formatCurrency(reserveRatio * 100)}%)</span>
-							<span>{formatCurrency(reserveLockedZCHF)} ZCHF</span>
+							<span className="text-text-secondary">Left from minted</span>
+							<span>−{formatCurrency(mintNetFloat)} ZCHF</span>
 						</div>
-						<div className="flex justify-between text-sm">
-							<span className="text-text-secondary">Upfront interest</span>
-							<span>{formatCurrency(interestCostZCHF)} ZCHF</span>
+						<div className="mt-2 border-t border-border pt-2 flex justify-between text-sm font-semibold">
+							<span className="text-text-secondary">Left to pay from user wallet</span>
+							<span>{formatCurrency(userZCHFFloat)} ZCHF</span>
 						</div>
 					</AppBox>
 
@@ -333,8 +417,8 @@ export default function PositionLeverage() {
 						<LeverageAction
 							position={position}
 							userZCHF={userZCHF}
-							flashloanAmount={flashloanAmountBigInt}
-							mintAmount={mintAmountBigInt}
+							n={nBigInt}
+							mintAmount={mintGrossBigInt}
 							expirationDate={expirationDate}
 							userAllowance={userAllowance}
 							userBalance={userBalance}
@@ -354,26 +438,34 @@ export default function PositionLeverage() {
 					<div className="text-lg font-bold text-center mt-1">How It Works</div>
 					<div className="mt-3 space-y-2 text-sm text-text-secondary">
 						<p>
-							1. You deposit <span className="text-text-primary">ZCHF</span> — the neutral loan token.
+							1. You deposit <span className="text-text-primary">{formatCurrency(userZCHFFloat)} ZCHF</span> — your equity (
+							{formatCurrency(actualRequired * 100)}% of the total buy).
 						</p>
 						<p>
-							2. A ZCHF flashloan covers the remaining{" "}
-							<span className="text-text-primary">{formatCurrency(credit * 100)}%</span> of the position's total value.
+							2. A flashloan covers the credit (borrow) portion:{" "}
+							<span className="text-text-primary">{formatCurrency(actualCredit * 100)}%</span> ={" "}
+							<span className="text-text-primary">{formatCurrency(mintNetFloat)} ZCHF</span>.
 						</p>
 						<p>
-							3. Your ZCHF + flashloan ZCHF are swapped in one trade for{" "}
-							<span className="text-text-primary">{position.collateralSymbol}</span>, which is deposited as collateral into a
-							cloned position.
+							3. The combined{" "}
+							<span className="text-text-primary">{formatCurrency(totalSwapFloat)} ZCHF</span> is swapped in one
+							exact-output trade for{" "}
+							<span className="text-text-primary">
+								{formatCurrency(nFloat, 0, position.collateralDecimals)} {position.collateralSymbol}
+							</span>
+							, deposited into a cloned position.
 						</p>
 						<p>
-							4. The clone mints ZCHF to repay the flashloan. You receive the position with{" "}
+							4. The clone mints{" "}
+							<span className="text-text-primary">{formatCurrency(mintGrossFloat)} ZCHF</span> gross —{" "}
+							{formatCurrency(mintNetFloat)} ZCHF net repays the flashloan. You receive the position with{" "}
 							<span className="text-purple-400 font-semibold">
-								{canLeverage ? `${formatCurrency(leverageFactor)}×` : "—"}
+								{actualLeverage > 0 ? `${formatCurrency(actualLeverage)}×` : "—"}
 							</span>{" "}
 							leverage.
 						</p>
 						<p className="text-xs pt-1">
-							Liquidation threshold: {position.collateralSymbol} market price drops to {formatCurrency(liqPriceFloat)} ZCHF.
+							Liquidation threshold: {position.collateralSymbol} price drops to {formatCurrency(liqPriceFloat)} ZCHF.
 						</p>
 					</div>
 				</AppCard>
