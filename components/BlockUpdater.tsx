@@ -1,0 +1,167 @@
+import { useConnection, useBlockNumber } from "wagmi";
+import { Address } from "viem";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState, store } from "../redux/redux.store";
+import { fetchPositionsList } from "../redux/slices/positions.slice";
+import { fetchPricesList } from "../redux/slices/prices.slice";
+import { useIsConnectedToCorrectChain } from "../hooks/useWalletConnectStats";
+import { useServiceStatus } from "../hooks/useServiceStatus";
+import { CONFIG } from "../app.config";
+import LoadingScreen from "./LoadingScreen";
+import { fetchChallengesList } from "../redux/slices/challenges.slice";
+import { fetchBidsList } from "../redux/slices/bids.slice";
+import { fetchEcosystem } from "../redux/slices/ecosystem.slice";
+import { fetchLeadrate, fetchSavings } from "../redux/slices/savings.slice";
+import { fetchDashboard } from "../redux/slices/dashboard.slice";
+import { mainnet } from "viem/chains";
+
+let initializing: boolean = false;
+let initStart: number = 0;
+let initBreakerMS: number = 15000;
+let loading: boolean = false;
+
+export default function BockUpdater({ children }: { children?: React.ReactElement | React.ReactElement[] }) {
+	const { error, data } = useBlockNumber({ chainId: mainnet.id, watch: true });
+	const { address } = useConnection();
+	const isConnectedToCorrectChain = useIsConnectedToCorrectChain();
+
+	const [initialized, setInitialized] = useState<boolean>(false);
+	const [latestHeight, setLatestHeight] = useState<number>(0);
+	const [latestHeight10, setLatestHeight10] = useState<number>(0);
+	const [latestConnectedToChain, setLatestConnectedToChain] = useState<boolean>(false);
+	const [latestAddress, setLatestAddress] = useState<Address | undefined>(undefined);
+
+	const serviceStatus = useServiceStatus();
+
+	const loadedEcosystem: boolean = useSelector((state: RootState) => state.ecosystem.loaded);
+	const loadedPositions: boolean = useSelector((state: RootState) => state.positions.loaded);
+	const loadedPrices: boolean = useSelector((state: RootState) => state.prices.loaded);
+	const loadedChallenges: boolean = useSelector((state: RootState) => state.challenges.loaded);
+	const loadedBids: boolean = useSelector((state: RootState) => state.bids.loaded);
+	const loadedLeadrate: boolean = useSelector((state: RootState) => state.savings.leadrateLoaded);
+	const loadedSavings: boolean = useSelector((state: RootState) => state.savings.savingsLoaded);
+
+	const timeToBreakLoading = () => {
+		const delay = Date.now() - initStart;
+		return delay > initBreakerMS ? 0 : initBreakerMS - delay;
+	};
+
+	// --------------------------------------------------------------------------------
+	// Init
+	useEffect(() => {
+		if (initialized) return;
+		if (initializing) return;
+		initializing = true;
+		initStart = Date.now();
+
+		console.log(`Init [BlockUpdater]: Start loading application data... ${initStart}`);
+		store.dispatch(fetchEcosystem());
+		store.dispatch(fetchPositionsList());
+		store.dispatch(fetchPricesList());
+		store.dispatch(fetchChallengesList());
+		store.dispatch(fetchBidsList());
+		store.dispatch(fetchSavings(latestAddress));
+		store.dispatch(fetchLeadrate());
+		store.dispatch(fetchDashboard());
+	}, [initialized, latestAddress]);
+
+	// --------------------------------------------------------------------------------
+	// Init done
+	useEffect(() => {
+		if (initialized) return;
+
+		if (loadedEcosystem && loadedPositions && loadedPrices && loadedChallenges && loadedBids && loadedLeadrate && loadedSavings) {
+			console.log(`Init [BlockUpdater]: Done. ${Date.now() - initStart} ms`);
+			setInitialized(true);
+			return;
+		}
+
+		// Breaker: force initialized after timeout even if not all data loaded
+		const remaining = timeToBreakLoading();
+		const timer = setTimeout(() => {
+			console.warn(`Init [BlockUpdater]: Breaker triggered after ${initBreakerMS} ms. Forcing app to continue.`);
+			setInitialized(true);
+		}, remaining);
+
+		return () => clearTimeout(timer);
+	}, [initialized, loadedPositions, loadedPrices, loadedEcosystem, loadedChallenges, loadedBids, loadedLeadrate, loadedSavings]);
+
+	// --------------------------------------------------------------------------------
+	// Bock update policies
+	useEffect(() => {
+		if (!initialized) return;
+		if (loading) return;
+
+		// verify
+		if (!data || error) return;
+		const fetchedLatestHeight: number = parseInt(data.toString());
+
+		// New block? set new state
+		if (fetchedLatestHeight <= latestHeight) return;
+		loading = true;
+		setLatestHeight(fetchedLatestHeight);
+
+		// Block update policy: EACH BLOCK
+		CONFIG.verbose && console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
+
+		// Block update policy: EACH 10 BLOCKS
+		if (fetchedLatestHeight >= latestHeight10 + 10) {
+			CONFIG.verbose && console.log(`Policy [BlockUpdater]: EACH 10 BLOCKS ${fetchedLatestHeight}`);
+			store.dispatch(fetchPositionsList());
+			store.dispatch(fetchChallengesList());
+			store.dispatch(fetchBidsList());
+			store.dispatch(fetchPricesList());
+			store.dispatch(fetchEcosystem());
+			setLatestHeight10(fetchedLatestHeight);
+		}
+
+		// Unlock block updates
+		loading = false;
+	}, [initialized, error, data, latestHeight, latestHeight10, latestAddress]);
+
+	// --------------------------------------------------------------------------------
+	// Connected to correct chain changes
+	useEffect(() => {
+		if (isConnectedToCorrectChain !== latestConnectedToChain) {
+			CONFIG.verbose && console.log(`Policy [BlockUpdater]: Connected to correct chain changed: ${isConnectedToCorrectChain}`);
+			setLatestConnectedToChain(isConnectedToCorrectChain);
+		}
+	}, [isConnectedToCorrectChain, latestConnectedToChain]);
+
+	// --------------------------------------------------------------------------------
+	// Address / User changes
+	useEffect(() => {
+		if (!address && latestAddress) {
+			setLatestAddress(undefined);
+			CONFIG.verbose && console.log(`Policy [BlockUpdater]: Address reset`);
+			store.dispatch(fetchSavings(undefined));
+		} else if (address && (!latestAddress || address != latestAddress)) {
+			setLatestAddress(address);
+			CONFIG.verbose && console.log(`Policy [BlockUpdater]: Address changed to: ${address}`);
+			store.dispatch(fetchSavings(address));
+		}
+	}, [address, latestAddress]);
+
+	// --------------------------------------------------------------------------------
+	// Loading Guard
+	if (initialized) {
+		return <>{children}</>;
+	} else {
+		return (
+			<LoadingScreen
+				breakerMs={initBreakerMS}
+				loading={[
+					...serviceStatus,
+					{ id: "ecosystem", title: "Ecosystem", isLoaded: loadedEcosystem },
+					{ id: "positions", title: "Positions", isLoaded: loadedPositions },
+					{ id: "prices", title: "Prices", isLoaded: loadedPrices },
+					{ id: "challenges", title: "Challenges", isLoaded: loadedChallenges },
+					{ id: "bids", title: "Bids", isLoaded: loadedBids },
+					{ id: "leadrate", title: "Leadrate", isLoaded: loadedLeadrate },
+					{ id: "savings", title: "Savings", isLoaded: loadedSavings },
+				]}
+			/>
+		);
+	}
+}

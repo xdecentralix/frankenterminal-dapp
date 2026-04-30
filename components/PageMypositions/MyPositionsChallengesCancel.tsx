@@ -1,0 +1,90 @@
+import { ChallengesQueryItem, PositionQuery, PositionsQueryObjectArray } from "@frankencoin/api";
+import { useState } from "react";
+import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
+import { WAGMI_CONFIG } from "../../app.config";
+import { toast } from "react-toastify";
+import { formatBigInt, normalizeAddress } from "@utils";
+import { renderErrorTxToast, TxToast } from "@components/TxToast";
+import { RootState } from "../../redux/redux.store";
+import { useSelector } from "react-redux";
+import { Address } from "viem";
+import { useConnection } from "wagmi";
+import AppButton from "@components/AppButton";
+import { ADDRESS, MintingHubV1ABI, MintingHubV2ABI } from "@frankencoin/zchf";
+import { track } from "@hooks";
+import { mainnet } from "viem/chains";
+
+interface Props {
+	challenge: ChallengesQueryItem;
+	hidden?: boolean;
+}
+
+export default function MyPositionsChallengesCancel({ challenge, hidden }: Props) {
+	const [isCancelling, setCancelling] = useState<boolean>(false);
+	const positions: PositionsQueryObjectArray = useSelector((state: RootState) => state.positions.mapping.map);
+	const account = useConnection();
+	const chainId = mainnet.id;
+	const [isHidden, setHidden] = useState<boolean>(
+		hidden == true || challenge.status !== "Active" || account.address?.toLowerCase() !== normalizeAddress(challenge.challenger)
+	);
+
+	const handleCancelOnClick = async function () {
+		const pid = normalizeAddress(challenge.position);
+		const p: PositionQuery = positions[pid];
+		const n: number = parseInt(challenge.number.toString());
+		const r = challenge.size - challenge.filledSize;
+
+		if (!p) return;
+		if (account.address?.toLowerCase() !== normalizeAddress(challenge.challenger)) return;
+
+		try {
+			setCancelling(true);
+
+			const cancelWriteHash = await writeContract(WAGMI_CONFIG, {
+				address: p.version == 1 ? ADDRESS[chainId].mintingHubV1 : ADDRESS[chainId].mintingHubV2,
+				abi: p.version == 1 ? MintingHubV1ABI : MintingHubV2ABI,
+				functionName: "bid",
+				args: [n, r, false],
+			});
+
+			const toastContent = [
+				{
+					title: `Cancel Amount: `,
+					value: formatBigInt(r, p.collateralDecimals) + " " + p.collateralSymbol,
+				},
+				{
+					title: `Expected ZCHF: `,
+					value: "0.00 ZCHF",
+				},
+				{
+					title: "Transaction:",
+					hash: cancelWriteHash,
+				},
+			];
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: cancelWriteHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast title={`Cancelling Challenge...`} rows={toastContent} />,
+				},
+				success: {
+					render: <TxToast title="Successfully Cancelled Challenge" rows={toastContent} />,
+				},
+			});
+
+			track("challenge_cancelled", { collateral: p.collateralSymbol });
+			setHidden(true);
+		} catch (error) {
+			toast.error(renderErrorTxToast(error));
+		} finally {
+			setCancelling(false);
+		}
+	};
+
+	return (
+		<div className="">
+			<AppButton className="h-10" disabled={isHidden} isLoading={isCancelling} onClick={() => handleCancelOnClick()}>
+				Cancel
+			</AppButton>
+		</div>
+	);
+}

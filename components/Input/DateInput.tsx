@@ -1,0 +1,182 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import ReactDatePicker from "react-datepicker";
+import { formatDate } from "@utils";
+import { useRef } from "react";
+
+interface Props {
+	className?: string;
+	label: string;
+	hideMax?: boolean;
+	min?: Date;
+	max?: Date;
+	reset?: Date;
+	limit?: bigint;
+	limitDigit?: bigint | number;
+	limitLabel?: string;
+	output?: string;
+	note?: string;
+	value: Date;
+	tabs?: string[];
+	tabDates?: Record<string, Date>;
+	tab?: string;
+	onTab?: (tab: string) => void;
+	onChange?: (date: Date | null) => void;
+	onMin?: () => void;
+	onMax?: () => void;
+	onReset?: () => void;
+	autoFocus?: boolean;
+	disabled?: boolean;
+	error?: string;
+}
+
+export default function DateInput({
+	className,
+	label,
+	min,
+	max,
+	reset,
+	limit = 0n,
+	limitDigit = 18n,
+	limitLabel,
+	value,
+	output,
+	note,
+	tabs,
+	tabDates,
+	tab,
+	onTab = () => {},
+	onChange = () => {},
+	onReset = () => {},
+	autoFocus,
+	disabled,
+	error,
+}: Props) {
+	const datePickerRef = useRef<any>(null);
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	const handleClick = () => {
+		if (datePickerRef.current && !disabled) {
+			datePickerRef.current.setOpen(true);
+		}
+	};
+
+	return (
+		<div className={className}>
+			<div
+				className={`group border-card-input-border ${
+					disabled ? "bg-card-input-disabled" : "hover:border-card-input-hover"
+				} focus-within:!border-card-input-focus ${
+					error ? "!border-card-input-error" : ""
+				} text-text-secondary border-2 rounded-lg px-3 py-1`}
+				onClick={handleClick}
+			>
+				{label && <div className="flex text-card-input-label my-1">{label}</div>}
+
+				<div className="flex items-center">
+					<div
+						className={`flex-1 h-[52px] ${
+							error ? "text-card-input-error" : !!value ? "text-text-primary" : "placeholder:text-card-input-empty"
+						}`}
+					>
+						<ReactDatePicker
+							ref={datePickerRef}
+							customInput={<input ref={inputRef} className="-ml-2 w-full bg-transparent" style={{ fontSize: "1.875rem" }} />}
+							id="expiration-datepicker"
+							selected={value}
+							dateFormat={"dd MMM yyyy"}
+							onChange={(e) => !disabled && onChange?.(e)}
+							disabled={disabled}
+							value={output}
+						/>
+					</div>
+
+					<div className="mr-2">
+						<FontAwesomeIcon icon={faCalendarDays} className="w-6 h-6 ml-2" />
+					</div>
+				</div>
+
+				{limitLabel != undefined || max != undefined || min != undefined || reset != undefined || tabs != undefined ? (
+					<div className="flex flex-row gap-4 py-1">
+						<div className="flex-1">
+							<div className="flex flex-row gap-2">
+								{limitLabel != undefined && <div className="text-text-secondary">{limitLabel}</div>}
+								{limitLabel != undefined && <div className="text-text-primary truncate">{formatDate(limit)}</div>}
+							</div>
+						</div>
+
+						{/* {!disabled && max != undefined && max.getDate() != value.getDate() && (
+							<div
+								className="text-card-input-max cursor-pointer hover:text-card-input-focus font-extrabold"
+								onClick={() => {
+									if (max !== undefined) {
+										onChange(max);
+										onMax();
+									}
+								}}
+							>
+								Max
+							</div>
+						)}
+						{!disabled && min != undefined && min.getDate() != value.getDate() && (
+							<div
+								className="text-card-input-min cursor-pointer hover:text-card-input-focus font-extrabold"
+								onClick={() => {
+									if (min !== undefined) {
+										onChange(min);
+										onMin();
+									}
+								}}
+							>
+								Min
+							</div>
+						)} */}
+						{!disabled &&
+							tabs != undefined &&
+							tabs.map((t) => {
+								const tabDate = tabDates?.[t];
+								const now = new Date();
+								if (tabDate && tabDate < now) return null;
+								if (tabDate && max && tabDate > max) return null;
+								return (
+									<div
+										key={t}
+										className={`font-extrabold ${
+											t === tab
+												? "text-card-input-min"
+												: "cursor-pointer text-card-input-label hover:text-card-input-focus"
+										}`}
+										onClick={(e) => {
+											e.stopPropagation();
+											onTab(t);
+										}}
+									>
+										{t}
+									</div>
+								);
+							})}
+						{!disabled && reset != undefined && reset != value && reset != min && reset != max && (
+							<div
+								className="text-card-input-reset cursor-pointer hover:text-card-input-focus font-extrabold"
+								onClick={() => {
+									if (reset !== undefined) {
+										onChange(reset);
+										onReset();
+									}
+								}}
+							>
+								Reset
+							</div>
+						)}
+					</div>
+				) : null}
+			</div>
+
+			{error ? (
+				<div className="flex my-2 px-3.5 text-text-warning">{error}</div>
+			) : (
+				<div className="flex my-2 px-3.5 text-text-secondary">{note}</div>
+			)}
+		</div>
+	);
+}
