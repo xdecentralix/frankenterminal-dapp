@@ -16,6 +16,8 @@ import AppButton from "@components/AppButton";
 import { faCalendarDays, faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
 import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, normalizeAddress } from "@utils";
 import EmptyState from "@components/EmptyState";
+import CalendarDropdown from "@components/CalendarDropdown";
+import AppTitle from "@components/AppTitle";
 
 const FILTER_OPTIONS: FilterOption[] = ALL_CATEGORIES.map((c) => ({ label: c, value: c }));
 
@@ -115,6 +117,14 @@ export default function MypositionsTable() {
 
 	return (
 		<>
+			<AppTitle 
+				title="Owned Positions" 
+				actions={
+					list.length > 0 ? (
+						<CalendarDropdown onGoogle={handleGoogleCalendar} onIcs={handleDownloadCalendar} />
+					) : undefined
+				}
+			/>
 			<Table>
 				<TableHeadSearchable
 					headers={headers}
@@ -137,9 +147,9 @@ export default function MypositionsTable() {
 					{list.length == 0 ? (
 						<TableRowEmpty>
 							<EmptyState
-								title="NO_POSITIONS_FOUND"
+								title="NO POSITIONS FOUND"
 								hint="SCAN: 0 OPEN  ·  0 CHALLENGES  ·  0 BIDS"
-								cta={{ label: "INITIATE_BORROW", href: "/mint" }}
+								cta={{ label: "INITIATE BORROW", href: "/mint" }}
 							/>
 						</TableRowEmpty>
 					) : (
@@ -149,24 +159,6 @@ export default function MypositionsTable() {
 					)}
 				</TableBody>
 			</Table>
-			{list.length > 0 && (
-				<div className="mb-4 flex justify-end gap-2">
-					<AppButton
-						onClick={handleGoogleCalendar}
-						className="px-4 py-2 text-sm"
-					>
-						<FontAwesomeIcon icon={faCalendarPlus} className="mr-2" />
-						Add to Google Calendar
-					</AppButton>
-					<AppButton
-						onClick={handleDownloadCalendar}
-						className="px-4 py-2 text-sm"
-					>
-						<FontAwesomeIcon icon={faCalendarDays} className="mr-2" />
-						Download Calendar
-					</AppButton>
-				</div>
-			)}
 		</>
 	);
 }

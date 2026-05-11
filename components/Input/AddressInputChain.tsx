@@ -59,10 +59,10 @@ export default function AddressInputChain({
 			>
 				{label && <div className="flex text-card-input-label my-1">{label}</div>}
 
-				<div className="grid md:grid-cols-6" onClick={(e) => e.stopPropagation()}>
+				<div className="flex items-center" onClick={(e) => e.stopPropagation()}>
 					<input
 						ref={inputRef}
-						className={`md:col-span-4 w-full py-2 text-lg text-left bg-transparent truncate ${
+						className={`flex-1 min-w-0 py-2 text-lg text-left bg-transparent truncate ${
 							error ? "text-card-input-error" : "text-text-primary"
 						} ${disabled ? "bg-card-input-disabled" : ""}`}
 						placeholder={placeholder}
@@ -75,7 +75,7 @@ export default function AddressInputChain({
 						autoFocus={autoFocus}
 					/>
 
-					<div className="md:col-span-2">
+					<div className="w-44 md:w-52 flex-shrink-0">
 						<ChainBySelect
 							chains={WAGMI_CHAINS.map((c) => c.name)}
 							chain={chain}

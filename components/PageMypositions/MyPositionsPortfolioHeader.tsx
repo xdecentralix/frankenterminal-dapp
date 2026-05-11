@@ -31,7 +31,7 @@ export default function MyPositionsPortfolioHeader() {
 	let weightedDaysNum = 0;
 	let weightedDaysDen = 0;
 
-	let openCount = 0;
+	let safeCount = 0;
 	let watchCount = 0;
 	let dangerCount = 0;
 	let cooldownCount = 0;
@@ -82,7 +82,7 @@ export default function MyPositionsPortfolioHeader() {
 
 			if (buffer < 10) dangerCount++;
 			else if (buffer < 30) watchCount++;
-			else openCount++;
+			else safeCount++;
 		}
 	}
 
@@ -100,44 +100,43 @@ export default function MyPositionsPortfolioHeader() {
 		<div className="relative">
 			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
 				<AppKpiTile
-					label="// TOTAL_OWED"
+					label="TOTAL OWED"
 					value={formatCurrency(parseFloat(formatUnits(totalOwed, 18)), 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
-					glow={positionCount > 0}
 				/>
 				<AppKpiTile
-					label="// TOTAL_RESERVES"
+					label="TOTAL RESERVES"
 					value={formatCurrency(parseFloat(formatUnits(totalReserves, 18)), 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
 				/>
 				<AppKpiTile
-					label="// TOTAL_MINTED"
+					label="TOTAL MINTED"
 					value={formatCurrency(parseFloat(formatUnits(totalMinted, 18)), 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
 				/>
-				<AppKpiTile label="// POSITIONS" value={positionCount} unit={positionCount === 1 ? "open" : "open"} />
+				<AppKpiTile label="POSITIONS" value={positionCount} unit={positionCount === 1 ? "open" : "open"} />
 
 				<AppKpiTile
-					label="// COLLATERAL_VALUE"
+					label="COLLATERAL VALUE"
 					value={formatCurrency(collateralValueChf, 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
 				/>
 				<AppKpiTile
-					label="// AVG_RATE"
+					label="AVG RATE"
 					value={avgRate > 0 ? `${formatCurrency(avgRate * 100, 2, 2)}%` : "—"}
 					hint={<span className="uppercase tracking-[0.12em]">value-weighted</span>}
 				/>
 				<AppKpiTile
-					label="// AVG_DAYS_LEFT"
+					label="AVG DAYS LEFT"
 					value={avgDays > 0 ? Math.round(avgDays) : "—"}
 					unit="days"
 					hint={<span className="uppercase tracking-[0.12em]">value-weighted</span>}
 				/>
-				<div className="relative bg-card-body-primary border border-card-input-border px-4 py-3 flex flex-col gap-1">
+				<div className="relative bg-card-body-primary border border-card-input-border px-5 pt-5 pb-4 flex flex-col justify-between h-full min-h-[130px]">
 					<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-					<div className="text-[0.65rem] uppercase tracking-[0.18em] text-text-secondary">// STATUS</div>
-					<div className="flex flex-col gap-1 text-sm tabular-nums mt-1">
-						<StatusRow color="success" label="open" count={openCount} />
+					<div className="text-xs md:text-sm font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">STATUS</div>
+					<div className="flex flex-col gap-1 text-sm tabular-nums mt-auto">
+						<StatusRow color="success" label="safe" count={safeCount} />
 						<StatusRow color="warning" label="watch" count={watchCount + cooldownCount + expiringCount} />
 						<StatusRow color="danger" label="danger" count={dangerCount} />
 					</div>

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { shortenAddress } from "@utils";
 import { renderErrorTxToast, TxToast } from "@components/TxToast";
 import { useConnection } from "wagmi";
-import AppButton from "@components/AppButton";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import { ADDRESS, EquityABI } from "@frankencoin/zchf";
 import { mainnet } from "viem/chains";
 import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
@@ -75,14 +75,14 @@ export default function GovernanceVotersAction({ voter, disabled, connectedWalle
 		<div className="">
 			<GuardSupportedChain disabled={isHidden || disabled} chain={mainnet}>
 				<div className="overflow-hidden">
-<AppButton
+<AppButtonSecondary
 						className="h-10 scroll-nopeak"
 						disabled={isHidden || disabled}
 						isLoading={isDelegating}
 						onClick={(e) => handleOnClick(e)}
 					>
 						{connectedWallet ? "Revoke" : "Delegate"}
-					</AppButton>
+					</AppButtonSecondary>
 				</div>
 			</GuardSupportedChain>
 		</div>

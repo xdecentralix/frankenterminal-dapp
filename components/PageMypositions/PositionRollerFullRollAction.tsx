@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { normalizeAddress, shortenAddress } from "@utils";
 import { renderErrorTxToast, renderErrorTxToastDecode, TxToast } from "@components/TxToast";
 import { useConnection } from "wagmi";
-import AppButton from "@components/AppButton";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import { ADDRESS, ERC20ABI, PositionRollerV2ABI, PositionV2ABI } from "@frankencoin/zchf";
 import { PositionQuery } from "@frankencoin/api";
@@ -80,9 +80,9 @@ export default function PositionRollerFullRollAction({ label = "Roll", source, t
 
 	return (
 		<GuardSupportedChain disabled={isHidden || disabled} chain={mainnet}>
-			<AppButton className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={(e) => handleOnClick(e)}>
+			<AppButtonSecondary className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={(e) => handleOnClick(e)}>
 				{label}
-			</AppButton>
+			</AppButtonSecondary>
 		</GuardSupportedChain>
 	);
 }

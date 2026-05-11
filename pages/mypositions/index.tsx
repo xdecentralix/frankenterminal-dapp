@@ -133,7 +133,6 @@ export default function Positions() {
 				</div>
 			)}
 
-			<AppTitle title="Owned Positions" />
 			<MypositionsTable />
 
 			<MyPositionsTabs>
@@ -156,13 +155,13 @@ export default function Positions() {
 					),
 					challenges: (
 						<>
-							<AppTitle title="Initiated Challenges" />
+							<AppTitle title="Initiated Challenges" className="mb-6" />
 							<MyPositionsChallengesTable />
 						</>
 					),
 					bids: (
 						<>
-							<AppTitle title="Your Bids" />
+							<AppTitle title="Your Bids" className="mb-6" />
 							<MyPositionsBidsTable />
 						</>
 					),

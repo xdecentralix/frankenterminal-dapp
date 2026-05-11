@@ -6,7 +6,7 @@ import AppTitle from "@components/AppTitle";
 import { useEffect } from "react";
 import { store } from "../../redux/redux.store";
 import { fetchPositionsList } from "../../redux/slices/positions.slice";
-import AppButtonSecondary from "@components/AppButtonSecondary";
+import AppButton from "@components/AppButton";
 
 export default function Borrow() {
 	useEffect(() => {
@@ -34,7 +34,7 @@ export default function Borrow() {
 
 			<div className="flex items-center justify-center">
 				<Link href={"mint/create"}>
-					<AppButtonSecondary>Propose New Position or Collateral</AppButtonSecondary>
+					<AppButton>Propose New Position or Collateral</AppButton>
 				</Link>
 			</div>
 		</>

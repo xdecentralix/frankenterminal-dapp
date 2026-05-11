@@ -1,9 +1,11 @@
 import SavingsInteractionCard from "@components/PageSavings/SavingsInteractionCard";
 import SavingsLeadrateSparkline from "@components/PageSavings/SavingsLeadrateSparkline";
+import SavingsHistorySparkline from "@components/PageSavings/SavingsHistorySparkline";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { RootState, store } from "../redux/redux.store";
 import { fetchLeadrate, fetchSavings } from "../redux/slices/savings.slice";
+import { fetchDashboard } from "../redux/slices/dashboard.slice";
 import { useConnection, useChainId } from "wagmi";
 import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
@@ -34,6 +36,7 @@ export default function SavingsPage() {
 	useEffect(() => {
 		store.dispatch(fetchLeadrate());
 		store.dispatch(fetchSavings(account == zeroAddress ? undefined : account));
+		store.dispatch(fetchDashboard());
 	}, [account]);
 
 	useEffect(() => {
@@ -69,20 +72,12 @@ export default function SavingsPage() {
 				</div>
 			</AppTitle>
 
-			<SavingsLeadrateSparkline />
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto mb-6">
+				<SavingsLeadrateSparkline className="h-full" />
+				<SavingsHistorySparkline className="h-full" />
+			</div>
 
 			<SavingsInteractionCard />
-
-			<div className="text-text-secondary">
-				Alternatively, you can also earn a yield by lending on
-				<AppLink
-					label={" Morpho"}
-					href={"https://app.morpho.org/ethereum/earn?assetIdsFilter=ecc8bd13-eab5-4c7b-97e1-ba23d58f8cd3"}
-					external={true}
-					className=""
-				/>
-				.
-			</div>
 
 			<AppTitle title="Yearly Accounts">
 				<div className={`text-text-secondary`}>

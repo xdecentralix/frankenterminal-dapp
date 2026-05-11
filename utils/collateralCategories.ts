@@ -32,7 +32,6 @@ const COLLATERAL_CATEGORIES: Record<string, CollateralCategory[]> = {
 	"0x45804880de22913dafe09f4980848ece6ecbaf78": ["Natural Resources"], // PAXG (Paxos Gold)
 
 	// Stablecoins
-	"0x79d4f0232a66c4c91b89c76362016a1707cfbf4f": ["Stablecoins"], // VCHF
 	"0xbd4dfc058eb95b8de5ceaf39966a1a70f5556f78": ["Stablecoins"], // CHFAU
 
 	// Tokenized Securities

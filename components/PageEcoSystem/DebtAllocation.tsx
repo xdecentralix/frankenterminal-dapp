@@ -5,12 +5,10 @@ import { formatUnits } from "viem";
 import dynamic from "next/dynamic";
 import { formatCurrency, FormatType } from "../../utils/format";
 import { colors } from "../../utils/constant";
-import { useSwapVCHFStats } from "@hooks";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DebtAllocation() {
 	const { openPositions } = useSelector((state: RootState) => state.positions);
-	const vchfBridge = useSwapVCHFStats();
 
 	// Aggregate collateral
 	const byCollateral = new Map<string, bigint>();
@@ -19,10 +17,6 @@ export default function DebtAllocation() {
 		const debt = (BigInt(p.minted) * BigInt(1_000_000 - p.reserveContribution)) / BigInt(1_000_000);
 		byCollateral.set(key, (byCollateral.get(key) ?? 0n) + debt);
 	});
-
-	// @dev: could be excluded since swap bridges repayments are not enforced to repay.
-	// Aggregate swap bridges
-	byCollateral.set("VCHF", vchfBridge.otherBridgeBal);
 
 	const MAX_ITEMS = 10;
 
@@ -93,11 +87,11 @@ export default function DebtAllocation() {
 									fontWeight: "bold",
 									colors: ["#141414"],
 								},
+								dropShadow: {
+									enabled: false,
+								},
 								background: {
-									enabled: true,
-									foreColor: "#141414",
-									borderRadius: 2,
-									borderWidth: 0,
+									enabled: false,
 								},
 							},
 							yaxis: {

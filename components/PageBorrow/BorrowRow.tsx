@@ -7,8 +7,8 @@ import { PositionQueryV2 } from "@frankencoin/api";
 import DisplayCollateralBorrowTable from "./DisplayCollateralBorrowTable";
 import AppBox from "@components/AppBox";
 import { formatUnits } from "viem";
-import { SwapVCHFStatsReturn, useBorrowPositions } from "@hooks";
-import AppButton from "@components/AppButton";
+import { SwapBridgeStatsReturn, useBorrowPositions } from "@hooks";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +17,7 @@ interface Props {
 	headers: string[];
 	tab: string;
 	position: PositionQueryV2;
-	bridgeStats?: SwapVCHFStatsReturn;
+	bridgeStats?: SwapBridgeStatsReturn;
 	hideMyWallet?: boolean;
 	walletBalance?: Record<string, bigint>;
 }
@@ -57,7 +57,7 @@ export default function BorrowRow({ headers, tab, position, bridgeStats, hideMyW
 	const altRows = !isBridge
 		? [
 				{
-					label: "BEST_PRICE",
+					label: "BEST PRICE",
 					pos: bestPriceByCollateral[collKey],
 					value: bestPriceByCollateral[collKey]
 						? `${formatCurrency(
@@ -66,7 +66,7 @@ export default function BorrowRow({ headers, tab, position, bridgeStats, hideMyW
 						: "—",
 				},
 				{
-					label: "BEST_RATE",
+					label: "BEST RATE",
 					pos: bestInterestByCollateral[collKey],
 					value: bestInterestByCollateral[collKey]
 						? `${formatCurrency(
@@ -77,14 +77,14 @@ export default function BorrowRow({ headers, tab, position, bridgeStats, hideMyW
 						: "—",
 				},
 				{
-					label: "BEST_EXPIRY",
+					label: "BEST EXPIRY",
 					pos: bestExpirationByCollateral[collKey],
 					value: bestExpirationByCollateral[collKey]
 						? formatDateFromSecs(bestExpirationByCollateral[collKey].expiration ?? 0)
 						: "—",
 				},
 				{
-					label: "BEST_AVAILABILITY",
+					label: "BEST AVAILABILITY",
 					pos: bestAvailabilityByCollateral[collKey],
 					value: bestAvailabilityByCollateral[collKey]
 						? `${formatCurrency(formatUnits(BigInt(bestAvailabilityByCollateral[collKey].availableForClones ?? 0), 18))} ZCHF`
@@ -120,9 +120,9 @@ export default function BorrowRow({ headers, tab, position, bridgeStats, hideMyW
 								/>
 							</button>
 						)}
-						<AppButton className="h-10" onClick={handleNavigate} disabled={isPending}>
+						<AppButtonSecondary className="h-10" onClick={handleNavigate} disabled={isPending}>
 							{isBridge ? (isBridgeExpired ? "Redeem" : "Swap") : "Borrow"}
-						</AppButton>
+						</AppButtonSecondary>
 					</div>
 				}
 			>
@@ -170,7 +170,7 @@ export default function BorrowRow({ headers, tab, position, bridgeStats, hideMyW
 				<div className="hidden md:block bg-card-body-primary border-t border-card-input-border">
 					<div className="px-8 xl:px-12 py-3 pl-16 xl:pl-20">
 						<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-2">
-							// ALTERNATIVE_TERMS
+							ALTERNATIVE TERMS
 						</div>
 						<div className="grid grid-cols-1 md:grid-cols-4 gap-2">
 							{altRows.map(({ label, pos, value }) => {
@@ -198,9 +198,9 @@ export default function BorrowRow({ headers, tab, position, bridgeStats, hideMyW
 										</div>
 										<div className="text-[0.6rem] uppercase tracking-[0.12em] mt-0.5">
 											{isSelf ? (
-												<span className="text-text-success">// CURRENT</span>
+												<span className="text-text-success">CURRENT</span>
 											) : (
-												<span className="text-card-content-highlight">// SELECT &rarr;</span>
+												<span className="text-card-content-highlight">SELECT &rarr;</span>
 											)}
 										</div>
 									</button>

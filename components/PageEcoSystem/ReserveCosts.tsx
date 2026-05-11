@@ -75,6 +75,18 @@ export default function ReserveCosts() {
 							dataLabels: {
 								enabled: true,
 								formatter: (val: number) => `${Math.round(Number(val))}%`,
+								style: {
+									fontSize: "12px",
+									fontFamily: "var(--font-tell-mono), monospace",
+									fontWeight: "bold",
+									colors: ["#141414"],
+								},
+								dropShadow: {
+									enabled: false,
+								},
+								background: {
+									enabled: false,
+								},
 							},
 							yaxis: {
 								labels: {

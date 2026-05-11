@@ -305,23 +305,27 @@ export default function CCIPRateLimitPage() {
 					<InfoRow
 						label="Configured chain"
 						value={
-							<ChainBySelect
-								chains={sourceOptions.map((o) => o.name)}
-								chain={sourceChain.name}
-								chainOnChange={onSourceChange}
-								invertColors={true}
-							/>
+							<div className="w-44 md:w-52">
+								<ChainBySelect
+									chains={sourceOptions.map((o) => o.name)}
+									chain={sourceChain.name}
+									chainOnChange={onSourceChange}
+									invertColors={true}
+								/>
+							</div>
 						}
 					/>
 					<InfoRow
 						label="Other chain"
 						value={
-							<ChainBySelect
-								chains={destinationOptions.map((o) => o.name)}
-								chain={destinationLabel}
-								chainOnChange={onDestinationChange}
-								invertColors={true}
-							/>
+							<div className="w-44 md:w-52">
+								<ChainBySelect
+									chains={destinationOptions.map((o) => o.name)}
+									chain={destinationLabel}
+									chainOnChange={onDestinationChange}
+									invertColors={true}
+								/>
+							</div>
 						}
 					/>
 					<InfoRow label="CCIP chain selector" value={destinationSelector.toString()} />

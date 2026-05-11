@@ -209,12 +209,12 @@ export default function CommandPalette({ isOpen, onClose }: Props) {
 				<div className="max-h-[60vh] overflow-y-auto py-1">
 					{grouped.length === 0 ? (
 						<div className="px-4 py-6 text-text-secondary text-sm uppercase tracking-[0.18em]">
-							&gt; NO_MATCH_FOUND
+							&gt; NO MATCH FOUND
 						</div>
 					) : (
 						grouped.map(([group, items]) => (
 							<div key={group} className="py-1">
-								<div className="px-4 py-1 text-[0.6rem] uppercase tracking-[0.18em] text-text-secondary">// {group}</div>
+								<div className="px-4 py-1 text-[0.6rem] uppercase tracking-[0.18em] text-text-secondary">{group}</div>
 								{items.map((c) => {
 									runningIdx++;
 									const isActive = runningIdx === activeIdx;

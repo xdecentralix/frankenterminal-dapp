@@ -81,7 +81,7 @@ export default function TokenInputSelect({
 		<div className="">
 			<div
 				className={`group border-card-input-border ${
-					disabled ? "bg-card-input-disabled" : "hover:border-card-input-hover"
+					disabled ? "opacity-70" : "hover:border-card-input-hover"
 				} focus-within:!border-card-input-focus ${
 					error ? "!border-card-input-error" : ""
 				} text-text-secondary border-2 rounded-lg px-3 py-1`}

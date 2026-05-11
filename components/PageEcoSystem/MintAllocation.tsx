@@ -5,22 +5,16 @@ import { formatUnits } from "viem";
 import dynamic from "next/dynamic";
 import { formatCurrency } from "../../utils/format";
 import { colors } from "../../utils/constant";
-import { useSwapVCHFStats } from "@hooks";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function MintAllocation() {
 	const { openPositions } = useSelector((state: RootState) => state.positions);
-	const vchfBridge = useSwapVCHFStats();
-
 	// Aggregate collateral
 	const byCollateral = new Map<string, bigint>();
 	(openPositions ?? []).forEach((p) => {
 		const key = String(p.collateralSymbol);
 		byCollateral.set(key, (byCollateral.get(key) ?? 0n) + BigInt(p.minted));
 	});
-
-	// Aggregate swap bridges
-	byCollateral.set("VCHF", vchfBridge.otherBridgeBal);
 
 	const mapping = [...byCollateral.keys()]
 		.map((label, idx) => {
@@ -62,6 +56,18 @@ export default function MintAllocation() {
 							dataLabels: {
 								enabled: true,
 								formatter: (val: number) => `${Math.round(Number(val))}%`,
+								style: {
+									fontSize: "12px",
+									fontFamily: "var(--font-tell-mono), monospace",
+									fontWeight: "bold",
+									colors: ["#141414"],
+								},
+								dropShadow: {
+									enabled: false,
+								},
+								background: {
+									enabled: false,
+								},
 							},
 							yaxis: {
 								labels: {

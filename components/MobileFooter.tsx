@@ -52,7 +52,7 @@ export default function MobileFooter() {
 
 	return (
 		<footer className="md:hidden mt-12 px-4 py-6 border-t border-card-input-border bg-layout-primary text-[11px] uppercase tracking-[0.14em] tabular-nums text-text-secondary">
-			<div className="text-center text-card-content-highlight tell-glow-red font-bold mb-3">// TELL_INTERFACE</div>
+			<div className="text-center text-card-content-highlight tell-glow-red font-bold mb-3">TELL INTERFACE</div>
 
 			<div className="flex justify-center items-center gap-2 mb-4">
 				<SocialIcon href={SOCIAL.Twitter} icon={faXTwitter} title="Twitter / X" />

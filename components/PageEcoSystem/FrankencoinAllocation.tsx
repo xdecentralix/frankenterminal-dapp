@@ -10,15 +10,12 @@ import { readContract } from "wagmi/actions";
 import { WAGMI_CONFIG } from "../../app.config";
 import { ADDRESS, FrankencoinABI } from "@frankencoin/zchf";
 import { base, gnosis, mainnet } from "viem/chains";
-import { useSwapVCHFStats } from "@hooks";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function FrankencoinAllocation() {
 	const { openPositions } = useSelector((state: RootState) => state.positions);
 	const { fpsInfo } = useSelector((state: RootState) => state.ecosystem);
 	const { savingsInfo } = useSelector((state: RootState) => state.savings);
-
-	const vchfBridge = useSwapVCHFStats();
 
 	const [protocols, setProtocols] = useState(0);
 	const [dex, setDex] = useState(0);
@@ -30,9 +27,6 @@ export default function FrankencoinAllocation() {
 		const key = String(p.collateralSymbol);
 		byCollateral.set(key, (byCollateral.get(key) ?? 0n) + BigInt(p.minted));
 	});
-
-	// Aggregate swap bridges
-	byCollateral.set("VCHF", vchfBridge.otherBridgeBal);
 
 	const mappingMinted = [...byCollateral.keys()]
 		.map((label, idx) => {
@@ -278,11 +272,11 @@ export default function FrankencoinAllocation() {
 									fontWeight: "bold",
 									colors: ["#141414"],
 								},
+								dropShadow: {
+									enabled: false,
+								},
 								background: {
-									enabled: true,
-									foreColor: "#141414",
-									borderRadius: 2,
-									borderWidth: 0,
+									enabled: false,
 								},
 							},
 							yaxis: {

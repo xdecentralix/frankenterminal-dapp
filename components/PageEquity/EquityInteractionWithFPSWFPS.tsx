@@ -307,23 +307,23 @@ export default function EquityInteractionWithFPSWFPS({ tokenFromTo, setTokenFrom
 				</div>
 			</div>
 
-			<div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-2">
-				<AppBox>
-					<DisplayLabel label="Your Balance" />
+			<div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-3">
+				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between">
+					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">YOUR BALANCE (FPS)</div>
 					<DisplayAmount amount={fpsBalance} currency="FPS" address={ADDRESS[chainId].equity} />
 				</AppBox>
-				<AppBox>
-					<DisplayLabel label="Your Balance" />
+				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between">
+					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">YOUR BALANCE (WFPS)</div>
 					<DisplayAmount amount={wfpsBalance} currency="WFPS" address={ADDRESS[chainId].wFPS} />
 				</AppBox>
-				<AppBox>
-					<DisplayLabel label="Holding Duration FPS" />
+				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between">
+					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">HOLDING DURATION (FPS)</div>
 					<DisplayOutputAlignedRight
 						output={fpsHolding > 0 && fpsHolding < 86_400 * 365 * 10 ? formatDuration(fpsHolding) : "-"}
 					/>
 				</AppBox>
-				<AppBox>
-					<DisplayLabel label="Holding Duration WFPS" />
+				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between">
+					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">HOLDING DURATION (WFPS)</div>
 					<DisplayOutputAlignedRight
 						output={wfpsHolding > 0 && wfpsHolding < 86_400 * 365 * 10 ? formatDuration(wfpsHolding) : "-"}
 					/>

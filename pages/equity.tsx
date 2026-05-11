@@ -47,11 +47,11 @@ export default function Equity() {
 			{/* Hero: chart full-width above interaction; trade stream beside the input on desktop */}
 			<EquityFPSDetailsCard equityTrades={equityTrades} />
 
-			<div className="grid grid-cols-1 lg:grid-cols-5 gap-4 items-start">
-				<div className="lg:col-span-3">
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
+				<div>
 					<EquityInteractionCard />
 				</div>
-				<div className="lg:col-span-2">
+				<div>
 					<EquityTradeStream />
 				</div>
 			</div>

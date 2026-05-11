@@ -217,7 +217,7 @@ export default function TableHeadSearchable({
 			<div className="items-center justify-between py-4 px-8 md:flex xl:px-12">
 				<div className={`max-md:hidden pl-8 flex-grow grid-cols-2 md:grid md:grid-cols-${colSpan || headers.length}`}>
 					{headers.map((header, i) => (
-						<div className={`${i > 0 ? "text-right" : ""}`} key={`th-${i}`} onClick={() => handleTabClick(header)}>
+						<div className={`${i > 0 ? "text-right" : "md:-ml-12"}`} key={`th-${i}`} onClick={() => handleTabClick(header)}>
 							<span
 								className={`font-bold ${!!tab ? "cursor-pointer" : ""} ${
 									tab === header ? "text-text-active" : "text-text-header"

@@ -71,9 +71,9 @@ export default function MyPositionsChallengesTable() {
 				{list.length == 0 ? (
 					<TableRowEmpty>
 						<EmptyState
-							title="NO_CHALLENGES_INITIATED"
+							title="NO CHALLENGES INITIATED"
 							hint="CHALLENGE A POSITION TO ARB UNDERVALUED COLLATERAL"
-							cta={{ label: "BROWSE_POSITIONS", href: "/monitoring/challenges" }}
+							cta={{ label: "BROWSE POSITIONS", href: "/monitoring/challenges" }}
 						/>
 					</TableRowEmpty>
 				) : (

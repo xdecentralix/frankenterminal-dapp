@@ -10,7 +10,7 @@ import { Address, erc20Abi, formatUnits, zeroAddress } from "viem";
 import { useMemo, useState } from "react";
 import { useConnection, useReadContracts } from "wagmi";
 import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, normalizeAddress } from "@utils";
-import { useBorrowPositions, useSwapVCHFStats, useSwapCHFAUStats, SwapVCHFStatsReturn } from "@hooks";
+import { useBorrowPositions, useSwapCHFAUStats, SwapBridgeStatsReturn } from "@hooks";
 
 const FILTER_OPTIONS: FilterOption[] = ALL_CATEGORIES.map((c) => ({ label: c, value: c }));
 
@@ -23,7 +23,6 @@ export default function BorrowTable() {
 	const [inMyWallet, setInMyWallet] = useState<boolean>(false);
 
 	const { address: walletAddress } = useConnection();
-	const vchfBridge = useSwapVCHFStats();
 	const chfauBridge = useSwapCHFAUStats();
 	const { uniqueByCollateral } = useBorrowPositions();
 
@@ -31,8 +30,7 @@ export default function BorrowTable() {
 
 	const uniquePositions: PositionQueryV2[] = Object.values(uniqueByCollateral);
 
-	const bridgeMap: Record<string, SwapVCHFStatsReturn> = {
-		[normalizeAddress(vchfBridge.bridgeAddress)]: vchfBridge,
+	const bridgeMap: Record<string, SwapBridgeStatsReturn> = {
 		[normalizeAddress(chfauBridge.bridgeAddress)]: chfauBridge,
 	};
 
@@ -40,8 +38,7 @@ export default function BorrowTable() {
 
 	// Bridge "positions" are conceptually different (1:1 swap, no liquidation),
 	// so we pin them in their own group above the clone-borrow markets.
-	const bridges: { pos: PositionQueryV2; stats: SwapVCHFStatsReturn }[] = [
-		{ pos: vchfBridge.asBorrowPosition, stats: vchfBridge },
+	const bridges: { pos: PositionQueryV2; stats: SwapBridgeStatsReturn }[] = [
 		{ pos: chfauBridge.asBorrowPosition, stats: chfauBridge },
 	].filter((b) => b.pos && b.stats?.bridgeAddress && b.stats.bridgeAddress !== zeroAddress);
 
@@ -126,13 +123,13 @@ export default function BorrowTable() {
 					<TableRowEmpty>
 						<div className="w-full font-default">
 							<div className="text-card-content-highlight tell-glow-red text-sm uppercase tracking-[0.18em]">
-								&gt; NO_MARKETS_MATCH_FILTERS
+								&gt; NO MARKETS MATCH FILTERS
 							</div>
 							<div className="mt-1 text-text-secondary text-sm uppercase tracking-[0.12em]">
 								&gt;{" "}
 								{!walletAddress
-									? "ADJUST FILTERS OR CLEAR SEARCH TO BROWSE THE FULL MARKET_"
-									: "YOUR WALLET DOES NOT HOLD ANY OF THE ACCEPTED ASSETS_"}
+									? "ADJUST FILTERS OR CLEAR SEARCH TO BROWSE THE FULL MARKET"
+									: "YOUR WALLET DOES NOT HOLD ANY OF THE ACCEPTED ASSETS"}
 							</div>
 						</div>
 					</TableRowEmpty>
@@ -144,8 +141,8 @@ export default function BorrowTable() {
 										key="bridges-heading"
 										className="bg-table-header-primary px-8 xl:px-12 py-2 border-t border-card-input-border"
 									>
-										<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
-											// STABLECOIN_BRIDGES
+										<div className="text-sm font-bold uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
+											STABLECOIN BRIDGES
 										</div>
 									</div>,
 									...filteredBridges.map((b, idx) => (
@@ -167,8 +164,8 @@ export default function BorrowTable() {
 										key="markets-heading"
 										className="bg-table-header-primary px-8 xl:px-12 py-2 border-t border-card-input-border"
 									>
-										<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
-											// CLONE_BORROW_MARKETS
+										<div className="text-sm font-bold uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
+											CLONE BORROW MARKETS
 										</div>
 									</div>,
 							  ]

@@ -6,7 +6,7 @@ import { waitForTransactionReceipt, writeContract, readContract } from "wagmi/ac
 import { WAGMI_CONFIG } from "../../app.config";
 import { ADDRESS, ChainSide, EquityABI, LeadrateSenderABI, SavingsABI } from "@frankencoin/zchf";
 import { LeadrateProposedOpen } from "@frankencoin/api";
-import AppButton from "@components/AppButton";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import { toast } from "react-toastify";
 import { renderErrorTxToast, renderErrorTxToastDecode, TxToast } from "@components/TxToast";
 import AppLink from "@components/AppLink";
@@ -366,21 +366,21 @@ export default function GovernanceLeadrateRow({ headers, tab, proposal }: Props)
 				actionCol={
 					proposal.isPending ? (
 						<GuardSupportedChain chain={mainnet}>
-							<AppButton className="h-10" disabled={isHidden} isLoading={isDenying} onClick={(e) => handleOnDeny(e)}>
+							<AppButtonSecondary className="h-10" disabled={isHidden} isLoading={isDenying} onClick={(e) => handleOnDeny(e)}>
 								Deny
-							</AppButton>
+							</AppButtonSecondary>
 						</GuardSupportedChain>
 					) : proposal.isProposal && !proposal.isPending ? (
 						<GuardSupportedChain chain={mainnet}>
-							<AppButton className="h-10" disabled={isHidden} isLoading={isApplying} onClick={(e) => handleOnApply(e)}>
+							<AppButtonSecondary className="h-10" disabled={isHidden} isLoading={isApplying} onClick={(e) => handleOnApply(e)}>
 								Apply
-							</AppButton>
+							</AppButtonSecondary>
 						</GuardSupportedChain>
 					) : !proposal.isProposal && !proposal.isPending && !proposal.isSynced ? (
 						<GuardSupportedChain chain={mainnet}>
-							<AppButton className="h-10" disabled={isHidden} isLoading={isSyncing} onClick={(e) => handleOnSync(e)}>
+							<AppButtonSecondary className="h-10" disabled={isHidden} isLoading={isSyncing} onClick={(e) => handleOnSync(e)}>
 								Sync
-							</AppButton>
+							</AppButtonSecondary>
 						</GuardSupportedChain>
 					) : (
 						<></>

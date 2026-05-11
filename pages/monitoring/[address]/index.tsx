@@ -76,9 +76,9 @@ export default function PositionDetail() {
 			: null;
 
 	const statusBadge = () => {
-		if (position.closed) return { label: "Closed", cls: "bg-red-500/20 text-red-400" };
-		if (isSubjectToCooldown()) return { label: "Cooldown", cls: "bg-amber-500/20 text-amber-400" };
-		return { label: "Active", cls: "bg-green-500/20 text-green-400" };
+		if (position.closed) return { label: "Closed", cls: "border border-text-secondary text-text-secondary bg-card-body-secondary" };
+		if (isSubjectToCooldown()) return { label: "Cooldown", cls: "border border-text-warning text-text-warning bg-text-warning/10" };
+		return { label: "Active", cls: "border border-text-success text-text-success bg-text-success/10" };
 	};
 	const status = statusBadge();
 
@@ -95,8 +95,8 @@ export default function PositionDetail() {
 					subtitle={`Position details of ${position.position}.`}
 					badges={[
 						{ label: status.label, className: status.cls },
-						{ label: `V${position.version}`, className: "bg-blue-500/20 text-blue-400" },
-						...(position.isClone ? [{ label: "Clone", className: "bg-purple-500/20 text-purple-400" }] : []),
+						{ label: `V${position.version}`, className: "border border-blue-500/30 text-blue-400 bg-blue-500/10" },
+						...(position.isClone ? [{ label: "Clone", className: "border border-purple-500/30 text-purple-400 bg-purple-500/10" }] : []),
 					]}
 					actions={
 						<div className="flex flex-wrap gap-4 text-sm">
@@ -139,7 +139,7 @@ export default function PositionDetail() {
 								{formatCurrency(formatUnits(BigInt(position.price), priceDigit))} ZCHF
 							</StatRow>
 							<StatRow label="Nominal LTV">
-								<span className={nominalLTV > 90 ? "text-red-400" : nominalLTV > 80 ? "text-amber-400" : "text-green-400"}>
+								<span className={nominalLTV > 90 ? "text-card-content-highlight" : nominalLTV > 80 ? "text-text-warning" : "text-text-success"}>
 									{formatCurrency(nominalLTV, 2, 2)}%
 								</span>
 							</StatRow>
@@ -160,7 +160,7 @@ export default function PositionDetail() {
 							<div className="text-base font-bold mb-1">Lifecycle</div>
 							<StatRow label="Start">{formatDateTime(position.isOriginal ? position.start : position.created)}</StatRow>
 							<StatRow label="Expiration">
-								<span className={position.closed ? "text-red-400" : ""}>
+								<span className={position.closed ? "text-card-content-highlight" : ""}>
 									{position.closed ? "Closed" : formatDateTime(position.expiration)}
 								</span>
 							</StatRow>

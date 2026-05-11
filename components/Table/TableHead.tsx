@@ -10,15 +10,16 @@ interface Props {
 	tab?: string;
 	reverse?: boolean;
 	tabOnChange?: Function;
+	roundedTop?: boolean;
 }
 
-export default function TableHeader({ headers, subHeaders, actionCol, colSpan, tab = "", reverse = false, tabOnChange }: Props) {
+export default function TableHeader({ headers, subHeaders, actionCol, colSpan, tab = "", reverse = false, tabOnChange, roundedTop = true }: Props) {
 	const handleOnClick = function (active: string) {
 		if (typeof tabOnChange === "function") tabOnChange(active);
 	};
 
 	return (
-		<div className="items-center justify-between rounded-t-lg bg-table-header-primary py-4 px-8 md:flex xl:px-12">
+		<div className={`items-center justify-between bg-table-header-primary py-4 px-8 md:flex xl:px-12 ${roundedTop ? "rounded-t-lg" : ""}`}>
 			{/* @dev: this is desktop view */}
 			<div className={`max-md:hidden pl-8 flex-grow grid-cols-2 md:grid md:grid-cols-${colSpan || headers.length}`}>
 				{headers.map((header, i) => (

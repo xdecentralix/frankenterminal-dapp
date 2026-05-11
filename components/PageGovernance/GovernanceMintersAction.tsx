@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { shortenAddress } from "@utils";
 import { renderErrorTxToastDecode, TxToast } from "@components/TxToast";
 import { useConnection } from "wagmi";
-import AppButton from "@components/AppButton";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import { Address, Chain } from "viem";
 import {
 	ADDRESS,
@@ -87,9 +87,9 @@ export default function GovernanceMintersAction({ minter, disabled }: Props) {
 	return (
 		<div className="">
 			<GuardSupportedChain disabled={isHidden || disabled} chain={SupportedChainsMap[chainId] as Chain}>
-				<AppButton className="h-10" disabled={isHidden || disabled} isLoading={isVetoing} onClick={(e) => handleOnClick(e)}>
+				<AppButtonSecondary className="h-10" disabled={isHidden || disabled} isLoading={isVetoing} onClick={(e) => handleOnClick(e)}>
 					Veto
-				</AppButton>
+				</AppButtonSecondary>
 			</GuardSupportedChain>
 		</div>
 	);

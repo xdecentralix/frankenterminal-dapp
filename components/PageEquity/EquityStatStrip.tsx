@@ -49,35 +49,34 @@ export default function EquityStatStrip({ className }: Props) {
 		<div className={`relative ${className ?? ""}`}>
 			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
 				<AppKpiTile
-					label="// FPS_PRICE"
+					label="FPS PRICE"
 					value={formatCurrency(fpsPriceFloat, 2, 2) ?? "—"}
 					unit="ZCHF"
-					glow
 				/>
 				<AppKpiTile
-					label="// TOTAL_SUPPLY"
-					value={formatCurrency(fpsSupplyFloat, 0, 0, FormatType.symbol) ?? "—"}
+					label="TOTAL SUPPLY"
+					value={formatCurrency(fpsSupplyFloat, 2, 2, FormatType.symbol) ?? "—"}
 					unit="FPS"
 				/>
 				<AppKpiTile
-					label="// MARKET_CAP"
+					label="MARKET CAP"
 					value={formatCurrency(marketCapFloat, 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
 				/>
 				<AppKpiTile
-					label="// EQUITY_CAPITAL"
+					label="EQUITY CAPITAL"
 					value={formatCurrency(equityCapFloat, 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
 				/>
 				<AppKpiTile
-					label="// NET_INCOME"
+					label="NET INCOME"
 					value={formatCurrency(Math.abs(netIncomeFloat), 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
 					tone={incomeTone as "success" | "warning" | "default"}
 					hint={<span className="uppercase tracking-[0.12em]">{netIncomeFloat < 0 ? "loss · 1Y" : "1Y window"}</span>}
 				/>
 				<AppKpiTile
-					label="// RETURN_ON_EQUITY"
+					label="RETURN ON EQUITY"
 					value={`${formatCurrency(roePctFloat, 2, 2)}%`}
 					tone={roeTone as "success" | "warning" | "default"}
 					hint={<span className="uppercase tracking-[0.12em]">annualized · 1Y</span>}

@@ -266,7 +266,7 @@ export default function SavingsInteractionCard() {
 					<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60"></div>
 
 					<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-2">
-						// REFERRAL_NOTICE
+						REFERRAL NOTICE
 					</div>
 
 					{isCustomReferrer && newReferrer ? (
@@ -287,8 +287,8 @@ export default function SavingsInteractionCard() {
 					) : (
 						<div className="text-sm text-text-secondary leading-relaxed space-y-2">
 							<div>
-								This frontend defaults to a <span className="text-text-primary font-semibold">10%</span> referral fee
-								on the interest you accrue. It is paid by the protocol&apos;s referral module out of your interest, not
+								This frontend defaults to a <span className="text-text-primary font-semibold">10%</span>{" "}
+								referral fee on the interest you accrue. It is paid by the protocol&apos;s referral module out of your interest, not
 								on top of it.
 							</div>
 							<div>

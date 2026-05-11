@@ -67,7 +67,7 @@ export default function ChallengePlaceBid() {
 				<AppTitle
 					title="Auction"
 					subtitle="Buy collateral in the challenge auction"
-					badges={[{ label: "Auction", className: "bg-blue-500/20 text-blue-400" }]}
+					badges={[{ label: "Auction", className: "border border-card-content-highlight text-card-content-highlight bg-card-content-highlight/10" }]}
 				/>
 
 				<div className="mt-8">

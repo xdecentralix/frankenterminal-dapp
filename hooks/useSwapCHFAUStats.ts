@@ -1,17 +1,72 @@
 import { useConnection, useReadContracts } from "wagmi";
 import { decodeBigIntCall, normalizeAddress } from "@utils";
 import { Address, erc20Abi, formatUnits, parseUnits, zeroAddress } from "viem";
-import { ADDRESS, StablecoinBridgeV2ABI } from "@frankencoin/zchf";
-import { mainnet } from "viem/chains";
+import { ADDRESS, StablecoinBridgeV1ABI, StablecoinBridgeV2ABI } from "@frankencoin/zchf";
+import { mainnet, type Chain } from "viem/chains";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/redux.store";
 import { PositionQuery, PositionQueryV2, PriceQuery } from "@frankencoin/api";
-import { type BridgeAbi, type CollateralOverviewStat, type SwapVCHFStatsReturn } from "./useSwapVCHFStats";
+
+export type BridgeAbi = typeof StablecoinBridgeV1ABI | typeof StablecoinBridgeV2ABI;
+
+export type CollateralOverviewStat = {
+	original: PositionQuery;
+	originals: PositionQuery[];
+	clones: PositionQuery[];
+	balance: bigint;
+	collateral: PriceQuery;
+	mint: PriceQuery;
+	minted: bigint;
+	reserve: bigint;
+	limitForClones: bigint;
+	availableForClones: bigint;
+	totalValue: number;
+	avgCollateral: number;
+	highestZCHFPrice: number;
+	collateralizedPct: number;
+	availableForClonesPct: number;
+	collateralPriceInZCHF: number;
+	worstStatusColors: string;
+	lowestInterestRate: number;
+	discussionLink: string;
+	lockedValue: number;
+};
+
+export type SwapBridgeStatsReturn = {
+	// chain
+	chain: Chain;
+	chainId: number;
+	// contract addresses
+	otherAddress: Address;
+	bridgeAddress: Address;
+	frankencoinAddress: Address;
+	// stablecoin metadata
+	otherLabel: string;
+	otherInfoUrl: string;
+	otherDecimals: number;
+	swapUrl: string;
+	bridgeAbi: BridgeAbi;
+	// balances & allowances
+	isError: boolean;
+	isLoading: boolean;
+	otherUserBal: bigint;
+	otherSymbol: string;
+	otherUserAllowance: bigint;
+	otherBridgeBal: bigint;
+	zchfUserBal: bigint;
+	zchfSymbol: string;
+	zchfUserAllowance: bigint;
+	bridgeLimit: bigint;
+	bridgeHorizon: bigint;
+	// rich objects
+	asBorrowPosition: PositionQueryV2;
+	asCollateralOverview: CollateralOverviewStat;
+};
 
 const CHFAU_DECIMALS = 6;
 const PRICE_DIGIT = 36 - CHFAU_DECIMALS; // 30
 
-export const useSwapCHFAUStats = (): SwapVCHFStatsReturn => {
+export const useSwapCHFAUStats = (): SwapBridgeStatsReturn => {
 	const chainId = mainnet.id;
 	const { address } = useConnection();
 	const account = address || "0x0";

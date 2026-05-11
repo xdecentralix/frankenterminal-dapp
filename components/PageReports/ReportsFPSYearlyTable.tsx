@@ -3,7 +3,6 @@ import { Address, formatUnits } from "viem";
 import { formatCurrency, normalizeAddress } from "@utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
-import ActivityLog, { ActivityLogEntry } from "@components/ActivityLog";
 
 export type AccountYearly = { year: number; earnings: bigint; balance: bigint; value: bigint };
 
@@ -67,22 +66,46 @@ export default function ReportsFPSYearlyTable({ address, fpsHistory, fpsEarnings
 	const nonEmpty = accountYearly.filter((r) => r.earnings !== 0n || r.balance !== 0n || r.value !== 0n);
 	const sorted = nonEmpty.slice().sort((a, b) => b.year - a.year);
 
-	const currentYear = new Date().getFullYear();
-	const logEntries: ActivityLogEntry[] = sorted.map((row) => {
-		const isCurrent = row.year === currentYear;
-		const earnings = formatCurrency(formatUnits(row.earnings, 18), 0, 0);
-		const balance = formatCurrency(formatUnits(row.balance, 18), 2, 2);
-		const value = formatCurrency(formatUnits(row.value, 18), 0, 0);
-		return {
-			id: row.year,
-			tone: row.earnings > 0n ? "positive" : "neutral",
-			primary: `+${earnings} ZCHF`,
-			badge: isCurrent ? "CURRENT" : String(row.year),
-			badgeTone: isCurrent ? "positive" : "neutral",
-			metaLeft: `BAL ${balance} FPS`,
-			metaRight: `VALUE ${value} ZCHF`,
-		};
-	});
+	if (sorted.length === 0) {
+		return <div className="text-text-secondary uppercase tracking-[0.18em] py-2">&gt; NO INCOME HISTORY</div>;
+	}
 
-	return <ActivityLog label="INCOME_LEDGER" meta="YEARLY" entries={logEntries} emptyText="NO_INCOME_HISTORY_" />;
+	const currentYear = new Date().getFullYear();
+
+	return (
+		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 mb-6">
+			{sorted.map((row) => {
+				const isCurrent = row.year === currentYear;
+				const earnings = formatCurrency(formatUnits(row.earnings, 18), 0, 0);
+				const balance = formatCurrency(formatUnits(row.balance, 18), 2, 2);
+				const value = formatCurrency(formatUnits(row.value, 18), 0, 0);
+				const toneColor = row.earnings > 0n ? "text-text-success" : "text-text-primary";
+
+				return (
+					<div key={row.year} className="border border-card-input-border bg-layout-primary p-5 flex flex-col gap-3 relative overflow-hidden">
+						<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+						<div className="flex justify-between items-center text-xs uppercase tracking-[0.18em] font-semibold">
+							<span className="text-text-secondary">Income Attributable</span>
+							<span className={isCurrent ? "text-text-success" : "text-text-secondary"}>
+								{isCurrent ? "CURRENT" : row.year}
+							</span>
+						</div>
+						<div className={`text-2xl font-bold tabular-nums ${toneColor}`}>
+							+{earnings} ZCHF
+						</div>
+						<div className="flex flex-col gap-1.5 mt-2 text-sm text-text-secondary border-t border-card-input-border/60 pt-3">
+							<div className="flex justify-between">
+								<span>Balance</span>
+								<span className="text-text-primary tabular-nums">{balance} FPS</span>
+							</div>
+							<div className="flex justify-between">
+								<span>Value</span>
+								<span className="text-text-primary tabular-nums">{value} ZCHF</span>
+							</div>
+						</div>
+					</div>
+				);
+			})}
+		</div>
+	);
 }

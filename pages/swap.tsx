@@ -1,7 +1,7 @@
 import Head from "next/head";
 import TokenInput from "@components/Input/TokenInput";
 import { useEffect, useState } from "react";
-import { useContractUrl, useSwapVCHFStats, useSwapCHFAUStats } from "@hooks";
+import { useContractUrl, useSwapCHFAUStats } from "@hooks";
 import { useRouter } from "next/router";
 import { erc20Abi, maxUint256 } from "viem";
 import AppButton from "@components/AppButton";
@@ -28,9 +28,7 @@ export default function Swap() {
 	const [isMinter, setMinter] = useState<bigint>(0n);
 
 	const router = useRouter();
-	const vchfStats = useSwapVCHFStats();
-	const chfauStats = useSwapCHFAUStats();
-	const swapStats = (router.query.token as string)?.toUpperCase() === "CHFAU" ? chfauStats : vchfStats;
+	const swapStats = useSwapCHFAUStats();
 
 	const { chain, chainId, otherAddress: other, bridgeAddress: bridge, frankencoinAddress, bridgeAbi } = swapStats;
 	const bridgeUrl = useContractUrl(bridge);

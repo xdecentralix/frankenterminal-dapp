@@ -278,30 +278,30 @@ export default function EquityInteractionWithWFPSRedeem({ tokenFromTo, setTokenF
 				</div>
 			</div>
 
-			<div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-2">
-				<AppBox>
-					<DisplayLabel label="Your Balance" />
+			<div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-3">
+				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between">
+					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">YOUR BALANCE</div>
 					<DisplayAmount amount={wfpsBalance} currency="WFPS" address={ADDRESS[chainId].wFPS} />
 				</AppBox>
-				<AppBox>
-					<DisplayLabel label="Value at Current Price" />
+				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between">
+					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">VALUE AT CURRENT PRICE</div>
 					<DisplayAmount
 						amount={(poolStats.equityPrice * wfpsBalance) / BigInt(1e18)}
 						currency="ZCHF"
 						address={ADDRESS[chainId].frankencoin}
 					/>
 				</AppBox>
-				<AppBox>
-					<DisplayLabel label="Holding Duration WFPS" />
+				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between">
+					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">HOLDING DURATION WFPS</div>
 					<DisplayOutputAlignedRight
-						textColorOutput={!poolStats.equityCanRedeem ? "text-red-500" : undefined}
+						textColorOutput={!poolStats.equityCanRedeem ? "text-card-content-highlight" : undefined}
 						output={wfpsHolding > 0 && wfpsHolding < 86_400 * 365 * 10 ? formatDuration(wfpsHolding) : "-"}
 					/>
 				</AppBox>
-				<AppBox className="flex-1">
-					<DisplayLabel label="Can redeem after" />
+				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between flex-1">
+					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">CAN REDEEM AFTER</div>
 					<DisplayOutputAlignedRight
-						textColorOutput={!poolStats.equityCanRedeem ? "text-red-500" : undefined}
+						textColorOutput={!poolStats.equityCanRedeem ? "text-card-content-highlight" : undefined}
 						output={formatDuration(redeemLeft)}
 					/>
 				</AppBox>

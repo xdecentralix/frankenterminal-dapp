@@ -66,12 +66,12 @@ export default function MonitoringForceSell() {
 	const isExpired = now > position.expiration * 1000;
 
 	const statusBadge = isExpired
-		? { label: "Expired", className: "bg-red-500/20 text-red-400" }
+		? { label: "Expired", className: "border border-card-content-highlight text-card-content-highlight bg-card-content-highlight/10" }
 		: isChallenged
-		? { label: "Challenged", className: "bg-orange-500/20 text-orange-400" }
+		? { label: "Challenged", className: "border border-text-warning text-text-warning bg-text-warning/10" }
 		: isCooldown
-		? { label: "Cooldown", className: "bg-amber-500/20 text-amber-400" }
-		: { label: "Active", className: "bg-green-500/20 text-green-400" };
+		? { label: "Cooldown", className: "border border-text-warning text-text-warning bg-text-warning/10" }
+		: { label: "Active", className: "border border-text-success text-text-success bg-text-success/10" };
 
 	return (
 		<div className="flex flex-col md:max-w-2xl mx-auto">

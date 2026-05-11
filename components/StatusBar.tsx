@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Address, formatUnits } from "viem";
 import { mainnet } from "viem/chains";
 import { useChainId, useConnection } from "wagmi";
@@ -107,6 +107,47 @@ export default function StatusBar({ onOpenPalette }: Props) {
 			}, 0n);
 	});
 
+	const positions = useSelector((state: RootState) => {
+		if (!address) return [];
+		return state.positions.list.list.filter(p => normalizeAddress(p.owner) === normalizeAddress(address as string) && !p.closed && !p.denied);
+	});
+	const prices = useSelector((state: RootState) => state.prices.coingecko);
+
+	const myPositionsStats = useMemo(() => {
+		let count = 0;
+		let totalCollateralValue = 0;
+		let totalMintedFloat = 0;
+		let totalReservesFloat = 0;
+		let weightedInterestSum = 0;
+
+		for (const p of positions) {
+			count++;
+			
+			const collTokenPrice = prices[normalizeAddress(p.collateral)]?.price?.usd || 0;
+			const zchfPrice = prices[normalizeAddress(p.zchf)]?.price?.usd || 1;
+			const balance = parseInt(p.collateralBalance) / 10 ** p.collateralDecimals;
+			const valueZCHF = zchfPrice > 0 ? (balance * collTokenPrice) / zchfPrice : 0;
+			totalCollateralValue += valueZCHF;
+
+			const mintedZCHF = parseInt(p.minted) / 10 ** p.zchfDecimals;
+			const reserveContributionFloat = p.reserveContribution / 1_000_000;
+			
+			totalMintedFloat += mintedZCHF;
+			totalReservesFloat += mintedZCHF * reserveContributionFloat;
+
+			const interest = p.annualInterestPPM / 10 ** 4;
+			const reserve = p.reserveContribution / 10 ** 4;
+			const effectiveInterest = interest / (1 - reserve / 100);
+
+			weightedInterestSum += effectiveInterest * mintedZCHF;
+		}
+
+		const totalOwed = totalMintedFloat - totalReservesFloat;
+		const averageRate = totalMintedFloat > 0 ? weightedInterestSum / totalMintedFloat : 0;
+
+		return { count, totalCollateralValue, totalOwed, averageRate };
+	}, [positions, prices]);
+
 	useEffect(() => {
 		if (!address) return;
 		store.dispatch(fetchSavings(address as Address));
@@ -152,21 +193,37 @@ export default function StatusBar({ onOpenPalette }: Props) {
 					<span className="text-text-primary">net</span>
 					<span>{networkName}</span>
 				</div>
-				{address && (
-					<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-						<span className="text-text-primary">acct</span>
-						<span>{shortenAddress(address as Address)}</span>
-					</div>
-				)}
 				<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-					<span className="text-text-primary">leadrate</span>
+					<span className="text-text-primary">savings rate</span>
 					<span>{formatCurrency(leadrate / 10_000, 2, 2)}%</span>
 				</div>
 				{address && (
-					<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-						<span className="text-text-primary">my savings</span>
-						<span>{formatCurrency(formatUnits(userSavings, 18), 0, 0, FormatType.symbol)} ZCHF</span>
-					</div>
+					<>
+						<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
+							<span className="text-text-primary">acct</span>
+							<span>{shortenAddress(address as Address)}</span>
+						</div>
+						<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
+							<span className="text-text-primary">my positions</span>
+							<span>{myPositionsStats.count}</span>
+						</div>
+						<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
+							<span className="text-text-primary">my collateral</span>
+							<span>{formatCurrency(myPositionsStats.totalCollateralValue, 0, 0, FormatType.symbol)} ZCHF</span>
+						</div>
+						<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
+							<span className="text-text-primary">my debt</span>
+							<span>{formatCurrency(myPositionsStats.totalOwed, 0, 0, FormatType.symbol)} ZCHF</span>
+						</div>
+						<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
+							<span className="text-text-primary">my avg rate</span>
+							<span>{formatCurrency(myPositionsStats.averageRate, 2, 2)}%</span>
+						</div>
+						<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
+							<span className="text-text-primary">my savings</span>
+							<span>{formatCurrency(formatUnits(userSavings, 18), 0, 0, FormatType.symbol)} ZCHF</span>
+						</div>
+					</>
 				)}
 
 				<div className="flex-1" />
@@ -190,7 +247,7 @@ export default function StatusBar({ onOpenPalette }: Props) {
 			{/* Row 2 — brand, attribution, socials, build */}
 			<div className="flex items-stretch h-9">
 				<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border">
-					<span className="text-card-content-highlight tell-glow-red font-bold">// TELL_INTERFACE</span>
+					<span className="text-card-content-highlight tell-glow-red font-bold">TELL INTERFACE</span>
 				</div>
 				<div className="hidden xl:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary truncate">
 					<span>independent fork</span>

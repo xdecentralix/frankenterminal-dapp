@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 
-export type ActivityTone = "positive" | "negative" | "neutral";
+export type ActivityTone = "positive" | "negative" | "neutral" | "warning";
 
 export interface ActivityLogEntry {
 	/** Stable id used as React key + flash-detection trigger. */
@@ -11,6 +11,8 @@ export interface ActivityLogEntry {
 	primary: ReactNode;
 	/** Optional dim continuation on line 1, separated from `primary` by an arrow. */
 	secondary?: ReactNode;
+	/** Tone of the secondary metric. */
+	secondaryTone?: ActivityTone;
 	/** Right-aligned tag on line 1 (e.g. kind / year / status). */
 	badge?: ReactNode;
 	/** Force the badge to use a tone different from the primary. */
@@ -22,7 +24,7 @@ export interface ActivityLogEntry {
 }
 
 interface Props {
-	/** Short label rendered as `// LABEL`. Use SCREAMING_SNAKE_CASE. */
+	/** Short label rendered as the section header. Renders verbatim in uppercase styling. */
 	label: string;
 	/** Optional right-side meta in the header (e.g. `30s POLL`). Entry count is always shown. */
 	meta?: string;
@@ -37,11 +39,12 @@ interface Props {
 }
 
 const DEFAULT_VISIBLE_ROWS = 12;
-const DEFAULT_ROW_PX = 55;
+const DEFAULT_ROW_PX = 80;
 
 function toneClass(tone: ActivityTone): string {
 	if (tone === "positive") return "text-text-success";
 	if (tone === "negative") return "text-card-content-highlight";
+	if (tone === "warning") return "text-text-warning";
 	return "text-text-primary";
 }
 
@@ -49,7 +52,7 @@ export default function ActivityLog({
 	label,
 	meta,
 	entries,
-	emptyText = "AWAITING_DATA_",
+	emptyText = "AWAITING DATA",
 	visibleRows = DEFAULT_VISIBLE_ROWS,
 	rowPx = DEFAULT_ROW_PX,
 	flashId,
@@ -78,7 +81,7 @@ export default function ActivityLog({
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="flex items-baseline justify-between mb-3 flex-shrink-0 gap-2">
 				<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red whitespace-nowrap">
-					// {label}
+					{label}
 				</div>
 				<div className="text-[0.6rem] uppercase tracking-[0.12em] text-text-secondary tabular-nums whitespace-nowrap">
 					{headerMeta}
@@ -93,34 +96,34 @@ export default function ActivityLog({
 							const tone = entry.tone ?? "neutral";
 							const primaryColor = toneClass(tone);
 							const badgeColor = toneClass(entry.badgeTone ?? tone);
-							const flash = activeFlash != null && activeFlash === entry.id ? "animate-tell-glow-pulse" : "";
+							const flash = "";
 							const isLast = idx === entries.length - 1;
 							const hasMeta = entry.metaLeft != null || entry.metaRight != null;
 							return (
 								<li
 									key={entry.id}
-									className={`tabular-nums uppercase tracking-[0.08em] py-2.5 px-1 ${
+									className={`tabular-nums uppercase tracking-[0.08em] py-3.5 px-1 ${
 										!isLast ? "border-b border-dashed border-card-input-border/40" : ""
 									} ${flash}`}
 								>
 									<div className="flex items-baseline justify-between gap-2">
 										<div className="flex items-baseline gap-2 min-w-0 flex-wrap">
-											<span className={`${primaryColor} font-bold whitespace-nowrap text-sm`}>{entry.primary}</span>
+											<span className={`${primaryColor} font-bold whitespace-nowrap text-base`}>{entry.primary}</span>
 											{entry.secondary != null && (
 												<>
-													<span className="text-text-secondary whitespace-nowrap text-sm">→</span>
-													<span className="text-text-primary whitespace-nowrap text-sm">{entry.secondary}</span>
+													<span className="text-text-secondary whitespace-nowrap text-base">→</span>
+													<span className={`${entry.secondaryTone ? toneClass(entry.secondaryTone) : "text-text-primary"} font-bold whitespace-nowrap text-base`}>{entry.secondary}</span>
 												</>
 											)}
 										</div>
 										{entry.badge != null && (
-											<span className={`text-[0.6rem] tracking-[0.18em] font-bold whitespace-nowrap ${badgeColor}`}>
+											<span className={`text-[0.7rem] md:text-xs tracking-[0.18em] font-bold whitespace-nowrap ${badgeColor}`}>
 												{entry.badge}
 											</span>
 										)}
 									</div>
 									{hasMeta && (
-										<div className="flex items-baseline justify-between gap-3 mt-1 text-[0.65rem] tracking-[0.14em] text-text-secondary flex-wrap">
+										<div className="flex items-baseline justify-between gap-3 mt-2 text-[0.7rem] md:text-xs tracking-[0.14em] text-text-secondary flex-wrap">
 											<span className="min-w-0 flex-shrink-0">{entry.metaLeft ?? ""}</span>
 											<span className="font-default text-right min-w-0 flex-shrink">{entry.metaRight ?? ""}</span>
 										</div>

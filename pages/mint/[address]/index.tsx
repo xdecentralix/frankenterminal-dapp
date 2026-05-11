@@ -186,10 +186,10 @@ export default function PositionBorrow({}) {
 
 	const isCooldown = position.start * 1000 < now && position.cooldown > now;
 	const positionStatus = position.closed
-		? { label: "Closed", cls: "bg-red-500/20 text-red-400" }
+		? { label: "Closed", cls: "border border-text-secondary text-text-secondary bg-card-body-secondary" }
 		: isCooldown
-		? { label: "Cooldown", cls: "bg-amber-500/20 text-amber-400" }
-		: { label: "Active", cls: "bg-green-500/20 text-green-400" };
+		? { label: "Cooldown", cls: "border border-text-warning text-text-warning bg-text-warning/10" }
+		: { label: "Active", cls: "border border-text-success text-text-success bg-text-success/10" };
 
 	const collKey = normalizeAddress(position.collateral);
 	const bestRatePos = bestInterestByCollateral[collKey];
@@ -321,13 +321,13 @@ export default function PositionBorrow({}) {
 					{ label: positionStatus.label.toUpperCase(), className: positionStatus.cls + " uppercase tracking-[0.18em]" },
 					{
 						label: `V${position.version}`,
-						className: "border border-card-input-border text-text-secondary uppercase tracking-[0.18em]",
+						className: "border border-blue-500/30 text-blue-400 bg-blue-500/10 uppercase tracking-[0.18em]",
 					},
 					...(position.isClone
 						? [
 								{
 									label: "CLONE",
-									className: "border border-card-content-highlight/40 text-card-content-highlight uppercase tracking-[0.18em]",
+									className: "border border-purple-500/30 text-purple-400 bg-purple-500/10 uppercase tracking-[0.18em]",
 								},
 						  ]
 						: []),
@@ -361,7 +361,7 @@ export default function PositionBorrow({}) {
 				<div className="lg:col-span-3">
 					<AppCard>
 						<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
-							// BORROW_FRANKENCOINS
+							BORROW FRANKENCOINS
 						</div>
 
 						<PresetChips
@@ -497,8 +497,8 @@ export default function PositionBorrow({}) {
 								<span>&gt;</span>
 								<span>
 									{position.start * 1000 > now
-										? "POSITION_PENDING_GOVERNANCE_APPROVAL"
-										: "POSITION_IN_COOLDOWN_PERIOD"}
+										? "POSITION PENDING GOVERNANCE APPROVAL"
+										: "POSITION IN COOLDOWN PERIOD"}
 								</span>
 							</div>
 						)}
@@ -527,7 +527,7 @@ export default function PositionBorrow({}) {
 						<div className="relative border border-card-input-border bg-layout-primary px-4 py-3">
 							<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 							<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-3">
-								// ALTERNATIVE_TERMS
+								ALTERNATIVE TERMS
 							</div>
 							<div className="flex flex-col gap-2">
 								{alternativeRows.map(({ label, pos, value, isBest }) => {
@@ -551,7 +551,7 @@ export default function PositionBorrow({}) {
 													isBest ? "text-text-success" : "text-card-content-highlight"
 												}`}
 											>
-												{isBest ? "// CURRENT" : "// SELECT \u2192"}
+												{isBest ? "CURRENT" : "SELECT \u2192"}
 											</span>
 										</button>
 								);

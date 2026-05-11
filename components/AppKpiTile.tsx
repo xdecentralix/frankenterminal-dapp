@@ -24,17 +24,21 @@ export default function AppKpiTile({ label, value, unit, hint, className, glow =
 
 	return (
 		<div
-			className={`relative bg-card-body-primary border border-card-input-border px-4 py-3 flex flex-col gap-1 ${
+			className={`relative bg-card-body-primary border border-card-input-border px-5 pt-5 pb-4 flex flex-col justify-between h-full min-h-[130px] ${
 				className ?? ""
 			}`}
 		>
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-			<div className="text-[0.65rem] uppercase tracking-[0.18em] text-text-secondary">{label}</div>
-			<div className="flex items-baseline gap-2 flex-wrap">
-				<span className={valueClasses}>{value}</span>
-				{unit && <span className="text-xs uppercase tracking-[0.18em] text-text-secondary">{unit}</span>}
+			<div className="text-xs md:text-sm font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">{label}</div>
+			<div className="mt-auto">
+				<div className="flex items-baseline gap-2 flex-wrap">
+					<span className={valueClasses}>{value}</span>
+					{unit && <span className="text-xs uppercase tracking-[0.18em] text-text-secondary">{unit}</span>}
+				</div>
+				<div className="h-4 mt-1">
+					{hint && <div className="text-xs text-text-secondary truncate">{hint}</div>}
+				</div>
 			</div>
-			{hint && <div className="text-xs text-text-secondary truncate">{hint}</div>}
 		</div>
 	);
 }

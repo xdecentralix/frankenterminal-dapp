@@ -6,7 +6,7 @@ import TokenLogo from "@components/TokenLogo";
 import { formatCurrency, formatDate, normalizeAddress } from "../../utils/format";
 import { useContractUrl } from "@hooks";
 import { useRouter as useNavigation } from "next/navigation";
-import AppButton from "@components/AppButton";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import { shortenAddress } from "@utils";
 import { TxLabelSimple } from "@components/AddressLabel";
 
@@ -57,7 +57,7 @@ export default function MonitoringAllChallengesRow({ challenge, bids }: Props) {
 					<span className="text-sm text-text-secondary">Status:</span>
 					<span
 						className={`text-sm font-semibold px-2 py-0.5 rounded bg-menu-active ${
-							isActive ? "text-green-500" : "text-yellow-500"
+							isActive ? "text-text-success" : "text-text-warning"
 						}`}
 					>
 						{isActive ? "Active" : "Ended"}
@@ -79,12 +79,12 @@ export default function MonitoringAllChallengesRow({ challenge, bids }: Props) {
 				{/* Action */}
 				<div className="flex items-center justify-end md:justify-start">
 					{isActive ? (
-<AppButton
+						<AppButtonSecondary
 							className="h-8"
 							onClick={() => navigate.push(`/monitoring/${challenge.position}/auction/${challenge.number}`)}
 						>
 							Bid
-						</AppButton>
+						</AppButtonSecondary>
 					) : (
 						<span className="underline text-sm">
 							<TxLabelSimple label="View Tx" tx={challenge.txHash} showLink />
@@ -131,7 +131,7 @@ function BidRow({ bid, position }: { bid: BidsQueryItem; position: any }) {
 				<div>
 					<span
 						className={`text-xs font-semibold px-2 py-0.5 rounded bg-menu-active ${
-							bid.bidType === "Averted" ? "text-yellow-500" : "text-green-500"
+							bid.bidType === "Averted" ? "text-text-warning" : "text-text-success"
 						}`}
 					>
 						{bid.bidType}
@@ -154,7 +154,7 @@ function BidRow({ bid, position }: { bid: BidsQueryItem; position: any }) {
 					<span className="text-text-subheader">Type</span>
 					<span
 						className={`text-xs font-semibold px-2 py-0.5 rounded bg-menu-active ${
-							bid.bidType === "Averted" ? "text-yellow-500" : "text-green-500"
+							bid.bidType === "Averted" ? "text-text-warning" : "text-text-success"
 						}`}
 					>
 						{bid.bidType}

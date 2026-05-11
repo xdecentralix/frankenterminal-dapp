@@ -49,12 +49,12 @@ export function SafetyGauge({ math, newPrice, className }: SafetyGaugeProps) {
 		<div className={`relative border border-card-input-border bg-layout-primary px-4 py-3 ${className ?? ""}`}>
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-3">
-				// SAFETY_GAUGE
+				SAFETY GAUGE
 			</div>
 
 			<div className="flex justify-between text-[0.6rem] uppercase tracking-[0.12em] text-text-secondary mb-1">
-				<span>LIQ_PRICE</span>
-				<span>ORACLE_PRICE</span>
+				<span>LIQ PRICE</span>
+				<span>ORACLE PRICE</span>
 			</div>
 			<div className="flex justify-between text-sm tabular-nums font-semibold text-text-primary">
 				<span>{formatCurrency(liq)} ZCHF</span>
@@ -106,7 +106,7 @@ export function WhatIfChips({ math, newPrice, className }: WhatIfChipsProps) {
 		<div className={`relative border border-card-input-border bg-layout-primary px-4 py-3 ${className ?? ""}`}>
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-3">
-				// WHAT_IF
+				WHAT IF
 			</div>
 
 			<div className="grid grid-cols-1 gap-2">
@@ -116,7 +116,7 @@ export function WhatIfChips({ math, newPrice, className }: WhatIfChipsProps) {
 					const liquidated = stressed <= liq;
 					const band: HealthBand = liquidated ? "danger" : classifyHealth(buffer);
 					const text = BAND_TEXT[band];
-					const label = liquidated ? "LIQUIDATED" : BAND_LABEL[band];
+					const label = liquidated ? "HUGE DANGER" : BAND_LABEL[band];
 					return (
 						<div
 							key={drop}
@@ -189,7 +189,7 @@ export function PresetChips({ math, availableForClones, userBalance, minCollater
 
 	return (
 		<div className={`flex flex-wrap items-center gap-2 ${className ?? ""}`}>
-			<span className="text-[0.6rem] uppercase tracking-[0.18em] text-text-secondary">// PRESETS</span>
+			<span className="text-[0.6rem] uppercase tracking-[0.18em] text-text-secondary">PRESETS</span>
 			{PRESETS.map((p) => (
 				<button
 					key={p.id}
@@ -205,14 +205,14 @@ export function PresetChips({ math, availableForClones, userBalance, minCollater
 				onClick={handleMinColl}
 				className="text-[0.65rem] uppercase tracking-[0.12em] font-semibold px-2 py-1 border border-card-input-border text-text-secondary hover:border-card-content-highlight hover:text-card-content-highlight hover:bg-card-content-highlight/10 transition-colors"
 			>
-				MIN_COLLATERAL
+				MIN COLLATERAL
 			</button>
 			<button
 				type="button"
 				onClick={handleMaxBorrow}
 				className="text-[0.65rem] uppercase tracking-[0.12em] font-semibold px-2 py-1 border border-card-input-border text-text-secondary hover:border-card-content-highlight hover:text-card-content-highlight hover:bg-card-content-highlight/10 transition-colors"
 			>
-				MAX_BORROW
+				MAX BORROW
 			</button>
 		</div>
 	);
@@ -277,7 +277,7 @@ export function TerminalBreakdown({
 		<div className={`relative border border-card-input-border bg-layout-primary px-4 py-3 ${className ?? ""}`}>
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-3">
-				// BREAKDOWN
+				BREAKDOWN
 			</div>
 
 			<div className="flex flex-col gap-1">
@@ -295,15 +295,15 @@ export function TerminalBreakdown({
 					muted
 				/>
 				<div className="my-1 border-t border-card-input-border/60 border-dashed" />
-				<Line label="PAID_OUT" value={`${fmt(paidOut)} ZCHF`} emphasis />
+				<Line label="PAID OUT" value={`${fmt(paidOut)} ZCHF`} emphasis />
 			</div>
 
 			{showCooldownInfo && mintableAtNewPrice !== undefined && additionalMintable !== undefined && additionalMintable > 0n && (
 				<div className="mt-3 pt-3 border-t border-card-input-border">
-					<div className="text-[0.6rem] uppercase tracking-[0.18em] text-text-warning mb-1">// AFTER_COOLDOWN</div>
+					<div className="text-[0.6rem] uppercase tracking-[0.18em] text-text-warning mb-1">AFTER COOLDOWN</div>
 					<div className="flex flex-col gap-1">
-						<Line label="MINTABLE_AT_NEW_PRICE" value={`${fmt(mintableAtNewPrice)} ZCHF`} warn />
-						<Line label="ADDITIONAL_AVAILABLE" value={`+${fmt(additionalMintable)} ZCHF`} warn />
+						<Line label="MINTABLE AT NEW PRICE" value={`${fmt(mintableAtNewPrice)} ZCHF`} warn />
+						<Line label="ADDITIONAL AVAILABLE" value={`+${fmt(additionalMintable)} ZCHF`} warn />
 					</div>
 				</div>
 			)}
@@ -333,7 +333,7 @@ export function PositionContextStrip({
 				className ?? ""
 			}`}
 		>
-			<span className="text-[0.65rem] tracking-[0.18em] text-card-content-highlight tell-glow-red">// MARKET_CONTEXT</span>
+			<span className="text-[0.65rem] tracking-[0.18em] text-card-content-highlight tell-glow-red">MARKET CONTEXT</span>
 			<span>
 				<span className="text-text-secondary">MINTED:</span>{" "}
 				<span className="text-text-primary">{fmt(totalMinted)} ZCHF</span>

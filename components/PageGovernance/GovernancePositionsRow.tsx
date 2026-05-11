@@ -88,7 +88,7 @@ export default function GovernancePositionsRow({ headers, subHeaders, tab, posit
 			</div>
 
 			<div className="flex flex-col">
-				<span className={` ${denyUntil < 10 ? "text-red-500" : ""}`}>
+				<span className={` ${denyUntil < 10 ? "text-card-content-highlight" : ""}`}>
 					{denyUntil < 10 ? Math.round(denyUntil * 10) / 10 : Math.round(denyUntil)} hours
 				</span>
 				<span className="text-sm text-text-subheader font-normal">

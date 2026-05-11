@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import TokenLogo from "@components/TokenLogo";
 import { formatCurrency, normalizeAddress } from "../../utils/format";
 import { useRouter as useNavigation } from "next/navigation";
-import AppButton from "@components/AppButton";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import { useContractUrl } from "@hooks";
 import AppBox from "@components/AppBox";
 
@@ -78,9 +78,9 @@ export default function ChallengesRow({ headers, tab, challenge }: Props) {
 			headers={headers}
 			tab={tab}
 			actionCol={
-				<AppButton className="h-10" onClick={() => navigate.push(`/monitoring/${challenge.position}/auction/${challenge.number}`)}>
+				<AppButtonSecondary className="h-10" onClick={() => navigate.push(`/monitoring/${challenge.position}/auction/${challenge.number}`)}>
 					Buy
-				</AppButton>
+				</AppButtonSecondary>
 			}
 		>
 			{/* Collateral */}

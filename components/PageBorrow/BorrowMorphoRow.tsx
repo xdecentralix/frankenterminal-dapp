@@ -1,7 +1,7 @@
 import TableRow from "../Table/TableRow";
 import { formatCurrency } from "../../utils/format";
 import DisplayCollateralBorrowTable from "./DisplayCollateralBorrowTable";
-import AppButton from "@components/AppButton";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import AppBox from "@components/AppBox";
 import { Market } from "../../redux/slices/morpho.types";
 import { MorphoMarketUrl } from "@utils";
@@ -30,12 +30,12 @@ export default function BorrowMorphoRow({ headers, tab, market }: Props) {
 			headers={headers}
 			tab={tab}
 			actionCol={
-				<AppButton className="h-10" onClick={openExplorer}>
+				<AppButtonSecondary className="h-10" onClick={openExplorer}>
 					<div>Borrow</div>
 					<div className="">
 						<FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-3 my-auto cursor-pointer" />
 					</div>
-				</AppButton>
+				</AppButtonSecondary>
 			}
 		>
 			<div className="flex flex-col max-md:mb-5">

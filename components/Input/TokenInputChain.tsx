@@ -108,7 +108,7 @@ export default function TokenInputChain({
 						)}
 					</div>
 
-					<div className="md:col-span-2">
+					<div className="w-44 md:w-52 flex-shrink-0">
 						<ChainBySelect
 							chains={WAGMI_CHAINS.map((c) => c.name)}
 							chain={chain}

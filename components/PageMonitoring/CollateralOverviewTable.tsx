@@ -13,7 +13,7 @@ import TokenLogo from "@components/TokenLogo";
 import { formatCurrency, normalizeAddress, ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, FormatType } from "@utils";
 import AppBox from "@components/AppBox";
 import { FilterOption } from "@components/Table/TableHeadSearchable";
-import { useSwapVCHFStats, useSwapCHFAUStats, CollateralOverviewStat } from "@hooks";
+import { useSwapCHFAUStats, CollateralOverviewStat } from "@hooks";
 import { useRouter } from "next/navigation";
 
 const headers = ["Collateral", "Total Value", "Total Minted", "Available", "Avg Coll. Ratio"];
@@ -30,7 +30,6 @@ export default function CollateralOverviewTable() {
 	const { address: walletAddress } = useConnection();
 	const { list, openPositionsByCollateral } = useSelector((state: RootState) => state.positions);
 	const { coingecko } = useSelector((state: RootState) => state.prices);
-	const vchfBridge = useSwapVCHFStats();
 	const chfauBridge = useSwapCHFAUStats();
 
 	const positionStats = useMemo(
@@ -40,12 +39,11 @@ export default function CollateralOverviewTable() {
 	);
 
 	const stats = useMemo(
-		() => [...positionStats, vchfBridge.asCollateralOverview, chfauBridge.asCollateralOverview] as CollateralOverviewStat[],
-		[positionStats, vchfBridge.asCollateralOverview, chfauBridge.asCollateralOverview]
+		() => [...positionStats, chfauBridge.asCollateralOverview] as CollateralOverviewStat[],
+		[positionStats, chfauBridge.asCollateralOverview]
 	);
 
 	const bridgeSwapUrls: Record<string, string> = {
-		[normalizeAddress(vchfBridge.bridgeAddress)]: vchfBridge.swapUrl,
 		[normalizeAddress(chfauBridge.bridgeAddress)]: chfauBridge.swapUrl,
 	};
 
@@ -130,7 +128,7 @@ export default function CollateralOverviewTable() {
 					filtered.map((stat) => {
 						const balanceFormatted = formatCurrency(Number(formatUnits(stat.balance, stat.collateral.decimals)), 2, 2);
 						const avgCollPct = stat.avgCollateral * 100;
-						const collColor = avgCollPct < 110 ? "text-red-500" : avgCollPct <= 120 ? "text-orange-400" : "text-green-500";
+						const collColor = avgCollPct < 110 ? "text-card-content-highlight" : avgCollPct <= 120 ? "text-text-warning" : "text-text-success";
 						const swapUrl = bridgeSwapUrls[normalizeAddress(stat.original.position)];
 						const isBridge = !!swapUrl;
 

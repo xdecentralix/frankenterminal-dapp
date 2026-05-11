@@ -112,7 +112,7 @@ export default function LiquidationSlider({
 					{/* Source marker label above track */}
 					<div
 						className={`absolute -top-1 text-xs font-bold -translate-x-1/2 ${
-							sourcePct < 38 ? "text-green-500" : "text-orange-400"
+							sourcePct < 38 ? "text-text-success" : "text-text-warning"
 						}`}
 						style={{ left: `${sourcePct}%` }}
 					>

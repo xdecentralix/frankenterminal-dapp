@@ -32,13 +32,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
 		<div>
 			<Head>
-				<title>Tell // Frankencoin Interface</title>
+				<title>Tell · Frankencoin Interface</title>
 			</Head>
 
 			<Navbar />
 
-			<div className="h-main pt-20 pb-0 md:pb-[4.75rem]">
-				<main className="block mb-12 md:mb-24 mx-auto max-w-6xl space-y-8 px-4 md:px-8 2xl:max-w-7xl min-h-content">{children}</main>
+			<div className="min-h-screen pt-20 pb-12 md:pb-[7rem]">
+				<main className="block mb-12 md:mb-16 mx-auto max-w-6xl space-y-8 px-4 md:px-8 2xl:max-w-7xl min-h-content">{children}</main>
 				<MobileFooter />
 			</div>
 

@@ -90,11 +90,11 @@ export default function ReserveAllocation() {
 									fontWeight: "bold",
 									colors: ["#141414"],
 								},
+								dropShadow: {
+									enabled: false,
+								},
 								background: {
-									enabled: true,
-									foreColor: "#141414",
-									borderRadius: 2,
-									borderWidth: 0,
+									enabled: false,
 								},
 							},
 							yaxis: {

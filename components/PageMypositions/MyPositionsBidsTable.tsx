@@ -62,9 +62,9 @@ export default function MyPositionsBidsTable() {
 				{list.length == 0 ? (
 					<TableRowEmpty>
 						<EmptyState
-							title="NO_BIDS_PLACED"
+							title="NO BIDS PLACED"
 							hint="BID ON LIQUIDATION AUCTIONS TO ACQUIRE COLLATERAL AT A DISCOUNT"
-							cta={{ label: "BROWSE_CHALLENGES", href: "/monitoring/challenges" }}
+							cta={{ label: "BROWSE CHALLENGES", href: "/monitoring/challenges" }}
 						/>
 					</TableRowEmpty>
 				) : (

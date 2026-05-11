@@ -42,16 +42,16 @@ export default function PageTabInput({ tabs, urlParam = "tab", className }: Prop
 
 	return (
 		<div className={className}>
-			<div className="">
-				<div className="flex gap-6 border-b-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+			<div className="bg-layout-primary mb-5 border border-card-input-border overflow-x-auto no-scrollbar">
+				<div className="flex flex-row min-w-max text-text-secondary">
 					{tabs.map((tab, i) => (
 						<button
 							key={i}
 							onClick={() => selectTab(i)}
-							className={`flex-shrink-0 flex items-center gap-2 -mb-0.5 pb-2 px-4 text-xs uppercase tracking-[0.12em] border-b-2 transition-colors ${
+							className={`flex-1 min-w-[100px] py-2 px-4 text-xs uppercase tracking-[0.12em] text-center border-r border-card-input-border last:border-r-0 transition-colors flex items-center justify-center gap-2 ${
 								i === active
-									? "border-card-content-highlight text-card-content-highlight tell-glow-red"
-									: "border-transparent text-text-secondary hover:text-text-primary"
+									? "text-card-content-highlight tell-glow-red bg-card-content-highlight/5 border-b-2 border-b-card-content-highlight"
+									: "cursor-pointer hover:bg-card-body-secondary hover:text-text-primary border-b-2 border-b-transparent"
 							}`}
 						>
 							{tab.label}

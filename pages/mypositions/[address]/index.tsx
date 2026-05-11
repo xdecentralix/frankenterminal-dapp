@@ -34,6 +34,7 @@ import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
 import { generateExpirationCalendar, downloadCalendarFile, generateGoogleCalendarUrl } from "../../../utils/calendarGenerator";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays, faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
+import CalendarDropdown from "@components/CalendarDropdown";
 
 export default function PositionAdjust() {
 	const [isApproving, setApproving] = useState(false);
@@ -404,12 +405,12 @@ export default function PositionAdjust() {
 				subtitle={`Manage your position.`}
 				badges={[
 					position.closed
-						? { label: "Closed", className: "bg-red-500/20 text-red-400" }
+						? { label: "Closed", className: "border border-text-secondary text-text-secondary bg-card-body-secondary" }
 						: isCooldown
-						? { label: "Cooldown", className: "bg-amber-500/20 text-amber-400" }
-						: { label: "Active", className: "bg-green-500/20 text-green-400" },
-					{ label: `V${position.version}`, className: "bg-blue-500/20 text-blue-400" },
-					...(position.isClone ? [{ label: "Clone", className: "bg-purple-500/20 text-purple-400" }] : []),
+						? { label: "Cooldown", className: "border border-text-warning text-text-warning bg-text-warning/10" }
+						: { label: "Active", className: "border border-text-success text-text-success bg-text-success/10" },
+					{ label: `V${position.version}`, className: "border border-blue-500/30 text-blue-400 bg-blue-500/10" },
+					...(position.isClone ? [{ label: "Clone", className: "border border-purple-500/30 text-purple-400 bg-purple-500/10" }] : []),
 				]}
 				actions={
 					<div className="flex flex-wrap gap-4 text-sm">
@@ -577,20 +578,7 @@ export default function PositionAdjust() {
 						</AppCard>
 						{!position.closed && !position.denied && (
 							<div className="flex justify-end gap-2">
-								<AppButton
-									onClick={handleGoogleCalendar}
-									className="px-3 py-1.5 text-sm"
-								>
-									<FontAwesomeIcon icon={faCalendarPlus} className="mr-2" />
-									Add to Google Calendar
-								</AppButton>
-								<AppButton
-									onClick={handleDownloadCalendar}
-									className="px-3 py-1.5 text-sm"
-								>
-									<FontAwesomeIcon icon={faCalendarDays} className="mr-2" />
-									Download Calendar
-								</AppButton>
+								<CalendarDropdown onGoogle={handleGoogleCalendar} onIcs={handleDownloadCalendar} />
 							</div>
 						)}
 					</div>

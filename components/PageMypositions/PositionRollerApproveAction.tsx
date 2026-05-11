@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { shortenAddress } from "@utils";
 import { renderErrorTxToastDecode, TxToast } from "@components/TxToast";
 import { useConnection } from "wagmi";
-import AppButton from "@components/AppButton";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import { maxUint256 } from "viem";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import { ADDRESS, ERC20ABI } from "@frankencoin/zchf";
@@ -72,9 +72,9 @@ export default function PositionRollerApproveAction({ source, disabled }: Props)
 
 	return (
 		<GuardSupportedChain disabled={isHidden || disabled} chain={mainnet}>
-			<AppButton className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={(e) => handleOnClick(e)}>
+			<AppButtonSecondary className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={(e) => handleOnClick(e)}>
 				Approve
-			</AppButton>
+			</AppButtonSecondary>
 		</GuardSupportedChain>
 	);
 }

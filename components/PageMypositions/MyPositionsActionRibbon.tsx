@@ -53,7 +53,7 @@ export default function MyPositionsActionRibbon() {
 			const remaining = declineMs - Date.now();
 			items.push({
 				type: "challenge",
-				label: `POSITION_CHALLENGED // ${shortenAddress(p.position).toUpperCase()} // RESPOND IN ${fmtCountdown(remaining)}`,
+				label: `POSITION CHALLENGED · ${shortenAddress(p.position).toUpperCase()} · RESPOND IN ${fmtCountdown(remaining)}`,
 				href: `/mypositions/${p.position}`,
 			});
 			continue;
@@ -63,7 +63,7 @@ export default function MyPositionsActionRibbon() {
 		if (cooldownRemaining > 0 && cooldownRemaining < 7 * 24 * 60 * 60 * 1000) {
 			items.push({
 				type: "cooldown",
-				label: `COOLDOWN_ENDING IN ${fmtCountdown(cooldownRemaining)} // ${shortenAddress(p.position).toUpperCase()}`,
+				label: `COOLDOWN ENDING IN ${fmtCountdown(cooldownRemaining)} · ${shortenAddress(p.position).toUpperCase()}`,
 				href: `/mypositions/${p.position}`,
 			});
 			continue;
@@ -73,13 +73,13 @@ export default function MyPositionsActionRibbon() {
 		if (expiryRemaining > 0 && expiryRemaining < 7 * 24 * 60 * 60 * 1000) {
 			items.push({
 				type: "expiring",
-				label: `EXPIRING_SOON // ${p.collateralSymbol.toUpperCase()} // ROLL OR REPAY IN ${fmtCountdown(expiryRemaining)}`,
+				label: `EXPIRING SOON · ${p.collateralSymbol.toUpperCase()} · ROLL OR REPAY IN ${fmtCountdown(expiryRemaining)}`,
 				href: `/mypositions/${p.position}`,
 			});
 		} else if (expiryRemaining <= 0 && BigInt(p.minted ?? 0) > 0n) {
 			items.push({
 				type: "expired",
-				label: `EXPIRED // ${p.collateralSymbol.toUpperCase()} // REPAY OR FORCE_SELL`,
+				label: `EXPIRED · ${p.collateralSymbol.toUpperCase()} · REPAY OR FORCE SELL`,
 				href: `/mypositions/${p.position}`,
 			});
 		}
@@ -103,7 +103,7 @@ export default function MyPositionsActionRibbon() {
 		<div className="relative border border-card-content-highlight/40 bg-layout-primary px-4 py-3">
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-80 pointer-events-none" />
 			<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-2">
-				// ACTION_REQUIRED
+				ACTION REQUIRED
 			</div>
 			<ul className="flex flex-col gap-1 text-xs md:text-sm uppercase tracking-[0.12em] font-semibold">
 				{items.slice(0, 5).map((it, idx) => (

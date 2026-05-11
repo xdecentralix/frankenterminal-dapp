@@ -52,7 +52,7 @@ export default function LoadingScreen({ title = "TELL // initializing", loading 
 					{loading.length > 0 && (
 						<div className="w-full tell-frame px-6 py-5 font-default text-[12px] uppercase tracking-[0.12em]">
 							<div className="text-card-content-highlight tell-glow-red mb-3 text-[10px]">
-								SYSTEM_BOOT_SEQUENCE
+								SYSTEM BOOT SEQUENCE
 							</div>
 							<ul className="list-none text-left space-y-1.5">
 								{loading.map((item) => (
@@ -84,8 +84,8 @@ export default function LoadingScreen({ title = "TELL // initializing", loading 
 
 					{showWarning && (
 						<p className="text-sm text-text-warning animate-pulse text-center max-w-md font-default uppercase tracking-wider">
-							LOADING_TIMEOUT_WARNING // RETRY_IN {remainingSeconds}s //{" "}
-							<AppLink className="" label="REPORT_VIA_TELEGRAM" href={SOCIAL.Telegram} external />.
+							LOADING TIMEOUT WARNING · RETRY IN {remainingSeconds}s ·{" "}
+							<AppLink className="" label="REPORT VIA TELEGRAM" href={SOCIAL.Telegram} external />.
 						</p>
 					)}
 

@@ -94,19 +94,18 @@ export default function BorrowKpiStrip({ className }: Props) {
 
 			<div className="grid grid-cols-2 md:grid-cols-4 gap-3">
 				<AppKpiTile
-					label="// TOTAL_OUTSTANDING"
+					label="TOTAL OUTSTANDING"
 					value={formatCurrency(totalOutstandingFloat, 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
-					glow
 				/>
 				<AppKpiTile
-					label="// AVAILABLE_TO_BORROW"
+					label="AVAILABLE TO BORROW"
 					value={formatCurrency(totalAvailableFloat, 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
 				/>
-				<AppKpiTile label="// COLLATERALS" value={kpis.collateralCount} unit="markets" />
+				<AppKpiTile label="COLLATERALS" value={kpis.collateralCount} unit="markets" />
 				<AppKpiTile
-					label="// CHEAPEST_RATE"
+					label="LOWEST RATE"
 					value={kpis.cheapest ? `${formatCurrency(kpis.cheapest.rate * 100, 2, 2)}%` : "—"}
 					hint={kpis.cheapest ? <span className="uppercase tracking-[0.12em]">{kpis.cheapest.symbol}</span> : undefined}
 					tone="success"
@@ -114,23 +113,23 @@ export default function BorrowKpiStrip({ className }: Props) {
 			</div>
 
 			{showGuide && (
-				<div className="relative mt-3 border border-card-input-border bg-layout-primary px-4 py-3">
+				<div className="relative mt-3 border border-card-input-border bg-layout-primary px-5 py-5">
 					<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60"></div>
-					<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-2">
-						// HOW_IT_WORKS
+					<div className="text-sm uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-3 font-bold">
+						HOW IT WORKS
 					</div>
-					<ol className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm text-text-secondary list-none">
+					<ol className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-text-secondary list-none">
 						<li>
-							<span className="text-text-primary uppercase tracking-[0.12em] font-bold">01 / Choose a collateral.</span>{" "}
+							<div className="text-text-primary uppercase tracking-[0.12em] font-bold mb-1">01 / Choose a collateral.</div>
 							Pick a crypto asset from the table below.
 						</li>
 						<li>
-							<span className="text-text-primary uppercase tracking-[0.12em] font-bold">02 / Define terms.</span> Adjust
-							amount, maturity, and liquidation price.
+							<div className="text-text-primary uppercase tracking-[0.12em] font-bold mb-1">02 / Define terms.</div>
+							Adjust amount, maturity, and liquidation price.
 						</li>
 						<li>
-							<span className="text-text-primary uppercase tracking-[0.12em] font-bold">03 / Receive ZCHF.</span> Fresh
-							Frankencoins are minted directly into your wallet.
+							<div className="text-text-primary uppercase tracking-[0.12em] font-bold mb-1">03 / Receive ZCHF.</div>
+							Fresh Frankencoins are minted directly into your wallet.
 						</li>
 					</ol>
 				</div>

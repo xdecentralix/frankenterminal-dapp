@@ -12,9 +12,10 @@ interface Props {
 	voter: VoteDataQuote;
 	votesTotal: bigint;
 	connectedWallet?: boolean;
+	color?: string;
 }
 
-export default function GovernanceVotersRow({ headers, tab, voter, votesTotal, connectedWallet }: Props) {
+export default function GovernanceVotersRow({ headers, tab, voter, votesTotal, connectedWallet, color }: Props) {
 	const votingPower = voter.votingPowerRatio + voter.supportedVotingPowerRatio;
 	const supporterCount = voter.supporters.length;
 	const isWrapped = normalizeAddress(voter.holder) === normalizeAddress(ADDRESS[mainnet.id].wFPS);
@@ -25,6 +26,9 @@ export default function GovernanceVotersRow({ headers, tab, voter, votesTotal, c
 				{/* Address + supporter count as sub-text */}
 				<div className="flex flex-col md:text-left max-md:text-right max-md:w-full">
 					<div className="flex items-center gap-2">
+						{color && (
+							<span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: color }}></span>
+						)}
 						{connectedWallet ? (
 							<AppLink label={"Connected wallet"} href={ContractUrl(voter.holder)} external={true} className="" />
 						) : (
