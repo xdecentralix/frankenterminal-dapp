@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
 		<div>
 			<Head>
-				<title>Frankencoin - Home</title>
+				<title>Tell // Frankencoin Interface</title>
 			</Head>
 
 			<Navbar />

@@ -39,21 +39,31 @@ export default function AppButton({
 	const busy = isLoading || loading;
 	const sizeClass = size === "small" ? "px-2 py-1 md:px-3 md:py-1 text-sm" : size === "medium" ? "px-3 py-2 md:px-3 md:py-3" : "py-3";
 
-	const btnClass = `btn ${className ?? ""} ${sizeClass} ${
-		disabled || busy
-			? "cursor-not-allowed bg-button-disabled text-button-textdisabled"
-			: "bg-button-default text-white hover:bg-button-hover"
+	const isInactive = disabled || busy;
+
+	const btnClass = `btn relative ${className ?? ""} ${sizeClass} ${
+		isInactive
+			? "cursor-not-allowed bg-transparent border border-card-input-border text-button-textdisabled"
+			: "bg-transparent border border-card-content-highlight text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-red"
 	} ${width ?? "w-full"}`.trim();
+
+	const labelExtras = !isInactive ? "tracking-[0.18em]" : "tracking-[0.12em]";
+
+	const inner = (
+		<>
+			{busy && <LoadingSpin />}
+			{!busy && icon && <AppIcon src={icon} size="small" />}
+			<span className={labelExtras}>{children}</span>
+		</>
+	);
 
 	const button = to ? (
 		<Link href={to} className={btnClass} onClick={(e) => { onClick(e); if (umamiEvent) track(umamiEvent); }}>
-			{children}
+			{inner}
 		</Link>
 	) : (
 		<button className={btnClass} onClick={(e) => !disabled && !busy && onClick(e)} data-umami-event={umamiEvent}>
-			{busy && <LoadingSpin />}
-			{!busy && icon && <AppIcon src={icon} size="small" />}
-			{children}
+			{inner}
 		</button>
 	);
 

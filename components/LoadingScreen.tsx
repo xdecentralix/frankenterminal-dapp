@@ -20,7 +20,7 @@ interface LoadingScreenProps {
 	breakerMs?: number;
 }
 
-export default function LoadingScreen({ title = "Frankencoin is loading...", loading = [], breakerMs }: LoadingScreenProps) {
+export default function LoadingScreen({ title = "TELL // initializing", loading = [], breakerMs }: LoadingScreenProps) {
 	const [elapsed, setElapsed] = useState(0);
 
 	useEffect(() => {
@@ -35,45 +35,67 @@ export default function LoadingScreen({ title = "Frankencoin is loading...", loa
 	return (
 		<>
 			<div className="flex items-center justify-center gap-4 h-screen">
-				<div className="flex flex-col items-center gap-8">
+				<div className="flex flex-col items-center gap-8 w-full max-w-md px-4">
 					<div className="flex flex-row items-center -mt-20">
 						<picture>
-							<img className="h-10 mr-4" src="/coin/zchf.png" alt="Logo" />
+							<img
+								className="h-12 w-12 mr-5 animate-tell-glow-pulse drop-shadow-[0_0_12px_rgba(255,0,51,0.7)]"
+								src="/brand/tell-icon.svg"
+								alt="Tell"
+							/>
 						</picture>
-						<h1>{title}</h1>
-					</div>
-
-					{loading.length > 0 && (
-						<ul className="list-none text-left text-sm">
-							{loading.map((item) => (
-								<li key={item.id} className="flex items-center gap-2">
-									<span
-										className={`inline-block w-2 h-2 rounded-full ${
-											item.isLoaded ? "bg-green-500" : "bg-gray-400 animate-pulse"
-										}`}
-									/>
-									<span className={item.isLoaded ? "text-green-500" : "text-text-secondary"}>{item.title}</span>
-								</li>
-							))}
-						</ul>
-					)}
-
-					{showWarning && (
-						<p className="text-sm text-text-warning animate-pulse text-center max-w-md">
-							Loading takes longer than expected. Continuing in {remainingSeconds}s. Please try again at a later point
-							in time or tell us about this error in our{" "}
-							<AppLink className="" label="Telegram channel" href={SOCIAL.Telegram} external />.
-						</p>
-					)}
-
-					<div className="absolute bottom-[20%] w-full flex justify-center">
-						<h1 className="px-8 text-center max-w-2xl">
-							This website uses third-party cookies, and certain features may not function properly if you choose to block
-							them.
+						<h1 className="font-default tracking-[0.25em] uppercase text-xl tell-glow-red tell-cursor">
+							{title}
 						</h1>
 					</div>
 
-					<div className="absolute bottom-0 bg-layout-footer w-full pb-8 pt-8 grid place-items-center">
+					{loading.length > 0 && (
+						<div className="w-full tell-frame px-6 py-5 font-default text-[12px] uppercase tracking-[0.12em]">
+							<div className="text-card-content-highlight tell-glow-red mb-3 text-[10px]">
+								SYSTEM_BOOT_SEQUENCE
+							</div>
+							<ul className="list-none text-left space-y-1.5">
+								{loading.map((item) => (
+									<li key={item.id} className="flex items-center gap-3">
+										<span
+											className={`inline-block w-1.5 h-1.5 ${
+												item.isLoaded ? "bg-text-success" : "bg-card-content-highlight animate-tell-blink"
+											}`}
+										/>
+										<span
+											className={`flex-1 ${
+												item.isLoaded ? "text-text-success" : "text-text-secondary"
+											}`}
+										>
+											{item.title}
+										</span>
+										<span
+											className={`text-[10px] ${
+												item.isLoaded ? "text-text-success" : "text-card-content-highlight"
+											}`}
+										>
+											{item.isLoaded ? "[ OK ]" : "[ .. ]"}
+										</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+
+					{showWarning && (
+						<p className="text-sm text-text-warning animate-pulse text-center max-w-md font-default uppercase tracking-wider">
+							LOADING_TIMEOUT_WARNING // RETRY_IN {remainingSeconds}s //{" "}
+							<AppLink className="" label="REPORT_VIA_TELEGRAM" href={SOCIAL.Telegram} external />.
+						</p>
+					)}
+
+					<div className="absolute bottom-[18%] w-full flex justify-center">
+						<p className="px-8 text-center max-w-2xl font-default text-[11px] uppercase tracking-[0.15em] text-text-secondary">
+							this interface relies on third-party cookies. blocking them will degrade functionality.
+						</p>
+					</div>
+
+					<div className="absolute bottom-0 bg-layout-footer w-full pb-8 pt-8 grid place-items-center border-t border-card-content-highlight/30">
 						<SubmitIssue />
 					</div>
 				</div>

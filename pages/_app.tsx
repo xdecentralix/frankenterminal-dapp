@@ -4,6 +4,7 @@ import "../styles/datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 import Script from "next/script";
+import { IBM_Plex_Mono } from "next/font/google";
 
 import Layout from "@components/Layout";
 import NextSeoProvider from "@components/NextSeoProvider";
@@ -16,9 +17,22 @@ import { MORPHOGRAPH_CLIENT, PONDER_CLIENT } from "../app.config";
 import BlockUpdater from "@components/BlockUpdater";
 import USGovSanctionList from "@components/USGovSanctionList";
 
+const tellMono = IBM_Plex_Mono({
+	subsets: ["latin"],
+	variable: "--font-tell-mono",
+	display: "swap",
+	weight: ["300", "400", "500", "600", "700"],
+});
+
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<>
+			<style jsx global>{`
+				:root {
+					--font-tell-mono: ${tellMono.style.fontFamily};
+				}
+			`}</style>
+
 			<Script
 				src={`${process.env.NEXT_PUBLIC_UMAMI_URL}/script.js`}
 				data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}

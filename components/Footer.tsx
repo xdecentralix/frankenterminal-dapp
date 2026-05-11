@@ -29,31 +29,66 @@ const DynamicDocs = (): string => {
 
 export default function Footer() {
 	return (
-		<div className="md:flex md:grid-rows-2 justify-items-center md:px-12 md:pb-[25px] max-md:pb-[25px] pt-8 bg-layout-footer text-layout-primary">
-			<div className="md:flex-1 max-md:flex justify-center">
-				<SubmitIssue />
+		<div className="bg-layout-footer text-text-secondary">
+			<div className="md:flex md:grid-rows-2 justify-items-center md:px-12 md:pb-[25px] max-md:pb-[25px] pt-8">
+				<div className="md:flex-1 max-md:flex justify-center">
+					<SubmitIssue />
+				</div>
+
+				<ul className="flex gap-8 max-md:pt-12 justify-center">
+					<li>
+						<FooterButton link={SOCIAL.Twitter} text="Twitter" icon={faXTwitter} />
+					</li>
+					<li>
+						<FooterButton link={SOCIAL.Telegram} text="Telegram" icon={faTelegram} />
+					</li>
+					<li>
+						<FooterButton link={SOCIAL.Forum} text="Forum" icon={faComments} />
+					</li>
+					<li>
+						<FooterButton link={SOCIAL.SubStack} text="Blog" icon={faBookmark} />
+					</li>
+					<li>
+						<FooterButton link={SOCIAL.Github_contract} text="Github" icon={faGithub} />
+					</li>
+					<li>
+						<FooterButton link={DynamicDocs()} text="Doc" icon={faBook} />
+					</li>
+				</ul>
 			</div>
 
-			<ul className="flex gap-8 max-md:pt-12 justify-center">
-				<li>
-					<FooterButton link={SOCIAL.Twitter} text="Twitter" icon={faXTwitter} />
-				</li>
-				<li>
-					<FooterButton link={SOCIAL.Telegram} text="Telegram" icon={faTelegram} />
-				</li>
-				<li>
-					<FooterButton link={SOCIAL.Forum} text="Forum" icon={faComments} />
-				</li>
-				<li>
-					<FooterButton link={SOCIAL.SubStack} text="Blog" icon={faBookmark} />
-				</li>
-				<li>
-					<FooterButton link={SOCIAL.Github_contract} text="Github" icon={faGithub} />
-				</li>
-				<li>
-					<FooterButton link={DynamicDocs()} text="Doc" icon={faBook} />
-				</li>
-			</ul>
+			{/* ASCII-style separator */}
+			<div
+				className="mx-4 md:mx-12 mt-8 text-card-content-highlight/40 font-default text-[10px] leading-none select-none overflow-hidden whitespace-nowrap"
+				aria-hidden="true"
+			>
+				{"-".repeat(400)}
+			</div>
+
+			<div className="px-4 md:px-12 py-4 text-[11px] leading-relaxed font-default tracking-[0.12em] text-text-secondary text-center md:text-left uppercase">
+				<span className="text-card-content-highlight tell-glow-red font-bold">TELL_INTERFACE</span>{" "}
+				<span className="text-card-content-highlight/60">//</span> independent fork &mdash; not affiliated with the
+				Frankencoin Association.{" "}
+				<span className="text-card-content-highlight/60">//</span> canonical_app:{" "}
+				<Link
+					href="https://app.frankencoin.com"
+					target="_blank"
+					rel="noreferrer"
+					className="underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight hover:decoration-card-content-highlight"
+				>
+					app.frankencoin.com
+				</Link>{" "}
+				<span className="text-card-content-highlight/60">//</span> source:{" "}
+				<Link
+					href="https://github.com/xdecentralix/tell-dapp"
+					target="_blank"
+					rel="noreferrer"
+					className="underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight hover:decoration-card-content-highlight"
+				>
+					github.com/xdecentralix/tell-dapp
+				</Link>{" "}
+				<span className="text-card-content-highlight animate-tell-blink">_</span>
+			</div>
 		</div>
 	);
 }

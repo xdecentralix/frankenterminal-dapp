@@ -2,165 +2,271 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Avenir Fonts */
+/* ============================================================
+   TELL — Cypherpunk theme layer
+   ------------------------------------------------------------
+   Body: black canvas + subtle crosshair grid + scanline overlay
+   Accent: Neon Swiss Red (#FF0033) with glow halos
+   Font: JetBrains Mono via next/font (declared in _app.tsx)
+   ============================================================ */
 
-/* Avenir-Book-01.ttf
-Avenir-BookOblique-02.ttf
-Avenir-Black-03.ttf
-Avenir-BlackOblique-04.ttf
-Avenir-Heavy-05.ttf
-Avenir-HeavyOblique-06
-Avenir-Light-07.ttf
-Avenir-LightOblique-08.ttf
-Avenir-Medium-09.ttf
-Avenir-MediumOblique-10.ttf
-Avenir-Oblique-11.ttf
-Avenir-Roman-12.ttf */
+@layer base {
+	html,
+	body {
+		background-color: #0a0a0a;
+		color-scheme: dark;
+	}
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Book-01.ttf") format("truetype");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-}
+	/* Pure black canvas with a subtle 32px crosshair grid lattice */
+	body {
+		@apply antialiased;
+		background-color: #0a0a0a;
+		background-image:
+			linear-gradient(rgba(255, 0, 51, 0.04) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255, 0, 51, 0.04) 1px, transparent 1px),
+			radial-gradient(circle at 50% 0%, rgba(255, 0, 51, 0.06) 0%, transparent 60%);
+		background-size: 32px 32px, 32px 32px, 100% 100%;
+		background-attachment: fixed;
+		position: relative;
+	}
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-BookOblique-02.ttf") format("truetype");
-	font-weight: 400;
-	font-style: italic;
-	font-display: swap;
-}
+	/* Scanline overlay — fixed, non-interactive */
+	body::before {
+		content: "";
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: 1;
+		background-image: repeating-linear-gradient(
+			0deg,
+			rgba(255, 255, 255, 0.012) 0px,
+			rgba(255, 255, 255, 0.012) 1px,
+			transparent 1px,
+			transparent 3px
+		);
+		mix-blend-mode: overlay;
+	}
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Black-03.ttf") format("truetype");
-	font-weight: 900;
-	font-style: normal;
-	font-display: swap;
-}
+	/* Vignette to focus attention */
+	body::after {
+		content: "";
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: 1;
+		background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.55) 100%);
+	}
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-BlackOblique-04.ttf") format("truetype");
-	font-weight: 900;
-	font-style: italic;
-	font-display: swap;
-}
+	/* Make sure app content sits above the overlays */
+	#__next {
+		position: relative;
+		z-index: 2;
+	}
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Heavy-05.ttf") format("truetype");
-	font-weight: 800;
-	font-style: normal;
-	font-display: swap;
-}
+	/* Cypher red focus + selection */
+	::selection {
+		background-color: #ff0033;
+		color: #0a0a0a;
+	}
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-HeavyOblique-06.ttf") format("truetype");
-	font-weight: 800;
-	font-style: italic;
-	font-display: swap;
-}
+	/* Custom scrollbar */
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: #2a2a2a #0a0a0a;
+	}
+	*::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+	}
+	*::-webkit-scrollbar-track {
+		background: #0a0a0a;
+		border-left: 1px solid #1f1f1f;
+	}
+	*::-webkit-scrollbar-thumb {
+		background: #2a2a2a;
+		border: 2px solid #0a0a0a;
+		transition: background 0.2s;
+	}
+	*::-webkit-scrollbar-thumb:hover {
+		background: #ff0033;
+	}
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Light-07.ttf") format("truetype");
-	font-weight: 300;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-LightOblique-08.ttf") format("truetype");
-	font-weight: 300;
-	font-style: italic;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Medium-09.ttf") format("truetype");
-	font-weight: 500;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-MediumOblique-10.ttf") format("truetype");
-	font-weight: 500;
-	font-style: italic;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Oblique-11.ttf") format("truetype");
-	font-weight: 400;
-	font-style: italic;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Roman-12.ttf") format("truetype");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+	/* Caret + outline color */
+	* {
+		caret-color: #ff0033;
+	}
+	*:focus-visible {
+		outline: 1px solid #ff0033;
+		outline-offset: 2px;
+	}
 }
 
 @layer components {
 	.btn {
-		@apply inline-flex whitespace-nowrap justify-center items-center gap-3 cursor-pointer rounded-lg select-none ease-in duration-200 border border-transparent px-3 py-2 md:px-3 md:py-3;
+		@apply inline-flex whitespace-nowrap justify-center items-center gap-2 cursor-pointer select-none transition-all duration-150 ease-out px-3 py-2 md:px-3 md:py-3;
+		border-radius: 2px;
+		font-variant-numeric: tabular-nums;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		font-weight: 500;
+		font-size: 0.78rem;
 	}
 
 	.btn-nav {
-		@apply hover:text-rose-400 px-5 py-5 md:px-3 md:py-3;
+		@apply px-5 py-5 md:px-3 md:py-3;
+		text-transform: uppercase;
+		letter-spacing: 0.18em;
+		font-weight: 500;
+		font-size: 0.75rem;
 	}
 
 	.btn-primary {
-		@apply text-white hover:opacity-60 bg-rose-400;
+		@apply text-card-content-highlight bg-transparent border border-card-content-highlight;
+	}
+
+	.btn-primary:hover {
+		background-color: rgba(255, 0, 51, 0.1);
+		box-shadow: 0 0 12px rgba(255, 0, 51, 0.35);
 	}
 
 	.btn-secondary {
-		@apply text-black border-black hover:bg-neutral-200 bg-rose-400 border-0;
+		@apply text-text-primary border-card-input-border bg-transparent;
+		border-width: 1px;
+	}
+
+	.btn-secondary:hover {
+		@apply border-card-content-highlight text-card-content-highlight;
 	}
 
 	.btn-small {
-		@apply text-sm px-2 py-1 md:px-3 md:py-1;
+		@apply text-[0.7rem] px-2 py-1 md:px-3 md:py-1;
 	}
 
 	.btn-disabled {
-		@apply cursor-not-allowed bg-neutral-700 text-slate-800 pointer-events-none;
+		@apply cursor-not-allowed bg-transparent border border-card-input-border text-button-textdisabled pointer-events-none;
+	}
+
+	/* Terminal-style bracket prefix on a heading or label */
+	.tell-bracket::before {
+		content: "[ ";
+		color: #ff0033;
+	}
+	.tell-bracket::after {
+		content: " ]";
+		color: #ff0033;
+	}
+
+	/* Blinking terminal cursor at end of element */
+	.tell-cursor::after {
+		content: "_";
+		color: #ff0033;
+		margin-left: 0.25em;
+		animation: tell-blink 1s steps(1) infinite;
+	}
+
+	/* Red text glow utility */
+	.tell-glow-red {
+		text-shadow: 0 0 8px rgba(255, 0, 51, 0.6), 0 0 16px rgba(255, 0, 51, 0.3);
+	}
+
+	/* Subtle box glow for cards/buttons */
+	.tell-shadow-red {
+		box-shadow: 0 0 0 1px rgba(255, 0, 51, 0.4), 0 0 18px rgba(255, 0, 51, 0.18);
+	}
+
+	/* Card with terminal frame look */
+	.tell-frame {
+		border: 1px solid #2a2a2a;
+		border-radius: 2px;
+		background-color: #141414;
+		position: relative;
+	}
+	.tell-frame::before {
+		content: "";
+		position: absolute;
+		top: -1px;
+		left: 12px;
+		right: 12px;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, #ff0033 50%, transparent);
+		opacity: 0.6;
 	}
 }
 
-body {
-	@apply antialiased;
+@layer utilities {
+	/* Force sharp corners on common rounded utilities so the whole app
+	   reads as a precision/terminal interface instead of a friendly app. */
+	.rounded,
+	.rounded-md,
+	.rounded-lg,
+	.rounded-xl,
+	.rounded-2xl,
+	.rounded-3xl {
+		border-radius: 2px !important;
+	}
+	.rounded-full {
+		border-radius: 9999px !important;
+	}
+}
+
+@keyframes tell-blink {
+	0%, 49% {
+		opacity: 1;
+	}
+	50%, 100% {
+		opacity: 0;
+	}
+}
+
+@keyframes tell-flicker {
+	0%, 100% {
+		opacity: 1;
+	}
+	48% {
+		opacity: 0.95;
+	}
+	49% {
+		opacity: 0.6;
+	}
+	50% {
+		opacity: 0.95;
+	}
+}
+
+@keyframes tell-scan {
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(100vh);
+	}
+}
+
+@keyframes tell-glow-pulse {
+	0%, 100% {
+		text-shadow: 0 0 8px rgba(255, 0, 51, 0.5), 0 0 16px rgba(255, 0, 51, 0.25);
+	}
+	50% {
+		text-shadow: 0 0 12px rgba(255, 0, 51, 0.85), 0 0 24px rgba(255, 0, 51, 0.5);
+	}
 }
 
 .text-link,
 p > a {
 	text-decoration: underline;
+	text-decoration-color: rgba(255, 0, 51, 0.5);
+	text-underline-offset: 3px;
 
-	@apply transition-opacity duration-200 ease-out;
-	@apply hover:opacity-70;
+	@apply transition-all duration-200 ease-out;
 }
-
-* {
-	@apply outline-neutral-200;
+.text-link:hover,
+p > a:hover {
+	color: #ff0033;
+	text-decoration-color: #ff0033;
 }
 
 p + * {
 	@apply mt-4;
-}
-
-::selection {
-	@apply bg-neutral-200;
 }
 
 svg#preloader {

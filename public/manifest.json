@@ -1,16 +1,21 @@
 {
-	"short_name": "ZCHF",
-	"name": "Frankencoin App",
-	"description": "Collateralized, oracle-free stablecoin that tracks the value of the Swiss franc.",
+	"short_name": "TELL",
+	"name": "Tell // Frankencoin Interface",
+	"description": "Independent, open-source frontend for the Frankencoin protocol — a collateralized, oracle-free stablecoin tracking the Swiss franc.",
 	"icons": [
 		{
 			"src": "icon.ico",
 			"sizes": "any",
 			"type": "image/ico"
+		},
+		{
+			"src": "brand/tell-icon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml"
 		}
 	],
 	"start_url": ".",
 	"display": "standalone",
-	"theme_color": "#000000",
-	"background_color": "#ffffff"
+	"theme_color": "#FF0033",
+	"background_color": "#0A0A0A"
 }

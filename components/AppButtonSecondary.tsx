@@ -33,20 +33,21 @@ export default function AppButtonSecondary({
 }: Props) {
 	const sizeClass = size === "small" ? "px-2 py-1 md:px-3 md:py-1 text-sm" : size === "medium" ? "px-3 py-2 md:px-3 md:py-3" : "py-3";
 
+	const isInactive = disabled || isLoading;
 	const btnClass = `btn ${className ?? ""} ${sizeClass} ${
-		disabled || isLoading
-			? "cursor-not-allowed bg-button-disabled text-button-textdisabled"
-			: "bg-transparent border-2 border-button-disabled text-text-primary hover:border-button-hover hover:bg-button-hover hover:text-white"
+		isInactive
+			? "cursor-not-allowed bg-transparent border border-card-input-border text-button-textdisabled"
+			: "bg-transparent border border-card-input-border text-text-primary hover:border-card-content-highlight hover:text-card-content-highlight"
 	} ${width ?? "w-full"}`.trim();
 
 	const button = to ? (
 		<Link href={to} className={btnClass} onClick={(e) => { onClick(e); if (umamiEvent) track(umamiEvent); }}>
-			{children}
+			<span>{children}</span>
 		</Link>
 	) : (
-		<button className={btnClass} onClick={(e) => !disabled && !isLoading && onClick(e)} data-umami-event={umamiEvent}>
+		<button className={btnClass} onClick={(e) => !isInactive && onClick(e)} data-umami-event={umamiEvent}>
 			{isLoading && <LoadingSpin />}
-			{children}
+			<span>{children}</span>
 		</button>
 	);
 

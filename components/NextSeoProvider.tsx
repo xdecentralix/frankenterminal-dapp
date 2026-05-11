@@ -3,27 +3,15 @@ import { NextSeo } from "next-seo";
 export default function NextSeoProvider() {
 	return (
 		<NextSeo
-			title="Frankencoin"
-			description="The Frankencoin is a collateralized, oracle-free stablecoin that tracks the value of the Swiss franc."
+			title="Tell // Frankencoin Interface"
+			description="Tell is an independent, open-source frontend for the Frankencoin protocol — a collateralized, oracle-free stablecoin tracking the Swiss franc."
 			openGraph={{
 				type: "website",
 				locale: "en_US",
 				url: "https://app.frankencoin.com/",
-				// images: [
-				//   {
-				//     url: "https://frankencoin.com//splash.png",
-				//     width: 1670,
-				//     height: 1158,
-				//     alt: "landing page preview",
-				//   },
-				// ],
+				siteName: "Tell",
 			}}
-			twitter={{
-				handle: "@frankencoinzchf",
-				site: "@frankencoinzchf",
-				cardType: "summary_large_image",
-			}}
-			themeColor="#d35384"
+			themeColor="#FF0033"
 			additionalLinkTags={[
 				{
 					rel: "icon",
