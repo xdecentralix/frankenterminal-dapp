@@ -97,13 +97,10 @@ export default function TransferListTable() {
 		const isIncoming = myAddr != null && toN === myAddr;
 
 		let tone: ActivityTone = "neutral";
-		let sign = "";
 		if (isOutgoing && !isIncoming) {
 			tone = "negative";
-			sign = "-";
 		} else if (isIncoming && !isOutgoing) {
 			tone = "positive";
-			sign = "+";
 		}
 
 		const amount = formatCurrency(formatUnits(BigInt(item.amount), 18), 0, 0);
@@ -113,7 +110,7 @@ export default function TransferListTable() {
 		return {
 			id: `${item.chainId}-${item.count}`,
 			tone,
-			primary: `${sign}${amount} ZCHF`,
+			primary: `${amount} ZCHF`,
 			badge,
 			badgeTone: isBridge ? "negative" : tone,
 			metaLeft: (

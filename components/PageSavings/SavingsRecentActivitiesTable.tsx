@@ -27,9 +27,9 @@ type ActivityClassification = {
 
 function classifyKind(kind: string): ActivityClassification {
 	const k = kind.toLowerCase();
-	if (k === "interestcollected") return { tone: "warning", sign: "+", badge: "INTEREST" };
-	if (k.startsWith("save") || k.startsWith("deposit")) return { tone: "positive", sign: "+", badge: "DEPOSIT" };
-	if (k.startsWith("withdraw")) return { tone: "negative", sign: "-", badge: "WITHDRAW" };
+	if (k === "interestcollected") return { tone: "warning", sign: "", badge: "INTEREST" };
+	if (k.startsWith("save") || k.startsWith("deposit")) return { tone: "positive", sign: "", badge: "DEPOSIT" };
+	if (k.startsWith("withdraw")) return { tone: "negative", sign: "", badge: "WITHDRAW" };
 	return { tone: "neutral", sign: "", badge: kind.toUpperCase() };
 }
 
@@ -57,7 +57,7 @@ export default function SavingsRecentActivitiesTable() {
 		return {
 			id: `${item.chainId}-${item.account}-${item.module}-${item.count}-${item.kind}`,
 			tone: cls.tone,
-			primary: `${cls.sign}${amount} ZCHF`,
+			primary: `${amount} ZCHF`,
 			badge: cls.badge,
 			metaLeft: (
 				<a

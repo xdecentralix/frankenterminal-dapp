@@ -24,17 +24,19 @@ export default function EquityTradesTable({ trades }: Props) {
 
 	const entries: ActivityLogEntry[] = sorted.map((t) => {
 		const isInvest = t.kind === "Invested";
-		const amount = formatCurrency(formatUnits(t.amount, 18), 0, 0);
-		const shares = formatCurrency(formatUnits(t.shares, 18), 2, 2);
-		const price = t.shares > 0n ? formatCurrency(formatUnits((t.amount * 10n ** 18n) / t.shares, 18), 4, 4) : "—";
+		const amountNum = Math.abs(parseFloat(formatUnits(t.amount, 18)));
+		const sharesNum = Math.abs(parseFloat(formatUnits(t.shares, 18)));
+		const amount = formatCurrency(amountNum, 0, 0);
+		const shares = formatCurrency(sharesNum, 2, 2);
+		const price = t.shares !== 0n ? formatCurrency(Math.abs(parseFloat(formatUnits((t.amount * 10n ** 18n) / t.shares, 18))), 4, 4) : "—";
 		return {
 			id: t.txHash,
-			tone: isInvest ? "negative" : "positive",
-			primary: `${amount} ZCHF`,
-			secondary: <span>{shares} FPS</span>,
-			secondaryTone: isInvest ? "positive" : "negative",
+			tone: "negative",
+			primary: isInvest ? `${amount} ZCHF` : `${shares} FPS`,
+			secondary: <span>{isInvest ? `${shares} FPS` : `${amount} ZCHF`}</span>,
+			secondaryTone: "positive",
 			badge: isInvest ? "INVESTED" : "REDEEMED",
-			badgeTone: isInvest ? "positive" : "neutral",
+			badgeTone: isInvest ? "positive" : "negative",
 			metaLeft: (
 				<a
 					href={TxUrl(t.txHash as Hash, SupportedChains.mainnet)}

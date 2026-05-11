@@ -68,8 +68,6 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 					<ul className="flex flex-col">
 						{trades.map((t, idx) => {
 							const isInvest = t.kind === "Invested";
-							const colorBg = isInvest ? "text-text-success" : "text-card-content-highlight";
-							const colorFPS = isInvest ? "text-card-content-highlight" : "text-text-success";
 							const flash = "";
 							const isLast = idx === trades.length - 1;
 							const txUrl = `${ETHERSCAN_BASE}/tx/${t.txHash}`;
@@ -90,16 +88,32 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 										{/* Line 1: amount → shares + kind tag */}
 										<div className="flex items-baseline justify-between gap-2">
 											<div className="flex items-baseline gap-2 min-w-0 flex-wrap">
-												<span className={`${colorBg} font-bold whitespace-nowrap text-base`}>
-													{formatCurrency(formatUnits(t.amount, 18), 0, 0)} ZCHF
-												</span>
-												<span className="text-text-secondary whitespace-nowrap text-base">→</span>
-												<span className={`${colorFPS} font-bold whitespace-nowrap text-base`}>
-													{formatCurrency(formatUnits(t.shares, 18), 2, 2)} FPS
-												</span>
+												{isInvest ? (
+													<>
+														<span className="text-card-content-highlight font-bold whitespace-nowrap text-base">
+															{formatCurrency(Math.abs(parseFloat(formatUnits(t.amount, 18))), 0, 0)} ZCHF
+														</span>
+														<span className="text-text-secondary whitespace-nowrap text-base">→</span>
+														<span className="text-text-success font-bold whitespace-nowrap text-base">
+															{formatCurrency(Math.abs(parseFloat(formatUnits(t.shares, 18))), 2, 2)} FPS
+														</span>
+													</>
+												) : (
+													<>
+														<span className="text-card-content-highlight font-bold whitespace-nowrap text-base">
+															{formatCurrency(Math.abs(parseFloat(formatUnits(t.shares, 18))), 2, 2)} FPS
+														</span>
+														<span className="text-text-secondary whitespace-nowrap text-base">→</span>
+														<span className="text-text-success font-bold whitespace-nowrap text-base">
+															{formatCurrency(Math.abs(parseFloat(formatUnits(t.amount, 18))), 0, 0)} ZCHF
+														</span>
+													</>
+												)}
 											</div>
 											<span
-												className={`text-[0.7rem] md:text-xs tracking-[0.18em] font-bold whitespace-nowrap ${colorBg}`}
+												className={`text-[0.7rem] md:text-xs tracking-[0.18em] font-bold whitespace-nowrap ${
+													isInvest ? "text-text-success" : "text-card-content-highlight"
+												}`}
 											>
 												{isInvest ? "INVESTED" : "REDEEMED"}
 											</span>
