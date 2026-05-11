@@ -102,7 +102,7 @@ export default function TableHeadSearchable({
 	return (
 		<div className="rounded-t-lg bg-table-header-primary">
 			{/* Search / toggle / filter bar */}
-			<div className="grid grid-cols-1 md:flex md:items-center md:justify-between px-7 xl:px-11 py-4 border-b border-gray-100 dark:border-gray-700 gap-3">
+			<div className="grid grid-cols-1 md:flex md:items-center md:justify-between px-7 xl:px-11 py-4 border-b border-card-input-border gap-3">
 				{/* Search input */}
 				<div className="flex flex-1 items-center gap-2 text-text-secondary">
 					<FontAwesomeIcon icon={faMagnifyingGlass} className="w-4 h-4 text-text-secondary" />
@@ -111,12 +111,12 @@ export default function TableHeadSearchable({
 						value={searchValue}
 						onChange={(e) => onSearchChange(e.target.value)}
 						placeholder={searchPlaceholder}
-						className="bg-transparent outline-none text-sm text-text-primary placeholder:text-text-secondary w-full"
+						className="bg-transparent outline-none text-sm text-text-primary placeholder:text-text-secondary w-full uppercase tracking-[0.12em] font-semibold"
 					/>
 				</div>
 
 				{/* Divider between search and controls — mobile only */}
-				<div className="md:hidden border-t border-gray-100 -mx-7" />
+				<div className="md:hidden border-t border-card-input-border -mx-7" />
 
 				{/* Right controls */}
 				<div className="flex items-center justify-end gap-5">
@@ -126,57 +126,57 @@ export default function TableHeadSearchable({
 							role="switch"
 							aria-checked={inMyWallet}
 							onClick={() => onInMyWalletChange(!inMyWallet)}
-							className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-								inMyWallet ? "bg-button-default" : "bg-gray-300 dark:bg-gray-600"
+							className={`relative inline-flex h-5 w-9 items-center rounded-sm transition-colors focus:outline-none border ${
+								inMyWallet ? "bg-card-content-highlight border-card-content-highlight" : "bg-card-body-primary border-card-input-border"
 							}`}
 						>
 							<span
-								className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
-									inMyWallet ? "translate-x-6" : "translate-x-1"
+								className={`inline-block h-3 w-3 transform rounded-sm bg-text-primary shadow transition-transform ${
+									inMyWallet ? "translate-x-5" : "translate-x-1"
 								}`}
 							/>
 						</button>
-						<span className="text-sm text-text-secondary whitespace-nowrap">In my wallet</span>
+						<span className="text-sm text-text-secondary whitespace-nowrap uppercase tracking-[0.12em] font-semibold text-xs">In my wallet</span>
 					</div>
 
 					{/* Filter button + dropdown */}
 					<div className="relative" ref={filterRef}>
 						<button
 							onClick={() => setFilterOpen((prev) => !prev)}
-							className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors ${
+							className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border transition-colors ${
 								filterOpen || totalActiveFilters > 0
-									? "border-button-default text-button-default bg-blue-50 dark:bg-blue-900/20"
-									: "dark:border-gray-600 text-text-secondary hover:bg-button-disabled"
+									? "border-card-content-highlight text-card-content-highlight bg-card-content-highlight/10 shadow-glow-red"
+									: "border-card-input-border text-text-secondary hover:border-card-content-highlight hover:text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-red"
 							}`}
 						>
 							<FontAwesomeIcon icon={faSlidersH} className="w-3.5 h-3.5" />
-							<span>Filter</span>
+							<span className="uppercase tracking-[0.12em] text-xs font-semibold">Filter</span>
 							{totalActiveFilters > 0 && (
-								<span className="ml-1 bg-button-default text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+								<span className="ml-1 bg-card-content-highlight text-layout-primary text-[10px] font-bold rounded-sm w-4 h-4 flex items-center justify-center">
 									{totalActiveFilters}
 								</span>
 							)}
 						</button>
 
 						{filterOpen && (
-							<div className="absolute right-0 top-full mt-2 z-50 w-52 rounded-lg bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 py-3">
+							<div className="absolute right-0 top-full mt-2 z-50 w-52 rounded-md bg-layout-primary shadow-[0_0_0_1px_rgba(255,0,51,0.15),0_8px_24px_rgba(0,0,0,0.6)] border border-card-input-border py-3">
 								{filterOptions.length > 0 && (
 									<>
 										<div className="px-4 pb-2">
-											<span className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
+											<span className="text-xs font-semibold uppercase tracking-[0.12em] text-text-secondary">
 												Asset Categories
 											</span>
 										</div>
 										{filterOptions.map((opt) => (
 											<label
 												key={opt.value}
-												className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+												className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-card-content-highlight/10 transition-colors"
 											>
 												<input
 													type="checkbox"
 													checked={activeFilters.includes(opt.value)}
 													onChange={() => toggleFilter(opt.value)}
-													className="w-4 h-4 rounded active:bg-button-default"
+													className="w-4 h-4 rounded-sm border border-card-input-border bg-card-body-primary checked:bg-card-content-highlight checked:border-card-content-highlight focus:ring-0 focus:ring-offset-0 text-card-content-highlight"
 												/>
 												<span className="text-sm text-text-primary">{opt.label}</span>
 											</label>
@@ -185,22 +185,22 @@ export default function TableHeadSearchable({
 								)}
 								{customCategories && customCategories.length > 0 && (
 									<>
-										{filterOptions.length > 0 && <div className="my-2 border-t border-gray-100 dark:border-gray-700" />}
+										{filterOptions.length > 0 && <div className="my-2 border-t border-card-input-border" />}
 										<div className="px-4 pb-2">
-											<span className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
+											<span className="text-xs font-semibold uppercase tracking-[0.12em] text-text-secondary">
 												{customCategoriesTitle}
 											</span>
 										</div>
 										{customCategories.map((category) => (
 											<label
 												key={category}
-												className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+												className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-card-content-highlight/10 transition-colors"
 											>
 												<input
 													type="checkbox"
 													checked={activeCustomCategories.includes(category)}
 													onChange={() => toggleCustomCategory(category)}
-													className="w-4 h-4 rounded active:bg-button-default"
+													className="w-4 h-4 rounded-sm border border-card-input-border bg-card-body-primary checked:bg-card-content-highlight checked:border-card-content-highlight focus:ring-0 focus:ring-offset-0 text-card-content-highlight"
 												/>
 												<span className="text-sm text-text-primary">{category}</span>
 											</label>
@@ -228,8 +228,7 @@ export default function TableHeadSearchable({
 							{tab === header ? (
 								<FontAwesomeIcon
 									icon={reverse ? faArrowUpShortWide : faArrowDownWideShort}
-									className="ml-2 cursor-pointer"
-									color="#092f62"
+									className="ml-2 cursor-pointer text-text-active"
 								/>
 							) : null}
 						</div>

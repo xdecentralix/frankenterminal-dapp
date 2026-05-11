@@ -9,12 +9,12 @@ export default function WalletConnect() {
 	if (!isConnected) {
 		return (
 			<div className="flex items-center gap-4 py-1">
-				<div
-					className="bg-card-body-secondary text-menu-back h-8 md:h-10 flex justify-center cursor-pointer items-center rounded-lg px-4 font-semibold hover:bg-button-hover"
+				<button
+					className="btn relative h-8 md:h-10 px-4 flex justify-center items-center bg-transparent border border-card-content-highlight text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-red uppercase tracking-[0.12em] text-xs font-semibold"
 					onClick={() => { track("wallet_connect_clicked"); AppKit.open(); }}
 				>
 					Connect Wallet
-				</div>
+				</button>
 			</div>
 		);
 	} else {

@@ -48,9 +48,9 @@ export default function PageTabInput({ tabs, urlParam = "tab", className }: Prop
 						<button
 							key={i}
 							onClick={() => selectTab(i)}
-							className={`flex-shrink-0 flex items-center gap-2 -mb-0.5 pb-2 px-4 text-sm font-bold border-b-2 transition-colors ${
+							className={`flex-shrink-0 flex items-center gap-2 -mb-0.5 pb-2 px-4 text-xs uppercase tracking-[0.12em] border-b-2 transition-colors ${
 								i === active
-									? "border-text-primary text-text-primary"
+									? "border-card-content-highlight text-card-content-highlight tell-glow-red"
 									: "border-transparent text-text-secondary hover:text-text-primary"
 							}`}
 						>

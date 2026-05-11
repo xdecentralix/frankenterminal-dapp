@@ -46,51 +46,70 @@ export default function Positions() {
 			return;
 		}
 
+		let isMounted = true;
 		setLoading(true);
 		const fetcher = async () => {
 			try {
 				const responsePositionsFees = await FRANKENCOIN_API_CLIENT.get(`/positions/owner/${overwrite || address}/fees`);
-				setOwnerPositionFees((responsePositionsFees.data as { t: number; f: string }[]).map((i) => ({ t: i.t, f: BigInt(i.f) })));
+				if (!isMounted) return;
+				if (responsePositionsFees.data && Array.isArray(responsePositionsFees.data)) {
+					setOwnerPositionFees((responsePositionsFees.data as { t: number; f: string }[]).map((i) => ({ t: i.t, f: BigInt(i.f) })));
+				} else {
+					setOwnerPositionFees([]);
+				}
 
 				const responsePositionsDebt = await FRANKENCOIN_API_CLIENT.get(`/positions/owner/${overwrite || address}/debt`);
+				if (!isMounted) return;
 				const debt = responsePositionsDebt.data as ApiOwnerDebt;
 
-				const yearly: OwnerPositionDebt[] = Object.keys(debt).map((y) => ({
-					y: Number(y),
-					d: BigInt(debt[Number(y)]),
-				}));
-
-				setOwnerPositionDebt(yearly);
+				if (debt) {
+					const yearly: OwnerPositionDebt[] = Object.keys(debt).map((y) => ({
+						y: Number(y),
+						d: BigInt(debt[Number(y)]),
+					}));
+					setOwnerPositionDebt(yearly);
+				} else {
+					setOwnerPositionDebt([]);
+				}
 
 				const responsePositionsValueLocked = await FRANKENCOIN_API_CLIENT.get(`/prices/owner/${overwrite || address}/valueLocked`);
+				if (!isMounted) return;
 				const value = responsePositionsValueLocked.data as ApiOwnerValueLocked;
 
-				const yearlyValue: OwnerPositionValueLocked[] = Object.keys(value).map((y) => ({
-					y: Number(y),
-					v: BigInt(value[Number(y)]),
-				}));
-
-				setOwnerPositionValueLocked(yearlyValue);
+				if (value) {
+					const yearlyValue: OwnerPositionValueLocked[] = Object.keys(value).map((y) => ({
+						y: Number(y),
+						v: BigInt(value[Number(y)]),
+					}));
+					setOwnerPositionValueLocked(yearlyValue);
+				} else {
+					setOwnerPositionValueLocked([]);
+				}
 
 				// clear all errors
 				setError("");
 			} catch (error) {
+				if (!isMounted) return;
 				if (typeof error == "string") {
 					setError(error);
 				} else {
 					setError("Something did not work correctly");
 				}
+			} finally {
+				if (isMounted) setLoading(false);
 			}
 		};
 
 		fetcher();
-		setLoading(false);
+		return () => {
+			isMounted = false;
+		};
 	}, [address, overwrite]);
 
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - My Positions</title>
+				<title>Tell - My Positions</title>
 			</Head>
 
 			{/* Section Positions */}

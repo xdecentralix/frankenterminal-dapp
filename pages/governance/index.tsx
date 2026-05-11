@@ -27,7 +27,7 @@ export default function Governance() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Governance</title>
+				<title>Tell - Governance</title>
 			</Head>
 
 			<AppTitle title="New Positions">
@@ -94,10 +94,6 @@ export default function Governance() {
 			<GovernanceDelegation />
 
 			<GovernanceVotersTable />
-
-			<AppTitle title="Frankencoin Api Bot" />
-
-			<GovernanceTelegramBot />
 		</>
 	);
 }

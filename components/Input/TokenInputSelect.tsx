@@ -5,6 +5,7 @@ import Select from "react-select";
 import { components } from "react-select";
 import { useRef } from "react";
 import { formatCurrency } from "@utils";
+import { tellSelectStyles } from "./tellSelectStyles";
 
 const TokenLogo = dynamic(() => import("../TokenLogo"), { ssr: false });
 
@@ -140,40 +141,7 @@ export default function TokenInputSelect({
 									);
 								},
 							}}
-							styles={{
-								indicatorSeparator: () => ({
-									display: "none",
-								}),
-								dropdownIndicator: (baseStyles) => ({
-									...baseStyles,
-									color: "#272B38",
-								}),
-								control: (baseStyles, state) => ({
-									...baseStyles,
-									backgroundColor: state.isFocused ? "#EAEBF0" : "#FFFFFF", // background of container
-									borderRadius: "0.5rem", // This makes the main control round
-									borderColor: state.isFocused ? "#DFE0E6" : "#F0F1F5",
-									borderWidth: "0.1rem",
-									boxShadow: "0 1px 4px rgba(0, 0, 0, 0.04)",
-								}),
-								option: (baseStyles, state) => ({
-									...baseStyles,
-									backgroundColor: state.isFocused ? "#F5F6F9" : "transparent", // single option in option menu
-									color: state.isFocused ? "#092f62" : "#092f62", // text color from option menu
-								}),
-								singleValue: (baseStyles) => ({
-									...baseStyles,
-									color: "#272B38", // text color of selected value in control container
-									borderRadius: "0.5rem", // This makes the main control rounder
-									boxShadow: "2", // Remove the focus shadow
-								}),
-								menu: (baseStyles) => ({
-									...baseStyles,
-									backgroundColor: "#FFFFFF",
-									borderRadius: "0.5rem", // This rounds the dropdown menu
-									overflow: "hidden", // This ensures the content doesn't overflow the rounded corners
-								}),
-							}}
+							styles={tellSelectStyles<{ value: string; label: string }>({ activeValue: symbol })}
 						/>
 					</div>
 				</div>

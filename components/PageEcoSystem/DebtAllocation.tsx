@@ -58,18 +58,47 @@ export default function DebtAllocation() {
 	return (
 		<AppCard>
 			<div className="grid md:grid-cols-2 gap-4">
-				<div className="pr-2 my-auto">
+				<div className="pr-2 my-auto tell-frame bg-layout-primary p-4">
 					<ApexChart
 						height={"350px"}
 						type="donut"
 						options={{
-							chart: { type: "donut", background: "0" },
+							chart: { 
+								type: "donut", 
+								background: "transparent",
+								fontFamily: "var(--font-tell-mono), monospace",
+								dropShadow: {
+									enabled: true,
+									color: "#FF0033",
+									top: 0,
+									left: 0,
+									blur: 8,
+									opacity: 0.1,
+								},
+							},
 							colors,
 							theme: { palette: "palette2" },
 							labels,
+							stroke: {
+								show: true,
+								colors: ["#141414"],
+								width: 2,
+							},
 							dataLabels: {
 								enabled: true,
 								formatter: (val: number) => `${Math.round(Number(val))}%`,
+								style: {
+									fontSize: "12px",
+									fontFamily: "var(--font-tell-mono), monospace",
+									fontWeight: "bold",
+									colors: ["#141414"],
+								},
+								background: {
+									enabled: true,
+									foreColor: "#141414",
+									borderRadius: 2,
+									borderWidth: 0,
+								},
 							},
 							yaxis: {
 								labels: {
@@ -82,14 +111,31 @@ export default function DebtAllocation() {
 							legend: {
 								show: false,
 							},
+							tooltip: {
+								theme: "dark",
+								style: {
+									fontSize: "12px",
+									fontFamily: "var(--font-tell-mono), monospace",
+								},
+							},
 							plotOptions: {
 								pie: {
 									donut: {
 										labels: {
 											show: true,
+											name: {
+												color: "#888888",
+												fontFamily: "var(--font-tell-mono), monospace",
+											},
+											value: {
+												color: "#E0E0E0",
+												fontFamily: "var(--font-tell-mono), monospace",
+											},
 											total: {
 												show: true,
 												label: "Total",
+												color: "#888888",
+												fontFamily: "var(--font-tell-mono), monospace",
 												formatter: () => `${labels.length} collaterals`,
 											},
 										},

@@ -15,7 +15,7 @@ export default function ChainSyncedVotes({ label, chains, chain, onChangeChain, 
 			<div className="grid md:grid-cols-6">
 				<div className="md:col-span-4 flex items-center py-2 text-lg text-text-primary font-semibold">{pct}</div>
 				<div className="md:col-span-2" onClick={(e) => e.stopPropagation()}>
-					<ChainBySelect chains={chains} chain={chain} chainOnChange={onChangeChain} invertColors={true} />
+					<ChainBySelect chains={chains} chain={chain} chainOnChange={onChangeChain} />
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 import ChainLogo from "@components/ChainLogo";
 import TokenLogo from "@components/TokenLogo";
 import Select, { components } from "react-select";
+import { tellSelectStyles } from "./tellSelectStyles";
 
 type OptionEntry = {
 	value: string;
@@ -44,43 +45,13 @@ export default function ChainBySelect({
 	return (
 		<div className="flex items-center rounded-lg px-2 max-md:py-2">
 			<Select
-				className="-mr-3 md:w-[12rem] max-md:w-full"
+				className="-mr-3 w-full"
 				options={options}
 				defaultValue={active}
 				value={active}
 				onChange={handleOnChange}
 				isClearable={isClearable}
-				styles={{
-					indicatorSeparator: () => ({
-						display: "none",
-					}),
-					dropdownIndicator: (baseStyles) => ({
-						...baseStyles,
-						color: "#272B38",
-					}),
-					control: (baseStyles, state) => ({
-						...baseStyles,
-						backgroundColor: invertColors ? "#FFFFFF" : "#F5F6F9",
-						borderRadius: "0.5rem", // This makes the main control rounder
-						borderWidth: "0",
-						boxShadow: "none", // Remove the focus shadow
-					}),
-					option: (baseStyles, state) => ({
-						...baseStyles,
-						backgroundColor: state.data.value == chain ? "#EAEBF0" : "transparent",
-						color: state.data.value == chain ? "#272B38" : "#272B38", // text color from option menu
-					}),
-					singleValue: (baseStyles) => ({
-						...baseStyles,
-						color: "#272B38", // text color of selected value
-					}),
-					menu: (baseStyles) => ({
-						...baseStyles,
-						backgroundColor: "#ffffff",
-						borderRadius: "0.5rem", // This rounds the dropdown menu
-						overflow: "hidden", // This ensures the content doesn't overflow the rounded corners
-					}),
-				}}
+				styles={tellSelectStyles<OptionEntry>({ activeValue: chain, invertColors })}
 				components={{
 					Option: ({ children, ...props }) => (
 						<components.Option {...props}>
@@ -92,13 +63,15 @@ export default function ChainBySelect({
 					),
 					SingleValue: ({ children, ...props }) => (
 						<components.SingleValue {...props}>
-							<div className="flex flex-row items-center gap-2">
-								{tokenLogo ? (
-									<TokenLogo currency={tokenLogo} chain={props.data.label} size={5} />
-								) : (
-									<ChainLogo chain={props.data.label.toLowerCase()} size={5} />
-								)}
-								<div className={`truncate w-[6rem]`}>{`${prefixLabel ? prefixLabel + " " : ""}${props.data.label}`}</div>
+							<div className="flex flex-row items-center gap-2 overflow-hidden">
+								<div className="flex-shrink-0">
+									{tokenLogo ? (
+										<TokenLogo currency={tokenLogo} chain={props.data.label} size={5} />
+									) : (
+										<ChainLogo chain={props.data.label.toLowerCase()} size={5} />
+									)}
+								</div>
+								<div className="truncate">{`${prefixLabel ? prefixLabel + " " : ""}${props.data.label}`}</div>
 							</div>
 						</components.SingleValue>
 					),

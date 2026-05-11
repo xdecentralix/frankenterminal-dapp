@@ -82,16 +82,16 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 
 	return (
 		<div className="bg-card-body-primary rounded-lg p-4 grid grid-cols-1 gap-2">
-			<div id="chart-timeline">
+			<div id="chart-timeline" className="tell-frame bg-layout-primary p-4 mb-4">
 				<TabInput tabs={TypeCharts} tab={typechart} setTab={setTypechart} />
 
-				<div className="-m-2">
+				<div className="-m-2 mt-2 mb-2">
 					<ApexChart
 						type="area"
 						options={{
 							theme: {
 								monochrome: {
-									color: "#092f62",
+									color: "#FF0033",
 									enabled: true,
 								},
 							},
@@ -99,7 +99,12 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 								type: "area",
 								height: 300,
 								dropShadow: {
-									enabled: false,
+									enabled: true,
+									color: "#FF0033",
+									top: 0,
+									left: 0,
+									blur: 8,
+									opacity: 0.2,
 								},
 								toolbar: {
 									show: false,
@@ -107,16 +112,30 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 								zoom: {
 									enabled: false,
 								},
-								background: "0",
+								background: "transparent",
+								fontFamily: "var(--font-tell-mono), monospace",
 							},
 							stroke: {
-								width: 3,
+								width: 2,
+								curve: "stepline",
 							},
 							dataLabels: {
 								enabled: false,
 							},
 							grid: {
-								show: false,
+								show: true,
+								borderColor: "#2A2A2A",
+								strokeDashArray: 4,
+								xaxis: {
+									lines: {
+										show: true,
+									},
+								},
+								yaxis: {
+									lines: {
+										show: true,
+									},
+								},
 							},
 							xaxis: {
 								type: "datetime",
@@ -124,23 +143,32 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 									show: false,
 									formatter: (value) => {
 										const date = new Date(value);
-										const d = date.getDate();
-										const m = date.getMonth() + 1;
+										const d = date.getDate().toString().padStart(2, "0");
+										const m = (date.getMonth() + 1).toString().padStart(2, "0");
 										const y = date.getFullYear();
 										return `${d}.${m}.${y}`;
 									},
 								},
 								axisBorder: {
-									show: false,
+									show: true,
+									color: "#2A2A2A",
 								},
 								axisTicks: {
-									show: false,
+									show: true,
+									color: "#2A2A2A",
+								},
+								tooltip: {
+									enabled: false,
 								},
 							},
 							yaxis: {
 								min: 0,
 								labels: {
 									show: true,
+									style: {
+										colors: "#888888",
+										fontFamily: "var(--font-tell-mono), monospace",
+									},
 									formatter: (value) => {
 										if (typechart == TypeCharts[2]) {
 											return `${Math.round(value / 100000) / 10} Mio`;
@@ -151,18 +179,45 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 								},
 								axisBorder: {
 									show: true,
+									color: "#2A2A2A",
 								},
 								axisTicks: {
 									show: true,
+									color: "#2A2A2A",
 								},
 							},
 							fill: {
 								type: "gradient",
 								gradient: {
-									shadeIntensity: 0,
-									opacityTo: 0.2,
-									shade: "#e7e7ea",
-									gradientToColors: ["#092f62"],
+									shadeIntensity: 1,
+									opacityFrom: 0.4,
+									opacityTo: 0.05,
+									stops: [0, 100],
+									colorStops: [
+										{
+											offset: 0,
+											color: "#FF0033",
+											opacity: 0.3
+										},
+										{
+											offset: 100,
+											color: "#FF0033",
+											opacity: 0.0
+										}
+									]
+								},
+							},
+							tooltip: {
+								theme: "dark",
+								style: {
+									fontSize: "12px",
+									fontFamily: "var(--font-tell-mono), monospace",
+								},
+								marker: {
+									show: false,
+								},
+								x: {
+									format: "dd MMM yyyy",
 								},
 							},
 							annotations: {

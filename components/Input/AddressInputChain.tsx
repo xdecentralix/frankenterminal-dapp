@@ -80,7 +80,6 @@ export default function AddressInputChain({
 							chains={WAGMI_CHAINS.map((c) => c.name)}
 							chain={chain}
 							chainOnChange={onChangeChain}
-							invertColors={disabled}
 						/>
 					</div>
 				</div>

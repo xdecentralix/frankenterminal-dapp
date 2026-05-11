@@ -31,27 +31,27 @@ export const SOCIAL = {
 
 // Colors to match ApexCharts palette2 for consistent label/slice coloring
 export const colors = [
-	"#33b2df",
-	"#546E7A",
-	"#d4526e",
-	"#13d8aa",
-	"#A5978B",
-	"#2b908f",
-	"#f9a3a4",
-	"#90ee7e",
-	"#f48024",
-	"#69d2e7",
+	"#FF0033", // Neon Swiss Red
+	"#FFB000", // Terminal Amber
+	"#00FF7F", // Cyber Green
+	"#00E5FF", // Electric Cyan
+	"#B200FF", // Neon Purple
+	"#FF00AA", // Hot Pink
+	"#FFFF00", // Laser Yellow
+	"#FF6600", // Neon Orange
+	"#0088FF", // Deep Cyan
+	"#888888", // Mid-gray
 
-	"#33b2df",
-	"#546E7A",
-	"#d4526e",
-	"#13d8aa",
-	"#A5978B",
-	"#2b908f",
-	"#f9a3a4",
-	"#90ee7e",
-	"#f48024",
-	"#69d2e7",
+	"#FF0033",
+	"#FFB000",
+	"#00FF7F",
+	"#00E5FF",
+	"#B200FF",
+	"#FF00AA",
+	"#FFFF00",
+	"#FF6600",
+	"#0088FF",
+	"#888888",
 ];
 
 // Discussions — keys are lowercase addresses (use normalizeAddress for lookup)

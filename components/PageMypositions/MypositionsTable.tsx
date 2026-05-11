@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { generateExpirationCalendar, downloadCalendarFile, generateGoogleCalendarUrl } from "../../utils/calendarGenerator";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AppButton from "@components/AppButton";
 import { faCalendarDays, faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
 import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, normalizeAddress } from "@utils";
 
@@ -143,22 +144,20 @@ export default function MypositionsTable() {
 			</Table>
 			{list.length > 0 && (
 				<div className="mb-4 flex justify-end gap-2">
-					<button
+					<AppButton
 						onClick={handleGoogleCalendar}
-						className="inline-flex items-center px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-700 transition-colors"
-						title="Add expiration reminder to Google Calendar"
+						className="px-4 py-2 text-sm"
 					>
 						<FontAwesomeIcon icon={faCalendarPlus} className="mr-2" />
 						Add to Google Calendar
-					</button>
-					<button
+					</AppButton>
+					<AppButton
 						onClick={handleDownloadCalendar}
-						className="inline-flex items-center px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-700 transition-colors"
-						title="Download expiration alerts calendar"
+						className="px-4 py-2 text-sm"
 					>
 						<FontAwesomeIcon icon={faCalendarDays} className="mr-2" />
 						Download Calendar
-					</button>
+					</AppButton>
 				</div>
 			)}
 		</>

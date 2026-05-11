@@ -199,7 +199,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 			<AppCard>
 				<div className="mt-4 text-lg font-bold text-center">Historical Rates</div>
 
-				<div className="-m-4 pr-2">
+				<div className="-m-4 pr-2 tell-frame bg-layout-primary p-4 mt-2">
 					<ApexChart
 						type="line"
 						options={{
@@ -208,16 +208,21 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 									enabled: false,
 								},
 							},
-							colors: ["#092f62", "#0F80F0"],
+							colors: ["#FF0033", "#FFB000"],
 							stroke: {
-								curve: "linestep",
-								width: 3,
+								curve: "stepline",
+								width: 2,
 							},
 							chart: {
 								type: "line",
 								height: 100,
 								dropShadow: {
-									enabled: false,
+									enabled: true,
+									color: "#FF0033",
+									top: 0,
+									left: 0,
+									blur: 8,
+									opacity: 0.2,
 								},
 								toolbar: {
 									show: false,
@@ -225,49 +230,75 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 								zoom: {
 									enabled: false,
 								},
-								background: "0",
+								background: "transparent",
+								fontFamily: "var(--font-tell-mono), monospace",
 							},
 							dataLabels: {
 								enabled: false,
 							},
 							grid: {
-								show: false,
+								show: true,
+								borderColor: "#2A2A2A",
+								strokeDashArray: 4,
 							},
 							xaxis: {
 								type: "datetime",
 								labels: {
 									show: true,
+									style: {
+										colors: "#888888",
+										fontFamily: "var(--font-tell-mono), monospace",
+									},
 									formatter: (value) => {
 										const date = new Date(value);
-										const d = date.getDate();
-										const m = date.getMonth() + 1;
+										const d = date.getDate().toString().padStart(2, "0");
+										const m = (date.getMonth() + 1).toString().padStart(2, "0");
 										const y = date.getFullYear();
 										return `${d}.${m}.${y}`;
 									},
 								},
 								axisBorder: {
-									show: false,
+									show: true,
+									color: "#2A2A2A",
 								},
 								axisTicks: {
-									show: false,
+									show: true,
+									color: "#2A2A2A",
 								},
 							},
 							yaxis: {
 								labels: {
 									show: true,
+									style: {
+										colors: "#888888",
+										fontFamily: "var(--font-tell-mono), monospace",
+									},
 									formatter: (value) => {
 										return `${Math.round(value / 1000) / 10} %`;
 									},
 								},
 								axisBorder: {
 									show: true,
+									color: "#2A2A2A",
 								},
 								axisTicks: {
 									show: true,
+									color: "#2A2A2A",
 								},
 								min: 0,
 								max: (max) => {
 									return (Math.floor(max / 100000) + 1) * 50000;
+								},
+							},
+							legend: {
+								labels: { colors: "#E0E0E0" },
+								fontFamily: "var(--font-tell-mono), monospace",
+							},
+							tooltip: {
+								theme: "dark",
+								style: {
+									fontSize: "12px",
+									fontFamily: "var(--font-tell-mono), monospace",
 								},
 							},
 						}}

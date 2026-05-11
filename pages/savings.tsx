@@ -65,7 +65,7 @@ export default function SavingsPage() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Earn</title>
+				<title>Tell - Earn</title>
 			</Head>
 
 			<AppTitle title={`Earn`}>

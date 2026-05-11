@@ -138,7 +138,7 @@ export default function ReportPage() {
 	return (
 		<div className={`grid gap-8 ${isExporting ? "w-[60rem]" : ""}`} ref={targetRef}>
 			<Head>
-				<title>Frankencoin - Report</title>
+				<title>Tell - Report</title>
 			</Head>
 
 			<AppTitle title={`Frankencoin Wealth and Income Report`}>

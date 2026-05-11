@@ -15,7 +15,7 @@ export default function PageChallengesOverview() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Challenges Overview</title>
+				<title>Tell - Challenges Overview</title>
 			</Head>
 
 			<AppTitle title="Challenges & Bids">

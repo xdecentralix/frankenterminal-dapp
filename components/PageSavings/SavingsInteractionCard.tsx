@@ -21,6 +21,12 @@ import AppLink from "@components/AppLink";
 import { AppKitNetwork } from "@reown/appkit/networks";
 import { useAppKitNetwork } from "@reown/appkit/react";
 
+// Tell defaults: every savings deposit is referred to the maintainer
+// at 10% of the user's accrued interest unless the URL explicitly
+// overrides ?referrer / ?referralFeePPM. Disclosed on the savings page.
+const DEFAULT_REFERRER: Address = "0xD47dFdb6cd458d24B0813543DE8508a8C84f0F83";
+const DEFAULT_REFERRAL_FEE_PPM: bigint = 100_000n;
+
 export default function SavingsInteractionCard() {
 	const { status } = useSelector((state: RootState) => state.savings.savingsInfo);
 	const chainId = useChainId() as ChainId;
@@ -39,8 +45,8 @@ export default function SavingsInteractionCard() {
 	const [userSavingsReferrer, setUserSavingsReferrer] = useState<Address>(zeroAddress);
 	const [userSavingsReferralFeePPM, setUserSavingsReferralFeePPM] = useState(0n);
 	const [userSavingsReferralFees, setUserSavingsReferralFees] = useState(0n);
-	const [newReferrer, setNewReferrer] = useState<Address | undefined>(undefined);
-	const [newReferralFeePPM, setNewReferralFeePPM] = useState(0n);
+	const [newReferrer, setNewReferrer] = useState<Address | undefined>(DEFAULT_REFERRER);
+	const [newReferralFeePPM, setNewReferralFeePPM] = useState<bigint>(DEFAULT_REFERRAL_FEE_PPM);
 	const [currentTicks, setCurrentTicks] = useState(0n);
 	const [onbehalfToggle, setOnbehalfToggle] = useState(false);
 	const [onbehalfAddress, setOnbehalfAddress] = useState("");
@@ -68,6 +74,8 @@ export default function SavingsInteractionCard() {
 	const change: bigint = amount - (userSavingsBalance + userSavingsInterest);
 	const direction: boolean = amount >= userSavingsBalance + userSavingsInterest;
 	const claimable: boolean = userSavingsInterest > 0n;
+	const isCustomReferrer: boolean =
+		newReferrer !== undefined && newReferrer.toLowerCase() !== DEFAULT_REFERRER.toLowerCase();
 
 	// ---------------------------------------------------------------------------
 
@@ -254,22 +262,46 @@ export default function SavingsInteractionCard() {
 					)}
 				</div>
 
-				{newReferrer ? (
-					<div className="flex mt-8">
-						<div className={`flex-1 text-text-secondary`}>
-							<span className="font-semibold">Notice: </span>
-							You are about to set a referrer{" "}
+				<div className="relative mt-6 border border-card-input-border bg-layout-primary px-4 py-3">
+					<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60"></div>
+
+					<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-2">
+						// REFERRAL_NOTICE
+					</div>
+
+					{isCustomReferrer && newReferrer ? (
+						<div className="text-sm text-text-secondary leading-relaxed">
+							Setting referrer{" "}
 							<AppLink
-								className="pr-2"
+								className="inline-flex items-center"
 								label={shortenAddress(newReferrer)}
 								href={ContractUrl(newReferrer, chain)}
 								external={true}
-							/>
-							who will receive <span className="font-semibold">{Math.round(Number(newReferralFeePPM / 1000n)) / 10}%</span> of
-							your earned interest.
+							/>{" "}
+							with{" "}
+							<span className="text-text-primary font-semibold">
+								{Math.round(Number(newReferralFeePPM / 1000n)) / 10}%
+							</span>{" "}
+							of accrued interest as the referral fee.
 						</div>
-					</div>
-				) : null}
+					) : (
+						<div className="text-sm text-text-secondary leading-relaxed space-y-2">
+							<div>
+								This frontend defaults to a <span className="text-text-primary font-semibold">10%</span> referral fee
+								on the interest you accrue. It is paid by the protocol&apos;s referral module out of your interest, not
+								on top of it.
+							</div>
+							<div>
+								<AppLink
+									className="inline-flex items-center"
+									label="Referral module documentation"
+									href="https://docs.frankencoin.com/savings#referral-module"
+									external={true}
+								/>
+							</div>
+						</div>
+					)}
+				</div>
 			</AppCard>
 
 			<SavingsDetailsCard

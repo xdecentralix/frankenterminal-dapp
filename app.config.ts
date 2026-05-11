@@ -17,13 +17,11 @@ export type ConfigEnv = {
 	api: string;
 	ponder: string;
 	morphoGraph: string;
-	rpc: string;
 	wagmiId: string;
 };
 
 // DEV: Loaded with defaults, not needed for now.
 // if (!process.env.NEXT_PUBLIC_WAGMI_ID) throw new Error("Project ID is not available");
-// if (!process.env.NEXT_PUBLIC_RPC_KEY) throw new Error("RPC KEY is not available");
 
 // Config
 export const CONFIG: ConfigEnv = {
@@ -35,7 +33,6 @@ export const CONFIG: ConfigEnv = {
 	ponder: process.env.NEXT_PUBLIC_PONDER_URL || "https://ponder.frankencoin.com",
 	morphoGraph: process.env.NEXT_PUBLIC_MORPHOGRAPH_URL || "https://blue-api.morpho.org/graphql",
 	wagmiId: process.env.NEXT_PUBLIC_WAGMI_ID || "57719c3e0043b726f0685a652e71e422",
-	rpc: process.env.NEXT_PUBLIC_RPC_KEY || "dhaKbi2HDlKYW1JaSHm1i_hGkE2gnA5t",
 };
 
 console.log("YOU ARE USING THIS CONFIG PROFILE:");
@@ -69,14 +66,18 @@ export const WAGMI_METADATA = {
 export const WAGMI_ADAPTER = new WagmiAdapter({
 	networks: WAGMI_CHAINS,
 	transports: {
-		[mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${CONFIG.rpc}`),
-		[polygon.id]: http(`https://polygon-mainnet.g.alchemy.com/v2/${CONFIG.rpc}`),
-		[optimism.id]: http(`https://opt-mainnet.g.alchemy.com/v2/${CONFIG.rpc}`),
-		[arbitrum.id]: http(`https://arb-mainnet.g.alchemy.com/v2/${CONFIG.rpc}`),
-		[base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${CONFIG.rpc}`),
-		[avalanche.id]: http(`https://avax-mainnet.g.alchemy.com/v2/${CONFIG.rpc}`),
-		[gnosis.id]: http(`https://gnosis-mainnet.g.alchemy.com/v2/${CONFIG.rpc}`),
-		[sonic.id]: http(`https://sonic-mainnet.g.alchemy.com/v2/${CONFIG.rpc}`),
+		// All chain reads go through the same-origin /api/rpc/<chain> proxy
+		// (see pages/api/rpc/[chain].ts). Upstream URLs and the Alchemy
+		// fallback key live exclusively in server-side env vars and never
+		// reach the client bundle.
+		[mainnet.id]: http("/api/rpc/mainnet"),
+		[polygon.id]: http("/api/rpc/polygon"),
+		[optimism.id]: http("/api/rpc/optimism"),
+		[arbitrum.id]: http("/api/rpc/arbitrum"),
+		[base.id]: http("/api/rpc/base"),
+		[avalanche.id]: http("/api/rpc/avalanche"),
+		[gnosis.id]: http("/api/rpc/gnosis"),
+		[sonic.id]: http("/api/rpc/sonic"),
 	},
 	batch: {
 		multicall: {

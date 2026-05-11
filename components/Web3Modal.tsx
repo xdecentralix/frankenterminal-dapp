@@ -19,10 +19,13 @@ const modal = createAppKit({
 	features: {
 		analytics: true,
 	},
-	themeMode: "light",
+	themeMode: "dark",
 	themeVariables: {
-		"--w3m-color-mix": "#ffffff",
-		"--w3m-color-mix-strength": 40,
+		"--w3m-font-family": "var(--font-tell-mono), monospace",
+		"--w3m-accent": "#FF0033",
+		"--w3m-border-radius-master": "2px",
+		"--w3m-color-mix": "#0A0A0A",
+		"--w3m-color-mix-strength": 20,
 	},
 });
 

@@ -75,13 +75,13 @@ export default function DateInput({
 
 				<div className="flex items-center">
 					<div
-						className={`flex-1 h-[52px] ${
+						className={`flex-1 ${
 							error ? "text-card-input-error" : !!value ? "text-text-primary" : "placeholder:text-card-input-empty"
 						}`}
 					>
 						<ReactDatePicker
 							ref={datePickerRef}
-							customInput={<input ref={inputRef} className="-ml-2 w-full bg-transparent" style={{ fontSize: "1.875rem" }} />}
+							customInput={<input ref={inputRef} className="w-full py-2 text-lg bg-transparent" />}
 							id="expiration-datepicker"
 							selected={value}
 							dateFormat={"dd MMM yyyy"}

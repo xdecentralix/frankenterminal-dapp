@@ -76,7 +76,7 @@ export default function MonitoringForceSell() {
 	return (
 		<div className="flex flex-col md:max-w-2xl mx-auto">
 			<Head>
-				<title>Frankencoin - Force Sell</title>
+				<title>Tell - Force Sell</title>
 			</Head>
 
 			<AppTitle

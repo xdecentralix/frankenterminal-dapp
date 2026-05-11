@@ -396,7 +396,7 @@ export default function PositionAdjust() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Manage Position</title>
+				<title>Tell - Manage Position</title>
 			</Head>
 
 			<AppTitle
@@ -577,22 +577,20 @@ export default function PositionAdjust() {
 						</AppCard>
 						{!position.closed && !position.denied && (
 							<div className="flex justify-end gap-2">
-								<button
+								<AppButton
 									onClick={handleGoogleCalendar}
-									className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-700 transition-colors"
-									title="Add expiration reminder to Google Calendar"
+									className="px-3 py-1.5 text-sm"
 								>
 									<FontAwesomeIcon icon={faCalendarPlus} className="mr-2" />
 									Add to Google Calendar
-								</button>
-								<button
+								</AppButton>
+								<AppButton
 									onClick={handleDownloadCalendar}
-									className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-700 transition-colors"
-									title="Download expiration alert calendar for this position"
+									className="px-3 py-1.5 text-sm"
 								>
 									<FontAwesomeIcon icon={faCalendarDays} className="mr-2" />
 									Download Calendar
-								</button>
+								</AppButton>
 							</div>
 						)}
 					</div>

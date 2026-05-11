@@ -102,7 +102,7 @@ export default function Navbar() {
 					{/* Left: logo + status */}
 					<div className="flex items-center gap-4 md:pl-4">
 						<Link
-							href={CONFIG.landing}
+							href="/"
 							onClick={() => track("nav_home")}
 							className="flex items-center gap-2 group"
 						>

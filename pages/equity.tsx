@@ -29,7 +29,7 @@ export default function Equity() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Invest</title>
+				<title>Tell - Invest</title>
 			</Head>
 
 			<AppTitle title="Invest">

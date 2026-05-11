@@ -31,7 +31,7 @@ export default function GovernanceVotersRow({ headers, tab, voter, votesTotal, c
 							<AppLink label={shortenAddress(voter.holder)} href={ContractUrl(voter.holder)} external={true} className="" />
 						)}
 						{isWrapped && (
-							<span className="text-xs font-medium px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+							<span className="text-[10px] uppercase tracking-[0.12em] font-medium px-1.5 py-0.5 border border-card-input-border text-text-secondary bg-card-body-secondary rounded">
 								Wrapped
 							</span>
 						)}

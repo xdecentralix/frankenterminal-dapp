@@ -13,7 +13,7 @@ export default function LogsPage() {
 	return (
 		<div>
 			<Head>
-				<title>Frankencoin - Logs</title>
+				<title>Tell - Logs</title>
 			</Head>
 
 			<AppTitle title="Transaction Log">

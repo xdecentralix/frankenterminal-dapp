@@ -54,8 +54,8 @@ export default function HealthRatio() {
 	};
 
 	const barPct = Math.min(currentPct / 3, 100);
-	const healthColor = currentPct >= 150 ? "text-green-500" : currentPct >= 100 ? "text-amber-500" : "text-red-500";
-	const barColor = currentPct >= 150 ? "bg-green-500" : currentPct >= 100 ? "bg-amber-500" : "bg-red-500";
+	const healthColor = currentPct >= 150 ? "text-text-success" : currentPct >= 100 ? "text-text-warning" : "text-card-content-highlight tell-glow-red";
+	const barColor = currentPct >= 150 ? "bg-text-success" : currentPct >= 100 ? "bg-text-warning" : "bg-card-content-highlight";
 
 	return (
 		<AppCard>
@@ -100,72 +100,98 @@ export default function HealthRatio() {
 				</div>
 
 				{/* Chart */}
-				<div className="-mx-4">
+				<div className="-mx-4 tell-frame bg-layout-primary p-4 mt-2">
 					<ApexChart
 						type="area"
 						height={200}
 						options={{
-							colors: [currentPct >= 150 ? "#0E9F6E" : currentPct >= 100 ? "#f59e0b" : "#ef4444"],
-							stroke: {
-								curve: "smooth",
-								width: 2,
-							},
-							fill: {
-								type: "gradient",
-								gradient: {
-									shadeIntensity: 1,
-									opacityFrom: 0.5,
-									opacityTo: 0.02,
-									stops: [0, 100],
+								colors: [currentPct >= 150 ? "#00FF7F" : currentPct >= 100 ? "#FFB000" : "#FF0033"],
+								stroke: {
+									curve: "stepline",
+									width: 2,
 								},
-							},
-							chart: {
-								type: "area",
-								height: 200,
-								sparkline: { enabled: false },
-								dropShadow: { enabled: false },
-								toolbar: { show: false },
-								zoom: { enabled: false },
-								background: "0",
-							},
-							dataLabels: { enabled: false },
-							grid: {
-								show: true,
-								borderColor: "rgba(128,128,128,0.1)",
-								strokeDashArray: 4,
-								xaxis: { lines: { show: false } },
-							},
-							xaxis: {
-								type: "datetime",
-								labels: {
-									show: true,
-									formatter: (value) => {
-										const date = new Date(value);
-										return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+								fill: {
+									type: "gradient",
+									gradient: {
+										shadeIntensity: 1,
+										opacityFrom: 0.4,
+										opacityTo: 0.05,
+										stops: [0, 100],
 									},
 								},
-								axisBorder: { show: false },
-								axisTicks: { show: false },
-							},
-							yaxis: {
-								labels: {
-									show: true,
-									formatter: (value) => `${Math.round(value * 10) / 10}%`,
-								},
-								axisBorder: { show: false },
-								axisTicks: { show: false },
-								min: 0,
-								max: (max) => (Math.floor(max / 100) + 1) * 100,
-							},
-							annotations: {
-								yaxis: [
-									{
-										y: 100,
-										borderColor: "#ef4444",
-										strokeDashArray: 4,
+								chart: {
+									type: "area",
+									height: 200,
+									sparkline: { enabled: false },
+									dropShadow: {
+										enabled: true,
+										color: currentPct >= 150 ? "#00FF7F" : currentPct >= 100 ? "#FFB000" : "#FF0033",
+										top: 0,
+										left: 0,
+										blur: 8,
+										opacity: 0.2,
 									},
-								],
-							},
+									toolbar: { show: false },
+									zoom: { enabled: false },
+									background: "transparent",
+									fontFamily: "var(--font-tell-mono), monospace",
+								},
+								dataLabels: { enabled: false },
+								grid: {
+									show: true,
+									borderColor: "#2A2A2A",
+									strokeDashArray: 4,
+									xaxis: { lines: { show: false } },
+								},
+								xaxis: {
+									type: "datetime",
+									labels: {
+										show: true,
+										style: {
+											colors: "#888888",
+											fontFamily: "var(--font-tell-mono), monospace",
+										},
+										formatter: (value) => {
+											const date = new Date(value);
+											return `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getFullYear()}`;
+										},
+									},
+									axisBorder: { show: false },
+									axisTicks: { show: false },
+									tooltip: { enabled: false },
+								},
+								yaxis: {
+									labels: {
+										show: true,
+										style: {
+											colors: "#888888",
+											fontFamily: "var(--font-tell-mono), monospace",
+										},
+										formatter: (value) => `${Math.round(value * 10) / 10}%`,
+									},
+									axisBorder: { show: true, color: "#2A2A2A" },
+									axisTicks: { show: true, color: "#2A2A2A" },
+									min: 0,
+									max: (max) => (Math.floor(max / 100) + 1) * 100,
+								},
+								tooltip: {
+									theme: "dark",
+									style: {
+										fontSize: "12px",
+										fontFamily: "var(--font-tell-mono), monospace",
+									},
+									marker: { show: false },
+									x: { format: "dd MMM yyyy" },
+								},
+								annotations: {
+									yaxis: [
+										{
+											y: 100,
+											borderColor: "#FF0033",
+											strokeDashArray: 4,
+										},
+									],
+								},
 						}}
 						series={[
 							{

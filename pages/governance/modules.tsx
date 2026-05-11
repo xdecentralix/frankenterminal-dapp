@@ -6,7 +6,7 @@ export default function GovernanceModules() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Minting Modules</title>
+				<title>Tell - Minting Modules</title>
 			</Head>
 
 			<AppTitle title="List of all Minting Modules"></AppTitle>

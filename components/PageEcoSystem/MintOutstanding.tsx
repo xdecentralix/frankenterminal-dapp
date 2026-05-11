@@ -72,12 +72,12 @@ export default function MintOutstanding() {
 		<AppCard>
 			<div className="flex flex-col gap-6">
 				{/* Chart */}
-				<div className="-mx-4">
+				<div className="-mx-4 tell-frame bg-layout-primary p-4 mt-2">
 					<ApexChart
 						type="area"
 						height={220}
 						options={{
-							colors: ["#092f62"],
+							colors: ["#FF0033"],
 							stroke: {
 								curve: "stepline",
 								width: 2,
@@ -86,8 +86,8 @@ export default function MintOutstanding() {
 								type: "gradient",
 								gradient: {
 									shadeIntensity: 1,
-									opacityFrom: 0.15,
-									opacityTo: 0.02,
+									opacityFrom: 0.4,
+									opacityTo: 0.05,
 									stops: [0, 100],
 								},
 							},
@@ -95,15 +95,23 @@ export default function MintOutstanding() {
 								type: "area",
 								height: 220,
 								sparkline: { enabled: false },
-								dropShadow: { enabled: false },
+								dropShadow: {
+									enabled: true,
+									color: "#FF0033",
+									top: 0,
+									left: 0,
+									blur: 8,
+									opacity: 0.2,
+								},
 								toolbar: { show: false },
 								zoom: { enabled: false },
-								background: "0",
+								background: "transparent",
+								fontFamily: "var(--font-tell-mono), monospace",
 							},
 							dataLabels: { enabled: false },
 							grid: {
 								show: true,
-								borderColor: "rgba(128,128,128,0.1)",
+								borderColor: "#2A2A2A",
 								strokeDashArray: 4,
 								xaxis: { lines: { show: false } },
 							},
@@ -111,24 +119,42 @@ export default function MintOutstanding() {
 								type: "datetime",
 								labels: {
 									show: true,
+									style: {
+										colors: "#888888",
+										fontFamily: "var(--font-tell-mono), monospace",
+									},
 									formatter: (value) => {
 										const date = new Date(value);
-										return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+										return `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getFullYear()}`;
 									},
 								},
-								axisBorder: { show: false },
-								axisTicks: { show: false },
+								axisBorder: { show: true, color: "#2A2A2A" },
+								axisTicks: { show: true, color: "#2A2A2A" },
+								tooltip: { enabled: false },
 							},
 							yaxis: {
 								labels: {
 									show: true,
+									style: {
+										colors: "#888888",
+										fontFamily: "var(--font-tell-mono), monospace",
+									},
 									formatter: (value) => `${Math.round(value / 100000) / 10} Mio.`,
 								},
-								axisBorder: { show: false },
-								axisTicks: { show: false },
+								axisBorder: { show: true, color: "#2A2A2A" },
+								axisTicks: { show: true, color: "#2A2A2A" },
 								min: 0,
 								max: yAxisMax,
 								tickAmount: yTickAmount,
+							},
+							tooltip: {
+								theme: "dark",
+								style: {
+									fontSize: "12px",
+									fontFamily: "var(--font-tell-mono), monospace",
+								},
+								marker: { show: false },
+								x: { format: "dd MMM yyyy" },
 							},
 						}}
 						series={[
@@ -165,7 +191,7 @@ export default function MintOutstanding() {
 
 					{mintFiltered.length > INITIAL_VISIBLE && (
 						<div className="text-center mt-4">
-							<button className="text-sm text-blue-500 hover:text-blue-400 duration-200" onClick={() => setShowAll(!showAll)}>
+							<button className="text-sm text-card-content-highlight hover:text-card-content-highlight/80 duration-200 uppercase tracking-[0.12em]" onClick={() => setShowAll(!showAll)}>
 								{showAll ? "Show less" : `Show all ${mintFiltered.length} maturities`}
 							</button>
 						</div>

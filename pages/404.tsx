@@ -6,7 +6,7 @@ export default function Custom404() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - 404</title>
+				<title>Tell - 404</title>
 			</Head>
 
 			<div className="flex flex-col items-center justify-center w-full text-center" style={{ height: "60vh" }}>

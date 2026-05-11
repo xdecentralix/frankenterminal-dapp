@@ -417,7 +417,7 @@ export default function PositionCreate({}) {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Propose Position</title>
+				<title>Tell - Propose Position</title>
 			</Head>
 
 			<AppTitle title="Propose New Position"></AppTitle>

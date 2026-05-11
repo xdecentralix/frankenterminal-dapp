@@ -39,7 +39,19 @@ NEXT_PUBLIC_API_URL=https://api.frankencoin.com
 NEXT_PUBLIC_PONDER_URL=https://ponder.frankencoin.com
 NEXT_PUBLIC_PROFILE=mainnet
 NEXT_PUBLIC_WAGMI_ID=your_reown_project_id
-NEXT_PUBLIC_RPC_KEY=your_alchemy_key
+
+# Server-side RPC proxy (see pages/api/rpc/[chain].ts).
+# Upstream URLs and the Alchemy fallback key are server-only — they
+# never reach the browser bundle.
+RPC_MAINNET=http://...
+RPC_POLYGON=https://polygon.llamarpc.com
+RPC_ARBITRUM=http://...
+RPC_OPTIMISM=http://...
+RPC_BASE=http://...
+RPC_AVALANCHE=https://api.avax.network/ext/bc/C/rpc
+RPC_GNOSIS=http://...
+RPC_SONIC=http://...
+RPC_FALLBACK_ALCHEMY_KEY=your_alchemy_key
 ```
 
 ## Development

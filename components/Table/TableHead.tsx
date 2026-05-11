@@ -33,8 +33,7 @@ export default function TableHeader({ headers, subHeaders, actionCol, colSpan, t
 						{tab === header ? (
 							<FontAwesomeIcon
 								icon={reverse ? faArrowUpShortWide : faArrowDownWideShort}
-								className="ml-2 cursor-pointer"
-								color="#092f62"
+								className="ml-2 cursor-pointer text-text-active"
 							/>
 						) : null}
 					</div>

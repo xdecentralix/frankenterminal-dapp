@@ -8,7 +8,7 @@ export default function TransferPage() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Transfer</title>
+				<title>Tell - Transfer</title>
 			</Head>
 
 			<AppTitle title="Transfer">

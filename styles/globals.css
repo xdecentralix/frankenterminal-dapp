@@ -136,6 +136,8 @@
 
 	.btn-secondary:hover {
 		@apply border-card-content-highlight text-card-content-highlight;
+		background-color: rgba(255, 0, 51, 0.1);
+		box-shadow: 0 0 12px rgba(255, 0, 51, 0.35);
 	}
 
 	.btn-small {
@@ -358,4 +360,67 @@ button[data-testid="component-big-button"] {
 }
 .Toastify__toast-body .Toastify__toast-icon {
 	margin-top: 2px;
+}
+
+/* ============================================================
+   ApexCharts Tooltip Theming
+   ============================================================ */
+.apexcharts-tooltip {
+	background: #0a0a0a !important;
+	border: 1px solid #2a2a2a !important;
+	box-shadow: 0 0 10px rgba(255, 0, 51, 0.2) !important;
+	color: #e0e0e0 !important;
+	border-radius: 2px !important;
+}
+.apexcharts-tooltip.apexcharts-theme-light {
+	background: #0a0a0a !important;
+	border: 1px solid #2a2a2a !important;
+	color: #e0e0e0 !important;
+}
+.apexcharts-tooltip-title {
+	background: #141414 !important;
+	border-bottom: 1px solid #2a2a2a !important;
+	font-family: var(--font-tell-mono), monospace !important;
+	font-weight: 600 !important;
+	padding: 6px 10px !important;
+	color: #888888 !important;
+}
+.apexcharts-tooltip-text {
+	color: #e0e0e0 !important;
+	font-family: var(--font-tell-mono), monospace !important;
+}
+.apexcharts-tooltip-marker {
+	margin-right: 8px !important;
+}
+.apexcharts-tooltip-series-group {
+	background-color: transparent !important;
+}
+.apexcharts-tooltip-series-group.apexcharts-active {
+	padding-bottom: 6px !important;
+}
+.apexcharts-xaxistooltip {
+	background: #141414 !important;
+	border: 1px solid #2a2a2a !important;
+	color: #888888 !important;
+	font-family: var(--font-tell-mono), monospace !important;
+	border-radius: 2px !important;
+}
+.apexcharts-xaxistooltip-bottom:before {
+	border-bottom-color: #2a2a2a !important;
+}
+.apexcharts-xaxistooltip-bottom:after {
+	border-bottom-color: #141414 !important;
+}
+.apexcharts-yaxistooltip {
+	background: #141414 !important;
+	border: 1px solid #2a2a2a !important;
+	color: #888888 !important;
+	font-family: var(--font-tell-mono), monospace !important;
+	border-radius: 2px !important;
+}
+.apexcharts-yaxistooltip-left:before {
+	border-left-color: #2a2a2a !important;
+}
+.apexcharts-yaxistooltip-left:after {
+	border-left-color: #141414 !important;
 }

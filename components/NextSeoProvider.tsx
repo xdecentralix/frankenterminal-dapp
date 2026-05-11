@@ -15,8 +15,8 @@ export default function NextSeoProvider() {
 			additionalLinkTags={[
 				{
 					rel: "icon",
-					href: "/favicon.ico",
-					type: "image/png",
+					href: "/favicon.svg",
+					type: "image/svg+xml",
 				},
 			]}
 		/>

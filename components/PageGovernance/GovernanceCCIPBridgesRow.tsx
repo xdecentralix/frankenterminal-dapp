@@ -7,7 +7,7 @@ import { ContractUrl, formatCurrency, getChainByChainSelector, shortenAddress } 
 import { useEffect, useState } from "react";
 import { readContract } from "wagmi/actions";
 import { WAGMI_CONFIG } from "../../app.config";
-import AppButtonSecondary from "@components/AppButtonSecondary";
+import AppButton from "@components/AppButton";
 
 type RateLimiterState = {
 	tokens: bigint;
@@ -110,9 +110,9 @@ export default function GovernanceCCIPBridgesRow({ headers, tab, sourceChainId, 
 			tab={tab}
 			rawHeader={true}
 			actionCol={
-				<AppButtonSecondary className="h-10" to={detailsHref}>
+				<AppButton className="h-10" to={detailsHref}>
 					View
-				</AppButtonSecondary>
+				</AppButton>
 			}
 		>
 			{/* Configured Chain */}
