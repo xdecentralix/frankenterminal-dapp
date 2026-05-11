@@ -1,26 +1,22 @@
-import SavingsGlobalCard from "@components/PageSavings/SavingsGlobalCard";
 import SavingsInteractionCard from "@components/PageSavings/SavingsInteractionCard";
+import SavingsLeadrateSparkline from "@components/PageSavings/SavingsLeadrateSparkline";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { RootState, store } from "../redux/redux.store";
 import { fetchLeadrate, fetchSavings } from "../redux/slices/savings.slice";
 import { useConnection, useChainId } from "wagmi";
 import AppTitle from "@components/AppTitle";
-import SavingsRankedBalancesTable from "@components/PageSavings/SavingsRankedBalancesTable";
 import AppLink from "@components/AppLink";
-import AppHeroSteps from "@components/AppHeroSteps";
 import SavingsRecentActivitiesTable from "@components/PageSavings/SavingsRecentActivitiesTable";
 import { useRouter } from "next/router";
 import { Address, isAddress, zeroAddress } from "viem";
 import ReportsYearlyTable from "@components/PageReports/ReportsSavingsYearlyTable";
 import { useSelector } from "react-redux";
-import { formatCurrency, getChainByName, normalizeAddress } from "@utils";
+import { getChainByName, normalizeAddress } from "@utils";
 import { useAppKitNetwork } from "@reown/appkit/react";
-import { ADDRESS, ChainId } from "@frankencoin/zchf";
-import { mainnet } from "viem/chains";
+import { ChainId } from "@frankencoin/zchf";
 
 export default function SavingsPage() {
-	const { status } = useSelector((state: RootState) => state.savings.savingsInfo);
 	const activities = useSelector((state: RootState) => state.savings.savingsActivity);
 	const { address } = useConnection();
 	const router = useRouter();
@@ -34,8 +30,6 @@ export default function SavingsPage() {
 	const [targetChainName, setTargetChainName] = useState("");
 
 	const totalBalance = useSelector((state: RootState) => state.savings.savingsInfo.totalBalance);
-	const savingsAddress = normalizeAddress(ADDRESS[mainnet.id].savingsReferral);
-	const saveRate = (status[mainnet.id]?.[savingsAddress]?.rate ?? 0) / 10000;
 
 	useEffect(() => {
 		store.dispatch(fetchLeadrate());
@@ -70,30 +64,12 @@ export default function SavingsPage() {
 
 			<AppTitle title={`Earn`}>
 				<div className={`text-text-secondary`}>
-					Earn interest on your Frankencoins - supported on all eight chains. Already more than {" "}
-					{Math.floor(totalBalance / 1000000)} million ZCHF saved.
+					Earn interest on your Frankencoins — supported on all eight chains. Already more than{" "}
+					{Math.floor(Number(totalBalance) / 1_000_000)} million ZCHF saved.
 				</div>
 			</AppTitle>
 
-			<AppHeroSteps
-				steps={[
-					{
-						icon: 1,
-						title: "Deposit Frankencoins",
-						description: "Your Frankencoins stay in the savings module.",
-					},
-					{
-						icon: 2,
-						title: `${formatCurrency(saveRate)}% interest`,
-						description: "Interest accrues as time passes.",
-					},
-					{
-						icon: 3,
-						title: "Withdraw anytime",
-						description: "Withdraw your Frankencoins plus interest at any time.",
-					},
-				]}
-			/>
+			<SavingsLeadrateSparkline />
 
 			<SavingsInteractionCard />
 
@@ -121,7 +97,4 @@ export default function SavingsPage() {
 			<SavingsRecentActivitiesTable />
 		</>
 	);
-}
-function setError(arg0: string) {
-	throw new Error("Function not implemented.");
 }

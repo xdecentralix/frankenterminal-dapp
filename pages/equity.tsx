@@ -5,10 +5,11 @@ import { useConnection } from "wagmi";
 import { useEquityTrades, useFPSBalanceHistory, useFPSEarningsHistory } from "@hooks";
 import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
-import AppHeroSteps from "@components/AppHeroSteps";
 import EquityFPSDetailsCard from "@components/PageEquity/EquityFPSDetailsCard";
 import EquityInteractionCard from "@components/PageEquity/EquityInteractionCard";
 import EquityTradesTable from "@components/PageEquity/EquityTradesTable";
+import EquityStatStrip from "@components/PageEquity/EquityStatStrip";
+import EquityTradeStream from "@components/PageEquity/EquityTradeStream";
 import ReportsFPSYearlyTable from "@components/PageReports/ReportsFPSYearlyTable";
 import { ContractUrl } from "@utils";
 import { ADDRESS } from "@frankencoin/zchf";
@@ -40,31 +41,19 @@ export default function Equity() {
 				</div>
 			</AppTitle>
 
-			<AppHeroSteps
-				steps={[
-					{
-						icon: 1,
-						title: "Get Pool Shares",
-						description: "Add ZCHF to the Frankencoin reserve pool and get newly minted pool shares in return.",
-					},
-					{
-						icon: 2,
-						title: "Participate",
-						description: "FPS's fundamental value climbs (or falls) with Frankencoin's success (or decline).",
-					},
-					{
-						icon: 3,
-						title: "Govern",
-						description: "Team up with others to veto protocol extensions or collaterals you don't like.",
-					},
-				]}
-			/>
+			{/* Hero stat strip */}
+			<EquityStatStrip />
 
-			<div className="md:mt-8">
-				<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
+			{/* Hero: chart full-width above interaction; trade stream beside the input on desktop */}
+			<EquityFPSDetailsCard equityTrades={equityTrades} />
+
+			<div className="grid grid-cols-1 lg:grid-cols-5 gap-4 items-start">
+				<div className="lg:col-span-3">
 					<EquityInteractionCard />
-					<EquityFPSDetailsCard equityTrades={equityTrades} />
-				</section>
+				</div>
+				<div className="lg:col-span-2">
+					<EquityTradeStream />
+				</div>
 			</div>
 
 			{hasAddress && (

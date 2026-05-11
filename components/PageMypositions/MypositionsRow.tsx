@@ -8,6 +8,7 @@ import MyPositionsDisplayCollateral from "./MyPositionsDisplayCollateral";
 import { useRouter as useNavigate } from "next/navigation";
 import AppButton from "@components/AppButton";
 import AppBox from "@components/AppBox";
+import HealthGauge, { classifyHealth, HealthBand } from "@components/HealthGauge";
 
 interface Props {
 	headers: string[];
@@ -53,6 +54,20 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 
 	const positionChallenges = challenges.map[normalizeAddress(position.position)] ?? [];
 	const positionChallengesActive = positionChallenges.filter((ch: ChallengesQueryItem) => ch.status == "Active") ?? [];
+
+	// Liquidation buffer: how much room is between the oracle (current) price and the liquidation price.
+	// Higher = safer. Computed against the CHF-denominated oracle price (using usd as a proxy when zchfPrice ≈ 1 CHF).
+	const oraclePriceZchf = collTokenPrice / zchfPrice;
+	const bufferPct = oraclePriceZchf > 0 ? Math.max(0, ((oraclePriceZchf - liquidationZCHF) / oraclePriceZchf) * 100) : 0;
+	const isClosedOrCooldown = position.closed || position.denied || position.cooldown * 1000 > Date.now();
+	const isChallenged = positionChallengesActive.length > 0;
+	const healthBand: HealthBand = isClosedOrCooldown
+		? "neutral"
+		: maturity <= 0
+		? "danger"
+		: classifyHealth(bufferPct, isChallenged);
+	// Render fill width: clamp buffer at 100% so SAFE positions show a full bar.
+	const healthFillPct = Math.min(100, Math.max(0, bufferPct));
 
 	const states: string[] = ["Closed", "Challenged", "New Request", "Cooldown", "Expiring Soon", "Expired", "Open"];
 	let stateIdx: number = states.length;
@@ -165,10 +180,18 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 
 			{/* Liquidation */}
 			<div className="flex flex-col">
-				<span className={liquidationPct < 110 ? `text-md font-bold text-text-warning` : "text-md"}>
-					{formatCurrency(liquidationZCHF, 2, 2)} ZCHF
-				</span>
-				<span className="text-sm text-text-subheader font-normal">{formatCurrency(collTokenPrice / zchfPrice, 2, 2)} ZCHF</span>
+				<div className="flex items-center gap-3 justify-end">
+					<div className="flex flex-col text-right">
+						<span className={liquidationPct < 110 ? `text-md font-bold text-text-warning` : "text-md"}>
+							{formatCurrency(liquidationZCHF, 2, 2)} ZCHF
+						</span>
+						<span className="text-sm text-text-subheader font-normal">
+							{formatCurrency(collTokenPrice / zchfPrice, 2, 2)} ZCHF
+						</span>
+					</div>
+					<HealthGauge pct={healthFillPct} band={healthBand} className="hidden md:flex" />
+				</div>
+				<HealthGauge pct={healthFillPct} band={healthBand} className="md:hidden mt-2 self-start" width="w-full" />
 			</div>
 
 			{/* Loan Value */}

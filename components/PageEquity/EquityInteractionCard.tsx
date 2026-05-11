@@ -15,7 +15,14 @@ export default function EquityInteractionCard() {
 
 	return (
 		<AppCard>
-			<div className="mt-4 text-lg font-bold text-center">Frankencoin Pool Shares (FPS)</div>
+			<div className="flex items-baseline justify-between">
+				<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
+					// FPS_TERMINAL
+				</div>
+				<div className="text-[0.6rem] uppercase tracking-[0.12em] text-text-secondary">
+					trade frankencoin pool shares
+				</div>
+			</div>
 
 			{/* Load modules dynamically */}
 			{(tokenFromTo.from === "ZCHF" && tokenFromTo.to === "FPS") || (tokenFromTo.from === "FPS" && tokenFromTo.to === "ZCHF") ? (

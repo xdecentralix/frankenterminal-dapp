@@ -1,11 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
 import BorrowTable from "@components/PageBorrow/BorrowTable";
+import BorrowKpiStrip from "@components/PageBorrow/BorrowKpiStrip";
+import AppTitle from "@components/AppTitle";
 import { useEffect } from "react";
 import { store } from "../../redux/redux.store";
 import { fetchPositionsList } from "../../redux/slices/positions.slice";
-import AppTitle from "@components/AppTitle";
-import AppHeroSteps from "@components/AppHeroSteps";
 import AppButtonSecondary from "@components/AppButtonSecondary";
 
 export default function Borrow() {
@@ -16,36 +16,19 @@ export default function Borrow() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Borrow</title>
+				<title>Tell - Borrow</title>
 			</Head>
 
-			<AppTitle title="Borrow Frankencoins">
+			<AppTitle title="Borrow">
 				<div className="text-text-secondary">
-					Deposit a collateral and mint new Frankencoins against it. The collateral stays locked until you return the minted coins.
+					Mint fresh Frankencoins against collateral. Pick a market, define your terms, and receive ZCHF directly into
+					your wallet.
 				</div>
 			</AppTitle>
 
-			<AppHeroSteps
-				steps={[
-					{
-						icon: 1,
-						title: "Choose a collateral",
-						description: "Choose a crypto asset to use as collateral.",
-					},
-					{
-						icon: 2,
-						title: "Define terms",
-						description: "Adjust amount, maturity, and liquidation price to your liking.",
-					},
-					{
-						icon: 3,
-						title: "Receive Frankencoins",
-						description: "Fresh Frankencoins are minted directly into your wallet.",
-					},
-				]}
-			/>
+			<BorrowKpiStrip />
 
-			<div className="mt-8">
+			<div className="mt-4">
 				<BorrowTable />
 			</div>
 

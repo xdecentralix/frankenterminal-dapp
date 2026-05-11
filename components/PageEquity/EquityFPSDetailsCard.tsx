@@ -1,16 +1,9 @@
-import AppBox from "@components/AppBox";
-import DisplayAmount from "@components/DisplayAmount";
-import DisplayLabel from "@components/DisplayLabel";
-import { usePoolStats } from "@hooks";
 import { EquityTrade } from "@hooks";
 import dynamic from "next/dynamic";
-import { ADDRESS } from "@frankencoin/zchf";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
-import { formatUnits, parseEther } from "viem";
-import DisplayOutputAlignedRight from "@components/DisplayOutputAlignedRight";
-import { mainnet } from "viem/chains";
+import { formatUnits } from "viem";
 import { TabInput } from "@components/Input/TabInput";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -24,8 +17,6 @@ interface Props {
 export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 	const [timeframe, setTimeframe] = useState<string>(Timeframes[1]);
 	const [typechart, setTypechart] = useState<string>(TypeCharts[0]);
-	const chainId = mainnet.id;
-	const poolStats = usePoolStats();
 	const logs = useSelector((state: RootState) => state.dashboard.dailyLog.logs);
 	const supply = useSelector((state: RootState) => state.ecosystem.frankencoinSupply);
 
@@ -45,15 +36,6 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 	let matchingSupply = Object.values(supply).filter((t) => {
 		return parseInt(String(t.created)) * 1000 >= startTrades;
 	});
-
-	const adjustedInflow = BigInt(matchingLogs.at(-1)?.totalInflow || "0") - BigInt(matchingLogs.at(0)?.totalInflow || "0");
-	const adjustedOutflow = BigInt(matchingLogs.at(-1)?.totalOutflow || "0") - BigInt(matchingLogs.at(0)?.totalOutflow || "0");
-	const netIncome = adjustedInflow - adjustedOutflow;
-
-	const timestampBegin = BigInt(matchingLogs.at(0)?.timestamp || "0") * 1000n;
-	const timestampEnd = BigInt(Date.now());
-	const timestampDiff = timestampEnd - timestampBegin;
-	const oneYearMs = 365n * 24n * 60n * 60n * 1000n;
 
 	const matchingTrades = typechart === TypeCharts[0] ? equityTrades.filter((t) => t.created * 1000 >= startTrades) : [];
 
@@ -75,11 +57,6 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 		},
 	}));
 
-	const equityStart = BigInt(matchingLogs.at(0)?.totalEquity || "0");
-	const equityEnd = BigInt(matchingLogs.at(-1)?.totalEquity || "0");
-	const equityAvg = (equityStart + equityEnd) / 2n;
-	const returnOnEquity = equityAvg > 0n ? (((netIncome * parseEther("1")) / equityAvg) * oneYearMs) / timestampDiff : 0n;
-
 	return (
 		<div className="bg-card-body-primary rounded-lg p-4 grid grid-cols-1 gap-2">
 			<div id="chart-timeline" className="tell-frame bg-layout-primary p-4 mb-4">
@@ -88,6 +65,7 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 				<div className="-m-2 mt-2 mb-2">
 					<ApexChart
 						type="area"
+						height={300}
 						options={{
 							theme: {
 								monochrome: {
@@ -263,37 +241,6 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 				) : null}
 
 				<TabInput tabs={Timeframes} tab={timeframe} setTab={setTimeframe} />
-			</div>
-
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-				<AppBox>
-					<DisplayLabel label="FPS Price" />
-					<DisplayAmount amount={poolStats.equityPrice} currency="ZCHF" address={ADDRESS[chainId].frankencoin} />
-				</AppBox>
-				<AppBox>
-					<DisplayLabel label="Total Supply" />
-					<DisplayAmount amount={poolStats.equitySupply} currency="FPS" address={ADDRESS[chainId].equity} />
-				</AppBox>
-				<AppBox>
-					<DisplayLabel label="Market Cap." />
-					<DisplayAmount
-						amount={(poolStats.equitySupply * poolStats.equityPrice) / BigInt(1e18)}
-						currency="ZCHF"
-						address={ADDRESS[chainId].frankencoin}
-					/>
-				</AppBox>
-				<AppBox>
-					<DisplayLabel label="Equity Capital" />
-					<DisplayAmount amount={poolStats.frankenEquity} currency="ZCHF" address={ADDRESS[chainId].frankencoin} />
-				</AppBox>
-				<AppBox>
-					<DisplayLabel label={"Net Income (" + timeframe + ")"} />
-					<DisplayAmount amount={netIncome} currency="ZCHF" address={ADDRESS[chainId].frankencoin} />
-				</AppBox>
-				<AppBox>
-					<DisplayLabel label={timeframe == "1Y" ? "Return on Equity" : "RoE (annualized from " + timeframe + ")"} />
-					<DisplayOutputAlignedRight amount={returnOnEquity * 100n} unit="%" />
-				</AppBox>
 			</div>
 		</div>
 	);

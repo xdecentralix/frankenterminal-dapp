@@ -5,6 +5,7 @@ import TableHeader from "@components/Table/TableHead";
 import TableBody from "@components/Table/TableBody";
 import TableRowEmpty from "@components/Table/TableRowEmpty";
 import MyPositionsChallengesRow from "./MyPositionsChallengesRow";
+import EmptyState from "@components/EmptyState";
 import { useConnection } from "wagmi";
 import { Address, formatUnits, zeroAddress } from "viem";
 import { normalizeAddress } from "../../utils/format";
@@ -68,7 +69,13 @@ export default function MyPositionsChallengesTable() {
 			<TableHeader headers={headers} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} actionCol />
 			<TableBody>
 				{list.length == 0 ? (
-					<TableRowEmpty>{"You do not have any challenges yet."}</TableRowEmpty>
+					<TableRowEmpty>
+						<EmptyState
+							title="NO_CHALLENGES_INITIATED"
+							hint="CHALLENGE A POSITION TO ARB UNDERVALUED COLLATERAL"
+							cta={{ label: "BROWSE_POSITIONS", href: "/monitoring/challenges" }}
+						/>
+					</TableRowEmpty>
 				) : (
 					list.map((c) => <MyPositionsChallengesRow headers={headers} tab={tab} key={c.id} challenge={c} />)
 				)}

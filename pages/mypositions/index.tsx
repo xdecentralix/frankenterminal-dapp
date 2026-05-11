@@ -2,6 +2,9 @@ import Head from "next/head";
 import MypositionsTable from "@components/PageMypositions/MypositionsTable";
 import MyPositionsChallengesTable from "@components/PageMypositions/MyPositionsChallengesTable";
 import MyPositionsBidsTable from "@components/PageMypositions/MyPositionsBidsTable";
+import MyPositionsPortfolioHeader from "@components/PageMypositions/MyPositionsPortfolioHeader";
+import MyPositionsActionRibbon from "@components/PageMypositions/MyPositionsActionRibbon";
+import MyPositionsTabs from "@components/PageMypositions/MyPositionsTabs";
 import { useRouter } from "next/router";
 import { Address, isAddress, zeroAddress } from "viem";
 import { shortenAddress } from "@utils";
@@ -25,8 +28,8 @@ export default function Positions() {
 	const paramAddr = router.query.address as Address;
 	const overwrite: Address | undefined = isAddress(paramAddr) ? paramAddr : undefined;
 
-	const [isLoading, setLoading] = useState<boolean>(false);
-	const [error, setError] = useState<string>("");
+	const [, setLoading] = useState<boolean>(false);
+	const [, setError] = useState<string>("");
 
 	const [ownerPositionFees, setOwnerPositionFees] = useState<OwnerPositionFees[]>([]);
 	const [ownerPositionDebt, setOwnerPositionDebt] = useState<OwnerPositionDebt[]>([]);
@@ -86,7 +89,6 @@ export default function Positions() {
 					setOwnerPositionValueLocked([]);
 				}
 
-				// clear all errors
 				setError("");
 			} catch (error) {
 				if (!isMounted) return;
@@ -112,49 +114,67 @@ export default function Positions() {
 				<title>Tell - My Positions</title>
 			</Head>
 
-			{/* Section Positions */}
-			<AppTitle title="Owned Positions">
-				<DisplayWarningMessage overwrite={overwrite} />
-			</AppTitle>
-
-			<MypositionsTable />
-
-			{/* Section Report */}
-			<AppTitle title="Yearly Accounts">
-				<DisplayWarningMessage overwrite={overwrite} />
+			<AppTitle title="Positions">
 				<div className="text-text-secondary">
-					Open positions at the end of each year as well as interest paid. See also the
-					<AppLink className="" label={" report page"} href={`/report?address=${overwrite ?? address ?? zeroAddress}`} />.
+					Manage your collateralized debt positions. Track health, top up collateral, repay debt, or close positions.
 				</div>
 			</AppTitle>
 
-			<ReportsPositionsYearlyTable
-				address={overwrite ?? address ?? zeroAddress}
-				ownerPositionFees={ownerPositionFees}
-				ownerPositionDebt={ownerPositionDebt}
-				ownerPositionValueLocked={ownerPositionValueLocked}
-			/>
+			{/* Portfolio summary header (replaces marketing hero) */}
+			<MyPositionsPortfolioHeader />
 
-			{/* Section Challenges */}
-			<AppTitle title="Initiated Challenges">
-				<DisplayWarningMessage overwrite={overwrite} />
-			</AppTitle>
+			{/* Conditional ribbon — only shows when something needs attention */}
+			<MyPositionsActionRibbon />
 
-			<MyPositionsChallengesTable />
+			{/* Public-view note when looking at someone else's address */}
+			{overwrite && (
+				<div className="text-xs uppercase tracking-[0.18em] text-text-secondary">
+					<DisplayWarningMessage overwrite={overwrite} />
+				</div>
+			)}
 
-			{/* Section Bids */}
-			<AppTitle title="Your Bids">
-				<DisplayWarningMessage overwrite={overwrite} />
-			</AppTitle>
+			<AppTitle title="Owned Positions" />
+			<MypositionsTable />
 
-			<MyPositionsBidsTable />
+			<MyPositionsTabs>
+				{{
+					history: (
+						<>
+							<AppTitle title="Yearly Accounts">
+								<div className="text-text-secondary">
+									Open positions at the end of each year as well as interest paid. See also the
+									<AppLink className="" label={" report page"} href={`/report?address=${overwrite ?? address ?? zeroAddress}`} />.
+								</div>
+							</AppTitle>
+							<ReportsPositionsYearlyTable
+								address={overwrite ?? address ?? zeroAddress}
+								ownerPositionFees={ownerPositionFees}
+								ownerPositionDebt={ownerPositionDebt}
+								ownerPositionValueLocked={ownerPositionValueLocked}
+							/>
+						</>
+					),
+					challenges: (
+						<>
+							<AppTitle title="Initiated Challenges" />
+							<MyPositionsChallengesTable />
+						</>
+					),
+					bids: (
+						<>
+							<AppTitle title="Your Bids" />
+							<MyPositionsBidsTable />
+						</>
+					),
+				}}
+			</MyPositionsTabs>
 		</>
 	);
 }
 
 function DisplayWarningMessage(props: { overwrite: Address | undefined }) {
 	const link = useContractUrl(props.overwrite ?? zeroAddress);
-	if (props.overwrite == undefined) return;
+	if (props.overwrite == undefined) return null;
 
 	return (
 		<div>

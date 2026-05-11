@@ -36,19 +36,21 @@ export default function BorrowTable() {
 		[normalizeAddress(chfauBridge.bridgeAddress)]: chfauBridge,
 	};
 
-	const sorted: PositionQueryV2[] = sortPositions(
-		[...uniquePositions, vchfBridge.asBorrowPosition, chfauBridge.asBorrowPosition],
-		coingecko,
-		headers,
-		tab,
-		reverse
-	);
+	const sorted: PositionQueryV2[] = sortPositions([...uniquePositions], coingecko, headers, tab, reverse);
+
+	// Bridge "positions" are conceptually different (1:1 swap, no liquidation),
+	// so we pin them in their own group above the clone-borrow markets.
+	const bridges: { pos: PositionQueryV2; stats: SwapVCHFStatsReturn }[] = [
+		{ pos: vchfBridge.asBorrowPosition, stats: vchfBridge },
+		{ pos: chfauBridge.asBorrowPosition, stats: chfauBridge },
+	].filter((b) => b.pos && b.stats?.bridgeAddress && b.stats.bridgeAddress !== zeroAddress);
 
 	// Wallet balance detection for "In my wallet" toggle
+	const allCollaterals = [...sorted.map((p) => p.collateral), ...bridges.map((b) => b.pos.collateral)];
 	const uniqueCollaterals = useMemo(
-		() => [...new Set(sorted.map((p) => normalizeAddress(p.collateral)))],
+		() => [...new Set(allCollaterals.map((c) => normalizeAddress(c)))],
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[sorted.map((p) => p.collateral).join(",")]
+		[allCollaterals.join(",")]
 	);
 
 	const { data: balanceResults } = useReadContracts({
@@ -69,18 +71,26 @@ export default function BorrowTable() {
 		return map;
 	}, [uniqueCollaterals, balanceResults]);
 
+	const passesFilters = (collateral: string, name: string, symbol: string) => {
+		const addr = normalizeAddress(collateral);
+		if (searchQuery) {
+			const q = searchQuery.toLowerCase();
+			if (!name.toLowerCase().includes(q) && !symbol.toLowerCase().includes(q)) return false;
+		}
+		if (activeCategories.length > 0 && !collateralMatchesCategories(addr, activeCategories as CollateralCategory[])) return false;
+		if (inMyWallet && walletAddress && (walletBalanceMap[addr] ?? 0n) === 0n) return false;
+		return true;
+	};
+
 	const filteredList = useMemo(() => {
-		return sorted.filter((pos) => {
-			const addr = normalizeAddress(pos.collateral);
-			if (searchQuery) {
-				const q = searchQuery.toLowerCase();
-				if (!pos.collateralName.toLowerCase().includes(q) && !pos.collateralSymbol.toLowerCase().includes(q)) return false;
-			}
-			if (activeCategories.length > 0 && !collateralMatchesCategories(addr, activeCategories as CollateralCategory[])) return false;
-			if (inMyWallet && walletAddress && (walletBalanceMap[addr] ?? 0n) === 0n) return false;
-			return true;
-		});
+		return sorted.filter((pos) => passesFilters(pos.collateral, pos.collateralName, pos.collateralSymbol));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [sorted, searchQuery, activeCategories, inMyWallet, walletAddress, walletBalanceMap]);
+
+	const filteredBridges = useMemo(() => {
+		return bridges.filter((b) => passesFilters(b.pos.collateral, b.pos.collateralName, b.pos.collateralSymbol));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [bridges, searchQuery, activeCategories, inMyWallet, walletAddress, walletBalanceMap]);
 
 	const handleTabOnChange = function (e: string) {
 		if (tab === e) {
@@ -90,6 +100,8 @@ export default function BorrowTable() {
 			setTab(e);
 		}
 	};
+
+	const isEmpty = filteredList.length === 0 && filteredBridges.length === 0;
 
 	return (
 		<Table>
@@ -110,22 +122,68 @@ export default function BorrowTable() {
 				onFiltersChange={setActiveCategories}
 			/>
 			<TableBody>
-				{filteredList.length == 0 ? (
+				{isEmpty ? (
 					<TableRowEmpty>
-						{!walletAddress ? "There are no other positions yet." : "You don't have any available collaterals in your wallet."}
+						<div className="w-full font-default">
+							<div className="text-card-content-highlight tell-glow-red text-sm uppercase tracking-[0.18em]">
+								&gt; NO_MARKETS_MATCH_FILTERS
+							</div>
+							<div className="mt-1 text-text-secondary text-sm uppercase tracking-[0.12em]">
+								&gt;{" "}
+								{!walletAddress
+									? "ADJUST FILTERS OR CLEAR SEARCH TO BROWSE THE FULL MARKET_"
+									: "YOUR WALLET DOES NOT HOLD ANY OF THE ACCEPTED ASSETS_"}
+							</div>
+						</div>
 					</TableRowEmpty>
 				) : (
-					filteredList.map((pos, idx) => (
-						<BorrowRow
-							headers={headers}
-							tab={tab}
-							position={pos}
-							bridgeStats={bridgeMap[normalizeAddress(pos.position)]}
-							hideMyWallet={!walletAddress}
-							walletBalance={walletBalanceMap}
-							key={`BorrowRow_${pos.position || idx}`}
-						/>
-					))
+					[
+						...(filteredBridges.length > 0
+							? [
+									<div
+										key="bridges-heading"
+										className="bg-table-header-primary px-8 xl:px-12 py-2 border-t border-card-input-border"
+									>
+										<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
+											// STABLECOIN_BRIDGES
+										</div>
+									</div>,
+									...filteredBridges.map((b, idx) => (
+										<BorrowRow
+											headers={headers}
+											tab={tab}
+											position={b.pos}
+											bridgeStats={b.stats}
+											hideMyWallet={!walletAddress}
+											walletBalance={walletBalanceMap}
+											key={`BorrowRow_bridge_${b.stats.bridgeAddress || idx}`}
+										/>
+									)),
+							  ]
+							: []),
+						...(filteredList.length > 0 && filteredBridges.length > 0
+							? [
+									<div
+										key="markets-heading"
+										className="bg-table-header-primary px-8 xl:px-12 py-2 border-t border-card-input-border"
+									>
+										<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
+											// CLONE_BORROW_MARKETS
+										</div>
+									</div>,
+							  ]
+							: []),
+						...filteredList.map((pos, idx) => (
+							<BorrowRow
+								headers={headers}
+								tab={tab}
+								position={pos}
+								hideMyWallet={!walletAddress}
+								walletBalance={walletBalanceMap}
+								key={`BorrowRow_${pos.position || idx}`}
+							/>
+						)),
+					]
 				)}
 			</TableBody>
 		</Table>
@@ -149,7 +207,7 @@ function sortPositions(
 		sorting.sort((a, b) => {
 			const calc = function (p: PositionQueryV2) {
 				const liqPrice: number = parseFloat(formatUnits(BigInt(p.price), 36 - p.collateralDecimals));
-				const price: number = prices[normalizeAddress(p.collateral)].price.chf || 1;
+				const price: number = prices[normalizeAddress(p.collateral)]?.price.chf || 1;
 				return liqPrice / price;
 			};
 			return calc(b) - calc(a); // default: decrease

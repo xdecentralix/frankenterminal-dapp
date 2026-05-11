@@ -1,26 +1,31 @@
-import TableHeader from "../Table/TableHead";
-import TableBody from "../Table/TableBody";
-import Table from "../Table";
-import TableRowEmpty from "../Table/TableRowEmpty";
 import { useEffect, useState } from "react";
-import TransferListRow from "./TransferListRow";
+import { useConnection } from "wagmi";
+import { Address, formatUnits, Hash, isAddress } from "viem";
+import { ApiTransferReferenceList, TransferReferenceQuery } from "@frankencoin/api";
+import { ChainId } from "@frankencoin/zchf";
+import { ContractUrl, formatCurrency, getChain, getChainByChainSelector, normalizeAddress, shortenAddress, shortenStringAdjust, TxUrl } from "@utils";
+import { FRANKENCOIN_API_CLIENT } from "../../app.config";
 import AppCard from "@components/AppCard";
+import AppLink from "@components/AppLink";
 import AddressInput from "@components/Input/AddressInput";
 import DateInput from "@components/Input/DateInput";
-import { Address, isAddress } from "viem";
-import { useConnection } from "wagmi";
-import { FRANKENCOIN_API_CLIENT } from "../../app.config";
-import { ApiTransferReferenceList, TransferReferenceQuery } from "@frankencoin/api";
-import { shortenAddress } from "@utils";
+import ChainLogo from "@components/ChainLogo";
+import ActivityLog, { ActivityLogEntry, ActivityTone } from "@components/ActivityLog";
 
 const RESET_DATE = new Date(new Date().getUTCFullYear().toString());
 
+function fmtTime(secs: number): string {
+	const d = new Date(secs * 1000);
+	const yyyy = d.getFullYear();
+	const mm = String(d.getMonth() + 1).padStart(2, "0");
+	const dd = String(d.getDate()).padStart(2, "0");
+	const hh = String(d.getHours()).padStart(2, "0");
+	const mi = String(d.getMinutes()).padStart(2, "0");
+	return `${yyyy}-${mm}-${dd}T${hh}:${mi}`;
+}
+
 export default function TransferListTable() {
-	const headers: string[] = ["Date", "Sender", "Recipient", "Reference", "Amount"];
-	const [tab, setTab] = useState<string>(headers[0]);
-	const [reverse, setReverse] = useState<boolean>(false);
 	const [fetchedList, setFetchedList] = useState<TransferReferenceQuery[]>([]);
-	const [list, setList] = useState<TransferReferenceQuery[]>([]);
 
 	const { address } = useConnection();
 	const [sender, setSender] = useState<Address | string>("");
@@ -30,7 +35,6 @@ export default function TransferListTable() {
 	const [end, setEnd] = useState<Date | string>("Today");
 
 	useEffect(() => {
-		// load all, if non is selected.
 		if (sender.length == 0 && recipient.length == 0) {
 			const fetcher = async () => {
 				const data = await FRANKENCOIN_API_CLIENT.get<ApiTransferReferenceList>(`/transfer/reference/list`);
@@ -45,7 +49,6 @@ export default function TransferListTable() {
 			return;
 		}
 
-		// guard for address validation
 		if ((sender.length > 0 && !isAddress(sender)) || (recipient.length > 0 && !isAddress(recipient))) return;
 
 		const fetcher = async () => {
@@ -71,23 +74,6 @@ export default function TransferListTable() {
 		fetcher();
 	}, [sender, recipient, reference, start, end]);
 
-	const sorted: TransferReferenceQuery[] = sortFunction({ list: fetchedList, headers, tab, reverse });
-
-	useEffect(() => {
-		const idList = list.map((l) => `${l.chainId}-${l.count}`).join("_");
-		const idSorted = sorted.map((l) => `${l.chainId}-${l.count}`).join("_");
-		if (idList != idSorted) setList(sorted);
-	}, [list, sorted]);
-
-	const handleTabOnChange = function (e: string) {
-		if (tab === e) {
-			setReverse(!reverse);
-		} else {
-			setReverse(false);
-			setTab(e);
-		}
-	};
-
 	const errorSender = () => {
 		if (sender == "" || isAddress(sender)) return "";
 		else return "Invalid sender address";
@@ -97,6 +83,73 @@ export default function TransferListTable() {
 		if (recipient == "" || isAddress(recipient)) return "";
 		else return "Invalid recipient address";
 	};
+
+	const sortedList = [...fetchedList].sort((a, b) => b.created - a.created);
+	const myAddr = address ? normalizeAddress(address) : null;
+
+	const entries: ActivityLogEntry[] = sortedList.map((item) => {
+		const sourceChain = getChain(item.chainId as ChainId);
+		const targetChain = getChainByChainSelector(item.targetChain);
+		const isBridge = sourceChain.id !== targetChain.id;
+		const fromN = normalizeAddress(item.from);
+		const toN = normalizeAddress(item.to);
+		const isOutgoing = myAddr != null && fromN === myAddr;
+		const isIncoming = myAddr != null && toN === myAddr;
+
+		let tone: ActivityTone = "neutral";
+		let sign = "";
+		if (isOutgoing && !isIncoming) {
+			tone = "negative";
+			sign = "-";
+		} else if (isIncoming && !isOutgoing) {
+			tone = "positive";
+			sign = "+";
+		}
+
+		const amount = formatCurrency(formatUnits(BigInt(item.amount), 18), 0, 0);
+		const ref = item.reference && item.reference.length > 0 ? shortenStringAdjust(item.reference, 14) : null;
+		const badge = isBridge ? "BRIDGE" : "TRANSFER";
+
+		return {
+			id: `${item.chainId}-${item.count}`,
+			tone,
+			primary: `${sign}${amount} ZCHF`,
+			badge,
+			badgeTone: isBridge ? "negative" : tone,
+			metaLeft: (
+				<span className="flex items-center gap-2">
+					<AppLink
+						className=""
+						label={`[${fmtTime(item.created)}]`}
+						href={TxUrl(item.txHash as Hash, sourceChain)}
+						external={true}
+					/>
+					{ref && <span className="normal-case text-text-secondary">{`REF "${ref}"`}</span>}
+				</span>
+			),
+			metaRight: (
+				<span className="flex items-center justify-end gap-1.5 flex-wrap">
+					<ChainLogo chain={sourceChain.name} size={3} />
+					<AppLink
+						className=""
+						label={shortenAddress(item.from)}
+						href={ContractUrl(item.from, sourceChain)}
+						external={true}
+					/>
+					<span className="text-text-secondary">→</span>
+					<ChainLogo chain={targetChain.name} size={3} />
+					<AppLink
+						className=""
+						label={shortenAddress(item.to)}
+						href={ContractUrl(item.to, targetChain)}
+						external={true}
+					/>
+				</span>
+			),
+		};
+	});
+
+	const flashId = sortedList.length > 0 ? `${sortedList[0].chainId}-${sortedList[0].count}` : null;
 
 	return (
 		<div className="grid gap-4">
@@ -141,53 +194,7 @@ export default function TransferListTable() {
 				</div>
 			</AppCard>
 
-			<Table>
-				<TableHeader headers={headers} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} />
-				<TableBody>
-					{list.length == 0 ? (
-						<TableRowEmpty>{"No transfer references found..."}</TableRowEmpty>
-					) : (
-						list.map((i, idx) => (
-							<TransferListRow
-								headers={headers}
-								tab={tab}
-								key={`${i.chainId}-${i.count}` || `TransferListRow_${idx}`}
-								item={i}
-							/>
-						))
-					)}
-				</TableBody>
-			</Table>
+			<ActivityLog label="TRANSFER_LOG" entries={entries} emptyText="NO_TRANSFERS_FOUND_" flashId={flashId} />
 		</div>
 	);
-}
-
-type SortFunctionParams = {
-	list: TransferReferenceQuery[];
-	headers: string[];
-	tab: string;
-	reverse: boolean;
-};
-
-function sortFunction(params: SortFunctionParams): TransferReferenceQuery[] {
-	const { list, headers, tab, reverse } = params;
-	let sortingList = [...list]; // make it writeable
-
-	if (tab === headers[0]) {
-		// Date
-		sortingList.sort((a, b) => b.created - a.created);
-	} else if (tab === headers[1]) {
-		// Spender
-		sortingList.sort((a, b) => a.from.localeCompare(b.from));
-	} else if (tab === headers[2]) {
-		// Recipient
-		sortingList.sort((a, b) => a.to.localeCompare(b.to));
-	} else if (tab === headers[3]) {
-		// Reference
-		sortingList.sort((a, b) => a.reference.localeCompare(b.reference));
-	} else if (tab === headers[4]) {
-		// Amount
-		sortingList.sort((a, b) => (b.amount > a.amount ? 1 : -1));
-	}
-	return reverse ? sortingList.reverse() : sortingList;
 }

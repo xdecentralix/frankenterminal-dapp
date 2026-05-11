@@ -1,20 +1,33 @@
 /** @type {import('next').NextConfig} */
 
+// Optional peer deps that this app does not use. We stub them out for both
+// bundlers so Turbopack (default in Next 16) and webpack behave the same.
+const STUBBED_OPTIONAL_DEPS = [
+	"pino-pretty",
+	"lokijs",
+	"encoding",
+	"@metamask/connect-evm",
+	"porto",
+	"@base-org/account",
+	"accounts",
+];
+
 const nextConfig = {
 	reactStrictMode: true,
 	transpilePackages: ["@frankencoin/zchf", "@frankencoin/api"],
 
+	turbopack: {
+		// Turbopack `resolveAlias` expects paths relative to the project root,
+		// not absolute paths (it prepends "./" and breaks absolute ones).
+		resolveAlias: Object.fromEntries(
+			STUBBED_OPTIONAL_DEPS.map((name) => [name, "./empty-module.js"])
+		),
+	},
+
 	webpack: (config) => {
-		// Stub out optional peer deps not used in this app
 		config.resolve.alias = {
 			...config.resolve.alias,
-			"pino-pretty": false,
-			lokijs: false,
-			encoding: false,
-			"@metamask/connect-evm": false,
-			porto: false,
-			"@base-org/account": false,
-			accounts: false,
+			...Object.fromEntries(STUBBED_OPTIONAL_DEPS.map((name) => [name, false])),
 		};
 		return config;
 	},

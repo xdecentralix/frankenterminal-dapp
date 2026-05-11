@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AppButton from "@components/AppButton";
 import { faCalendarDays, faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
 import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, normalizeAddress } from "@utils";
+import EmptyState from "@components/EmptyState";
 
 const FILTER_OPTIONS: FilterOption[] = ALL_CATEGORIES.map((c) => ({ label: c, value: c }));
 
@@ -134,7 +135,13 @@ export default function MypositionsTable() {
 				/>
 				<TableBody>
 					{list.length == 0 ? (
-						<TableRowEmpty>{"You do not have any positions yet."}</TableRowEmpty>
+						<TableRowEmpty>
+							<EmptyState
+								title="NO_POSITIONS_FOUND"
+								hint="SCAN: 0 OPEN  ·  0 CHALLENGES  ·  0 BIDS"
+								cta={{ label: "INITIATE_BORROW", href: "/mint" }}
+							/>
+						</TableRowEmpty>
 					) : (
 						list.map((pos) => (
 							<MypositionsRow headers={headers} subHeaders={subHeaders} tab={tab} position={pos} key={pos.position} />

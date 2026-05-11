@@ -11,6 +11,7 @@ import { BidsQueryItem, ChallengesQueryItemMapping, PositionQuery, PositionsQuer
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import MyPositionsBidsRow from "./MyPositionsBidsRow";
+import EmptyState from "@components/EmptyState";
 
 export default function MyPositionsBidsTable() {
 	const headers: string[] = ["Filled Size", "Price", "Bid Amount", "State"];
@@ -59,7 +60,13 @@ export default function MyPositionsBidsTable() {
 			<TableHeader headers={headers} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} actionCol />
 			<TableBody>
 				{list.length == 0 ? (
-					<TableRowEmpty>{"You do not have any bids yet."}</TableRowEmpty>
+					<TableRowEmpty>
+						<EmptyState
+							title="NO_BIDS_PLACED"
+							hint="BID ON LIQUIDATION AUCTIONS TO ACQUIRE COLLATERAL AT A DISCOUNT"
+							cta={{ label: "BROWSE_CHALLENGES", href: "/monitoring/challenges" }}
+						/>
+					</TableRowEmpty>
 				) : (
 					list.map((b) => <MyPositionsBidsRow key={b.id} headers={headers} tab={tab} bid={b} />)
 				)}

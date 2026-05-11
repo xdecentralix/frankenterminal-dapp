@@ -1,11 +1,11 @@
 import Link from "next/link";
 import WalletConnect from "./WalletConnect";
 import NavButton from "./NavButton";
-import { CONFIG } from "../app.config";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { useConnection } from "wagmi";
+import { useChainId, useConnection } from "wagmi";
 import { track } from "../hooks/useAnalytics";
+import { WAGMI_CHAINS } from "../app.config";
 
 const MAIN_ITEMS = [
 	{ to: "/mint", name: "Borrow" },
@@ -85,6 +85,15 @@ export function NavItems({ items }: { items: typeof MAIN_ITEMS }) {
 export default function Navbar() {
 	const [isNavBarOpen, setIsNavBarOpen] = useState(false);
 	const { address } = useConnection();
+	const chainId = useChainId();
+
+	const supportedChainIds = WAGMI_CHAINS.map((c) => c.id);
+	const isSupportedChain = supportedChainIds.includes(chainId as any);
+	const status: "connected" | "wrong-chain" | "disconnected" = !address
+		? "disconnected"
+		: !isSupportedChain
+		? "wrong-chain"
+		: "connected";
 
 	let mainItems = MAIN_ITEMS;
 	if (!address) {
@@ -92,6 +101,21 @@ export default function Navbar() {
 	}
 
 	let allItems = [...mainItems, ...MORE_ITEMS];
+
+	const statusDot =
+		status === "connected"
+			? "bg-text-success"
+			: status === "wrong-chain"
+			? "bg-text-warning"
+			: "bg-card-content-highlight";
+	const statusLabel =
+		status === "connected" ? "connected" : status === "wrong-chain" ? "wrong chain" : "disconnected";
+	const statusText =
+		status === "connected"
+			? "text-text-success"
+			: status === "wrong-chain"
+			? "text-text-warning"
+			: "text-card-content-highlight";
 
 	return (
 		<>
@@ -119,13 +143,15 @@ export default function Navbar() {
 								<span className="text-card-content-highlight tell-glow-red">]</span>
 							</span>
 						</Link>
-						{/* terminal-style status indicator (desktop only) */}
-						<div className="hidden lg:flex items-center gap-2 text-[10px] font-default tracking-[0.2em] text-text-secondary uppercase border-l border-menu-separator pl-4">
+						{/* terminal-style status indicator (desktop only) — wired to wagmi state */}
+						<div className="hidden lg:flex items-center gap-2 text-[10px] font-default tracking-[0.2em] uppercase border-l border-menu-separator pl-4">
 							<span className="relative flex items-center justify-center w-2 h-2">
-								<span className="absolute inline-flex h-full w-full rounded-full bg-text-success opacity-60 animate-ping"></span>
-								<span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-text-success"></span>
+								{status === "connected" && (
+									<span className={`absolute inline-flex h-full w-full rounded-full ${statusDot} opacity-60 animate-ping`}></span>
+								)}
+								<span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${statusDot}`}></span>
 							</span>
-							<span>connected</span>
+							<span className={statusText}>{statusLabel}</span>
 						</div>
 					</div>
 

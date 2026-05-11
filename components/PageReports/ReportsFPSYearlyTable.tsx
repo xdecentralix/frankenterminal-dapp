@@ -1,14 +1,9 @@
-import TableHeader from "../Table/TableHead";
-import TableBody from "../Table/TableBody";
-import Table from "../Table";
-import TableRowEmpty from "../Table/TableRowEmpty";
-import { useEffect, useState } from "react";
 import { FPSBalanceHistory, FPSEarningsHistory } from "@hooks";
-import { Address } from "viem";
-import { normalizeAddress } from "../../utils/format";
-import ReportsFPSYearlyRow from "./ReportsFPSYearlyRow";
+import { Address, formatUnits } from "viem";
+import { formatCurrency, normalizeAddress } from "@utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
+import ActivityLog, { ActivityLogEntry } from "@components/ActivityLog";
 
 export type AccountYearly = { year: number; earnings: bigint; balance: bigint; value: bigint };
 
@@ -19,10 +14,6 @@ interface Props {
 }
 
 export default function ReportsFPSYearlyTable({ address, fpsHistory, fpsEarnings }: Props) {
-	const headers: string[] = ["Year", "Income", "Balance", "Value"];
-	const [tab, setTab] = useState<string>(headers[0]);
-	const [reverse, setReverse] = useState<boolean>(false);
-	const [list, setList] = useState<AccountYearly[]>([]);
 	const { logs } = useSelector((state: RootState) => state.dashboard.dailyLog);
 
 	const entriesRaw = fpsHistory.map((item, idx) => {
@@ -43,105 +34,55 @@ export default function ReportsFPSYearlyTable({ address, fpsHistory, fpsEarnings
 
 	const entries = entriesRaw.flat();
 
-	const accountYears: string[] = entries
-		.map((e) => String(e.year))
-		.reduce<string[]>((a, b) => {
-			return a.includes(b) ? a : [...a, b];
-		}, []);
+	const accountYears: number[] = entries
+		.map((e) => e.year)
+		.reduce<number[]>((acc, y) => (acc.includes(y) ? acc : [...acc, y]), [])
+		.sort((a, b) => b - a);
 
 	const accountYearly: AccountYearly[] = [];
 	let latestBalance: bigint = 0n;
 
-	for (const y of accountYears) {
-		const items = entries.filter((e) => e.year == Number(y));
+	// Iterate ascending so latestBalance carries forward correctly, then sort desc later.
+	const sortedAsc = [...accountYears].sort((a, b) => a - b);
+	for (const y of sortedAsc) {
+		const items = entries.filter((e) => e.year === y);
 		const earningsMul = items.reduce<bigint>((a, b) => a + b.balance * b.earnings, 0n);
 		const earnings = earningsMul / BigInt(10 ** 18);
 
-		const fpsYearly = fpsHistory.filter((i) => new Date(i.created * 1000).getFullYear() == Number(y));
+		const fpsYearly = fpsHistory.filter((i) => new Date(i.created * 1000).getFullYear() === y);
 
 		if (fpsYearly.at(-1) != undefined) {
 			const latestItem = fpsYearly.at(-1)!;
 			latestBalance = normalizeAddress(latestItem.to) === normalizeAddress(address) ? latestItem.balanceTo : latestItem.balanceFrom;
 		}
 
-		// get fps price
-		const yearNew = new Date(`${Number(y) + 1}-01-01`).getTime();
+		const yearNew = new Date(`${y + 1}-01-01`).getTime();
 		const filteredLogs = logs.filter((l) => Number(l.timestamp) * 1000 < yearNew);
 		const price = BigInt(filteredLogs.at(-1)?.fpsPrice || "0");
 		const value = (latestBalance * price) / BigInt(10 ** 18);
 
-		accountYearly.push({
-			year: parseInt(y),
-			earnings,
-			balance: latestBalance,
-			value,
-		});
+		accountYearly.push({ year: y, earnings, balance: latestBalance, value });
 	}
 
 	const nonEmpty = accountYearly.filter((r) => r.earnings !== 0n || r.balance !== 0n || r.value !== 0n);
-	const sorted: AccountYearly[] = sortFunction({ list: nonEmpty, headers, tab, reverse });
+	const sorted = nonEmpty.slice().sort((a, b) => b.year - a.year);
 
-	useEffect(() => {
-		const idList = list.map((l) => `${l.year}_${l.balance}`).join("_");
-		const idSorted = sorted.map((l) => `${l.year}_${l.balance}`).join("_");
-		if (idList != idSorted) setList(sorted);
-	}, [list, sorted]);
+	const currentYear = new Date().getFullYear();
+	const logEntries: ActivityLogEntry[] = sorted.map((row) => {
+		const isCurrent = row.year === currentYear;
+		const earnings = formatCurrency(formatUnits(row.earnings, 18), 0, 0);
+		const balance = formatCurrency(formatUnits(row.balance, 18), 2, 2);
+		const value = formatCurrency(formatUnits(row.value, 18), 0, 0);
+		return {
+			id: row.year,
+			tone: row.earnings > 0n ? "positive" : "neutral",
+			primary: `+${earnings} ZCHF`,
+			badge: isCurrent ? "CURRENT" : String(row.year),
+			badgeTone: isCurrent ? "positive" : "neutral",
+			metaLeft: `BAL ${balance} FPS`,
+			metaRight: `VALUE ${value} ZCHF`,
+		};
+	});
 
-	const handleTabOnChange = function (e: string) {
-		if (tab === e) {
-			setReverse(!reverse);
-		} else {
-			setReverse(false);
-			setTab(e);
-		}
-	};
-
-	return (
-		<Table>
-			<TableHeader headers={headers} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} />
-			<TableBody>
-				{list.length == 0 ? (
-					<TableRowEmpty>{"There are no earnings accounted yet."}</TableRowEmpty>
-				) : (
-					list.map((r, idx) => (
-						<ReportsFPSYearlyRow
-							headers={headers}
-							tab={tab}
-							key={`ReportsFPSYearlyRow_${idx}_${r.year}`}
-							address={address}
-							item={r}
-						/>
-					))
-				)}
-			</TableBody>
-		</Table>
-	);
-}
-
-type SortFunctionParams = {
-	list: AccountYearly[];
-	headers: string[];
-	tab: string;
-	reverse: boolean;
-};
-
-function sortFunction(params: SortFunctionParams): AccountYearly[] {
-	const { list, headers, tab, reverse } = params;
-	let sortingList = [...list]; // make it writeable
-
-	if (tab === headers[0]) {
-		// Year
-		sortingList.sort((a, b) => b.year - a.year);
-	} else if (tab === headers[1]) {
-		// Collected
-		sortingList.sort((a, b) => parseInt(b.earnings.toString()) - parseInt(a.earnings.toString()));
-	} else if (tab === headers[2]) {
-		// Balance
-		sortingList.sort((a, b) => parseInt(b.balance.toString()) - parseInt(a.balance.toString()));
-	} else if (tab === headers[3]) {
-		// Value
-		sortingList.sort((a, b) => Number(b.value) - Number(a.value));
-	}
-
-	return reverse ? sortingList.reverse() : sortingList;
+	return <ActivityLog label="INCOME_LEDGER" meta="YEARLY" entries={logEntries} emptyText="NO_INCOME_HISTORY_" />;
 }
