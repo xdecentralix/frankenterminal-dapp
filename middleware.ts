@@ -9,8 +9,11 @@ import type { NextRequest } from "next/server";
 const BLOCKED_COUNTRIES = ["CU", "IR", "KP", "SY", "RU", "BY"];
 
 export function middleware(req: NextRequest) {
-	// Vercel automatically populates this header in production
-	const country = req.headers.get("x-vercel-ip-country") || req.geo?.country;
+	// Vercel automatically populates this header in production. The legacy
+	// `req.geo` fallback was removed in Next.js 16, so on Vercel we rely on
+	// the header exclusively; on other hosting (or local dev) the middleware
+	// becomes a no-op, which is fine because there's no geo data to act on.
+	const country = req.headers.get("x-vercel-ip-country");
 
 	if (country && BLOCKED_COUNTRIES.includes(country.toUpperCase())) {
 		return new NextResponse(
