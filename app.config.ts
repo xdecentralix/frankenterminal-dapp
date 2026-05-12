@@ -27,16 +27,29 @@ export type ConfigEnv = {
 export const CONFIG: ConfigEnv = {
 	verbose: false,
 
+	// Landing page — points at the canonical Frankencoin marketing site,
+	// since we're an alt-frontend, not an alt-protocol.
 	landing: process.env.NEXT_PUBLIC_LANDINGPAGE_URL || "https://frankencoin.com",
-	app: process.env.NEXT_PUBLIC_APP_URL || "https://app.frankencoin.com",
+	// App URL — used in OG tags, NextSEO and WAGMI_METADATA.url. Defaults
+	// to our own production domain; overridable via env var for previews
+	// and other deployments.
+	app: process.env.NEXT_PUBLIC_APP_URL || "https://frankenterminal.app",
+	// Backend services — default to the canonical Frankencoin endpoints
+	// (qualifying-minimum tier of the bounty). Switch to self-hosted URLs
+	// once the bonus track (own Ponder + own NestJS API) is deployed.
 	api: process.env.NEXT_PUBLIC_API_URL || "https://api.frankencoin.com",
 	ponder: process.env.NEXT_PUBLIC_PONDER_URL || "https://ponder.frankencoin.com",
+	// Public Morpho GraphQL endpoint (third-party).
 	morphoGraph: process.env.NEXT_PUBLIC_MORPHOGRAPH_URL || "https://blue-api.morpho.org/graphql",
+	// Reown / WalletConnect project ID. Owned by the operator of this
+	// frontend; production domains are whitelisted in cloud.reown.com.
 	wagmiId: process.env.NEXT_PUBLIC_WAGMI_ID || "57719c3e0043b726f0685a652e71e422",
 };
 
-console.log("YOU ARE USING THIS CONFIG PROFILE:");
-console.log(CONFIG);
+if (CONFIG.verbose) {
+	console.log("YOU ARE USING THIS CONFIG PROFILE:");
+	console.log(CONFIG);
+}
 
 // PONDER CLIENT
 export const PONDER_CLIENT = new ApolloClient({

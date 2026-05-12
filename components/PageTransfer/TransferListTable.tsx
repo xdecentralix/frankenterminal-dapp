@@ -112,7 +112,9 @@ export default function TransferListTable() {
 			tone,
 			primary: `${amount} ZCHF`,
 			badge,
-			badgeTone: isBridge ? "negative" : tone,
+			// Bridge is semantically neutral (cross-chain ≠ outflow); render as
+			// white via the default tone instead of the red "negative" tone.
+			badgeTone: isBridge ? "neutral" : tone,
 			metaLeft: (
 				<span className="flex items-center gap-2">
 					<a
