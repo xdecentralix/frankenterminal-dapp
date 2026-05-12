@@ -86,7 +86,7 @@ export default function GovernanceMintersAction({ minter, disabled }: Props) {
 
 	return (
 		<div className="">
-			<GuardSupportedChain disabled={isHidden || disabled} chain={SupportedChainsMap[chainId] as Chain}>
+			<GuardSupportedChain label="Connect" disabled={isHidden || disabled} chain={SupportedChainsMap[chainId] as Chain}>
 				<AppButtonSecondary className="h-10" disabled={isHidden || disabled} isLoading={isVetoing} onClick={(e) => handleOnClick(e)}>
 					Veto
 				</AppButtonSecondary>

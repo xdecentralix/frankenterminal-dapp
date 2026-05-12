@@ -54,7 +54,7 @@ export default function Navbar() {
 							className="flex items-center gap-2 group"
 						>
 							<span className="flex items-center gap-1 text-text-primary font-default font-bold tracking-[0.25em] text-2xl">
-								TELL FRANKENCOIN INTERFACE
+								TELL &ndash; FRANKENCOIN INTERFACE
 							</span>
 						</Link>
 					</div>

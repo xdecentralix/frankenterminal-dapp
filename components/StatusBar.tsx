@@ -7,6 +7,7 @@ import { faBook, faBookmark, faComments } from "@fortawesome/free-solid-svg-icon
 import { faGithub, faTelegram, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { SOCIAL } from "@utils";
 import ThemeColorSlider from "./ThemeColorSlider";
+import { reopenCookieConsent } from "./CookieConsentBanner";
 
 interface Props {
 	onOpenPalette?: () => void;
@@ -112,6 +113,14 @@ export default function StatusBar({ onOpenPalette }: Props) {
 					>
 						privacy
 					</Link>
+					<span className="text-card-content-highlight/60">·</span>
+					<button
+						type="button"
+						onClick={() => reopenCookieConsent()}
+						className="text-text-primary uppercase tracking-[0.18em] underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight hover:decoration-card-content-highlight transition-colors"
+					>
+						cookies
+					</button>
 					<span className="text-card-content-highlight animate-tell-blink">_</span>
 				</div>
 

@@ -74,7 +74,7 @@ export default function GovernanceDelegationAction({ delegate, disabled }: Props
 	};
 
 	return (
-		<GuardSupportedChain chain={mainnet}>
+		<GuardSupportedChain label="Connect" chain={mainnet}>
 			<AppButton className="h-10" disabled={disabled || !isAddress(delegate)} isLoading={isAction} onClick={(e) => handleOnClick(e)}>
 				Support Address
 			</AppButton>

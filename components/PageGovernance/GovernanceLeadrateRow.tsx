@@ -365,19 +365,19 @@ export default function GovernanceLeadrateRow({ headers, tab, proposal }: Props)
 				rawHeader={true}
 				actionCol={
 					proposal.isPending ? (
-						<GuardSupportedChain chain={mainnet}>
+						<GuardSupportedChain label="Connect" chain={mainnet}>
 							<AppButtonSecondary className="h-10" disabled={isHidden} isLoading={isDenying} onClick={(e) => handleOnDeny(e)}>
 								Deny
 							</AppButtonSecondary>
 						</GuardSupportedChain>
 					) : proposal.isProposal && !proposal.isPending ? (
-						<GuardSupportedChain chain={mainnet}>
+						<GuardSupportedChain label="Connect" chain={mainnet}>
 							<AppButtonSecondary className="h-10" disabled={isHidden} isLoading={isApplying} onClick={(e) => handleOnApply(e)}>
 								Apply
 							</AppButtonSecondary>
 						</GuardSupportedChain>
 					) : !proposal.isProposal && !proposal.isPending && !proposal.isSynced ? (
-						<GuardSupportedChain chain={mainnet}>
+						<GuardSupportedChain label="Connect" chain={mainnet}>
 							<AppButtonSecondary className="h-10" disabled={isHidden} isLoading={isSyncing} onClick={(e) => handleOnSync(e)}>
 								Sync
 							</AppButtonSecondary>

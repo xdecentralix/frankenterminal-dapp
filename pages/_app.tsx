@@ -13,6 +13,7 @@ import { Provider as ReduxProvider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import Web3ModalProvider from "@components/Web3Modal";
 import { LegalTermsModalProvider } from "@components/LegalTermsModalProvider";
+import CookieConsentBanner, { useAnalyticsConsent } from "@components/CookieConsentBanner";
 import { store } from "../redux/redux.store";
 import { MORPHOGRAPH_CLIENT, PONDER_CLIENT } from "../app.config";
 import BlockUpdater from "@components/BlockUpdater";
@@ -26,6 +27,19 @@ const tellMono = IBM_Plex_Mono({
 	weight: ["300", "400", "500", "600", "700"],
 });
 
+function ConsentedAnalytics() {
+	const consent = useAnalyticsConsent();
+	if (consent !== "accept") return null;
+	if (!process.env.NEXT_PUBLIC_UMAMI_URL || !process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID) return null;
+	return (
+		<Script
+			src={`${process.env.NEXT_PUBLIC_UMAMI_URL}/script.js`}
+			data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+			strategy="afterInteractive"
+		/>
+	);
+}
+
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<>
@@ -35,11 +49,7 @@ export default function App({ Component, pageProps }: AppProps) {
 				}
 			`}</style>
 
-			<Script
-				src={`${process.env.NEXT_PUBLIC_UMAMI_URL}/script.js`}
-				data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
-				strategy="afterInteractive"
-			/>
+			<ConsentedAnalytics />
 
 			<ReduxProvider store={store}>
 				<ThemeProvider>
@@ -62,6 +72,7 @@ export default function App({ Component, pageProps }: AppProps) {
 										<Layout>
 											<Component {...pageProps} />
 										</Layout>
+										<CookieConsentBanner />
 									</BlockUpdater>
 								</ApolloProvider>
 							</ApolloProvider>

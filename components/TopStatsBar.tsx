@@ -153,7 +153,7 @@ export default function TopStatsBar() {
 								<span>{formatCurrency(myPositionsStats.totalOwed, 0, 0, FormatType.symbol)} ZCHF</span>
 							</div>
 							<div className="flex items-center gap-2.5 text-text-secondary">
-								<span className="text-text-primary">avg rate</span>
+								<span className="text-text-primary">avg borrow rate</span>
 								<span>{formatCurrency(myPositionsStats.averageRate, 2, 2)}%</span>
 							</div>
 						</div>

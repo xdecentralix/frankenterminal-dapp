@@ -89,7 +89,7 @@ export default function GovernanceSyncAction({ targetChainId, voters, disabled }
 	};
 
 	return (
-		<GuardSupportedChain chainId={mainnet.id}>
+		<GuardSupportedChain label="Connect" chainId={mainnet.id}>
 <AppButton
 				className="h-10"
 				disabled={disabled || !isReady}
