@@ -158,28 +158,32 @@ export default function GovernanceCCIPBridgesTable() {
 		<Table>
 			<div className="rounded-t-lg bg-table-header-primary">
 				<div className="flex flex-wrap items-center gap-2 px-8 xl:px-12 py-3 border-b border-table-header-secondary">
-					<div className="flex flex-col md:flex-row md:items-center md:justify-end w-full max-md:gap-2 md:gap-10">
-						<div className="flex items-center justify-between md:justify-start gap-2 w-full md:w-56">
-							<span className="text-sm font-semibold text-text-secondary">From</span>
-							<ChainBySelect
-								chains={sourceChainNames}
-								chain={sourceFilter ?? ""}
-								chainOnChange={setSourceFilter}
-								isClearable
-							/>
+					<div className="flex flex-col md:flex-row md:items-center md:justify-between w-full max-md:gap-2 md:gap-10">
+						<div className="flex items-center justify-between md:justify-start gap-2 w-full md:w-80">
+							<span className="text-xs uppercase tracking-[0.12em] font-bold text-text-secondary">From</span>
+							<div className="w-56 md:w-64 flex-shrink-0">
+								<ChainBySelect
+									chains={sourceChainNames}
+									chain={sourceFilter ?? ""}
+									chainOnChange={setSourceFilter}
+									isClearable
+								/>
+							</div>
 						</div>
 
 						{/* Divider between search and controls — mobile only */}
 						<div className="md:hidden border-t border-gray-100 -mx-7" />
 
-						<div className="flex items-center justify-between md:justify-start gap-2 w-full md:w-56">
-							<span className="text-sm font-semibold text-text-secondary">To</span>
-							<ChainBySelect
-								chains={destinationChainNames}
-								chain={destinationFilter ?? ""}
-								chainOnChange={setDestinationFilter}
-								isClearable
-							/>
+						<div className="flex items-center justify-between md:justify-end gap-2 w-full md:w-80">
+							<span className="text-xs uppercase tracking-[0.12em] font-bold text-text-secondary">To</span>
+							<div className="w-56 md:w-64 flex-shrink-0">
+								<ChainBySelect
+									chains={destinationChainNames}
+									chain={destinationFilter ?? ""}
+									chainOnChange={setDestinationFilter}
+									isClearable
+								/>
+							</div>
 						</div>
 					</div>
 				</div>

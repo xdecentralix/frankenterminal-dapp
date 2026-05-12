@@ -26,7 +26,6 @@ import { PositionQuery } from "@frankencoin/api";
 import { ADDRESS, PositionV1ABI, PositionV2ABI } from "@frankencoin/zchf";
 import AppTitle from "@components/AppTitle";
 import PositionRollerTable from "@components/PageMypositions/PositionRollerTable";
-import AppCard from "@components/AppCard";
 import AppLink from "@components/AppLink";
 import MyPositionsNotFound from "@components/PageMypositions/MyPositionsNotFound";
 import { mainnet } from "viem/chains";
@@ -123,7 +122,7 @@ export default function PositionAdjust() {
 	if (!position) return <MyPositionsNotFound query={addressQuery} />;
 
 	const priceQuery = prices[normalizeAddress(position.collateral)];
-	if (!priceQuery) return <AppCard>Market Price of position not found</AppCard>;
+	if (!priceQuery) return <div className="p-4 text-center">Market Price of position not found</div>;
 
 	const marketPriceDec = priceQuery.price.chf != undefined ? Math.round(priceQuery.price.chf * 80) / 100 : 1;
 	const marketPrice80Pct = parseUnits(String(marketPriceDec), 36 - position.collateralDecimals);
@@ -422,8 +421,11 @@ export default function PositionAdjust() {
 
 			<div className="md:mt-8">
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<AppCard>
-						<div className="text-lg font-bold text-center">Adjustment</div>
+					<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+						<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+						<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-2">
+							ADJUSTMENT
+						</div>
 						<TokenInput
 							label="Amount"
 							symbol="ZCHF"
@@ -495,12 +497,15 @@ export default function PositionAdjust() {
 								</AppButton>
 							)}
 						</GuardSupportedChain>
-					</AppCard>
+					</div>
 
 					<div className="flex flex-col gap-4">
-						<AppCard>
-							<div className="text-lg font-bold text-center mt-3">Position Details</div>
-							<div className="flex-1 mt-4">
+						<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
+							<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+							<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-2">
+								POSITION DETAILS
+							</div>
+							<div className="flex-1 mt-2">
 								<div className="flex">
 									<div className="flex-1 text-text-secondary">
 										<span>Annual Interest</span>
@@ -520,11 +525,14 @@ export default function PositionAdjust() {
 									<div className="text-right">{expiredIn}</div>
 								</div>
 							</div>
-						</AppCard>
+						</div>
 
-						<AppCard>
-							<div className="text-lg font-bold text-center mt-3">Adjustment Outcome</div>
-							<div className="flex-1 mt-4">
+						<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
+							<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+							<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-2">
+								ADJUSTMENT OUTCOME
+							</div>
+							<div className="flex-1 mt-2">
 								<div className="flex">
 									<div className="flex-1 text-text-secondary">
 										<span>Current minted amount</span>
@@ -575,7 +583,7 @@ export default function PositionAdjust() {
 									</div>
 								</div>
 							</div>
-						</AppCard>
+						</div>
 						{!position.closed && !position.denied && (
 							<div className="flex justify-end gap-2">
 								<CalendarDropdown onGoogle={handleGoogleCalendar} onIcs={handleDownloadCalendar} />

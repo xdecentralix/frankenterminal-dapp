@@ -60,8 +60,11 @@ export default function PositionChallenge() {
 			/>
 
 			<div className="mt-8">
-				<AppCard>
-					<div className="text-lg font-bold text-center">Launch a Challenge</div>
+				<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+					<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+					<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-2">
+						Launch a Challenge
+					</div>
 					<ChallengeAuctionPriceChart
 						position={position}
 						challengeStartMs={nowMs}
@@ -70,7 +73,7 @@ export default function PositionChallenge() {
 						marketPrice={marketPrice}
 					/>
 					<ChallengeAction position={position} onChallengeSuccess={() => setNavigating(true)} />
-				</AppCard>
+				</div>
 			</div>
 		</div>
 	);

@@ -94,7 +94,7 @@ export default function SavingsLeadrateSparkline({ className, width = 280, heigh
 						{formatCurrency(last.rate, 2, 2)}% APR
 					</span>
 					<span className={`${trendColor} text-[0.7rem] mt-0.5`}>
-						{trendArrow} {formatCurrency(Math.abs(last.rate - first.rate), 2, 2)}% change
+						{trendArrow} {formatCurrency(Math.abs(last.rate - first.rate), 2, 2)}% change from start
 					</span>
 				</div>
 			</div>

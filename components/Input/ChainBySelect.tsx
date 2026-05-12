@@ -43,7 +43,7 @@ export default function ChainBySelect({
 	};
 
 	return (
-		<div className="flex items-center rounded-lg px-2 max-md:py-2">
+		<div className="flex items-center w-full px-2 max-md:py-2">
 			<Select
 				className="-mr-3 w-full"
 				options={options}

@@ -9,7 +9,6 @@ import { ADDRESS, CCIPAdminABI, ChainId, EquityABI, SupportedChain, SupportedCha
 import { WAGMI_CONFIG } from "../../../../app.config";
 import { ContractUrl, getChainByChainSelector, shortenAddress } from "@utils";
 import AppTitle from "@components/AppTitle";
-import AppCard from "@components/AppCard";
 import AppLink from "@components/AppLink";
 import AppToggle from "@components/AppToggle";
 import AppButton from "@components/AppButton";
@@ -229,9 +228,10 @@ export default function CCIPRateLimitPage() {
 
 	if (!(sourceChainId in ADDRESS) || !sourceChain) {
 		return (
-			<AppCard>
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 				<div>Unknown source chain: {sourceParam}</div>
-			</AppCard>
+			</div>
 		);
 	}
 
@@ -299,8 +299,11 @@ export default function CCIPRateLimitPage() {
 				</div>
 			</AppTitle>
 
-			<AppCard>
-				<div className="text-lg font-semibold">Bridge</div>
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
+					BRIDGE
+				</div>
 				<div className="flex flex-col">
 					<InfoRow
 						label="Configured chain"
@@ -367,10 +370,13 @@ export default function CCIPRateLimitPage() {
 						}
 					/>
 				</div>
-			</AppCard>
+			</div>
 
-			<AppCard>
-				<div className="text-lg font-semibold">New rate limits</div>
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
+					NEW RATE LIMITS
+				</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 					<RateLimitForm
@@ -402,7 +408,7 @@ export default function CCIPRateLimitPage() {
 						</AppButton>
 					</GuardSupportedChain>
 				</div>
-			</AppCard>
+			</div>
 		</>
 	);
 }
@@ -424,9 +430,9 @@ function safeBigInt(v: string): bigint | undefined {
 
 function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
 	return (
-		<div className="flex flex-row justify-between items-center border-b border-card-input-border py-2">
-			<div className="text-text-secondary">{label}</div>
-			<div className="text-text-primary">{value}</div>
+		<div className="flex flex-row justify-between items-center border-b border-card-input-border py-3 text-sm">
+			<div className="text-xs uppercase tracking-[0.12em] text-text-secondary">{label}</div>
+			<div className="text-text-primary tabular-nums font-bold">{value}</div>
 		</div>
 	);
 }
@@ -455,8 +461,8 @@ function RateLimitForm({
 	return (
 		<div className="flex flex-col gap-3">
 			<div>
-				<div className="font-semibold">{title}</div>
-				<div className="text-sm text-text-secondary">{description}</div>
+				<div className="text-xs uppercase tracking-[0.18em] font-bold text-text-primary">{title}</div>
+				<div className="text-xs text-text-secondary mt-1">{description}</div>
 			</div>
 			<AppToggle label={enabled ? "Enabled" : "Disabled (bypassed)"} enabled={enabled} onChange={onEnabledChange} />
 			<NormalInput

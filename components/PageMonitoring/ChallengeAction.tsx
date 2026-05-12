@@ -203,34 +203,34 @@ export default function ChallengeAction({ position, onChallengeSuccess }: Props)
 				limitLabel="Maximum"
 			/>
 
-			<div className="flex flex-col gap-1.5 text-sm">
-				<div className="flex justify-between items-center">
+			<div className="flex flex-col gap-1.5 text-sm border-t border-card-input-border/60 pt-4 mt-2">
+				<div className="flex justify-between items-center text-xs uppercase tracking-[0.12em]">
 					<span className="text-text-secondary">Starting price</span>
-					<span className="text-text-primary font-medium">
+					<span className="text-text-primary tabular-nums font-bold">
 						{formatBigInt(BigInt(position.price), 36 - position.collateralDecimals)} ZCHF
 					</span>
 				</div>
-				<div className="flex justify-between items-center">
+				<div className="flex justify-between items-center text-xs uppercase tracking-[0.12em]">
 					<span className="text-text-secondary">Potential reward (2%)</span>
-					<span className="text-text-primary font-medium">
+					<span className="text-text-primary tabular-nums font-bold">
 						{formatCurrency(formatUnits((BigInt(position.price) * amount * 2n) / 100n, 36), 2, 2)} ZCHF
 					</span>
 				</div>
-				<div className="flex justify-between items-center">
+				<div className="flex justify-between items-center text-xs uppercase tracking-[0.12em]">
 					<span className="text-text-secondary">Collateral in position</span>
-					<span className="text-text-primary font-medium">
+					<span className="text-text-primary tabular-nums font-bold">
 						{formatBigInt(BigInt(position.collateralBalance), position.collateralDecimals)} {position.collateralSymbol}
 					</span>
 				</div>
-				<div className="flex justify-between items-center">
+				<div className="flex justify-between items-center text-xs uppercase tracking-[0.12em]">
 					<span className="text-text-secondary">Minimum amount</span>
-					<span className="text-text-primary font-medium">
+					<span className="text-text-primary tabular-nums font-bold">
 						{formatBigInt(BigInt(position.minimumCollateral), position.collateralDecimals)} {position.collateralSymbol}
 					</span>
 				</div>
-				<div className="flex justify-between items-center">
+				<div className="flex justify-between items-center text-xs uppercase tracking-[0.12em]">
 					<span className="text-text-secondary">Phase duration</span>
-					<span className="text-text-primary font-medium">{Math.round(position.challengePeriod / 3600)} h</span>
+					<span className="text-text-primary tabular-nums font-bold">{Math.round(position.challengePeriod / 3600)} h</span>
 				</div>
 			</div>
 

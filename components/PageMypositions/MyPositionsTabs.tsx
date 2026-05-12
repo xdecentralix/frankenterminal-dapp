@@ -54,7 +54,7 @@ export default function MyPositionsTabs({ children }: Props) {
 
 	return (
 		<div className="mt-2">
-			<div className="bg-layout-primary mb-5 border border-card-input-border overflow-x-auto no-scrollbar">
+			<div className="relative bg-layout-primary mb-5 border border-card-input-border overflow-x-auto no-scrollbar">
 				<div className="flex flex-row min-w-max text-text-secondary" role="tablist">
 					{tabs.map((t, i) => {
 						const isActive = active === t.id;
@@ -64,19 +64,20 @@ export default function MyPositionsTabs({ children }: Props) {
 								role="tab"
 								aria-selected={isActive}
 								onClick={() => setActive(t.id)}
-								className={`flex-1 min-w-[100px] py-2 px-4 text-xs uppercase tracking-[0.12em] font-semibold text-center border-r border-card-input-border last:border-r-0 transition-colors flex items-center justify-center gap-2 ${
+								className={`relative flex-1 min-w-[100px] py-3 px-4 text-sm uppercase tracking-[0.18em] font-bold text-center border-r border-card-input-border last:border-r-0 transition-colors flex items-center justify-center gap-2 ${
 									isActive
-										? "text-card-content-highlight tell-glow-red bg-card-content-highlight/5 border-b-2 border-b-card-content-highlight"
-										: "cursor-pointer hover:bg-card-body-secondary hover:text-text-primary border-b-2 border-b-transparent"
+										? "text-text-primary bg-card-body-primary"
+										: "cursor-pointer hover:bg-card-body-secondary hover:text-text-primary"
 								}`}
 							>
+								{isActive && <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />}
 								{t.label}
 								{typeof t.count === "number" && (
 									<span
 										className={`text-[0.6rem] tabular-nums px-1.5 py-0.5 border ${
 											t.alert
 												? "border-card-content-highlight text-card-content-highlight tell-glow-red"
-												: "border-card-input-border text-text-secondary"
+												: isActive ? "border-text-secondary text-text-primary bg-text-secondary/10" : "border-card-input-border text-text-secondary"
 										}`}
 									>
 										{t.count}
