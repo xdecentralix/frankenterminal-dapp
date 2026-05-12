@@ -21,13 +21,13 @@ interface SafetyGaugeProps {
 const BAND_FILL: Record<HealthBand, string> = {
 	safe: "bg-text-success",
 	watch: "bg-text-warning",
-	danger: "bg-card-content-highlight",
+	danger: "bg-text-danger",
 	neutral: "bg-card-input-border",
 };
 const BAND_TEXT: Record<HealthBand, string> = {
 	safe: "text-text-success",
 	watch: "text-text-warning",
-	danger: "text-card-content-highlight tell-glow-red",
+	danger: "text-text-danger tell-glow-red",
 	neutral: "text-text-secondary",
 };
 const BAND_LABEL: Record<HealthBand, string> = {
@@ -66,12 +66,12 @@ export function SafetyGauge({ math, newPrice, className }: SafetyGaugeProps) {
 					style={{ width: `${fillPct}%` }}
 				/>
 				{/* tick marks at the band thresholds (10% and 30%) */}
-				<div className="absolute inset-y-0 left-[10%] w-px bg-card-content-highlight/40" />
+				<div className="absolute inset-y-0 left-[10%] w-px bg-text-danger/40" />
 				<div className="absolute inset-y-0 left-[30%] w-px bg-text-warning/40" />
 			</div>
 
 			<div className="flex items-center justify-between text-[0.6rem] uppercase tracking-[0.18em]">
-				<span className="text-card-content-highlight">DANGER</span>
+				<span className="text-text-danger">DANGER</span>
 				<span className="text-text-warning">WATCH</span>
 				<span className="text-text-success">SAFE</span>
 			</div>
@@ -80,7 +80,7 @@ export function SafetyGauge({ math, newPrice, className }: SafetyGaugeProps) {
 				<span className={`uppercase tracking-[0.18em] font-bold ${BAND_TEXT[band]}`}>{BAND_LABEL[band]}</span>
 				<span className="text-text-secondary tabular-nums uppercase tracking-[0.12em]">
 					{isAboveOracle ? (
-						<span className="text-card-content-highlight">LIQ &gt; ORACLE (cooldown required)</span>
+						<span className="text-text-danger">LIQ &gt; ORACLE (cooldown required)</span>
 					) : (
 						<>BUFFER {formatCurrency(buffer, 1, 1)}%</>
 					)}
@@ -345,7 +345,7 @@ export function PositionContextStrip({
 			</span>
 			<span>
 				<span className="text-text-secondary">CHALLENGES:</span>{" "}
-				<span className={activeChallenges > 0 ? "text-card-content-highlight tell-glow-red" : "text-text-primary"}>
+				<span className={activeChallenges > 0 ? "text-text-danger tell-glow-red" : "text-text-primary"}>
 					{activeChallenges}
 				</span>
 			</span>

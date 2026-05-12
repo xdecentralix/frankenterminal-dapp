@@ -55,7 +55,7 @@ export default function AppTitle({
 								{title && (
 									<span className="flex items-baseline gap-2.5">
 										{!hasMedia && (
-											<span className="text-card-content-highlight tell-glow-red font-bold text-2xl leading-none select-none">
+											<span className="text-card-content-highlight tell-glow-accent font-bold text-2xl leading-none select-none">
 												&gt;
 											</span>
 										)}

@@ -37,7 +37,7 @@ export default function AppButtonSecondary({
 	const btnClass = `btn ${className ?? ""} ${sizeClass} ${
 		isInactive
 			? "cursor-not-allowed bg-transparent border border-card-input-border text-button-textdisabled"
-			: "bg-transparent border border-card-input-border text-text-primary hover:border-card-content-highlight hover:text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-red"
+			: "bg-transparent border border-card-input-border text-text-primary hover:border-card-content-highlight hover:text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-accent"
 	} ${width ?? "w-full"}`.trim();
 
 	const button = to ? (

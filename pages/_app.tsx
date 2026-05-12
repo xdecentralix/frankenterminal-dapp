@@ -12,10 +12,12 @@ import { ApolloProvider } from "@apollo/client";
 import { Provider as ReduxProvider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import Web3ModalProvider from "@components/Web3Modal";
+import { LegalTermsModalProvider } from "@components/LegalTermsModalProvider";
 import { store } from "../redux/redux.store";
 import { MORPHOGRAPH_CLIENT, PONDER_CLIENT } from "../app.config";
 import BlockUpdater from "@components/BlockUpdater";
 import USGovSanctionList from "@components/USGovSanctionList";
+import { ThemeProvider } from "@components/ThemeProvider";
 
 const tellMono = IBM_Plex_Mono({
 	subsets: ["latin"],
@@ -40,28 +42,32 @@ export default function App({ Component, pageProps }: AppProps) {
 			/>
 
 			<ReduxProvider store={store}>
-				<Web3ModalProvider>
-					<ApolloProvider client={MORPHOGRAPH_CLIENT}>
-						<ApolloProvider client={PONDER_CLIENT}>
-							<ToastContainer
-								className="border-card-content-primary border-2 bg-card-body-primary rounded-lg"
-								toastClassName={(c) => "bg-card-body-primary text-text-primary rounded-lg"}
-								position="bottom-right"
-								hideProgressBar={false}
-								rtl={false}
-								closeButton={false}
-							/>
+				<ThemeProvider>
+					<Web3ModalProvider>
+						<LegalTermsModalProvider>
+							<ApolloProvider client={MORPHOGRAPH_CLIENT}>
+								<ApolloProvider client={PONDER_CLIENT}>
+									<ToastContainer
+										className="border-card-content-primary border-2 bg-card-body-primary rounded-lg"
+										toastClassName={(c) => "bg-card-body-primary text-text-primary rounded-lg"}
+										position="bottom-right"
+										hideProgressBar={false}
+										rtl={false}
+										closeButton={false}
+									/>
 
-							<BlockUpdater>
-								<NextSeoProvider />
-								<USGovSanctionList />
-								<Layout>
-									<Component {...pageProps} />
-								</Layout>
-							</BlockUpdater>
-						</ApolloProvider>
-					</ApolloProvider>
-				</Web3ModalProvider>
+									<BlockUpdater>
+										<NextSeoProvider />
+										<USGovSanctionList />
+										<Layout>
+											<Component {...pageProps} />
+										</Layout>
+									</BlockUpdater>
+								</ApolloProvider>
+							</ApolloProvider>
+						</LegalTermsModalProvider>
+					</Web3ModalProvider>
+				</ThemeProvider>
 			</ReduxProvider>
 		</>
 	);

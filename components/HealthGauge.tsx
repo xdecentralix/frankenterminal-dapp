@@ -14,14 +14,14 @@ interface Props {
 const BAND_FILL: Record<HealthBand, string> = {
 	safe: "bg-text-success",
 	watch: "bg-text-warning",
-	danger: "bg-card-content-highlight",
+	danger: "bg-text-danger",
 	neutral: "bg-card-input-border",
 };
 
 const BAND_TEXT: Record<HealthBand, string> = {
 	safe: "text-text-success",
 	watch: "text-text-warning",
-	danger: "text-card-content-highlight tell-glow-red",
+	danger: "text-text-danger tell-glow-red",
 	neutral: "text-text-secondary",
 };
 

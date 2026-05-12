@@ -11,7 +11,7 @@ interface Props {
 export default function EmptyState({ title, hint, cta, className }: Props) {
 	return (
 		<div className={`w-full font-default ${className ?? ""}`}>
-			<div className="text-card-content-highlight tell-glow-red text-sm uppercase tracking-[0.18em]">
+			<div className="text-text-danger tell-glow-red text-sm uppercase tracking-[0.18em]">
 				&gt; {title}
 			</div>
 			{hint && (

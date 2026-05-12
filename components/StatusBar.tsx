@@ -1,20 +1,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, useMemo } from "react";
-import { Address, formatUnits } from "viem";
-import { mainnet } from "viem/chains";
-import { useChainId, useConnection } from "wagmi";
-import { useSelector } from "react-redux";
-import { ADDRESS } from "@frankencoin/zchf";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faBook, faBookmark, faCodeCommit, faComments } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBookmark, faComments } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faTelegram, faXTwitter } from "@fortawesome/free-brands-svg-icons";
-import { formatCurrency, FormatType, normalizeAddress, shortenAddress, SOCIAL } from "@utils";
-import { WAGMI_CHAINS } from "../app.config";
-import { RootState, store } from "../redux/redux.store";
-import { fetchSavings } from "../redux/slices/savings.slice";
-import { version } from "../package.json";
+import { SOCIAL } from "@utils";
+import ThemeColorSlider from "./ThemeColorSlider";
 
 interface Props {
 	onOpenPalette?: () => void;
@@ -51,7 +43,7 @@ function SocialIcon({ href, icon, title }: SocialIconProps) {
 			rel="noreferrer"
 			title={title}
 			aria-label={title}
-			className="flex items-center justify-center w-8 h-full text-text-secondary hover:text-card-content-highlight hover:tell-glow-red transition-colors"
+			className="flex items-center justify-center w-8 h-full text-text-secondary hover:text-card-content-highlight hover:tell-glow-accent transition-colors"
 		>
 			<FontAwesomeIcon icon={icon} className="w-3.5 h-3.5" />
 		</Link>
@@ -59,199 +51,34 @@ function SocialIcon({ href, icon, title }: SocialIconProps) {
 }
 
 export default function StatusBar({ onOpenPalette }: Props) {
-	const { address } = useConnection();
-	const chainId = useChainId();
-	const supportedChainIds = WAGMI_CHAINS.map((c) => c.id);
-	const isSupportedChain = supportedChainIds.includes(chainId as any);
-	const status: "connected" | "wrong-chain" | "disconnected" = !address
-		? "disconnected"
-		: !isSupportedChain
-		? "wrong-chain"
-		: "connected";
-
-	const dot =
-		status === "connected"
-			? "bg-text-success"
-			: status === "wrong-chain"
-			? "bg-text-warning"
-			: "bg-card-content-highlight";
-	const text =
-		status === "connected"
-			? "text-text-success"
-			: status === "wrong-chain"
-			? "text-text-warning"
-			: "text-card-content-highlight";
-
-	const networkName = (() => {
-		const chain = WAGMI_CHAINS.find((c) => c.id === chainId);
-		return chain?.name ?? `chain ${chainId}`;
-	})();
-
-	const leadrate = useSelector((state: RootState) => {
-		const savings = normalizeAddress(ADDRESS[mainnet.id].savingsReferral);
-		return state.savings.savingsInfo?.status?.[mainnet.id]?.[savings]?.rate ?? 0;
-	});
-
-	const userSavings = useSelector((state: RootState) => {
-		if (!address) return 0n;
-		const balances = state.savings.savingsBalance;
-		if (!balances) return 0n;
-		return Object.values(balances)
-			.flatMap((modules) => Object.values(modules ?? {}))
-			.reduce<bigint>((acc, m) => {
-				try {
-					return acc + BigInt(m.balance);
-				} catch {
-					return acc;
-				}
-			}, 0n);
-	});
-
-	const positions = useSelector((state: RootState) => {
-		if (!address) return [];
-		return state.positions.list.list.filter(p => normalizeAddress(p.owner) === normalizeAddress(address as string) && !p.closed && !p.denied);
-	});
-	const prices = useSelector((state: RootState) => state.prices.coingecko);
-
-	const myPositionsStats = useMemo(() => {
-		let count = 0;
-		let totalCollateralValue = 0;
-		let totalMintedFloat = 0;
-		let totalReservesFloat = 0;
-		let weightedInterestSum = 0;
-
-		for (const p of positions) {
-			count++;
-			
-			const collTokenPrice = prices[normalizeAddress(p.collateral)]?.price?.usd || 0;
-			const zchfPrice = prices[normalizeAddress(p.zchf)]?.price?.usd || 1;
-			const balance = parseInt(p.collateralBalance) / 10 ** p.collateralDecimals;
-			const valueZCHF = zchfPrice > 0 ? (balance * collTokenPrice) / zchfPrice : 0;
-			totalCollateralValue += valueZCHF;
-
-			const mintedZCHF = parseInt(p.minted) / 10 ** p.zchfDecimals;
-			const reserveContributionFloat = p.reserveContribution / 1_000_000;
-			
-			totalMintedFloat += mintedZCHF;
-			totalReservesFloat += mintedZCHF * reserveContributionFloat;
-
-			const interest = p.annualInterestPPM / 10 ** 4;
-			const reserve = p.reserveContribution / 10 ** 4;
-			const effectiveInterest = interest / (1 - reserve / 100);
-
-			weightedInterestSum += effectiveInterest * mintedZCHF;
-		}
-
-		const totalOwed = totalMintedFloat - totalReservesFloat;
-		const averageRate = totalMintedFloat > 0 ? weightedInterestSum / totalMintedFloat : 0;
-
-		return { count, totalCollateralValue, totalOwed, averageRate };
-	}, [positions, prices]);
-
-	useEffect(() => {
-		if (!address) return;
-		store.dispatch(fetchSavings(address as Address));
-	}, [address]);
-
 	const [now, setNow] = useState<string>("");
+	
 	useEffect(() => {
 		const tick = () => {
 			const d = new Date();
+			const yyyy = d.getFullYear();
+			const mm = String(d.getMonth() + 1).padStart(2, "0");
+			const dd = String(d.getDate()).padStart(2, "0");
 			const hh = String(d.getHours()).padStart(2, "0");
-			const mm = String(d.getMinutes()).padStart(2, "0");
+			const min = String(d.getMinutes()).padStart(2, "0");
 			const ss = String(d.getSeconds()).padStart(2, "0");
-			setNow(`${hh}:${mm}:${ss}`);
+			setNow(`${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`);
 		};
 		tick();
 		const id = setInterval(tick, 1000);
 		return () => clearInterval(id);
 	}, []);
 
-	const isTestnet = process.env.NEXT_PUBLIC_PROFILE == "testnet";
-	const buildLabel = `v${version} · ${isTestnet ? "DEV" : "PROD"}`;
 	const docsLink = useDynamicDocs();
 
 	return (
 		<div className="fixed bottom-0 left-0 right-0 z-40 hidden md:block bg-layout-primary border-t border-card-input-border text-[0.72rem] uppercase tracking-[0.18em] tabular-nums select-none">
 			{/* Red top hairline (matches trade-stream / activity-log chrome) */}
-			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+			<div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 
-			{/* Row 1 — telemetry */}
+			{/* Row 1 — brand, attribution, tools, socials */}
 			<div className="flex items-stretch h-9">
-				<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border">
-					<span className="relative flex items-center justify-center w-2.5 h-2.5">
-						{status === "connected" && (
-							<span className={`absolute inline-flex h-full w-full rounded-full ${dot} opacity-60 animate-ping`}></span>
-						)}
-						<span className={`relative inline-flex rounded-full h-2 w-2 ${dot}`}></span>
-					</span>
-					<span className={text}>
-						{status === "connected" ? "online" : status === "wrong-chain" ? "wrong chain" : "offline"}
-					</span>
-				</div>
-				<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-					<span className="text-text-primary">network</span>
-					<span>{networkName}</span>
-				</div>
-				<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-					<span className="text-text-primary">savings rate</span>
-					<span>{formatCurrency(leadrate / 10_000, 2, 2)}%</span>
-				</div>
-				{address && (
-					<>
-						<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-							<span className="text-text-primary">acct</span>
-							<span>{shortenAddress(address as Address)}</span>
-						</div>
-						<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-							<span className="text-text-primary">my positions</span>
-							<span>{myPositionsStats.count}</span>
-						</div>
-						<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-							<span className="text-text-primary">my collateral</span>
-							<span>{formatCurrency(myPositionsStats.totalCollateralValue, 0, 0, FormatType.symbol)} ZCHF</span>
-						</div>
-						<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-							<span className="text-text-primary">my debt</span>
-							<span>{formatCurrency(myPositionsStats.totalOwed, 0, 0, FormatType.symbol)} ZCHF</span>
-						</div>
-						<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-							<span className="text-text-primary">my avg rate</span>
-							<span>{formatCurrency(myPositionsStats.averageRate, 2, 2)}%</span>
-						</div>
-						<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-							<span className="text-text-primary">my savings</span>
-							<span>{formatCurrency(formatUnits(userSavings, 18), 0, 0, FormatType.symbol)} ZCHF</span>
-						</div>
-					</>
-				)}
-
-				<div className="flex-1" />
-
-				<button
-					type="button"
-					onClick={onOpenPalette}
-					className="flex items-center gap-2.5 px-4 border-l border-card-input-border text-text-secondary hover:text-card-content-highlight hover:bg-card-content-highlight/10 transition-colors"
-				>
-					<span className="text-card-content-highlight">⌘K</span>
-					<span>command</span>
-				</button>
-				<div className="hidden lg:flex items-center gap-2.5 px-4 border-l border-card-input-border text-text-secondary">
-					<span>{now}</span>
-				</div>
-			</div>
-
-			{/* Dashed hairline between rows */}
-			<div className="border-t border-dashed border-card-input-border/40" aria-hidden="true" />
-
-			{/* Row 2 — brand, attribution, socials, build */}
-			<div className="flex items-stretch h-9">
-				<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border">
-					<span className="text-card-content-highlight tell-glow-red font-bold">TELL INTERFACE</span>
-				</div>
-				<div className="hidden xl:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary truncate">
-					<span>independent fork</span>
-					<span className="text-card-content-highlight/60">·</span>
+				<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary truncate">
 					<span>canonical</span>
 					<Link
 						href="https://app.frankencoin.com"
@@ -271,14 +98,35 @@ export default function StatusBar({ onOpenPalette }: Props) {
 					>
 						xdecentralix/tell-dapp
 					</Link>
-					<span className="text-card-content-highlight animate-tell-blink">_</span>
-				</div>
-				<div className="flex xl:hidden items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-					<span>independent fork</span>
+					<span className="text-card-content-highlight/60">·</span>
+					<Link
+						href="/terms"
+						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight hover:decoration-card-content-highlight transition-colors"
+					>
+						terms
+					</Link>
+					<span className="text-card-content-highlight/60">·</span>
+					<Link
+						href="/privacy"
+						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight hover:decoration-card-content-highlight transition-colors"
+					>
+						privacy
+					</Link>
 					<span className="text-card-content-highlight animate-tell-blink">_</span>
 				</div>
 
 				<div className="flex-1" />
+
+				<ThemeColorSlider />
+
+				<button
+					type="button"
+					onClick={onOpenPalette}
+					className="flex items-center gap-2.5 px-4 border-l border-card-input-border text-text-secondary hover:text-card-content-highlight hover:bg-card-content-highlight/10 transition-colors"
+				>
+					<span className="text-card-content-highlight">⌘K</span>
+					<span>command</span>
+				</button>
 
 				<div className="flex items-stretch px-1 border-l border-card-input-border">
 					<SocialIcon href={SOCIAL.Twitter} icon={faXTwitter} title="Twitter / X" />
@@ -289,16 +137,9 @@ export default function StatusBar({ onOpenPalette }: Props) {
 					<SocialIcon href={docsLink} icon={faBook} title="Docs" />
 				</div>
 
-				<Link
-					href={SOCIAL.Github_dapp}
-					target="_blank"
-					rel="noreferrer"
-					title="View build on GitHub"
-					className="flex items-center gap-2.5 px-4 border-l border-card-input-border text-text-secondary hover:text-card-content-highlight transition-colors"
-				>
-					<FontAwesomeIcon icon={faCodeCommit} className="w-3.5 h-3.5" />
-					<span>{buildLabel}</span>
-				</Link>
+				<div className="hidden lg:flex items-center gap-2.5 px-4 border-l border-card-input-border text-text-secondary">
+					<span>{now}</span>
+				</div>
 			</div>
 		</div>
 	);

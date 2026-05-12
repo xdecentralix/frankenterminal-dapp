@@ -44,7 +44,7 @@ export default function AppButton({
 	const btnClass = `btn relative ${className ?? ""} ${sizeClass} ${
 		isInactive
 			? "cursor-not-allowed bg-transparent border border-card-input-border text-button-textdisabled"
-			: "bg-transparent border border-card-content-highlight text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-red"
+			: "bg-transparent border border-card-content-highlight text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-accent"
 	} ${width ?? "w-full"}`.trim();
 
 	const labelExtras = !isInactive ? "tracking-[0.18em]" : "tracking-[0.12em]";

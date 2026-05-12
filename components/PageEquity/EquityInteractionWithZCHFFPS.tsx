@@ -297,14 +297,14 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between">
 					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">HOLDING DURATION</div>
 					<DisplayOutputAlignedRight
-						textColorOutput={!poolStats.equityCanRedeem ? "text-card-content-highlight" : undefined}
+						textColorOutput={!poolStats.equityCanRedeem ? "text-text-danger" : undefined}
 						output={poolStats.equityBalance > 0 ? formatDuration(poolStats.equityHoldingDuration) : "-"}
 					/>
 				</AppBox>
 				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between flex-1">
 					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">CAN REDEEM AFTER</div>
 					<DisplayOutputAlignedRight
-						textColorOutput={!poolStats.equityCanRedeem ? "text-card-content-highlight" : undefined}
+						textColorOutput={!poolStats.equityCanRedeem ? "text-text-danger" : undefined}
 						output={redeemLeft > 0 ? formatDuration(redeemLeft) : "Ready"}
 					/>
 				</AppBox>

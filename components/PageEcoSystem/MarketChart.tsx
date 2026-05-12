@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
 import AppCard from "../AppCard";
 import dynamic from "next/dynamic";
+import { useTheme } from "../ThemeProvider";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const toDailyValues = (data: [number, number][]) => {
@@ -16,6 +17,7 @@ const toDailyValues = (data: [number, number][]) => {
 };
 
 export default function MarketChart() {
+	const { themeAccent } = useTheme();
 	const timestamp = Date.now() - 20 * 24 * 3600 * 1000;
 	const { marketChart } = useSelector((state: RootState) => state.prices);
 
@@ -36,7 +38,7 @@ export default function MarketChart() {
 									enabled: false,
 								},
 							},
-							colors: ["#FF0033", "#FFB000"],
+							colors: [themeAccent, "#FFB000"],
 							stroke: {
 								curve: "stepline",
 								width: 2,
@@ -46,7 +48,7 @@ export default function MarketChart() {
 								type: "line",
 								dropShadow: {
 									enabled: true,
-									color: "#FF0033",
+									color: themeAccent,
 									top: 0,
 									left: 0,
 									blur: 8,
@@ -169,7 +171,7 @@ export default function MarketChart() {
 									enabled: false,
 								},
 							},
-							colors: ["#FF0033", "#FFB000"],
+							colors: [themeAccent, "#FFB000"],
 							stroke: {
 								width: 0,
 							},

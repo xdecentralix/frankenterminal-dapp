@@ -42,7 +42,7 @@ export default function MonitoringRow({ headers, tab, position }: Props) {
 	const collateralBalanceNumber: number = parseInt(formatUnits(BigInt(position.collateralBalance), digits - 2)) / 100;
 	const challengesRatioPct: number = Math.round((positionChallengesActiveCollateral / collateralBalanceNumber) * 100);
 
-	const collColor = liquidationPct < 110 ? "text-card-content-highlight" : liquidationPct <= 120 ? "text-text-warning" : "text-text-success";
+	const collColor = liquidationPct < 110 ? "text-text-danger" : liquidationPct <= 120 ? "text-text-warning" : "text-text-success";
 	const rowBg =
 		liquidationPct < 110
 			? "bg-[#FEF2F2] border-l-[3px] border-l-[#E5484D]"

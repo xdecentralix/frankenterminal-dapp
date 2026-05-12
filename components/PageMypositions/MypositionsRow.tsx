@@ -62,7 +62,7 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 	
 	if (!isClosedOrCooldown) {
 		if (isChallenged || maturity <= 0 || liquidationPct < 110) {
-			healthColor = "text-card-content-highlight tell-glow-red";
+			healthColor = "text-text-danger tell-glow-red";
 			healthLabel = "DANGER";
 		} else if (liquidationPct <= 120) {
 			healthColor = "text-text-warning";
@@ -186,7 +186,7 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 			<div className="flex flex-col">
 				<div className="flex items-center gap-3 justify-end">
 					<div className="flex flex-col text-right">
-						<span className={liquidationPct < 110 && !isClosedOrCooldown ? `text-md font-bold text-card-content-highlight tell-glow-red` : "text-md"}>
+						<span className={liquidationPct < 110 && !isClosedOrCooldown ? `text-md font-bold text-text-danger tell-glow-red` : "text-md"}>
 							{formatCurrency(liquidationZCHF, 2, 2)} ZCHF
 						</span>
 						<span className="text-sm text-text-subheader font-normal">

@@ -17,7 +17,7 @@ export default function AppHeroSteps({ steps, className }: Props) {
 			{steps.map((step, i) => (
 				<div key={i} className="relative flex items-start gap-4 bg-layout-primary p-4 border border-card-input-border">
 					<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-					<div className="flex-shrink-0 w-7 h-7 border border-card-content-highlight bg-card-content-highlight/10 text-card-content-highlight tell-glow-red flex items-center justify-center text-sm font-bold tabular-nums">
+					<div className="flex-shrink-0 w-7 h-7 border border-card-content-highlight bg-card-content-highlight/10 text-card-content-highlight tell-glow-accent flex items-center justify-center text-sm font-bold tabular-nums">
 						{step.icon}
 					</div>
 					<div className="flex flex-col gap-1">

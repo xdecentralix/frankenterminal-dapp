@@ -5,6 +5,7 @@ import { RootState } from "../redux/redux.store";
 import { normalizeAddress, shortenAddress } from "@utils";
 import { Address } from "viem";
 import { useConnection, useDisconnect } from "wagmi";
+import { useLegalModal } from "./LegalTermsModalProvider";
 
 type Command = {
 	id: string;
@@ -54,6 +55,7 @@ export default function CommandPalette({ isOpen, onClose }: Props) {
 
 	const { address } = useConnection();
 	const { disconnect } = useDisconnect();
+	const { openModal } = useLegalModal();
 
 	const positionsList = useSelector((state: RootState) => state.positions.list.list);
 
@@ -83,8 +85,7 @@ export default function CommandPalette({ isOpen, onClose }: Props) {
 					group: "Wallet" as const,
 					icon: "+",
 					onRun: () => {
-						const btn = document.querySelector<HTMLElement>("appkit-button");
-						btn?.click();
+						openModal();
 					},
 				},
 			];
@@ -109,7 +110,7 @@ export default function CommandPalette({ isOpen, onClose }: Props) {
 				onRun: () => disconnect(),
 			},
 		];
-	}, [address, disconnect]);
+	}, [address, disconnect, openModal]);
 
 	const allCommands = useMemo(
 		() => [...NAV_COMMANDS, ...ACTION_COMMANDS, ...positionCommands, ...walletCommands],
@@ -191,7 +192,7 @@ export default function CommandPalette({ isOpen, onClose }: Props) {
 			>
 				<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-80 pointer-events-none" />
 				<div className="px-4 py-3 border-b border-card-input-border flex items-center gap-3">
-					<span className="text-card-content-highlight tell-glow-red text-[0.7rem] uppercase tracking-[0.18em] font-bold">
+					<span className="text-card-content-highlight tell-glow-accent text-[0.7rem] uppercase tracking-[0.18em] font-bold">
 						&gt;_
 					</span>
 					<input

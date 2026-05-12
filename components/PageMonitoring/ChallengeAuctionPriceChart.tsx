@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { PositionQuery } from "@frankencoin/api";
 import { formatUnits } from "viem";
 import { formatCurrency, formatDateTime } from "@utils";
+import { useTheme } from "../ThemeProvider";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function ChallengeAuctionPriceChart({ position, challengeStartMs, phase1Ms, phase2Ms, auctionPrice, marketPrice }: Props) {
+	const { themeAccent } = useTheme();
 	const priceDigits = 36 - position.collateralDecimals;
 	const liqPriceNum = parseFloat(formatUnits(BigInt(position.price), priceDigits));
 	const currentPriceNum = auctionPrice !== undefined ? parseFloat(formatUnits(auctionPrice, priceDigits)) : undefined;
@@ -128,14 +130,14 @@ export default function ChallengeAuctionPriceChart({ position, challengeStartMs,
 						fontFamily: "var(--font-tell-mono), monospace",
 						dropShadow: {
 							enabled: true,
-							color: "#FF0033",
+							color: themeAccent,
 							top: 0,
 							left: 0,
 							blur: 8,
 							opacity: 0.2,
 						},
 					},
-					colors: ["#FF0033", "#FFB000"],
+					colors: [themeAccent, "#FFB000"],
 					stroke: { curve: "stepline", width: [2, 2] },
 					dataLabels: { enabled: false },
 					fill: {

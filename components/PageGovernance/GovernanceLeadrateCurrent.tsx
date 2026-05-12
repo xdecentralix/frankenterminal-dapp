@@ -20,12 +20,15 @@ import { normalizeAddress } from "../../utils/format";
 import { useDelegationHelpers } from "@hooks";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
+import { useTheme } from "../ThemeProvider";
+
 const MintModule = normalizeAddress(ADDRESS[mainnet.id].savingsV2);
 const SaveModule = normalizeAddress(ADDRESS[mainnet.id].savingsReferral);
 
 interface Props {}
 
 export default function GovernanceLeadrateCurrent({}: Props) {
+	const { themeAccent } = useTheme();
 	const account = useConnection();
 	const chainId = mainnet.id;
 	const { helpers } = useDelegationHelpers(account.address);
@@ -209,7 +212,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 									enabled: false,
 								},
 							},
-							colors: ["#FF0033", "#FFB000"],
+							colors: [themeAccent, "#FFB000"],
 							stroke: {
 								curve: "stepline",
 								width: 2,
@@ -219,7 +222,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 								height: 100,
 								dropShadow: {
 									enabled: true,
-									color: "#FF0033",
+									color: themeAccent,
 									top: 0,
 									left: 0,
 									blur: 8,

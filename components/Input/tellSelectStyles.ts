@@ -8,9 +8,9 @@ import type { GroupBase, StylesConfig } from "react-select";
  * are inlined here. Keep them in sync with `tailwind.config.js`.
  */
 
-const TELL_RED = "#FF0033";
-const TELL_RED_TINT = "rgba(255, 0, 51, 0.1)";
-const TELL_RED_HALO = "rgba(255, 0, 51, 0.35)";
+const TELL_RED = "var(--theme-accent)";
+const TELL_RED_TINT = "rgba(var(--theme-accent-rgb), 0.1)";
+const TELL_RED_HALO = "rgba(var(--theme-accent-rgb), 0.35)";
 const TELL_BG_DEEP = "#0A0A0A"; // layout.primary  — menu surface
 const TELL_BG_CARD = "#141414"; // card.body.primary — control surface
 const TELL_BORDER = "#2A2A2A"; // card.input.border
@@ -85,7 +85,7 @@ export function tellSelectStyles<Option extends { value: string }>({
 			backgroundColor: TELL_BG_DEEP,
 			border: `1px solid ${TELL_BORDER}`,
 			borderRadius: "2px",
-			boxShadow: `0 0 0 1px rgba(255, 0, 51, 0.15), 0 8px 24px rgba(0, 0, 0, 0.6)`,
+			boxShadow: `0 0 0 1px rgba(var(--theme-accent-rgb), 0.15), 0 8px 24px rgba(0, 0, 0, 0.6)`,
 			overflow: "hidden",
 			marginTop: "4px",
 		}),

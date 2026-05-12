@@ -42,7 +42,7 @@ export default function DisplayCollateralChallenge({
 		(parseInt(challenge.size.toString()) - parseInt(challenge.filledSize.toString())) / 10 ** position.collateralDecimals;
 	const challengeRemainingPriceZchf: number = challengePrice / 10 ** (36 - position.collateralDecimals);
 	const challengeRemainingPriceUsd: number = challengeRemainingPriceZchf * zchfPrice;
-	const challengeAuctionPriceColor: string = challengeRemainingPriceZchf <= challengeSizeZchf ? "text-text-success" : "text-card-content-highlight";
+	const challengeAuctionPriceColor: string = challengeRemainingPriceZchf <= challengeSizeZchf ? "text-text-success" : "text-text-danger";
 
 	return (
 		<div className={`flex items-center ${className}`}>

@@ -31,14 +31,21 @@ module.exports = {
 				"3xl": "2px",
 			},
 			boxShadow: {
-				"glow-red": "0 0 0 1px rgba(255, 0, 51, 0.5), 0 0 16px rgba(255, 0, 51, 0.35)",
-				"glow-red-sm": "0 0 6px rgba(255, 0, 51, 0.4)",
-				"glow-red-lg": "0 0 0 1px #FF0033, 0 0 24px rgba(255, 0, 51, 0.45), 0 0 48px rgba(255, 0, 51, 0.2)",
-				"inset-red": "inset 0 0 0 1px rgba(255, 0, 51, 0.6)",
+				"glow-red": "0 0 0 1px rgba(var(--theme-danger-rgb), 0.5), 0 0 16px rgba(var(--theme-danger-rgb), 0.35)",
+				"glow-red-sm": "0 0 6px rgba(var(--theme-danger-rgb), 0.4)",
+				"glow-red-lg": "0 0 0 1px var(--theme-danger), 0 0 24px rgba(var(--theme-danger-rgb), 0.45), 0 0 48px rgba(var(--theme-danger-rgb), 0.2)",
+				"inset-red": "inset 0 0 0 1px rgba(var(--theme-danger-rgb), 0.6)",
+				
+				"glow-accent": "0 0 0 1px rgba(var(--theme-accent-rgb), 0.5), 0 0 16px rgba(var(--theme-accent-rgb), 0.35)",
+				"glow-accent-sm": "0 0 6px rgba(var(--theme-accent-rgb), 0.4)",
+				"glow-accent-lg": "0 0 0 1px var(--theme-accent), 0 0 24px rgba(var(--theme-accent-rgb), 0.45), 0 0 48px rgba(var(--theme-accent-rgb), 0.2)",
+				"inset-accent": "inset 0 0 0 1px rgba(var(--theme-accent-rgb), 0.6)",
+				
 				terminal: "0 0 0 1px #2A2A2A",
 			},
 			textShadow: {
-				glow: "0 0 8px rgba(255, 0, 51, 0.6), 0 0 16px rgba(255, 0, 51, 0.3)",
+				glow: "0 0 8px rgba(var(--theme-accent-rgb), 0.6), 0 0 16px rgba(var(--theme-accent-rgb), 0.3)",
+				"glow-danger": "0 0 8px rgba(var(--theme-danger-rgb), 0.6), 0 0 16px rgba(var(--theme-danger-rgb), 0.3)",
 			},
 			keyframes: {
 				"tell-blink": {
@@ -52,8 +59,8 @@ module.exports = {
 					"50%": { opacity: "0.95" },
 				},
 				"tell-glow-pulse": {
-					"0%, 100%": { boxShadow: "0 0 0 1px rgba(255, 0, 51, 0.4), 0 0 12px rgba(255, 0, 51, 0.25)" },
-					"50%": { boxShadow: "0 0 0 1px rgba(255, 0, 51, 0.8), 0 0 28px rgba(255, 0, 51, 0.55)" },
+					"0%, 100%": { boxShadow: "0 0 0 1px rgba(var(--theme-accent-rgb), 0.4), 0 0 12px rgba(var(--theme-accent-rgb), 0.25)" },
+					"50%": { boxShadow: "0 0 0 1px rgba(var(--theme-accent-rgb), 0.8), 0 0 28px rgba(var(--theme-accent-rgb), 0.55)" },
 				},
 				"tell-spin-square": {
 					"0%": { transform: "rotate(0deg)" },
@@ -74,7 +81,7 @@ module.exports = {
 				},
 				menu: {
 					text: "#C0C0C0",
-					textactive: "#FF0033",
+					textactive: "var(--theme-accent)",
 					active: "#1F1F1F",
 					hover: "#2A2A2A",
 					back: "#0A0A0A",
@@ -85,13 +92,13 @@ module.exports = {
 						label: "#888888",
 						disabled: "#1A1A1A",
 						empty: "#555555",
-						focus: "#FF0033",
+						focus: "var(--theme-accent)",
 						error: "#FFB000",
 						border: "#2A2A2A",
-						hover: "#FF6B7A",
-						min: "#FF0033",
-						max: "#FF0033",
-						reset: "#FF0033",
+						hover: "#FFFFFF",
+						min: "var(--theme-accent)",
+						max: "var(--theme-accent)",
+						reset: "var(--theme-accent)",
 					},
 					body: {
 						primary: "#141414",
@@ -101,17 +108,18 @@ module.exports = {
 					content: {
 						primary: "#0A0A0A",
 						secondary: "#141414",
-						highlight: "#FF0033",
+						highlight: "var(--theme-accent)",
 					},
 				},
 				text: {
 					header: "#C0C0C0",
 					subheader: "#888888",
-					active: "#FF0033",
+					active: "var(--theme-accent)",
 					primary: "#E0E0E0",
 					secondary: "#888888",
 					warning: "#FFB000",
 					success: "#00FF7F",
+					danger: "var(--theme-danger)",
 				},
 				table: {
 					header: {
@@ -125,8 +133,8 @@ module.exports = {
 					},
 				},
 				button: {
-					default: "#FF0033",
-					hover: "#FF1F4D",
+					default: "var(--theme-accent)",
+					hover: "#FFFFFF",
 					disabled: "#1F1F1F",
 					textdisabled: "#555555",
 				},

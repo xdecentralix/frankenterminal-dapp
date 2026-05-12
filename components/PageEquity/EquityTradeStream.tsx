@@ -85,7 +85,7 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 											<div className="flex items-baseline gap-2 min-w-0 flex-wrap">
 												{isInvest ? (
 													<>
-														<span className="text-card-content-highlight font-bold whitespace-nowrap text-base">
+														<span className="text-text-danger font-bold whitespace-nowrap text-base">
 															{formatCurrency(Math.abs(parseFloat(formatUnits(t.amount, 18))), 0, 0)} ZCHF
 														</span>
 														<span className="text-text-secondary whitespace-nowrap text-base">→</span>
@@ -95,7 +95,7 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 													</>
 												) : (
 													<>
-														<span className="text-card-content-highlight font-bold whitespace-nowrap text-base">
+														<span className="text-text-danger font-bold whitespace-nowrap text-base">
 															{formatCurrency(Math.abs(parseFloat(formatUnits(t.shares, 18))), 2, 2)} FPS
 														</span>
 														<span className="text-text-secondary whitespace-nowrap text-base">→</span>
@@ -107,7 +107,7 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 											</div>
 											<span
 												className={`text-[0.7rem] md:text-xs tracking-[0.18em] font-bold whitespace-nowrap ${
-													isInvest ? "text-text-success" : "text-card-content-highlight"
+													isInvest ? "text-text-success" : "text-text-danger"
 												}`}
 											>
 												{isInvest ? "INVESTED" : "REDEEMED"}
@@ -121,7 +121,7 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 													{shortenAddress(t.trader as `0x${string}`).toUpperCase()}
 												</span>
 												<span className="text-card-input-border">·</span>
-												<span className="whitespace-nowrap font-default text-text-secondary group-hover:text-card-content-highlight group-hover:tell-glow-red transition-colors">
+												<span className="whitespace-nowrap font-default text-text-secondary group-hover:text-card-content-highlight group-hover:tell-glow-accent transition-colors">
 													TX {shortenString(t.txHash).toUpperCase()}
 												</span>
 											</div>

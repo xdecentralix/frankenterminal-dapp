@@ -115,7 +115,7 @@ export default function BorrowKpiStrip({ className }: Props) {
 			{showGuide && (
 				<div className="relative mt-3 border border-card-input-border bg-layout-primary px-5 py-5">
 					<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60"></div>
-					<div className="text-sm uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-3 font-bold">
+					<div className="text-sm uppercase tracking-[0.18em] text-card-content-highlight tell-glow-accent mb-3 font-bold">
 						HOW IT WORKS
 					</div>
 					<ol className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-text-secondary list-none">

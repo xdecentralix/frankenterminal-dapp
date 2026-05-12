@@ -2,9 +2,9 @@ import Link from "next/link";
 import WalletConnect from "./WalletConnect";
 import NavButton from "./NavButton";
 import { useState } from "react";
-import { useChainId, useConnection } from "wagmi";
+import { useConnection } from "wagmi";
 import { track } from "../hooks/useAnalytics";
-import { WAGMI_CHAINS } from "../app.config";
+import TopStatsBar from "./TopStatsBar";
 
 const MAIN_ITEMS = [
 	{ to: "/mint", name: "Borrow" },
@@ -35,72 +35,28 @@ export function NavItems({ items, variant = "primary" }: { items: typeof MAIN_IT
 export default function Navbar() {
 	const [isNavBarOpen, setIsNavBarOpen] = useState(false);
 	const { address } = useConnection();
-	const chainId = useChainId();
-
-	const supportedChainIds = WAGMI_CHAINS.map((c) => c.id);
-	const isSupportedChain = supportedChainIds.includes(chainId as any);
-	const status: "connected" | "wrong-chain" | "disconnected" = !address
-		? "disconnected"
-		: !isSupportedChain
-		? "wrong-chain"
-		: "connected";
 
 	let mainItems = MAIN_ITEMS;
 	if (!address) {
 		mainItems = mainItems.filter((i) => i.to != "/mypositions");
 	}
 
-	const statusDot =
-		status === "connected"
-			? "bg-text-success"
-			: status === "wrong-chain"
-			? "bg-text-warning"
-			: "bg-card-content-highlight";
-	const statusLabel =
-		status === "connected" ? "connected" : status === "wrong-chain" ? "wrong chain" : "disconnected";
-	const statusText =
-		status === "connected"
-			? "text-text-success"
-			: status === "wrong-chain"
-			? "text-text-warning"
-			: "text-card-content-highlight";
-
 	return (
 		<>
-			<div className="fixed top-0 left-0 right-0 z-10 backdrop-blur border-b border-card-content-highlight/30 bg-menu-back/90 relative">
-				{/* thin red scan-line accent under the navbar */}
-				<div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-				<header className="grid grid-cols-[1fr,auto,1fr] items-center md:py-4 py-3 px-4 w-full">
-					{/* Left: logo + status */}
+			<div className="fixed top-0 left-0 right-0 z-10 bg-menu-back/90 relative">
+				<header className="grid grid-cols-[1fr,auto,1fr] items-center md:py-4 py-3 px-4 w-full backdrop-blur relative">
+					<div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+					{/* Left: logo */}
 					<div className="flex items-center gap-4 md:pl-4">
 						<Link
 							href="/"
 							onClick={() => track("nav_home")}
 							className="flex items-center gap-2 group"
 						>
-							<picture>
-								<img
-									className="h-8 w-8 transition-transform group-hover:rotate-90 duration-500 drop-shadow-[0_0_8px_rgba(255,0,51,0.55)]"
-									src="/brand/tell-icon.svg"
-									alt="Tell"
-								/>
-							</picture>
-							<span className="hidden sm:flex items-center gap-1 text-text-primary font-default font-bold tracking-[0.25em] text-lg">
-								<span className="text-card-content-highlight tell-glow-red">[</span>
-								<span className="tell-glow-red">TELL</span>
-								<span className="text-card-content-highlight tell-glow-red">]</span>
+							<span className="flex items-center gap-1 text-text-primary font-default font-bold tracking-[0.25em] text-2xl">
+								TELL FRANKENCOIN INTERFACE
 							</span>
 						</Link>
-						{/* terminal-style status indicator (desktop only) — wired to wagmi state */}
-						<div className="hidden lg:flex items-center gap-2 text-[10px] font-default tracking-[0.2em] uppercase border-l border-menu-separator pl-4">
-							<span className="relative flex items-center justify-center w-2 h-2">
-								{status === "connected" && (
-									<span className={`absolute inline-flex h-full w-full rounded-full ${statusDot} opacity-60 animate-ping`}></span>
-								)}
-								<span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${statusDot}`}></span>
-							</span>
-							<span className={statusText}>{statusLabel}</span>
-						</div>
 					</div>
 
 					{/* Center: desktop nav / mobile wallet */}
@@ -134,6 +90,7 @@ export default function Navbar() {
 						</button>
 					</div>
 				</header>
+				<TopStatsBar />
 			</div>
 
 			{/* Mobile sidebar */}

@@ -24,7 +24,7 @@ export default function NavButton({ to, name, external, variant = "primary" }: P
 							active ? "text-menu-textactive font-semibold" : "text-menu-text hover:text-menu-textactive"
 					  }`
 					: `md:btn md:btn-nav md:py-2 tracking-[0.18em] text-base ${
-							active ? "text-menu-textactive tell-glow-red" : "text-menu-text hover:text-menu-textactive"
+							active ? "text-menu-textactive tell-glow-accent" : "text-menu-text hover:text-menu-textactive"
 					  }`
 			}`}
 			href={to}

@@ -4,10 +4,13 @@ import AppCard from "../AppCard";
 import { formatUnits, parseEther, parseUnits } from "viem";
 import dynamic from "next/dynamic";
 import { formatCurrency } from "../../utils/format";
-import { colors } from "../../utils/constant";
+import { getColors } from "../../utils/constant";
+import { useTheme } from "../ThemeProvider";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function ReserveCosts() {
+	const { themeAccent } = useTheme();
+	const colors = getColors(themeAccent);
 	const { openPositions } = useSelector((state: RootState) => state.positions);
 	const { fpsInfo } = useSelector((state: RootState) => state.ecosystem);
 

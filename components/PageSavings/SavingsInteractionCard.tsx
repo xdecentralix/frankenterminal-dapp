@@ -266,7 +266,7 @@ export default function SavingsInteractionCard() {
 				</div>
 
 				<div className="relative mt-6 border border-card-input-border bg-card-body-primary px-4 py-3">
-					<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-2">
+					<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
 						REFERRAL NOTICE
 					</div>
 

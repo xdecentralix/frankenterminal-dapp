@@ -5,6 +5,7 @@ import AppButton from "@components/AppButton";
 import { WAGMI_CHAIN, WAGMI_CHAINS } from "../../app.config";
 import { AppKitNetwork } from "@reown/appkit/networks";
 import { ChainId } from "@frankencoin/zchf";
+import { useLegalModal } from "../LegalTermsModalProvider";
 
 interface Props {
 	children?: React.ReactNode;
@@ -21,6 +22,7 @@ export default function GuardSupportedChain({ children, label, disabled, chain, 
 	const AppKit = useAppKit();
 	const AppKitState = useAppKitState();
 	const AppKitNetwork = useAppKitNetwork();
+	const { openModal } = useLegalModal();
 
 	// search chain from supported chainId
 	if (chain == undefined && chainId != undefined) {
@@ -47,7 +49,7 @@ export default function GuardSupportedChain({ children, label, disabled, chain, 
 <AppButton
 				disabled={disabled}
 				onClick={() => {
-					AppKit.open();
+					openModal();
 					setRequestedChange(true);
 				}}
 			>

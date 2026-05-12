@@ -52,8 +52,8 @@ export default function HealthRatio() {
 	};
 
 	const barPct = Math.min(currentPct / 3, 100);
-	const healthColor = currentPct >= 150 ? "text-text-success" : currentPct >= 100 ? "text-text-warning" : "text-card-content-highlight tell-glow-red";
-	const barColor = currentPct >= 150 ? "bg-text-success" : currentPct >= 100 ? "bg-text-warning" : "bg-card-content-highlight";
+	const healthColor = currentPct >= 150 ? "text-text-success" : currentPct >= 100 ? "text-text-warning" : "text-text-danger tell-glow-red";
+	const barColor = currentPct >= 150 ? "bg-text-success" : currentPct >= 100 ? "bg-text-warning" : "bg-text-danger";
 
 	return (
 		<div className="relative border border-card-input-border bg-layout-primary p-4 flex flex-col h-full gap-y-4 rounded-lg">
@@ -104,7 +104,7 @@ export default function HealthRatio() {
 						type="area"
 						height={200}
 						options={{
-								colors: [currentPct >= 150 ? "#00FF7F" : currentPct >= 100 ? "#FFB000" : "#FF0033"],
+								colors: [currentPct >= 150 ? "#00FF7F" : currentPct >= 100 ? "#FFB000" : "var(--theme-danger)"],
 								stroke: {
 									curve: "stepline",
 									width: 2,
@@ -124,7 +124,7 @@ export default function HealthRatio() {
 									sparkline: { enabled: false },
 									dropShadow: {
 										enabled: true,
-										color: currentPct >= 150 ? "#00FF7F" : currentPct >= 100 ? "#FFB000" : "#FF0033",
+										color: currentPct >= 150 ? "#00FF7F" : currentPct >= 100 ? "#FFB000" : "var(--theme-danger)",
 										top: 0,
 										left: 0,
 										blur: 8,
@@ -186,7 +186,7 @@ export default function HealthRatio() {
 									yaxis: [
 										{
 											y: 100,
-											borderColor: "#FF0033",
+											borderColor: "var(--theme-danger)",
 											strokeDashArray: 4,
 										},
 									],

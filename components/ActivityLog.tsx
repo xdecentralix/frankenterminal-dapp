@@ -43,7 +43,7 @@ const DEFAULT_ROW_PX = 80;
 
 function toneClass(tone: ActivityTone): string {
 	if (tone === "positive") return "text-text-success";
-	if (tone === "negative") return "text-card-content-highlight";
+	if (tone === "negative") return "text-text-danger";
 	if (tone === "warning") return "text-text-warning";
 	return "text-text-primary";
 }
@@ -81,7 +81,7 @@ export default function ActivityLog({
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			{label || meta ? (
 				<div className="flex items-baseline justify-between mb-3 flex-shrink-0 gap-2">
-					<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red whitespace-nowrap">
+					<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-accent whitespace-nowrap">
 						{label}
 					</div>
 					<div className="text-[0.6rem] uppercase tracking-[0.12em] text-text-secondary tabular-nums whitespace-nowrap">

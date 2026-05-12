@@ -47,7 +47,7 @@ export default function ReportsPositionsYearlyTable({
 					const interest = formatCurrency(formatUnits(row.interestPaid, 18), 0, 0);
 					const debt = formatCurrency(formatUnits(row.openDebt, 18), 0, 0);
 					const collateral = formatCurrency(formatUnits(row.valueLocked, 18), 0, 0);
-					const toneColor = row.interestPaid > 0n ? "text-card-content-highlight" : "text-text-primary";
+					const toneColor = row.interestPaid > 0n ? "text-text-danger" : "text-text-primary";
 
 					return (
 						<div key={row.year} className="border border-card-input-border bg-card-body-primary p-5 flex flex-col gap-3 relative overflow-hidden">

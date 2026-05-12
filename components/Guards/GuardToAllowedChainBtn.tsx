@@ -4,6 +4,7 @@ import { useAppKit, useAppKitState, useAppKitNetwork } from "@reown/appkit/react
 import AppButton from "@components/AppButton";
 import { useIsConnectedToCorrectChain } from "../../hooks/useWalletConnectStats";
 import { WAGMI_CHAIN } from "../../app.config";
+import { useLegalModal } from "../LegalTermsModalProvider";
 
 interface Props {
 	children?: React.ReactNode;
@@ -19,6 +20,7 @@ export default function GuardToAllowedChainBtn(props: Props) {
 	const AppKitState = useAppKitState();
 	const AppKitNetwork = useAppKitNetwork();
 	const isCorrectChain = useIsConnectedToCorrectChain();
+	const { openModal } = useLegalModal();
 
 	// to close modal after successful connection or change of chain
 	useEffect(() => {
@@ -35,7 +37,7 @@ export default function GuardToAllowedChainBtn(props: Props) {
 				className="h-10"
 				disabled={props.disabled}
 				onClick={() => {
-					AppKit.open();
+					openModal();
 					setRequestedChange(true);
 				}}
 			>

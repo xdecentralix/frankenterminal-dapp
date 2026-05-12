@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
 import { formatCurrency } from "@utils";
 import { formatUnits } from "viem";
+import { useTheme } from "../ThemeProvider";
 
 interface Props {
 	className?: string;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export default function SavingsHistorySparkline({ className, width = 280, height = 96 }: Props) {
+	const { themeAccent } = useTheme();
 	const { logs } = useSelector((state: RootState) => state.dashboard.dailyLog);
 
 	const series = useMemo(() => {
@@ -72,14 +74,14 @@ export default function SavingsHistorySparkline({ className, width = 280, height
 			</div>
 			<div className="flex items-center gap-3">
 				<svg width={width} height={height} className="block">
-					<path d={path} fill="none" stroke="#FF0033" strokeWidth={1.5} />
+					<path d={path} fill="none" stroke={themeAccent} strokeWidth={1.5} />
 					{points.map((p, i) => (
 						<circle
 							key={i}
 							cx={p.x}
 							cy={p.y}
 							r={i === points.length - 1 ? 2.5 : 0}
-							fill={i === points.length - 1 ? "#FF0033" : "transparent"}
+							fill={i === points.length - 1 ? themeAccent : "transparent"}
 							opacity={i === points.length - 1 ? 1 : 0}
 						/>
 					))}

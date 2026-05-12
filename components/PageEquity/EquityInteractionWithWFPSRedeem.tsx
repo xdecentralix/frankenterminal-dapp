@@ -294,14 +294,14 @@ export default function EquityInteractionWithWFPSRedeem({ tokenFromTo, setTokenF
 				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between">
 					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">HOLDING DURATION WFPS</div>
 					<DisplayOutputAlignedRight
-						textColorOutput={!poolStats.equityCanRedeem ? "text-card-content-highlight" : undefined}
+						textColorOutput={!poolStats.equityCanRedeem ? "text-text-danger" : undefined}
 						output={wfpsHolding > 0 && wfpsHolding < 86_400 * 365 * 10 ? formatDuration(wfpsHolding) : "-"}
 					/>
 				</AppBox>
 				<AppBox className="!bg-card-body-primary border border-card-input-border px-5 py-4 flex flex-col justify-between flex-1">
 					<div className="text-xs font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">CAN REDEEM AFTER</div>
 					<DisplayOutputAlignedRight
-						textColorOutput={!poolStats.equityCanRedeem ? "text-card-content-highlight" : undefined}
+						textColorOutput={!poolStats.equityCanRedeem ? "text-text-danger" : undefined}
 						output={formatDuration(redeemLeft)}
 					/>
 				</AppBox>

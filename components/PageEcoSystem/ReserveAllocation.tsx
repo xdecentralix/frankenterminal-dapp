@@ -4,10 +4,13 @@ import AppCard from "../AppCard";
 import { formatUnits, parseEther } from "viem";
 import dynamic from "next/dynamic";
 import { formatCurrency, FormatType } from "../../utils/format";
-import { colors } from "../../utils/constant";
+import { getColors } from "../../utils/constant";
+import { useTheme } from "../ThemeProvider";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function ReserveAllocation() {
+	const { themeAccent } = useTheme();
+	const colors = getColors(themeAccent);
 	const { openPositions } = useSelector((state: RootState) => state.positions);
 	const { fpsInfo } = useSelector((state: RootState) => state.ecosystem);
 
@@ -67,7 +70,7 @@ export default function ReserveAllocation() {
 								fontFamily: "var(--font-tell-mono), monospace",
 								dropShadow: {
 									enabled: true,
-									color: "#FF0033",
+									color: themeAccent,
 									top: 0,
 									left: 0,
 									blur: 8,

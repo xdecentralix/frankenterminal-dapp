@@ -44,14 +44,14 @@ export default function LoadingScreen({ title = "TELL // initializing", loading 
 								alt="Tell"
 							/>
 						</picture>
-						<h1 className="font-default tracking-[0.25em] uppercase text-xl tell-glow-red tell-cursor">
+						<h1 className="font-default tracking-[0.25em] uppercase text-xl tell-glow-accent tell-cursor">
 							{title}
 						</h1>
 					</div>
 
 					{loading.length > 0 && (
 						<div className="w-full tell-frame px-6 py-5 font-default text-[12px] uppercase tracking-[0.12em]">
-							<div className="text-card-content-highlight tell-glow-red mb-3 text-[10px]">
+							<div className="text-card-content-highlight tell-glow-accent mb-3 text-[10px]">
 								SYSTEM BOOT SEQUENCE
 							</div>
 							<ul className="list-none text-left space-y-1.5">
@@ -59,7 +59,7 @@ export default function LoadingScreen({ title = "TELL // initializing", loading 
 									<li key={item.id} className="flex items-center gap-3">
 										<span
 											className={`inline-block w-1.5 h-1.5 ${
-												item.isLoaded ? "bg-text-success" : "bg-card-content-highlight animate-tell-blink"
+												item.isLoaded ? "bg-text-success" : "bg-text-danger animate-tell-blink"
 											}`}
 										/>
 										<span
@@ -71,7 +71,7 @@ export default function LoadingScreen({ title = "TELL // initializing", loading 
 										</span>
 										<span
 											className={`text-[10px] ${
-												item.isLoaded ? "text-text-success" : "text-card-content-highlight"
+												item.isLoaded ? "text-text-success" : "text-text-danger"
 											}`}
 										>
 											{item.isLoaded ? "[ OK ]" : "[ .. ]"}

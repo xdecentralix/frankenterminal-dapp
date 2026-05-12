@@ -8,13 +8,16 @@ import GovernanceVotersRow from "./GovernanceVotersRow";
 import { useConnection } from "wagmi";
 import { formatCurrency, normalizeAddress, shortenAddress } from "../../utils/format";
 import dynamic from "next/dynamic";
-import { colors } from "../../utils/constant";
+import { getColors } from "../../utils/constant";
 import { ADDRESS } from "@frankencoin/zchf";
 import { mainnet } from "viem/chains";
+import { useTheme } from "../ThemeProvider";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function GovernanceVotersTable() {
+	const { themeAccent } = useTheme();
+	const colors = getColors(themeAccent);
 	const headers: string[] = ["Address", "Voting Power"];
 	const [tab, setTab] = useState<string>(headers[1]);
 	const [reverse, setReverse] = useState<boolean>(false);

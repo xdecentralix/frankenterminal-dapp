@@ -4,10 +4,13 @@ import AppCard from "../AppCard";
 import { formatUnits } from "viem";
 import dynamic from "next/dynamic";
 import { formatCurrency } from "../../utils/format";
-import { colors } from "../../utils/constant";
+import { getColors } from "../../utils/constant";
+import { useTheme } from "../ThemeProvider";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function MintAllocation() {
+	const { themeAccent } = useTheme();
+	const colors = getColors(themeAccent);
 	const { openPositions } = useSelector((state: RootState) => state.positions);
 	// Aggregate collateral
 	const byCollateral = new Map<string, bigint>();

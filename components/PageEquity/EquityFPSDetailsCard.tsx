@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
 import { formatUnits } from "viem";
 import { TabInput } from "@components/Input/TabInput";
+import { useTheme } from "../ThemeProvider";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const Timeframes = ["All", "1Y", "1Q", "1M", "1W"];
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function EquityFPSDetailsCard({ equityTrades }: Props) {
+	const { themeAccent } = useTheme();
 	const [timeframe, setTimeframe] = useState<string>(Timeframes[1]);
 	const [typechart, setTypechart] = useState<string>(TypeCharts[0]);
 	const logs = useSelector((state: RootState) => state.dashboard.dailyLog.logs);
@@ -69,7 +71,7 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 						options={{
 							theme: {
 								monochrome: {
-									color: "#FF0033",
+									color: themeAccent,
 									enabled: true,
 								},
 							},
@@ -78,7 +80,7 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 								height: 300,
 								dropShadow: {
 									enabled: true,
-									color: "#FF0033",
+									color: themeAccent,
 									top: 0,
 									left: 0,
 									blur: 8,
@@ -174,12 +176,12 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 									colorStops: [
 										{
 											offset: 0,
-											color: "#FF0033",
+											color: themeAccent,
 											opacity: 0.3
 										},
 										{
 											offset: 100,
-											color: "#FF0033",
+											color: themeAccent,
 											opacity: 0.0
 										}
 									]

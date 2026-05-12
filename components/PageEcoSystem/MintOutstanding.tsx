@@ -7,11 +7,13 @@ import { formatCurrency, FormatType } from "../../utils/format";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import TokenLogo from "@components/TokenLogo";
+import { useTheme } from "../ThemeProvider";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const INITIAL_VISIBLE = 6;
 
 export default function MintOutstanding() {
+	const { themeAccent } = useTheme();
 	const [showAll, setShowAll] = useState(false);
 	const router = useRouter();
 	const { openPositions } = useSelector((state: RootState) => state.positions);
@@ -78,7 +80,7 @@ export default function MintOutstanding() {
 						type="area"
 						height={220}
 						options={{
-							colors: ["#FF0033"],
+							colors: [themeAccent],
 							stroke: {
 								curve: "stepline",
 								width: 2,
@@ -98,7 +100,7 @@ export default function MintOutstanding() {
 								sparkline: { enabled: false },
 								dropShadow: {
 									enabled: true,
-									color: "#FF0033",
+									color: themeAccent,
 									top: 0,
 									left: 0,
 									blur: 8,

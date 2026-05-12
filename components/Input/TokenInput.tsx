@@ -129,7 +129,7 @@ export default function TokenInput({
 
 						{canShowButtons && min != undefined && min != BigInt(value) && min != max && (
 							<div
-								className="text-card-input-min cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-min cursor-pointer hover:text-white font-extrabold"
 								onClick={() => {
 									if (min !== undefined) {
 										onChange(min.toString());
@@ -142,7 +142,7 @@ export default function TokenInput({
 						)}
 						{canShowButtons && reset != undefined && reset != BigInt(value) && reset != min && reset != max && (
 							<div
-								className="text-card-input-reset cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-reset cursor-pointer hover:text-white font-extrabold"
 								onClick={() => {
 									if (reset !== undefined) {
 										onChange(reset.toString());
@@ -155,7 +155,7 @@ export default function TokenInput({
 						)}
 						{canShowButtons && max != undefined && max != BigInt(value) && (
 							<div
-								className="text-card-input-max cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-max cursor-pointer hover:text-white font-extrabold"
 								onClick={() => {
 									if (max !== undefined) {
 										onChange(max.toString());

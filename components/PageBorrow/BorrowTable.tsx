@@ -122,7 +122,7 @@ export default function BorrowTable() {
 				{isEmpty ? (
 					<TableRowEmpty>
 						<div className="w-full font-default">
-							<div className="text-card-content-highlight tell-glow-red text-sm uppercase tracking-[0.18em]">
+							<div className="text-text-danger tell-glow-red text-sm uppercase tracking-[0.18em]">
 								&gt; NO MARKETS MATCH FILTERS
 							</div>
 							<div className="mt-1 text-text-secondary text-sm uppercase tracking-[0.12em]">

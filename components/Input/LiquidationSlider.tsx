@@ -99,7 +99,7 @@ export default function LiquidationSlider({
 						</div>
 					) : (
 						<span
-							className="font-bold text-lg text-text-primary cursor-text hover:text-card-input-focus"
+							className="font-bold text-lg text-text-primary cursor-text hover:text-white"
 							onClick={() => !disabled && setInputText(formatUnits(value, digit))}
 						>
 							{formatCurrency(formatUnits(value, digit))} {symbol}
@@ -176,7 +176,7 @@ export default function LiquidationSlider({
 					<div className="flex flex-row gap-2">
 						{canShowButtons && min != undefined && min !== value && min !== max && (
 							<div
-								className="text-card-input-min cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-min cursor-pointer hover:text-white font-extrabold"
 								onClick={() => {
 									onChange(min);
 									onMin();
@@ -187,7 +187,7 @@ export default function LiquidationSlider({
 						)}
 						{canShowButtons && reset != undefined && reset !== value && reset !== min && reset !== max && (
 							<div
-								className="text-card-input-reset cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-reset cursor-pointer hover:text-white font-extrabold"
 								onClick={() => {
 									onChange(reset);
 									onReset();
@@ -198,7 +198,7 @@ export default function LiquidationSlider({
 						)}
 						{canShowButtons && max != undefined && max !== value && (
 							<div
-								className="text-card-input-max cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-max cursor-pointer hover:text-white font-extrabold"
 								onClick={() => {
 									onChange(max);
 									onMax();

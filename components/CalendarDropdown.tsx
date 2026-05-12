@@ -26,7 +26,7 @@ export default function CalendarDropdown({ onGoogle, onIcs }: Props) {
 					e.preventDefault();
 					setOpen((v) => !v);
 				}}
-				className="btn relative bg-transparent border border-card-content-highlight text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-red w-full flex items-center justify-center px-4 py-2.5 md:py-3 text-sm tracking-[0.18em] whitespace-nowrap"
+				className="btn relative bg-transparent border border-card-content-highlight text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-accent w-full flex items-center justify-center px-4 py-2.5 md:py-3 text-sm tracking-[0.18em] whitespace-nowrap"
 			>
 				<FontAwesomeIcon icon={faCalendarDays} className="w-4 mr-2.5" />
 				<span>Add to Calendar</span>

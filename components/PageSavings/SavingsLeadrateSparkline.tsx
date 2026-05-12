@@ -4,6 +4,7 @@ import { RootState } from "../../redux/redux.store";
 import { ADDRESS } from "@frankencoin/zchf";
 import { mainnet } from "viem/chains";
 import { normalizeAddress, formatCurrency } from "@utils";
+import { useTheme } from "../ThemeProvider";
 
 interface Props {
 	className?: string;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function SavingsLeadrateSparkline({ className, width = 280, height = 96 }: Props) {
+	const { themeAccent } = useTheme();
 	const list = useSelector((state: RootState) => state.savings.leadrateRate.list);
 
 	const series = useMemo(() => {
@@ -76,14 +78,14 @@ export default function SavingsLeadrateSparkline({ className, width = 280, heigh
 			</div>
 			<div className="flex items-center gap-3">
 				<svg width={width} height={height} className="block">
-					<path d={path} fill="none" stroke="#FF0033" strokeWidth={1.5} />
+					<path d={path} fill="none" stroke={themeAccent} strokeWidth={1.5} />
 					{points.map((p, i) => (
 						<circle
 							key={i}
 							cx={p.x}
 							cy={p.y}
 							r={i === points.length - 1 ? 2.5 : 1.5}
-							fill={i === points.length - 1 ? "#FF0033" : "#FF0033"}
+							fill={themeAccent}
 							opacity={i === points.length - 1 ? 1 : 0.5}
 						/>
 					))}

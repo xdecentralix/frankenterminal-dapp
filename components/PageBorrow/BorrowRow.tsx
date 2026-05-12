@@ -169,7 +169,7 @@ export default function BorrowRow({ headers, tab, position, bridgeStats, hideMyW
 			{expanded && hasMeaningfulAlternatives && (
 				<div className="hidden md:block bg-card-body-primary border-t border-card-input-border">
 					<div className="px-8 xl:px-12 py-3 pl-16 xl:pl-20">
-						<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-2">
+						<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-accent mb-2">
 							ALTERNATIVE TERMS
 						</div>
 						<div className="grid grid-cols-1 md:grid-cols-4 gap-2">

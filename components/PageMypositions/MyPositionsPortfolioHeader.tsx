@@ -153,13 +153,13 @@ export default function MyPositionsPortfolioHeader() {
 }
 
 function StatusRow({ color, label, count }: { color: "success" | "warning" | "danger"; label: string; count: number }) {
-	const dot = color === "success" ? "bg-text-success" : color === "warning" ? "bg-text-warning" : "bg-card-content-highlight";
+	const dot = color === "success" ? "bg-text-success" : color === "warning" ? "bg-text-warning" : "bg-text-danger";
 	const text =
 		color === "success"
 			? "text-text-success"
 			: color === "warning"
 			? "text-text-warning"
-			: "text-card-content-highlight";
+			: "text-text-danger";
 	return (
 		<div className="flex items-center gap-2 uppercase tracking-[0.12em] text-xs">
 			<span className={`inline-block w-1.5 h-1.5 rounded-full ${dot}`} />

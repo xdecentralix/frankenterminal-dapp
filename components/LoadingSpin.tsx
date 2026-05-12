@@ -1,8 +1,11 @@
+import { useTheme } from "./ThemeProvider";
+
 interface Props {
 	classes?: string;
 }
 
 export default function LoadingSpin({ classes }: Props) {
+	const { themeAccent } = useTheme();
 	return (
 		<svg
 			aria-hidden="true"
@@ -10,7 +13,7 @@ export default function LoadingSpin({ classes }: Props) {
 			className={`inline w-4 h-4 animate-tell-spin-square ${classes ?? ""}`}
 			viewBox="0 0 32 32"
 			fill="none"
-			stroke="#FF0033"
+			stroke={themeAccent}
 			strokeWidth="2"
 			strokeLinecap="square"
 			xmlns="http://www.w3.org/2000/svg"

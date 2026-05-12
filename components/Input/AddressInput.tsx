@@ -79,7 +79,7 @@ export default function AddressInput({
 
 						{!disabled && own != undefined && own != value && (
 							<div
-								className="text-card-input-max cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-max cursor-pointer hover:text-white font-extrabold"
 								onClick={() => {
 									if (own !== undefined) {
 										onChange(own.toString());
@@ -92,7 +92,7 @@ export default function AddressInput({
 						)}
 						{!disabled && reset != undefined && reset != value && reset != own && (
 							<div
-								className="text-card-input-reset cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-reset cursor-pointer hover:text-white font-extrabold"
 								onClick={() => {
 									if (reset !== undefined) {
 										onChange(reset.toString());

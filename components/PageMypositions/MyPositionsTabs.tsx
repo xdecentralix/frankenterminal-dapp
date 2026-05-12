@@ -76,7 +76,7 @@ export default function MyPositionsTabs({ children }: Props) {
 									<span
 										className={`text-[0.6rem] tabular-nums px-1.5 py-0.5 border ${
 											t.alert
-												? "border-card-content-highlight text-card-content-highlight tell-glow-red"
+												? "border-card-content-highlight text-card-content-highlight tell-glow-accent"
 												: isActive ? "border-text-secondary text-text-primary bg-text-secondary/10" : "border-card-input-border text-text-secondary"
 										}`}
 									>

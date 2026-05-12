@@ -145,8 +145,8 @@ export default function TableHeadSearchable({
 							onClick={() => setFilterOpen((prev) => !prev)}
 							className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border transition-colors ${
 								filterOpen || totalActiveFilters > 0
-									? "border-card-content-highlight text-card-content-highlight bg-card-content-highlight/10 shadow-glow-red"
-									: "border-card-input-border text-text-secondary hover:border-card-content-highlight hover:text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-red"
+									? "border-card-content-highlight text-card-content-highlight bg-card-content-highlight/10 shadow-glow-accent"
+									: "border-card-input-border text-text-secondary hover:border-card-content-highlight hover:text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-accent"
 							}`}
 						>
 							<FontAwesomeIcon icon={faSlidersH} className="w-3.5 h-3.5" />

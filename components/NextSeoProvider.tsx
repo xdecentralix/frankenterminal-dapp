@@ -1,6 +1,8 @@
 import { NextSeo } from "next-seo";
+import { useTheme } from "./ThemeProvider";
 
 export default function NextSeoProvider() {
+	const { themeAccent } = useTheme();
 	return (
 		<NextSeo
 			title="Tell // Frankencoin Interface"
@@ -11,7 +13,7 @@ export default function NextSeoProvider() {
 				url: "https://app.frankencoin.com/",
 				siteName: "Tell",
 			}}
-			themeColor="#FF0033"
+			themeColor={themeAccent}
 			additionalLinkTags={[
 				{
 					rel: "icon",
