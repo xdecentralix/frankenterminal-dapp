@@ -9,7 +9,7 @@ module.exports = {
 	],
 	theme: {
 		fontFamily: {
-			default: ["var(--font-tell-mono)", "IBM Plex Mono", "Menlo", "Consolas", "monospace"],
+			default: ["var(--font-ft-mono)", "IBM Plex Mono", "Menlo", "Consolas", "monospace"],
 		},
 		extend: {
 			height: {
@@ -48,30 +48,30 @@ module.exports = {
 				"glow-danger": "0 0 8px rgba(var(--theme-danger-rgb), 0.6), 0 0 16px rgba(var(--theme-danger-rgb), 0.3)",
 			},
 			keyframes: {
-				"tell-blink": {
+				"ft-blink": {
 					"0%, 49%": { opacity: "1" },
 					"50%, 100%": { opacity: "0" },
 				},
-				"tell-flicker": {
+				"ft-flicker": {
 					"0%, 100%": { opacity: "1" },
 					"48%": { opacity: "0.95" },
 					"49%": { opacity: "0.6" },
 					"50%": { opacity: "0.95" },
 				},
-				"tell-glow-pulse": {
+				"ft-glow-pulse": {
 					"0%, 100%": { boxShadow: "0 0 0 1px rgba(var(--theme-accent-rgb), 0.4), 0 0 12px rgba(var(--theme-accent-rgb), 0.25)" },
 					"50%": { boxShadow: "0 0 0 1px rgba(var(--theme-accent-rgb), 0.8), 0 0 28px rgba(var(--theme-accent-rgb), 0.55)" },
 				},
-				"tell-spin-square": {
+				"ft-spin-square": {
 					"0%": { transform: "rotate(0deg)" },
 					"100%": { transform: "rotate(360deg)" },
 				},
 			},
 			animation: {
-				"tell-blink": "tell-blink 1s steps(1) infinite",
-				"tell-flicker": "tell-flicker 4s ease-in-out infinite",
-				"tell-glow-pulse": "tell-glow-pulse 2.5s ease-in-out infinite",
-				"tell-spin-square": "tell-spin-square 2s linear infinite",
+				"ft-blink": "ft-blink 1s steps(1) infinite",
+				"ft-flicker": "ft-flicker 4s ease-in-out infinite",
+				"ft-glow-pulse": "ft-glow-pulse 2.5s ease-in-out infinite",
+				"ft-spin-square": "ft-spin-square 2s linear infinite",
 			},
 			colors: {
 				layout: {

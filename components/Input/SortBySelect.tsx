@@ -1,7 +1,7 @@
 import { faArrowDownWideShort, faArrowUpShortWide } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select, { components } from "react-select";
-import { tellSelectStyles } from "./tellSelectStyles";
+import { ftSelectStyles } from "./ftSelectStyles";
 
 type OptionEntry = {
 	value: string;
@@ -36,7 +36,7 @@ export default function SortBySelect({ headers, tab, reverse = false, tabOnChang
 				defaultValue={active}
 				value={active}
 				onChange={handleOnChange}
-				styles={tellSelectStyles<OptionEntry>({ activeValue: tab })}
+				styles={ftSelectStyles<OptionEntry>({ activeValue: tab })}
 				components={{
 					Option: ({ children, ...props }) => (
 						<components.Option {...props}>

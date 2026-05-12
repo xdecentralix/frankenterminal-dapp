@@ -58,8 +58,8 @@ export const FRANKENCOIN_API_CLIENT = axios.create({
 export const WAGMI_CHAIN = SupportedChains["mainnet"];
 export const WAGMI_CHAINS = Object.values(SupportedChains);
 export const WAGMI_METADATA = {
-	name: "Frankencoin",
-	description: "Frankencoin Frontend Application",
+	name: "Frankenterminal",
+	description: "Frankenterminal — alternative frontend for the Frankencoin protocol",
 	url: CONFIG.app,
 	icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };

@@ -1,5 +1,5 @@
 /**
- * Server-side JSON-RPC proxy for the Tell dapp.
+ * Server-side JSON-RPC proxy for the Frankenterminal dapp.
  *
  * The wagmi transports in `app.config.ts` route every read call through this
  * handler, so no upstream URL or API key ever appears in the client bundle.

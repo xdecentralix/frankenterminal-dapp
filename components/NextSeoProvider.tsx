@@ -5,13 +5,13 @@ export default function NextSeoProvider() {
 	const { themeAccent } = useTheme();
 	return (
 		<NextSeo
-			title="Tell // Frankencoin Interface"
-			description="Tell is an independent, open-source frontend for the Frankencoin protocol — a collateralized, oracle-free stablecoin tracking the Swiss franc."
+			title="Frankenterminal // Frankencoin Interface"
+			description="Frankenterminal is an independent, open-source frontend for the Frankencoin protocol — a collateralized, oracle-free stablecoin tracking the Swiss franc."
 			openGraph={{
 				type: "website",
 				locale: "en_US",
-				url: "https://app.frankencoin.com/",
-				siteName: "Tell",
+				url: "https://frankenterminal.app/",
+				siteName: "Frankenterminal",
 			}}
 			themeColor={themeAccent}
 			additionalLinkTags={[

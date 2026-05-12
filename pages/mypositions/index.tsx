@@ -111,7 +111,7 @@ export default function Positions() {
 	return (
 		<>
 			<Head>
-				<title>Tell - My Positions</title>
+				<title>Frankenterminal · My Positions</title>
 			</Head>
 
 			<AppTitle title="Positions">

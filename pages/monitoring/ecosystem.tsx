@@ -11,7 +11,7 @@ export default function Overview() {
 	return (
 		<div>
 			<Head>
-				<title>Tell - Ecosystem</title>
+				<title>Frankenterminal · Ecosystem</title>
 			</Head>
 
 			<AppTitle title={`Frankencoin Holders`}>

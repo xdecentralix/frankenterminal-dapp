@@ -396,7 +396,7 @@ export default function PositionAdjust() {
 	return (
 		<>
 			<Head>
-				<title>Tell - Manage Position</title>
+				<title>Frankenterminal · Manage Position</title>
 			</Head>
 
 			<AppTitle

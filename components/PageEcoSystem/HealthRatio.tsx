@@ -52,7 +52,7 @@ export default function HealthRatio() {
 	};
 
 	const barPct = Math.min(currentPct / 3, 100);
-	const healthColor = currentPct >= 150 ? "text-text-success" : currentPct >= 100 ? "text-text-warning" : "text-text-danger tell-glow-red";
+	const healthColor = currentPct >= 150 ? "text-text-success" : currentPct >= 100 ? "text-text-warning" : "text-text-danger ft-glow-red";
 	const barColor = currentPct >= 150 ? "bg-text-success" : currentPct >= 100 ? "bg-text-warning" : "bg-text-danger";
 
 	return (
@@ -133,7 +133,7 @@ export default function HealthRatio() {
 									toolbar: { show: false },
 									zoom: { enabled: false },
 									background: "transparent",
-									fontFamily: "var(--font-tell-mono), monospace",
+									fontFamily: "var(--font-ft-mono), monospace",
 								},
 								dataLabels: { enabled: false },
 								grid: {
@@ -148,7 +148,7 @@ export default function HealthRatio() {
 										show: true,
 										style: {
 											colors: "#888888",
-											fontFamily: "var(--font-tell-mono), monospace",
+											fontFamily: "var(--font-ft-mono), monospace",
 										},
 										formatter: (value) => {
 											const date = new Date(value);
@@ -164,7 +164,7 @@ export default function HealthRatio() {
 										show: true,
 										style: {
 											colors: "#888888",
-											fontFamily: "var(--font-tell-mono), monospace",
+											fontFamily: "var(--font-ft-mono), monospace",
 										},
 										formatter: (value) => `${Math.round(value * 10) / 10}%`,
 									},
@@ -177,7 +177,7 @@ export default function HealthRatio() {
 									theme: "dark",
 									style: {
 										fontSize: "12px",
-										fontFamily: "var(--font-tell-mono), monospace",
+										fontFamily: "var(--font-ft-mono), monospace",
 									},
 									marker: { show: false },
 									x: { format: "dd MMM yyyy" },

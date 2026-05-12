@@ -21,7 +21,7 @@ import AppLink from "@components/AppLink";
 import { AppKitNetwork } from "@reown/appkit/networks";
 import { useAppKitNetwork } from "@reown/appkit/react";
 
-// Tell defaults: every savings deposit is referred to the maintainer
+// Frankenterminal defaults: every savings deposit is referred to the maintainer
 // at 10% of the user's accrued interest unless the URL explicitly
 // overrides ?referrer / ?referralFeePPM. Disclosed on the savings page.
 const DEFAULT_REFERRER: Address = "0xD47dFdb6cd458d24B0813543DE8508a8C84f0F83";

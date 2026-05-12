@@ -111,7 +111,7 @@ export default function ForceSellPriceChart({ position, auctionPrice, marketPric
 	};
 
 	return (
-		<div className="-mx-4 -mt-2 tell-frame bg-layout-primary p-4">
+		<div className="-mx-4 -mt-2 ft-frame bg-layout-primary p-4">
 			<ApexChart
 				type="area"
 				height={340}
@@ -123,7 +123,7 @@ export default function ForceSellPriceChart({ position, auctionPrice, marketPric
 						background: "transparent",
 						animations: { enabled: false },
 						parentHeightOffset: 0,
-						fontFamily: "var(--font-tell-mono), monospace",
+						fontFamily: "var(--font-ft-mono), monospace",
 						dropShadow: {
 							enabled: true,
 							color: themeAccent,
@@ -156,7 +156,7 @@ export default function ForceSellPriceChart({ position, auctionPrice, marketPric
 						type: "datetime",
 						labels: {
 							formatter: formatXLabel,
-							style: { colors: "#888888", fontSize: "11px", fontFamily: "var(--font-tell-mono), monospace" },
+							style: { colors: "#888888", fontSize: "11px", fontFamily: "var(--font-ft-mono), monospace" },
 							rotate: -20,
 							rotateAlways: false,
 						},
@@ -167,11 +167,11 @@ export default function ForceSellPriceChart({ position, auctionPrice, marketPric
 						min: 0,
 						title: {
 							text: "Bid Price (ZCHF)",
-							style: { color: "#888888", fontSize: "12px", fontWeight: 400, fontFamily: "var(--font-tell-mono), monospace" },
+							style: { color: "#888888", fontSize: "12px", fontWeight: 400, fontFamily: "var(--font-ft-mono), monospace" },
 						},
 						labels: {
 							formatter: formatYLabel,
-							style: { colors: "#888888", fontSize: "11px", fontFamily: "var(--font-tell-mono), monospace" },
+							style: { colors: "#888888", fontSize: "11px", fontFamily: "var(--font-ft-mono), monospace" },
 						},
 						axisBorder: { show: true, color: "#2A2A2A" },
 						axisTicks: { show: true, color: "#2A2A2A" },
@@ -182,7 +182,7 @@ export default function ForceSellPriceChart({ position, auctionPrice, marketPric
 						horizontalAlign: "center",
 						labels: { colors: "#E0E0E0" },
 						fontSize: "12px",
-						fontFamily: "var(--font-tell-mono), monospace",
+						fontFamily: "var(--font-ft-mono), monospace",
 						markers: { size: 6 },
 						itemMargin: { horizontal: 12 },
 					},
@@ -194,7 +194,7 @@ export default function ForceSellPriceChart({ position, auctionPrice, marketPric
 						theme: "dark",
 						style: {
 							fontSize: "12px",
-							fontFamily: "var(--font-tell-mono), monospace",
+							fontFamily: "var(--font-ft-mono), monospace",
 						},
 						x: { formatter: (val: number) => formatDateTime(val / 1000) || "" },
 						y: { formatter: (val: number) => `${formatCurrency(val, 2, 2)} ZCHF` },

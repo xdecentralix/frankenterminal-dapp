@@ -80,7 +80,7 @@ export default function ReserveCosts() {
 								formatter: (val: number) => `${Math.round(Number(val))}%`,
 								style: {
 									fontSize: "12px",
-									fontFamily: "var(--font-tell-mono), monospace",
+									fontFamily: "var(--font-ft-mono), monospace",
 									fontWeight: "bold",
 									colors: ["#141414"],
 								},

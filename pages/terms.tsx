@@ -7,11 +7,11 @@ export default function TermsPage() {
 	return (
 		<div className="grid gap-8">
 			<Head>
-				<title>Tell - Terms of Use</title>
+				<title>Frankenterminal - Terms of Use</title>
 			</Head>
 
 			<AppTitle title="Terms of Use">
-				<div className="text-text-secondary">Please read these terms carefully before using the Tell Interface.</div>
+				<div className="text-text-secondary">Please read these terms carefully before using the Frankenterminal Interface.</div>
 			</AppTitle>
 
 			<div className="relative border border-card-input-border bg-layout-primary px-6 py-6 flex flex-col gap-y-6 rounded-lg text-sm text-text-secondary">
@@ -26,21 +26,21 @@ export default function TermsPage() {
 					<h2 className="text-text-primary font-bold mb-2">0. Definitions</h2>
 					<ul className="list-disc ml-5 space-y-1">
 						<li>
-							<strong>&quot;Tell Interface&quot;</strong> means the open-source web frontend hosted at this domain that lets a User
+							<strong>&quot;Frankenterminal Interface&quot;</strong> means the open-source web frontend hosted at this domain that lets a User
 							read on-chain data of, and format unsigned transactions for, the Frankencoin Protocol.
 						</li>
 						<li>
-							<strong>&quot;Operator&quot;</strong> means the natural person or entity that publishes and operates the Tell Interface
+							<strong>&quot;Operator&quot;</strong> means the natural person or entity that publishes and operates the Frankenterminal Interface
 							at this domain. Contact:{" "}
-							<ObfuscatedEmail user="tell-app" host="pm.me" />
+							<ObfuscatedEmail user="frankenterminal" host="pm.me" />
 							.
 						</li>
 						<li>
-							<strong>&quot;User&quot;</strong> means any person who accesses or interacts with the Tell Interface.
+							<strong>&quot;User&quot;</strong> means any person who accesses or interacts with the Frankenterminal Interface.
 						</li>
 						<li>
 							<strong>&quot;Frankencoin Protocol&quot;</strong> means the decentralised set of smart contracts published by the
-							Frankencoin Association, with which the Tell Interface lets the User interact via their self-custodial wallet.
+							Frankencoin Association, with which the Frankenterminal Interface lets the User interact via their self-custodial wallet.
 						</li>
 						<li>
 							<strong>&quot;Restricted Jurisdictions&quot;</strong> has the meaning set out in section 6a.
@@ -51,7 +51,7 @@ export default function TermsPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">1. &quot;As-Is&quot; Software</h2>
 					<p>
-						The Tell Interface is open-source software provided on an &quot;as-is&quot; and &quot;as-available&quot; basis, without
+						The Frankenterminal Interface is open-source software provided on an &quot;as-is&quot; and &quot;as-available&quot; basis, without
 						any representations or warranties of any kind, express or implied. Use of this interface is at your own risk.
 					</p>
 				</div>
@@ -59,7 +59,7 @@ export default function TermsPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">2. Non-Custodial Nature</h2>
 					<p>
-						The Operator does not have access to, or custody of, the User&apos;s funds. The Tell Interface simply reads on-chain
+						The Operator does not have access to, or custody of, the User&apos;s funds. The Frankenterminal Interface simply reads on-chain
 						data and formats transactions for the User&apos;s self-custodial wallet to sign. The User remains in full control of
 						their assets at all times.
 					</p>
@@ -68,7 +68,7 @@ export default function TermsPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">3. Independence from the Frankencoin Association</h2>
 					<p>
-						The Tell Interface is an independent, third-party frontend fork. The Operator is not affiliated with, endorsed by, or
+						The Frankenterminal Interface is an independent, third-party frontend fork. The Operator is not affiliated with, endorsed by, or
 						operated by the Frankencoin Association.
 					</p>
 				</div>
@@ -85,7 +85,7 @@ export default function TermsPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">5. Compliance and Sanctions Screening</h2>
 					<p>
-						The User is responsible for ensuring that their use of the Tell Interface complies with all applicable laws and
+						The User is responsible for ensuring that their use of the Frankenterminal Interface complies with all applicable laws and
 						regulations in their jurisdiction. The interface screens connected wallet addresses against the OFAC Specially
 						Designated Nationals (SDN) list and may, in the future, also screen against the EU consolidated financial-sanctions
 						list and the Swiss SECO sanctions list. Wallets that match are automatically disconnected.
@@ -103,7 +103,7 @@ export default function TermsPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">6a. Restricted Jurisdictions</h2>
 					<p>
-						The Tell Interface is not made available to, and may not be used by, any person who is a resident or citizen of, or who
+						The Frankenterminal Interface is not made available to, and may not be used by, any person who is a resident or citizen of, or who
 						is located in, a Restricted Jurisdiction. Restricted Jurisdictions are:
 					</p>
 					<ul className="mt-2 list-disc ml-5 space-y-1">
@@ -126,13 +126,13 @@ export default function TermsPage() {
 
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">7. Prohibited Uses</h2>
-					<p>The User shall not use the Tell Interface to:</p>
+					<p>The User shall not use the Frankenterminal Interface to:</p>
 					<ul className="mt-2 list-disc ml-5 space-y-1">
 						<li>commit, attempt, or facilitate money laundering, terrorist financing, or other financial crime;</li>
 						<li>engage in market manipulation, wash trading, or any deceptive practice;</li>
 						<li>evade or circumvent sanctions or export-control regimes, including those listed in section 6a;</li>
 						<li>perform automated scraping or load-testing that exceeds reasonable, good-faith use;</li>
-						<li>reverse engineer, modify, or attempt to extract private keys or other secrets from the Tell Interface;</li>
+						<li>reverse engineer, modify, or attempt to extract private keys or other secrets from the Frankenterminal Interface;</li>
 						<li>infringe the intellectual-property or other rights of any third party.</li>
 					</ul>
 				</div>
@@ -140,7 +140,7 @@ export default function TermsPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">8. Referral Fees</h2>
 					<p>
-						The Tell Interface may set itself as the referrer on certain protocol actions (in particular savings-module deposits)
+						The Frankenterminal Interface may set itself as the referrer on certain protocol actions (in particular savings-module deposits)
 						and thereby earn a referrer share of protocol-level fees, currently up to 10% of the savings interest accrued through
 						this interface. This fee is paid by the protocol from amounts the User would otherwise earn or pay; the Operator does
 						not charge the User any additional amount. The current rate and exact mechanics are surfaced on the savings page before
@@ -154,9 +154,9 @@ export default function TermsPage() {
 					<p>
 						To the maximum extent permitted by applicable law, the Operator shall not be liable for any indirect, incidental,
 						special, consequential, or punitive damages, or any loss of profits, revenue, data, goodwill, or assets, arising out
-						of or in connection with the User&apos;s use of, or inability to use, the Tell Interface, the Frankencoin Protocol, or
+						of or in connection with the User&apos;s use of, or inability to use, the Frankenterminal Interface, the Frankencoin Protocol, or
 						any third-party service. The Operator&apos;s aggregate liability towards the User for any direct damages shall in no
-						event exceed CHF 0, reflecting the fact that the Tell Interface is provided free of charge to the User. Nothing in
+						event exceed CHF 0, reflecting the fact that the Frankenterminal Interface is provided free of charge to the User. Nothing in
 						this section excludes or limits any liability that cannot be excluded or limited under mandatory Swiss law (in
 						particular liability for gross negligence or wilful misconduct).
 					</p>
@@ -176,7 +176,7 @@ export default function TermsPage() {
 					<p>
 						The Operator may update these Terms from time to time. The current version is identified by the version number at the
 						top of this page. For material changes, the Operator will bump the version, which automatically triggers a new
-						acceptance prompt the next time the User attempts to connect a wallet. Continued use of the Tell Interface after such
+						acceptance prompt the next time the User attempts to connect a wallet. Continued use of the Frankenterminal Interface after such
 						an update constitutes acceptance of the updated Terms.
 					</p>
 				</div>
@@ -200,7 +200,7 @@ export default function TermsPage() {
 						<Link href="/privacy" className="text-card-content-highlight hover:underline">
 							Privacy Policy
 						</Link>
-						, constitute the entire agreement between the User and the Operator with respect to the Tell Interface and supersede
+						, constitute the entire agreement between the User and the Operator with respect to the Frankenterminal Interface and supersede
 						any prior agreements on the same subject matter.
 					</p>
 				</div>
@@ -209,7 +209,7 @@ export default function TermsPage() {
 					<h2 className="text-text-primary font-bold mb-2">14. Contact</h2>
 					<p>
 						For any question regarding these Terms, please contact the Operator at{" "}
-						<ObfuscatedEmail user="tell-app" host="pm.me" />.
+						<ObfuscatedEmail user="frankenterminal" host="pm.me" />.
 					</p>
 				</div>
 			</div>

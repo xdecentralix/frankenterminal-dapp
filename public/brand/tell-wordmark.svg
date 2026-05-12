@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 32" fill="none">
-	<style>
-		.tell-bracket { font: 700 22px "IBM Plex Mono", "Menlo", "Consolas", monospace; fill: #FF0033; }
-		.tell-wordmark { font: 700 22px "IBM Plex Mono", "Menlo", "Consolas", monospace; fill: #E0E0E0; letter-spacing: 2px; }
-	</style>
-	<text x="0" y="24" class="tell-bracket">[</text>
-	<text x="20" y="24" class="tell-wordmark">TELL</text>
-	<text x="140" y="24" class="tell-bracket">]</text>
-</svg>

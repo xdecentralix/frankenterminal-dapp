@@ -6,7 +6,7 @@ export default function PageCollateral() {
 	return (
 		<div>
 			<Head>
-				<title>Tell - Collaterals</title>
+				<title>Frankenterminal · Collaterals</title>
 			</Head>
 
 			<AppTitle title={`Accepted Collateral Assets`}>

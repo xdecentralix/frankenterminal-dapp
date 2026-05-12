@@ -7,11 +7,11 @@ export default function PrivacyPage() {
 	return (
 		<div className="grid gap-8">
 			<Head>
-				<title>Tell - Privacy Policy</title>
+				<title>Frankenterminal - Privacy Policy</title>
 			</Head>
 
 			<AppTitle title="Privacy Policy">
-				<div className="text-text-secondary">How the Operator handles your data when you use the Tell Interface.</div>
+				<div className="text-text-secondary">How the Operator handles your data when you use the Frankenterminal Interface.</div>
 			</AppTitle>
 
 			<div className="relative border border-card-input-border bg-layout-primary px-6 py-6 flex flex-col gap-y-6 rounded-lg text-sm text-text-secondary">
@@ -25,16 +25,16 @@ export default function PrivacyPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">1. Controller</h2>
 					<p>
-						The data controller for any personal data processed in connection with the Tell Interface is the natural person who
+						The data controller for any personal data processed in connection with the Frankenterminal Interface is the natural person who
 						operates this domain (the &quot;Operator&quot;). The Operator can be reached at{" "}
-						<ObfuscatedEmail user="tell-app" host="pm.me" />
+						<ObfuscatedEmail user="frankenterminal" host="pm.me" />
 						. The Operator is independent of, and not affiliated with, the Frankencoin Association.
 					</p>
 				</div>
 
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">2. Categories of Personal Data</h2>
-					<p>The following categories of personal data may be processed when you use the Tell Interface:</p>
+					<p>The following categories of personal data may be processed when you use the Frankenterminal Interface:</p>
 					<ul className="mt-2 list-disc ml-5 space-y-1">
 						<li>
 							<strong>Wallet address</strong> and the associated on-chain transaction history that becomes visible when you
@@ -143,12 +143,12 @@ export default function PrivacyPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">7. Automated Decision-Making (Art. 22 GDPR)</h2>
 					<p>
-						When you connect a wallet, the Tell Interface automatically checks the wallet address against the OFAC SDN list. If the
+						When you connect a wallet, the Frankenterminal Interface automatically checks the wallet address against the OFAC SDN list. If the
 						address matches, the wallet is automatically disconnected and you are notified. This is an automated decision that
 						produces legal or similarly significant effects within the meaning of Art. 22 GDPR. The Operator carries out this
 						processing on the basis of a legal obligation (Art. 22(2)(b) GDPR) and the Operator&apos;s legitimate compliance
 						interest. If you believe the result is incorrect, you may request a human review by contacting the Operator at{" "}
-						<ObfuscatedEmail user="tell-app" host="pm.me" />
+						<ObfuscatedEmail user="frankenterminal" host="pm.me" />
 						.
 					</p>
 				</div>
@@ -174,7 +174,7 @@ export default function PrivacyPage() {
 
 				<div id="analytics" className="scroll-mt-24">
 					<h2 className="text-text-primary font-bold mb-2">9. Cookies &amp; Similar Technologies</h2>
-					<p>The Tell Interface uses local storage (and equivalent &ldquo;similar technologies&rdquo;) in two distinct ways:</p>
+					<p>The Frankenterminal Interface uses local storage (and equivalent &ldquo;similar technologies&rdquo;) in two distinct ways:</p>
 					<ul className="mt-2 list-disc ml-5 space-y-1">
 						<li>
 							<strong>Strictly necessary</strong> (no consent required under ePrivacy Directive Art. 5(3)): your theme
@@ -211,7 +211,7 @@ export default function PrivacyPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">11. Children</h2>
 					<p>
-						The Tell Interface is not directed to persons under 18 years of age. The Operator does not knowingly process personal
+						The Frankenterminal Interface is not directed to persons under 18 years of age. The Operator does not knowingly process personal
 						data of minors. If you believe a minor has nevertheless used the interface, please contact the Operator so that the
 						relevant data can be deleted.
 					</p>
@@ -231,7 +231,7 @@ export default function PrivacyPage() {
 					<p>
 						For any question regarding this Privacy Policy or to exercise any of the rights described in section 8, please contact
 						the Operator at{" "}
-						<ObfuscatedEmail user="tell-app" host="pm.me" />
+						<ObfuscatedEmail user="frankenterminal" host="pm.me" />
 						.
 					</p>
 				</div>

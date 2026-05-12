@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
 		<div>
 			<Head>
-				<title>Tell · Frankencoin Interface</title>
+				<title>Frankenterminal · Frankencoin Interface</title>
 			</Head>
 
 			<Navbar />

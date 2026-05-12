@@ -10,7 +10,7 @@ export default function LoadingSpin({ classes }: Props) {
 		<svg
 			aria-hidden="true"
 			role="status"
-			className={`inline w-4 h-4 animate-tell-spin-square ${classes ?? ""}`}
+			className={`inline w-4 h-4 animate-ft-spin-square ${classes ?? ""}`}
 			viewBox="0 0 32 32"
 			fill="none"
 			stroke={themeAccent}

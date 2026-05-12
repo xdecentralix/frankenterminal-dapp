@@ -16,7 +16,7 @@ export default function Borrow() {
 	return (
 		<>
 			<Head>
-				<title>Tell - Borrow</title>
+				<title>Frankenterminal · Borrow</title>
 			</Head>
 
 			<AppTitle title="Borrow">

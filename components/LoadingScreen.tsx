@@ -20,7 +20,7 @@ interface LoadingScreenProps {
 	breakerMs?: number;
 }
 
-export default function LoadingScreen({ title = "TELL // initializing", loading = [], breakerMs }: LoadingScreenProps) {
+export default function LoadingScreen({ title = "FRANKENTERMINAL // initializing", loading = [], breakerMs }: LoadingScreenProps) {
 	const [elapsed, setElapsed] = useState(0);
 
 	useEffect(() => {
@@ -39,19 +39,19 @@ export default function LoadingScreen({ title = "TELL // initializing", loading 
 					<div className="flex flex-row items-center -mt-20">
 						<picture>
 							<img
-								className="h-12 w-12 mr-5 animate-tell-glow-pulse drop-shadow-[0_0_12px_rgba(255,0,51,0.7)]"
-								src="/brand/tell-icon.svg"
-								alt="Tell"
+								className="h-12 w-12 mr-5 animate-ft-glow-pulse drop-shadow-[0_0_12px_rgba(255,0,51,0.7)]"
+								src="/brand/frankenterminal-icon.svg"
+								alt="Frankenterminal"
 							/>
 						</picture>
-						<h1 className="font-default tracking-[0.25em] uppercase text-xl tell-glow-accent tell-cursor">
+						<h1 className="font-default tracking-[0.25em] uppercase text-xl ft-glow-accent ft-cursor">
 							{title}
 						</h1>
 					</div>
 
 					{loading.length > 0 && (
-						<div className="w-full tell-frame px-6 py-5 font-default text-[12px] uppercase tracking-[0.12em]">
-							<div className="text-card-content-highlight tell-glow-accent mb-3 text-[10px]">
+						<div className="w-full ft-frame px-6 py-5 font-default text-[12px] uppercase tracking-[0.12em]">
+							<div className="text-card-content-highlight ft-glow-accent mb-3 text-[10px]">
 								SYSTEM BOOT SEQUENCE
 							</div>
 							<ul className="list-none text-left space-y-1.5">
@@ -59,7 +59,7 @@ export default function LoadingScreen({ title = "TELL // initializing", loading 
 									<li key={item.id} className="flex items-center gap-3">
 										<span
 											className={`inline-block w-1.5 h-1.5 ${
-												item.isLoaded ? "bg-text-success" : "bg-text-danger animate-tell-blink"
+												item.isLoaded ? "bg-text-success" : "bg-text-danger animate-ft-blink"
 											}`}
 										/>
 										<span

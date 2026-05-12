@@ -5,7 +5,7 @@ import Select from "react-select";
 import { components } from "react-select";
 import { useRef } from "react";
 import { formatCurrency } from "@utils";
-import { tellSelectStyles } from "./tellSelectStyles";
+import { ftSelectStyles } from "./ftSelectStyles";
 
 const TokenLogo = dynamic(() => import("../TokenLogo"), { ssr: false });
 
@@ -141,7 +141,7 @@ export default function TokenInputSelect({
 									);
 								},
 							}}
-							styles={tellSelectStyles<{ value: string; label: string }>({ activeValue: symbol })}
+							styles={ftSelectStyles<{ value: string; label: string }>({ activeValue: symbol })}
 						/>
 					</div>
 				</div>

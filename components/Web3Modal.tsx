@@ -22,7 +22,7 @@ const modal = createAppKit({
 	},
 	themeMode: "dark",
 	themeVariables: {
-		"--w3m-font-family": "var(--font-tell-mono), monospace",
+		"--w3m-font-family": "var(--font-ft-mono), monospace",
 		"--w3m-accent": "#FF0033",
 		"--w3m-border-radius-master": "2px",
 		"--w3m-color-mix": "#0A0A0A",

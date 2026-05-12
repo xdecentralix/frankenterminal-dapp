@@ -417,7 +417,7 @@ export default function PositionCreate({}) {
 	return (
 		<>
 			<Head>
-				<title>Tell - Propose Position</title>
+				<title>Frankenterminal · Propose Position</title>
 			</Head>
 
 			<AppTitle title="Propose New Position"></AppTitle>

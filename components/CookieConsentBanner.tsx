@@ -3,9 +3,9 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 
 export const COOKIE_CONSENT_VERSION = "2026-05-12";
-const COOKIE_CONSENT_STORAGE_KEY = "tell:cookie-consent";
-export const COOKIE_CONSENT_CHANGED_EVENT = "tell:cookie-consent-changed";
-export const COOKIE_CONSENT_REOPEN_EVENT = "tell:cookie-consent-reopen";
+const COOKIE_CONSENT_STORAGE_KEY = "frankenterminal:cookie-consent";
+export const COOKIE_CONSENT_CHANGED_EVENT = "frankenterminal:cookie-consent-changed";
+export const COOKIE_CONSENT_REOPEN_EVENT = "frankenterminal:cookie-consent-reopen";
 
 export type AnalyticsConsentDecision = "accept" | "reject" | "unset";
 

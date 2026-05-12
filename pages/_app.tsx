@@ -22,7 +22,7 @@ import { ThemeProvider } from "@components/ThemeProvider";
 
 const tellMono = IBM_Plex_Mono({
 	subsets: ["latin"],
-	variable: "--font-tell-mono",
+	variable: "--font-ft-mono",
 	display: "swap",
 	weight: ["300", "400", "500", "600", "700"],
 });
@@ -45,7 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
 		<>
 			<style jsx global>{`
 				:root {
-					--font-tell-mono: ${tellMono.style.fontFamily};
+					--font-ft-mono: ${tellMono.style.fontFamily};
 				}
 			`}</style>
 

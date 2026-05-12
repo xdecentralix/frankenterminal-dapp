@@ -27,7 +27,7 @@ export default function Governance() {
 	return (
 		<>
 			<Head>
-				<title>Tell - Governance</title>
+				<title>Frankenterminal · Governance</title>
 			</Head>
 
 			<AppTitle title="New Positions">

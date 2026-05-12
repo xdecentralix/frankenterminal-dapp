@@ -309,7 +309,7 @@ export default function PositionBorrow({}) {
 	return (
 		<div className="flex flex-col mx-auto w-full">
 			<Head>
-				<title>Tell - Borrow</title>
+				<title>Frankenterminal · Borrow</title>
 			</Head>
 
 			<AppTitle

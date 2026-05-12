@@ -61,7 +61,7 @@ export default function MarketChart() {
 									enabled: false,
 								},
 								background: "transparent",
-								fontFamily: "var(--font-tell-mono), monospace",
+								fontFamily: "var(--font-ft-mono), monospace",
 							},
 							dataLabels: {
 								enabled: false,
@@ -78,7 +78,7 @@ export default function MarketChart() {
 									datetimeUTC: false,
 									style: {
 										colors: "#888888",
-										fontFamily: "var(--font-tell-mono), monospace",
+										fontFamily: "var(--font-ft-mono), monospace",
 									},
 									datetimeFormatter: {
 										month: "MMM yyyy",
@@ -101,7 +101,7 @@ export default function MarketChart() {
 									show: true,
 									style: {
 										colors: "#888888",
-										fontFamily: "var(--font-tell-mono), monospace",
+										fontFamily: "var(--font-ft-mono), monospace",
 									},
 									formatter: (value) => {
 										return `${Math.round(value * 1000) / 1000} CHF`;
@@ -124,13 +124,13 @@ export default function MarketChart() {
 							},
 							legend: {
 								labels: { colors: "#E0E0E0" },
-								fontFamily: "var(--font-tell-mono), monospace",
+								fontFamily: "var(--font-ft-mono), monospace",
 							},
 							tooltip: {
 								theme: "dark",
 								style: {
 									fontSize: "12px",
-									fontFamily: "var(--font-tell-mono), monospace",
+									fontFamily: "var(--font-ft-mono), monospace",
 								},
 								marker: {
 									show: false,
@@ -187,7 +187,7 @@ export default function MarketChart() {
 									enabled: false,
 								},
 								background: "transparent",
-								fontFamily: "var(--font-tell-mono), monospace",
+								fontFamily: "var(--font-ft-mono), monospace",
 							},
 							dataLabels: {
 								enabled: false,
@@ -204,7 +204,7 @@ export default function MarketChart() {
 									datetimeUTC: false,
 									style: {
 										colors: "#888888",
-										fontFamily: "var(--font-tell-mono), monospace",
+										fontFamily: "var(--font-ft-mono), monospace",
 									},
 									datetimeFormatter: {
 										month: "MMM yyyy",
@@ -227,7 +227,7 @@ export default function MarketChart() {
 									show: true,
 									style: {
 										colors: "#888888",
-										fontFamily: "var(--font-tell-mono), monospace",
+										fontFamily: "var(--font-ft-mono), monospace",
 									},
 									formatter: (value) => {
 										return `${Math.round(value / 100000) / 10}M CHF`;
@@ -248,13 +248,13 @@ export default function MarketChart() {
 							},
 							legend: {
 								labels: { colors: "#E0E0E0" },
-								fontFamily: "var(--font-tell-mono), monospace",
+								fontFamily: "var(--font-ft-mono), monospace",
 							},
 							tooltip: {
 								theme: "dark",
 								style: {
 									fontSize: "12px",
-									fontFamily: "var(--font-tell-mono), monospace",
+									fontFamily: "var(--font-ft-mono), monospace",
 								},
 							},
 						}}

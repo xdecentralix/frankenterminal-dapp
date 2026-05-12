@@ -11,7 +11,7 @@ interface Props {
 export default function EmptyState({ title, hint, cta, className }: Props) {
 	return (
 		<div className={`w-full font-default ${className ?? ""}`}>
-			<div className="text-text-danger tell-glow-red text-sm uppercase tracking-[0.18em]">
+			<div className="text-text-danger ft-glow-red text-sm uppercase tracking-[0.18em]">
 				&gt; {title}
 			</div>
 			{hint && (
@@ -23,7 +23,7 @@ export default function EmptyState({ title, hint, cta, className }: Props) {
 					<Link href={cta.href} className="text-card-content-highlight hover:underline">
 						[ {cta.label} ]
 					</Link>
-					<span className="tell-cursor"></span>
+					<span className="ft-cursor"></span>
 				</div>
 			)}
 		</div>

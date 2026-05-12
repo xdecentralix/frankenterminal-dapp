@@ -34,7 +34,7 @@ export default function Positions() {
 	return (
 		<>
 			<Head>
-				<title>Tell - Monitoring</title>
+				<title>Frankenterminal · Monitoring</title>
 			</Head>
 
 			<AppTitle title="Monitoring">

@@ -279,7 +279,7 @@ export default function CCIPRateLimitPage() {
 	return (
 		<>
 			<Head>
-				<title>Tell - CCIP Rate Limit</title>
+				<title>Frankenterminal · CCIP Rate Limit</title>
 			</Head>
 
 			<AppTitle title="CCIP Rate Limit">

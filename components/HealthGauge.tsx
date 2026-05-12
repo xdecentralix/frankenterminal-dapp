@@ -21,7 +21,7 @@ const BAND_FILL: Record<HealthBand, string> = {
 const BAND_TEXT: Record<HealthBand, string> = {
 	safe: "text-text-success",
 	watch: "text-text-warning",
-	danger: "text-text-danger tell-glow-red",
+	danger: "text-text-danger ft-glow-red",
 	neutral: "text-text-secondary",
 };
 

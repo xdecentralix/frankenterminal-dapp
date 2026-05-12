@@ -8,7 +8,7 @@ export default function TransferPage() {
 	return (
 		<>
 			<Head>
-				<title>Tell - Transfer</title>
+				<title>Frankenterminal · Transfer</title>
 			</Head>
 
 			<AppTitle title="Transfer">

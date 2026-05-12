@@ -27,7 +27,7 @@ const BAND_FILL: Record<HealthBand, string> = {
 const BAND_TEXT: Record<HealthBand, string> = {
 	safe: "text-text-success",
 	watch: "text-text-warning",
-	danger: "text-text-danger tell-glow-red",
+	danger: "text-text-danger ft-glow-red",
 	neutral: "text-text-secondary",
 };
 const BAND_LABEL: Record<HealthBand, string> = {
@@ -345,7 +345,7 @@ export function PositionContextStrip({
 			</span>
 			<span>
 				<span className="text-text-secondary">CHALLENGES:</span>{" "}
-				<span className={activeChallenges > 0 ? "text-text-danger tell-glow-red" : "text-text-primary"}>
+				<span className={activeChallenges > 0 ? "text-text-danger ft-glow-red" : "text-text-primary"}>
 					{activeChallenges}
 				</span>
 			</span>

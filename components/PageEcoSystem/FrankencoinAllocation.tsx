@@ -249,7 +249,7 @@ export default function FrankencoinAllocation() {
 							chart: { 
 								type: "donut", 
 								background: "transparent",
-								fontFamily: "var(--font-tell-mono), monospace",
+								fontFamily: "var(--font-ft-mono), monospace",
 								dropShadow: {
 									enabled: true,
 									color: themeAccent,
@@ -272,7 +272,7 @@ export default function FrankencoinAllocation() {
 								formatter: (val: number) => `${Math.round(Number(val))}%`,
 								style: {
 									fontSize: "12px",
-									fontFamily: "var(--font-tell-mono), monospace",
+									fontFamily: "var(--font-ft-mono), monospace",
 									fontWeight: "bold",
 									colors: ["#141414"],
 								},
@@ -298,7 +298,7 @@ export default function FrankencoinAllocation() {
 								theme: "dark",
 								style: {
 									fontSize: "12px",
-									fontFamily: "var(--font-tell-mono), monospace",
+									fontFamily: "var(--font-ft-mono), monospace",
 								},
 							},
 							plotOptions: {
@@ -308,17 +308,17 @@ export default function FrankencoinAllocation() {
 											show: true,
 											name: {
 												color: "#888888",
-												fontFamily: "var(--font-tell-mono), monospace",
+												fontFamily: "var(--font-ft-mono), monospace",
 											},
 											value: {
 												color: "#E0E0E0",
-												fontFamily: "var(--font-tell-mono), monospace",
+												fontFamily: "var(--font-ft-mono), monospace",
 											},
 											total: {
 												show: true,
 												label: "Total",
 												color: "#888888",
-												fontFamily: "var(--font-tell-mono), monospace",
+												fontFamily: "var(--font-ft-mono), monospace",
 												formatter: () => `${labels.length} holders`,
 											},
 										},

@@ -85,7 +85,7 @@ export default function PositionDetail() {
 	return (
 		<>
 			<Head>
-				<title>Tell - Position Details</title>
+				<title>Frankenterminal · Position Details</title>
 			</Head>
 
 			<div className="flex flex-col gap-4">

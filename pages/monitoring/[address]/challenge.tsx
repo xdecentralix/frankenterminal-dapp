@@ -44,7 +44,7 @@ export default function PositionChallenge() {
 	return (
 		<div className="flex flex-col md:max-w-2xl mx-auto">
 			<Head>
-				<title>Tell - Challenge</title>
+				<title>Frankenterminal · Challenge</title>
 			</Head>
 
 			<AppTitle

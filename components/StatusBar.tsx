@@ -44,7 +44,7 @@ function SocialIcon({ href, icon, title }: SocialIconProps) {
 			rel="noreferrer"
 			title={title}
 			aria-label={title}
-			className="flex items-center justify-center w-8 h-full text-text-secondary hover:text-card-content-highlight hover:tell-glow-accent transition-colors"
+			className="flex items-center justify-center w-8 h-full text-text-secondary hover:text-card-content-highlight hover:ft-glow-accent transition-colors"
 		>
 			<FontAwesomeIcon icon={icon} className="w-3.5 h-3.5" />
 		</Link>
@@ -92,12 +92,12 @@ export default function StatusBar({ onOpenPalette }: Props) {
 					<span className="text-card-content-highlight/60">·</span>
 					<span>source</span>
 					<Link
-						href="https://github.com/xdecentralix/tell-dapp"
+						href="https://github.com/xdecentralix/frankenterminal-dapp"
 						target="_blank"
 						rel="noreferrer"
 						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight hover:decoration-card-content-highlight transition-colors"
 					>
-						xdecentralix/tell-dapp
+						xdecentralix/frankenterminal-dapp
 					</Link>
 					<span className="text-card-content-highlight/60">·</span>
 					<Link
@@ -121,7 +121,7 @@ export default function StatusBar({ onOpenPalette }: Props) {
 					>
 						cookies
 					</button>
-					<span className="text-card-content-highlight animate-tell-blink">_</span>
+					<span className="text-card-content-highlight animate-ft-blink">_</span>
 				</div>
 
 				<div className="flex-1" />

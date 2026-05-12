@@ -61,7 +61,7 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 
 	return (
 		<div className="grid grid-cols-1">
-			<div id="chart-timeline" className="tell-frame bg-layout-primary p-4 mb-4">
+			<div id="chart-timeline" className="ft-frame bg-layout-primary p-4 mb-4">
 				<TabInput tabs={TypeCharts} tab={typechart} setTab={setTypechart} />
 
 				<div className="-m-2 mt-2 mb-2">
@@ -93,7 +93,7 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 									enabled: false,
 								},
 								background: "transparent",
-								fontFamily: "var(--font-tell-mono), monospace",
+								fontFamily: "var(--font-ft-mono), monospace",
 							},
 							stroke: {
 								width: 2,
@@ -147,7 +147,7 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 									show: true,
 									style: {
 										colors: "#888888",
-										fontFamily: "var(--font-tell-mono), monospace",
+										fontFamily: "var(--font-ft-mono), monospace",
 									},
 									formatter: (value) => {
 										if (typechart == TypeCharts[2]) {
@@ -191,7 +191,7 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 								theme: "dark",
 								style: {
 									fontSize: "12px",
-									fontFamily: "var(--font-tell-mono), monospace",
+									fontFamily: "var(--font-ft-mono), monospace",
 								},
 								marker: {
 									show: false,

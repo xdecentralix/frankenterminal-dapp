@@ -231,7 +231,7 @@ export default function Swap() {
 	return (
 		<>
 			<Head>
-				<title>Tell - Swap</title>
+				<title>Frankenterminal · Swap</title>
 			</Head>
 
 			<div className="md:mt-8">

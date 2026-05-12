@@ -203,7 +203,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mt-2">Historical Rates</div>
 
-				<div className="-m-4 pr-2 tell-frame bg-layout-primary p-4 mt-2">
+				<div className="-m-4 pr-2 ft-frame bg-layout-primary p-4 mt-2">
 					<ApexChart
 						type="line"
 						options={{
@@ -235,7 +235,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 									enabled: false,
 								},
 								background: "transparent",
-								fontFamily: "var(--font-tell-mono), monospace",
+								fontFamily: "var(--font-ft-mono), monospace",
 							},
 							dataLabels: {
 								enabled: false,
@@ -251,7 +251,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 									show: true,
 									style: {
 										colors: "#888888",
-										fontFamily: "var(--font-tell-mono), monospace",
+										fontFamily: "var(--font-ft-mono), monospace",
 									},
 									formatter: (value) => {
 										const date = new Date(value);
@@ -275,7 +275,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 									show: true,
 									style: {
 										colors: "#888888",
-										fontFamily: "var(--font-tell-mono), monospace",
+										fontFamily: "var(--font-ft-mono), monospace",
 									},
 									formatter: (value) => {
 										return `${Math.round(value / 1000) / 10} %`;
@@ -296,13 +296,13 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 							},
 							legend: {
 								labels: { colors: "#E0E0E0" },
-								fontFamily: "var(--font-tell-mono), monospace",
+								fontFamily: "var(--font-ft-mono), monospace",
 							},
 							tooltip: {
 								theme: "dark",
 								style: {
 									fontSize: "12px",
-									fontFamily: "var(--font-tell-mono), monospace",
+									fontFamily: "var(--font-ft-mono), monospace",
 								},
 							},
 						}}

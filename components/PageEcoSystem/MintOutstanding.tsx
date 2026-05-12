@@ -109,7 +109,7 @@ export default function MintOutstanding() {
 								toolbar: { show: false },
 								zoom: { enabled: false },
 								background: "transparent",
-								fontFamily: "var(--font-tell-mono), monospace",
+								fontFamily: "var(--font-ft-mono), monospace",
 							},
 							dataLabels: { enabled: false },
 							grid: {
@@ -124,7 +124,7 @@ export default function MintOutstanding() {
 									show: true,
 									style: {
 										colors: "#888888",
-										fontFamily: "var(--font-tell-mono), monospace",
+										fontFamily: "var(--font-ft-mono), monospace",
 									},
 									formatter: (value) => {
 										const date = new Date(value);
@@ -140,7 +140,7 @@ export default function MintOutstanding() {
 									show: true,
 									style: {
 										colors: "#888888",
-										fontFamily: "var(--font-tell-mono), monospace",
+										fontFamily: "var(--font-ft-mono), monospace",
 									},
 									formatter: (value) => `${Math.round(value / 100000) / 10} Mio.`,
 								},
@@ -154,7 +154,7 @@ export default function MintOutstanding() {
 								theme: "dark",
 								style: {
 									fontSize: "12px",
-									fontFamily: "var(--font-tell-mono), monospace",
+									fontFamily: "var(--font-ft-mono), monospace",
 								},
 								marker: { show: false },
 								x: { format: "dd MMM yyyy" },

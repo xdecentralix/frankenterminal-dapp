@@ -192,7 +192,7 @@ export default function CommandPalette({ isOpen, onClose }: Props) {
 			>
 				<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-80 pointer-events-none" />
 				<div className="px-4 py-3 border-b border-card-input-border flex items-center gap-3">
-					<span className="text-card-content-highlight tell-glow-accent text-[0.7rem] uppercase tracking-[0.18em] font-bold">
+					<span className="text-card-content-highlight ft-glow-accent text-[0.7rem] uppercase tracking-[0.18em] font-bold">
 						&gt;_
 					</span>
 					<input
@@ -255,7 +255,7 @@ export default function CommandPalette({ isOpen, onClose }: Props) {
 					<span>↑↓ navigate</span>
 					<span>↵ run</span>
 					<span>esc close</span>
-					<span className="ml-auto text-card-content-highlight">tell // command palette</span>
+					<span className="ml-auto text-card-content-highlight">frankenterminal // command palette</span>
 				</div>
 			</div>
 		</div>

@@ -90,7 +90,7 @@ export default function MyPositionsActionRibbon() {
 	const toneClass = (t: ActionItem["type"]) => {
 		switch (t) {
 			case "challenge":
-				return "text-text-danger tell-glow-red";
+				return "text-text-danger ft-glow-red";
 			case "expired":
 				return "text-text-danger";
 			case "cooldown":
@@ -102,7 +102,7 @@ export default function MyPositionsActionRibbon() {
 	return (
 		<div className="relative border border-card-content-highlight/40 bg-layout-primary px-4 py-3">
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-80 pointer-events-none" />
-			<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-accent mb-2">
+			<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight ft-glow-accent mb-2">
 				ACTION REQUIRED
 			</div>
 			<ul className="flex flex-col gap-1 text-xs md:text-sm uppercase tracking-[0.12em] font-semibold">

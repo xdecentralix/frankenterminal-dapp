@@ -15,7 +15,7 @@ export default function MyPositionsNotFound({ query }: Props) {
 	return (
 		<>
 			<Head>
-				<title>Tell - Manage Position</title>
+				<title>Frankenterminal · Manage Position</title>
 			</Head>
 
 			<AppTitle title={`Manage Position `}>

@@ -18,7 +18,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 	const [themeAccent, setThemeAccentState] = useState<string>("#FF0033");
 
 	useEffect(() => {
-		const savedTheme = localStorage.getItem("tell-theme-accent");
+		const savedTheme = localStorage.getItem("frankenterminal-theme-accent");
 		if (savedTheme) {
 			setThemeAccentState(savedTheme);
 			document.documentElement.style.setProperty("--theme-accent", savedTheme);
@@ -28,7 +28,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
 	const setThemeAccent = (hex: string) => {
 		setThemeAccentState(hex);
-		localStorage.setItem("tell-theme-accent", hex);
+		localStorage.setItem("frankenterminal-theme-accent", hex);
 		document.documentElement.style.setProperty("--theme-accent", hex);
 		document.documentElement.style.setProperty("--theme-accent-rgb", hexToRgb(hex));
 	};

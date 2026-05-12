@@ -1,7 +1,7 @@
 import ChainLogo from "@components/ChainLogo";
 import TokenLogo from "@components/TokenLogo";
 import Select, { components } from "react-select";
-import { tellSelectStyles } from "./tellSelectStyles";
+import { ftSelectStyles } from "./ftSelectStyles";
 
 type OptionEntry = {
 	value: string;
@@ -51,7 +51,7 @@ export default function ChainBySelect({
 				value={active}
 				onChange={handleOnChange}
 				isClearable={isClearable}
-				styles={tellSelectStyles<OptionEntry>({ activeValue: chain, invertColors })}
+				styles={ftSelectStyles<OptionEntry>({ activeValue: chain, invertColors })}
 				components={{
 					Option: ({ children, ...props }) => (
 						<components.Option {...props}>

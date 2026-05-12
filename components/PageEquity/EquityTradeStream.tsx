@@ -121,7 +121,7 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 													{shortenAddress(t.trader as `0x${string}`).toUpperCase()}
 												</span>
 												<span className="text-card-input-border">·</span>
-												<span className="whitespace-nowrap font-default text-text-secondary group-hover:text-card-content-highlight group-hover:tell-glow-accent transition-colors">
+												<span className="whitespace-nowrap font-default text-text-secondary group-hover:text-card-content-highlight group-hover:ft-glow-accent transition-colors">
 													TX {shortenString(t.txHash).toUpperCase()}
 												</span>
 											</div>

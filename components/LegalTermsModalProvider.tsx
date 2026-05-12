@@ -3,7 +3,7 @@ import { useAppKit } from "@reown/appkit/react";
 import Link from "next/link";
 
 export const LEGAL_VERSION = "2026-05-12";
-const LEGAL_STORAGE_KEY = "tell:legal-acceptance";
+const LEGAL_STORAGE_KEY = "frankenterminal:legal-acceptance";
 
 type LegalAcceptance = {
 	version: string;

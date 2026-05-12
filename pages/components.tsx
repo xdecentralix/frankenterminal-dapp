@@ -486,7 +486,7 @@ export default function ComponentsPage() {
 	return (
 		<>
 			<Head>
-				<title>Tell - Component Library</title>
+				<title>Frankenterminal · Component Library</title>
 			</Head>
 			<AppTitle title="Component Library" subtitle="Visual reference for all shared UI components" />
 			<PageTabInput tabs={tabs} className="mt-4" />

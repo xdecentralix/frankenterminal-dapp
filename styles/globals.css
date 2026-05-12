@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 /* ============================================================
-   TELL — Cypherpunk theme layer
+   FRANKENTERMINAL — Cypherpunk theme layer
    ------------------------------------------------------------
    Body: black canvas + subtle crosshair grid + scanline overlay
    Accent: Neon Swiss Red (#FF0033) with glow halos
-   Font: JetBrains Mono via next/font (declared in _app.tsx)
+   Font: IBM Plex Mono via next/font (declared in _app.tsx)
    ============================================================ */
 
 @layer base {
@@ -156,49 +156,49 @@
 	}
 
 	/* Terminal-style bracket prefix on a heading or label */
-	.tell-bracket::before {
+	.ft-bracket::before {
 		content: "[ ";
 		color: var(--theme-accent);
 	}
-	.tell-bracket::after {
+	.ft-bracket::after {
 		content: " ]";
 		color: var(--theme-accent);
 	}
 
 	/* Blinking terminal cursor at end of element */
-	.tell-cursor::after {
+	.ft-cursor::after {
 		content: "_";
 		color: var(--theme-accent);
 		margin-left: 0.25em;
-		animation: tell-blink 1s steps(1) infinite;
+		animation: ft-blink 1s steps(1) infinite;
 	}
 
 	/* Red text glow utility */
-	.tell-glow-red {
+	.ft-glow-red {
 		text-shadow: 0 0 8px rgba(var(--theme-danger-rgb), 0.6), 0 0 16px rgba(var(--theme-danger-rgb), 0.3);
 	}
 
-	.tell-glow-accent {
+	.ft-glow-accent {
 		text-shadow: 0 0 8px rgba(var(--theme-accent-rgb), 0.6), 0 0 16px rgba(var(--theme-accent-rgb), 0.3);
 	}
 
 	/* Subtle box glow for cards/buttons */
-	.tell-shadow-red {
+	.ft-shadow-red {
 		box-shadow: 0 0 0 1px rgba(var(--theme-danger-rgb), 0.4), 0 0 18px rgba(var(--theme-danger-rgb), 0.18);
 	}
 
-	.tell-shadow-accent {
+	.ft-shadow-accent {
 		box-shadow: 0 0 0 1px rgba(var(--theme-accent-rgb), 0.4), 0 0 18px rgba(var(--theme-accent-rgb), 0.18);
 	}
 
 	/* Card with terminal frame look */
-	.tell-frame {
+	.ft-frame {
 		border: 1px solid #2a2a2a;
 		border-radius: 2px;
 		background-color: #141414;
 		position: relative;
 	}
-	.tell-frame::before {
+	.ft-frame::before {
 		content: "";
 		position: absolute;
 		top: -1px;
@@ -226,7 +226,7 @@
 	}
 }
 
-@keyframes tell-blink {
+@keyframes ft-blink {
 	0%, 49% {
 		opacity: 1;
 	}
@@ -235,7 +235,7 @@
 	}
 }
 
-@keyframes tell-flicker {
+@keyframes ft-flicker {
 	0%, 100% {
 		opacity: 1;
 	}
@@ -250,7 +250,7 @@
 	}
 }
 
-@keyframes tell-scan {
+@keyframes ft-scan {
 	0% {
 		transform: translateY(-100%);
 	}
@@ -259,7 +259,7 @@
 	}
 }
 
-@keyframes tell-glow-pulse {
+@keyframes ft-glow-pulse {
 	0%, 100% {
 		text-shadow: 0 0 8px rgba(var(--theme-accent-rgb), 0.5), 0 0 16px rgba(var(--theme-accent-rgb), 0.25);
 	}
@@ -395,14 +395,14 @@ button[data-testid="component-big-button"] {
 .apexcharts-tooltip-title {
 	background: #141414 !important;
 	border-bottom: 1px solid #2a2a2a !important;
-	font-family: var(--font-tell-mono), monospace !important;
+	font-family: var(--font-ft-mono), monospace !important;
 	font-weight: 600 !important;
 	padding: 6px 10px !important;
 	color: #888888 !important;
 }
 .apexcharts-tooltip-text {
 	color: #e0e0e0 !important;
-	font-family: var(--font-tell-mono), monospace !important;
+	font-family: var(--font-ft-mono), monospace !important;
 }
 .apexcharts-tooltip-marker {
 	margin-right: 8px !important;
@@ -417,7 +417,7 @@ button[data-testid="component-big-button"] {
 	background: #141414 !important;
 	border: 1px solid #2a2a2a !important;
 	color: #888888 !important;
-	font-family: var(--font-tell-mono), monospace !important;
+	font-family: var(--font-ft-mono), monospace !important;
 	border-radius: 2px !important;
 }
 .apexcharts-xaxistooltip-bottom:before {
@@ -430,7 +430,7 @@ button[data-testid="component-big-button"] {
 	background: #141414 !important;
 	border: 1px solid #2a2a2a !important;
 	color: #888888 !important;
-	font-family: var(--font-tell-mono), monospace !important;
+	font-family: var(--font-ft-mono), monospace !important;
 	border-radius: 2px !important;
 }
 .apexcharts-yaxistooltip-left:before {

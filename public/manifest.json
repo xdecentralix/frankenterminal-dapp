@@ -1,6 +1,6 @@
 {
-	"short_name": "TELL",
-	"name": "Tell // Frankencoin Interface",
+	"short_name": "FRANKENTERMINAL",
+	"name": "Frankenterminal // Frankencoin Interface",
 	"description": "Independent, open-source frontend for the Frankencoin protocol — a collateralized, oracle-free stablecoin tracking the Swiss franc.",
 	"icons": [
 		{
@@ -9,7 +9,7 @@
 			"type": "image/ico"
 		},
 		{
-			"src": "brand/tell-icon.svg",
+			"src": "brand/frankenterminal-icon.svg",
 			"sizes": "any",
 			"type": "image/svg+xml"
 		}

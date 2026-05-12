@@ -38,7 +38,7 @@ function SocialIcon({ href, icon, title }: SocialIconProps) {
 			rel="noreferrer"
 			title={title}
 			aria-label={title}
-			className="flex items-center justify-center w-8 h-8 text-text-secondary hover:text-card-content-highlight hover:tell-glow-accent transition-colors"
+			className="flex items-center justify-center w-8 h-8 text-text-secondary hover:text-card-content-highlight hover:ft-glow-accent transition-colors"
 		>
 			<FontAwesomeIcon icon={icon} className="w-4 h-4" />
 		</Link>
@@ -52,7 +52,7 @@ export default function MobileFooter() {
 
 	return (
 		<footer className="md:hidden mt-12 px-4 py-6 border-t border-card-input-border bg-layout-primary text-[11px] uppercase tracking-[0.14em] tabular-nums text-text-secondary">
-			<div className="text-center text-card-content-highlight tell-glow-accent font-bold mb-3">TELL INTERFACE</div>
+			<div className="text-center text-card-content-highlight ft-glow-accent font-bold mb-3">FRANKENTERMINAL</div>
 
 			<div className="flex justify-center items-center gap-2 mb-4">
 				<SocialIcon href={SOCIAL.Twitter} icon={faXTwitter} title="Twitter / X" />
@@ -81,14 +81,14 @@ export default function MobileFooter() {
 					<span className="text-card-content-highlight/60">·</span>{" "}
 					<span>source </span>
 					<Link
-						href="https://github.com/xdecentralix/tell-dapp"
+						href="https://github.com/xdecentralix/frankenterminal-dapp"
 						target="_blank"
 						rel="noreferrer"
 						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight"
 					>
-						xdecentralix/tell-dapp
+						xdecentralix/frankenterminal-dapp
 					</Link>
-					<span className="text-card-content-highlight animate-tell-blink">_</span>
+					<span className="text-card-content-highlight animate-ft-blink">_</span>
 				</div>
 				<Link
 					href={SOCIAL.Github_dapp}

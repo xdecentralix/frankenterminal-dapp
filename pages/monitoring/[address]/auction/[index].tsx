@@ -61,7 +61,7 @@ export default function ChallengePlaceBid() {
 		return (
 			<div className="flex flex-col md:max-w-2xl mx-auto">
 				<Head>
-					<title>Tell - Auction</title>
+					<title>Frankenterminal · Auction</title>
 				</Head>
 
 				<AppTitle
@@ -92,7 +92,7 @@ export default function ChallengePlaceBid() {
 	return (
 		<div className="flex flex-col md:max-w-2xl mx-auto">
 			<Head>
-				<title>Tell - Auction</title>
+				<title>Frankenterminal · Auction</title>
 			</Head>
 
 			<AppTitle

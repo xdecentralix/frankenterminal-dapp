@@ -1,12 +1,12 @@
-# Tell // Frankencoin Interface
+# Frankenterminal // Frankencoin Interface
 
-`Tell` is an **independent, open-source frontend** for the [Frankencoin](https://frankencoin.com) protocol — a decentralized, oracle-free, collateral-backed stablecoin (ZCHF) on Ethereum.
+`Frankenterminal` is an **independent, open-source frontend** for the [Frankencoin](https://frankencoin.com) protocol — a decentralized, oracle-free, collateral-backed stablecoin (ZCHF) on Ethereum.
 
-This repository is a fork of the canonical [Frankencoin-ZCHF/frankencoin-dapp](https://github.com/Frankencoin-ZCHF/frankencoin-dapp), rebranded and re-themed to provide an alternative entry point to the protocol. Tell is **not affiliated with the Frankencoin Association**. All protocol code (smart contracts, indexer schema, token semantics) remains unchanged — this fork only modifies the frontend presentation layer.
+This repository is a fork of the canonical [Frankencoin-ZCHF/frankencoin-dapp](https://github.com/Frankencoin-ZCHF/frankencoin-dapp), rebranded and re-themed to provide an alternative entry point to the protocol. Frankenterminal is **not affiliated with the Frankencoin Association**. All protocol code (smart contracts, indexer schema, token semantics) remains unchanged — this fork only modifies the frontend presentation layer.
 
-> Inspired by William Tell, the Swiss folk hero. Precision-focused, terminal-styled, dark-mode-only.
+> Cypherpunk-terminal aesthetic for ZCHF. Precision-focused, dark-mode-only.
 
-Built with Next.js 14, TailwindCSS, wagmi v2, viem, and JetBrains Mono.
+Built with Next.js 14, TailwindCSS, wagmi v2, viem, and IBM Plex Mono.
 
 ## Why a fork?
 
@@ -24,8 +24,8 @@ All credit for the underlying dapp belongs to the [Frankencoin-ZCHF](https://git
 ## Setup
 
 ```bash
-git clone https://github.com/xdecentralix/tell-dapp.git
-cd tell-dapp
+git clone https://github.com/xdecentralix/frankenterminal-dapp.git frankenterminal-dapp
+cd frankenterminal-dapp
 yarn install --frozen-lockfile
 cp .env.example .env.local
 ```
@@ -34,7 +34,7 @@ Edit `.env.local`:
 
 ```env
 NEXT_PUBLIC_LANDINGPAGE_URL=https://frankencoin.com
-NEXT_PUBLIC_APP_URL=https://app.<your-domain>.tld
+NEXT_PUBLIC_APP_URL=https://frankenterminal.app
 NEXT_PUBLIC_API_URL=https://api.frankencoin.com
 NEXT_PUBLIC_PONDER_URL=https://ponder.frankencoin.com
 NEXT_PUBLIC_PROFILE=mainnet
