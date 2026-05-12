@@ -11,11 +11,11 @@ export function hexToRgb(hex: string): string {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 	return result
 		? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
-		: "255, 0, 51";
+		: "0, 255, 65";
 }
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-	const [themeAccent, setThemeAccentState] = useState<string>("#FF0033");
+	const [themeAccent, setThemeAccentState] = useState<string>("#00FF41");
 
 	useEffect(() => {
 		const savedTheme = localStorage.getItem("frankenterminal-theme-accent");

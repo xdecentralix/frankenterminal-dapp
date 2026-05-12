@@ -187,7 +187,7 @@ export default function CommandPalette({ isOpen, onClose }: Props) {
 			<div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
 			<div
 				className="relative w-full max-w-2xl bg-card-body-primary border border-card-content-highlight"
-				style={{ boxShadow: "0 0 32px rgba(255, 0, 51, 0.18)" }}
+				style={{ boxShadow: "0 0 32px rgba(var(--theme-accent-rgb), 0.18)" }}
 				onClick={(e) => e.stopPropagation()}
 			>
 				<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-80 pointer-events-none" />

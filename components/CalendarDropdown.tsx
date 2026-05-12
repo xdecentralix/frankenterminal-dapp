@@ -37,7 +37,7 @@ export default function CalendarDropdown({ onGoogle, onIcs }: Props) {
 			</button>
 			
 			{open && (
-				<div className="absolute right-0 top-full mt-2 w-full sm:w-[260px] rounded-lg bg-layout-primary border border-card-input-border shadow-[0_0_0_1px_rgba(255,0,51,0.15),0_8px_24px_rgba(0,0,0,0.6)] py-1 z-50 overflow-hidden text-sm">
+				<div className="absolute right-0 top-full mt-2 w-full sm:w-[260px] rounded-lg bg-layout-primary border border-card-input-border shadow-[0_0_0_1px_rgba(var(--theme-accent-rgb),0.15),0_8px_24px_rgba(0,0,0,0.6)] py-1 z-50 overflow-hidden text-sm">
 					<button
 						onClick={() => {
 							setOpen(false);

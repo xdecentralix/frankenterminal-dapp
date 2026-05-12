@@ -30,10 +30,10 @@ export const SOCIAL = {
 };
 
 // Colors to match ApexCharts palette2 for consistent label/slice coloring
-export const getColors = (themeAccent: string = "#FF0033") => [
-	themeAccent, // Neon Swiss Red / Theme Accent
+export const getColors = (themeAccent: string = "#00FF41") => [
+	themeAccent, // Theme Accent (default: Matrix Code Green)
 	"#FFB000", // Terminal Amber
-	"#00FF7F", // Cyber Green
+	"#FF0033", // Cypher Red
 	"#00E5FF", // Electric Cyan
 	"#B200FF", // Neon Purple
 	"#FF00AA", // Hot Pink
@@ -44,7 +44,7 @@ export const getColors = (themeAccent: string = "#FF0033") => [
 
 	themeAccent,
 	"#FFB000",
-	"#00FF7F",
+	"#FF0033",
 	"#00E5FF",
 	"#B200FF",
 	"#FF00AA",

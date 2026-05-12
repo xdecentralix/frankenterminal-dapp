@@ -46,7 +46,7 @@ function hexToHsl(hex: string): { h: number; s: number; l: number } {
 
 export default function ThemeColorSlider() {
 	const { themeAccent, setThemeAccent } = useTheme();
-	const [hue, setHue] = useState<number>(348); // Default #FF0033 is ~348
+	const [hue, setHue] = useState<number>(135); // Default #00FF41 (Matrix Code Green) is ~135°
 
 	useEffect(() => {
 		const { h } = hexToHsl(themeAccent);

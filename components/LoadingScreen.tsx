@@ -39,7 +39,7 @@ export default function LoadingScreen({ title = "FRANKENTERMINAL // initializing
 					<div className="flex flex-row items-center -mt-20">
 						<picture>
 							<img
-								className="h-12 w-12 mr-5 animate-ft-glow-pulse drop-shadow-[0_0_12px_rgba(255,0,51,0.7)]"
+								className="h-12 w-12 mr-5 animate-ft-glow-pulse drop-shadow-[0_0_12px_rgba(var(--theme-accent-rgb),0.7)]"
 								src="/brand/frankenterminal-icon.svg"
 								alt="Frankenterminal"
 							/>

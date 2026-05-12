@@ -6,14 +6,18 @@
    FRANKENTERMINAL — Cypherpunk theme layer
    ------------------------------------------------------------
    Body: black canvas + subtle crosshair grid + scanline overlay
-   Accent: Neon Swiss Red (#FF0033) with glow halos
-   Font: IBM Plex Mono via next/font (declared in _app.tsx)
+   Accent: Matrix Code Green (#00FF41) with glow halos.
+           User-configurable via the hue slider in the StatusBar
+           (persisted to localStorage as frankenterminal-theme-accent).
+   Danger: Cypher Red (#FF0033) — fixed; semantically reserved for
+           risk/error states (.ft-glow-red, shadow-glow-red, …).
+   Font:   IBM Plex Mono via next/font (declared in _app.tsx)
    ============================================================ */
 
 @layer base {
 	:root {
-		--theme-accent: #ff0033;
-		--theme-accent-rgb: 255, 0, 51;
+		--theme-accent: #00ff41;
+		--theme-accent-rgb: 0, 255, 65;
 		--theme-danger: #ff0033;
 		--theme-danger-rgb: 255, 0, 51;
 	}
