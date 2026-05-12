@@ -8,6 +8,7 @@ interface Props {
 	className?: string;
 	glow?: boolean;
 	tone?: "default" | "muted" | "warning" | "success";
+	noTopLine?: boolean;
 }
 
 const TONE_CLASSES: Record<NonNullable<Props["tone"]>, string> = {
@@ -17,7 +18,7 @@ const TONE_CLASSES: Record<NonNullable<Props["tone"]>, string> = {
 	success: "text-text-success",
 };
 
-export default function AppKpiTile({ label, value, unit, hint, className, glow = false, tone = "default" }: Props) {
+export default function AppKpiTile({ label, value, unit, hint, className, glow = false, tone = "default", noTopLine = false }: Props) {
 	const valueClasses = `text-2xl md:text-3xl font-bold tabular-nums leading-tight ${TONE_CLASSES[tone]} ${
 		glow ? "tell-glow-red" : ""
 	}`;
@@ -28,7 +29,9 @@ export default function AppKpiTile({ label, value, unit, hint, className, glow =
 				className ?? ""
 			}`}
 		>
-			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+			{!noTopLine && (
+				<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+			)}
 			<div className="text-xs md:text-sm font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">{label}</div>
 			<div className="mt-auto">
 				<div className="flex items-baseline gap-2 flex-wrap">

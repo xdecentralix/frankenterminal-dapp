@@ -87,7 +87,7 @@ export default function SavingsPage() {
 			</AppTitle>
 			<ReportsYearlyTable activity={account == undefined || account == zeroAddress ? [] : activities} />
 
-			<AppTitle title={"Your latest Activities"} />
+			<AppTitle title={"Activity History"} />
 
 			<SavingsRecentActivitiesTable />
 		</>

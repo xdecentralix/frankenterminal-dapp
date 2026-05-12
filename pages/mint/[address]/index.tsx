@@ -17,7 +17,6 @@ import { ADDRESS } from "@frankencoin/zchf";
 import AppLink from "@components/AppLink";
 import { useRouter as useNavigation } from "next/navigation";
 import { mainnet } from "viem/chains";
-import AppCard from "@components/AppCard";
 import AppTitle from "@components/AppTitle";
 import LiquidationSlider from "@components/Input/LiquidationSlider";
 import { useBorrowPositions } from "../../../hooks/useBorrowPositions";
@@ -359,8 +358,9 @@ export default function PositionBorrow({}) {
 			<div className="mt-6 grid grid-cols-1 lg:grid-cols-5 gap-6">
 				{/* LEFT — INPUTS COCKPIT */}
 				<div className="lg:col-span-3">
-					<AppCard>
-						<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
+					<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+						<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+						<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-2">
 							BORROW FRANKENCOINS
 						</div>
 
@@ -502,68 +502,73 @@ export default function PositionBorrow({}) {
 								</span>
 							</div>
 						)}
-					</AppCard>
+					</div>
 				</div>
 
 				{/* RIGHT — SYSTEM RESPONSE */}
-				<div className="lg:col-span-2 flex flex-col gap-4">
-					<SafetyGauge math={math} newPrice={newPrice} />
+				<div className="lg:col-span-2">
+					<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
+						<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+						
+						<div className="flex flex-col gap-4">
+							<SafetyGauge math={math} newPrice={newPrice} />
 
-					<WhatIfChips math={math} newPrice={newPrice} />
+							<WhatIfChips math={math} newPrice={newPrice} />
 
-					<TerminalBreakdown
-						mintedAmount={amount}
-						reservePct={position.reserveContribution / 1_000_000}
-						interestPct={effectiveInterest}
-						feeAmount={fees}
-						reserveAmount={borrowersReserveContribution}
-						paidOut={paidOutToWallet}
-						mintableAtNewPrice={mintableAtNewPrice}
-						additionalMintable={additionalMintable}
-						showCooldownInfo={newPrice > priceBigInt}
-					/>
+							<TerminalBreakdown
+								mintedAmount={amount}
+								reservePct={position.reserveContribution / 1_000_000}
+								interestPct={effectiveInterest}
+								feeAmount={fees}
+								reserveAmount={borrowersReserveContribution}
+								paidOut={paidOutToWallet}
+								mintableAtNewPrice={mintableAtNewPrice}
+								additionalMintable={additionalMintable}
+								showCooldownInfo={newPrice > priceBigInt}
+							/>
 
-					{hasAlternatives && (
-						<div className="relative border border-card-input-border bg-layout-primary px-4 py-3">
-							<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-							<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-3">
-								ALTERNATIVE TERMS
-							</div>
-							<div className="flex flex-col gap-2">
-								{alternativeRows.map(({ label, pos, value, isBest }) => {
-									if (!pos) return null;
-									return (
-										<button
-											key={label}
-											type="button"
-											disabled={isBest}
-											onClick={() => !isBest && navigate.push(`/mint/${pos.position}`)}
-											className={`grid grid-cols-[auto_1fr_auto] items-center gap-3 py-2 px-2 text-sm uppercase tracking-[0.12em] border ${
-												isBest
-													? "border-text-success/30 bg-text-success/5 cursor-default"
-													: "border-card-input-border hover:border-card-content-highlight hover:bg-card-content-highlight/10 cursor-pointer"
-											}`}
-										>
-											<span className="text-[0.6rem] tracking-[0.18em] text-text-secondary">{label}</span>
-											<span className="text-text-primary tabular-nums font-semibold text-left">{value}</span>
-											<span
-												className={`text-[0.6rem] tracking-[0.18em] font-bold ${
-													isBest ? "text-text-success" : "text-card-content-highlight"
-												}`}
-											>
-												{isBest ? "CURRENT" : "SELECT \u2192"}
-											</span>
-										</button>
-								);
-								})}
-							</div>
-							<div className="mt-3">
-								<AppButtonSecondary onClick={() => navigate.push(`/mint/create?source=${addressQuery}`)}>
-									Need different terms?
-								</AppButtonSecondary>
-							</div>
+							{hasAlternatives && (
+								<div className="p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border">
+									<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
+										ALTERNATIVE TERMS
+									</div>
+									<div className="flex flex-col gap-2">
+										{alternativeRows.map(({ label, pos, value, isBest }) => {
+											if (!pos) return null;
+											return (
+												<button
+													key={label}
+													type="button"
+													disabled={isBest}
+													onClick={() => !isBest && navigate.push(`/mint/${pos.position}`)}
+													className={`grid grid-cols-[auto_1fr_auto] items-center gap-3 py-2 px-2 text-sm uppercase tracking-[0.12em] border ${
+														isBest
+															? "border-text-success/30 bg-text-success/5 cursor-default"
+															: "border-card-input-border hover:border-card-content-highlight hover:bg-card-content-highlight/10 cursor-pointer"
+													}`}
+												>
+													<span className="text-[0.6rem] tracking-[0.18em] text-text-secondary">{label}</span>
+													<span className="text-text-primary tabular-nums font-semibold text-left">{value}</span>
+													<span
+														className={`text-[0.6rem] tracking-[0.18em] font-bold ${
+															isBest ? "text-text-success" : "text-card-content-highlight"
+														}`}
+													>
+														{isBest ? "CURRENT" : "SELECT \u2192"}
+													</span>
+												</button>
+											);
+										})}
+									</div>
+									<div className="mt-3">
+										<AppButtonSecondary onClick={() => navigate.push(`/mint/create?source=${addressQuery}`)}>
+											Need different terms?
+										</AppButtonSecondary>
+									</div>
+								</div>
+							)}
 						</div>
-					)}
+					</div>
 				</div>
 			</div>
 		</div>

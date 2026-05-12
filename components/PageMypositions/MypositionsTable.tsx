@@ -118,6 +118,7 @@ export default function MypositionsTable() {
 	return (
 		<>
 			<AppTitle 
+				className="mb-8"
 				title="Owned Positions" 
 				actions={
 					list.length > 0 ? (

@@ -139,9 +139,10 @@ export default function BorrowTable() {
 							? [
 									<div
 										key="bridges-heading"
-										className="bg-table-header-primary px-8 xl:px-12 py-2 border-t border-card-input-border"
+										className="relative bg-layout-primary px-8 xl:px-12 py-4 border-y border-card-input-border"
 									>
-										<div className="text-sm font-bold uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
+										<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+										<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-left">
 											STABLECOIN BRIDGES
 										</div>
 									</div>,
@@ -162,9 +163,10 @@ export default function BorrowTable() {
 							? [
 									<div
 										key="markets-heading"
-										className="bg-table-header-primary px-8 xl:px-12 py-2 border-t border-card-input-border"
+										className="relative bg-layout-primary px-8 xl:px-12 py-4 border-y border-card-input-border"
 									>
-										<div className="text-sm font-bold uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
+										<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+										<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-left">
 											CLONE BORROW MARKETS
 										</div>
 									</div>,

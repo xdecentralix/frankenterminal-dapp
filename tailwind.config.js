@@ -116,11 +116,11 @@ module.exports = {
 				table: {
 					header: {
 						primary: "#141414",
-						secondary: "#1A1A1A",
+						secondary: "#2A2A2A",
 					},
 					row: {
-						primary: "#0A0A0A",
-						secondary: "#141414",
+						primary: "#141414",
+						secondary: "#1F1F1F",
 						hover: "#1F1F1F",
 					},
 				},

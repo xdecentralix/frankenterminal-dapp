@@ -21,9 +21,11 @@ export default function TransferDetailsCard({ senderAddress, recipientAddress, c
 	recipientAddress = recipientAddress || zeroAddress;
 
 	return (
-		<AppCard>
-			<div className="md:mt-4 text-lg font-bold text-center">Outcome</div>
-			<div className="p-4 flex flex-col gap-2">
+		<div className="md:col-span-3 relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+			<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">Outcome</div>
+			
+			<div className="p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border mt-4">
 				<div className="flex">
 					<div className="flex-1 text-text-secondary">Sender</div>
 					<AppLink
@@ -57,8 +59,8 @@ export default function TransferDetailsCard({ senderAddress, recipientAddress, c
 				</div>
 			</div>
 
-			<div className="md:mt-8 text-lg font-bold text-center">CCIP Details</div>
-			<div className="p-4 flex flex-col gap-2">
+			<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mt-4">CCIP Details</div>
+			<div className="p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border">
 				<div className="flex">
 					<div className="flex-1 text-text-secondary">Bridging ZCHF</div>
 					<div className="">{isSameChain ? "False" : "True"}</div>
@@ -81,6 +83,6 @@ export default function TransferDetailsCard({ senderAddress, recipientAddress, c
 					/>
 				</div>
 			</div>
-		</AppCard>
+		</div>
 	);
 }

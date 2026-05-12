@@ -3,7 +3,6 @@ import { useConnection } from "wagmi";
 import AppTitle from "@components/AppTitle";
 import AddressInput from "@components/Input/AddressInput";
 import { useEffect, useState } from "react";
-import AppCard from "@components/AppCard";
 import { Address, isAddress, zeroAddress } from "viem";
 import { FRANKENCOIN_API_CLIENT } from "../app.config";
 import ReportsSavingsYearlyTable from "@components/PageReports/ReportsSavingsYearlyTable";
@@ -153,7 +152,8 @@ export default function ReportPage() {
 				</div>
 			</AppTitle>
 
-			<AppCard>
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 				<div className="grid md:gap-8 md:grid-cols-3 items-center -mb-4">
 					<DateInput className="" label="Current Date" value={new Date()} disabled={true} />
 
@@ -166,7 +166,7 @@ export default function ReportPage() {
 						error={error}
 					/>
 				</div>
-			</AppCard>
+			</div>
 
 			<AppTitle title="Collateralized Debt Positions">
 				<div className="text-text-secondary">Open positions at the end of each year as well as interest paid.</div>

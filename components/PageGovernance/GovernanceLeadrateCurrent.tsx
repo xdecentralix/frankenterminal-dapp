@@ -195,9 +195,10 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 	};
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-			<AppCard>
-				<div className="mt-4 text-lg font-bold text-center">Historical Rates</div>
+		<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+			<div className="relative border border-card-input-border bg-layout-primary p-4 flex flex-col h-full gap-y-4 rounded-lg">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mt-2">Historical Rates</div>
 
 				<div className="-m-4 pr-2 tell-frame bg-layout-primary p-4 mt-2">
 					<ApexChart
@@ -322,11 +323,12 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 						<div className="flex justify-center text-text-warning">No data available for selected timeframe.</div>
 					) : null}
 				</div>
-			</AppCard>
+			</div>
 
-			<AppCard>
+			<div className="relative border border-card-input-border bg-layout-primary p-4 flex flex-col h-full gap-y-4 rounded-lg">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 				<div className="flex flex-col gap-4">
-					<div className="mt-4 text-lg font-bold text-center">Propose a new Rate</div>
+					<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mt-2">Propose a new Rate</div>
 
 					<NormalInput
 						symbol="%"
@@ -372,7 +374,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 						</GuardSupportedChain>
 					</div>
 				</div>
-			</AppCard>
+			</div>
 		</div>
 	);
 }

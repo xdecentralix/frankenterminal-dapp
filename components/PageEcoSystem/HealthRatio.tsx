@@ -1,5 +1,3 @@
-import AppCard from "../AppCard";
-import AppBox from "../AppBox";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { FRANKENCOIN_API_CLIENT } from "../../app.config";
@@ -58,7 +56,8 @@ export default function HealthRatio() {
 	const barColor = currentPct >= 150 ? "bg-text-success" : currentPct >= 100 ? "bg-text-warning" : "bg-card-content-highlight";
 
 	return (
-		<AppCard>
+		<div className="relative border border-card-input-border bg-layout-primary p-4 flex flex-col h-full gap-y-4 rounded-lg">
+			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="flex flex-col gap-6">
 				{/* Current value */}
 				<div>
@@ -83,24 +82,24 @@ export default function HealthRatio() {
 
 				{/* Stats row */}
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-					<AppBox tight>
+					<div className="bg-card-body-primary border border-card-input-border p-4 flex flex-col gap-1 rounded-sm">
 						<div className="text-text-secondary text-xs">Lowest historical</div>
 						<div className="text-text-primary font-bold text-lg">{formatCurrency((sortedLowest?.value || 0) * 100, 2)}%</div>
 						<div className="text-text-secondary text-xs">{sortedLowest ? dateFormatter(sortedLowest.timestamp) : "-"}</div>
-					</AppBox>
-					<AppBox tight>
+					</div>
+					<div className="bg-card-body-primary border border-card-input-border p-4 flex flex-col gap-1 rounded-sm">
 						<div className="text-text-secondary text-xs">Highest historical</div>
 						<div className="text-text-primary font-bold text-lg">{formatCurrency((sortedHighest?.value || 0) * 100, 2)}%</div>
 						<div className="text-text-secondary text-xs">{sortedHighest ? dateFormatter(sortedHighest.timestamp) : "-"}</div>
-					</AppBox>
-					<AppBox tight>
+					</div>
+					<div className="bg-card-body-primary border border-card-input-border p-4 flex flex-col gap-1 rounded-sm">
 						<div className="text-text-secondary text-xs">Recording since</div>
 						<div className="text-text-primary font-bold text-lg">September 2025</div>
-					</AppBox>
+					</div>
 				</div>
 
 				{/* Chart */}
-				<div className="-mx-4 tell-frame bg-layout-primary p-4 mt-2">
+				<div className="mt-2">
 					<ApexChart
 						type="area"
 						height={200}
@@ -206,6 +205,6 @@ export default function HealthRatio() {
 					)}
 				</div>
 			</div>
-		</AppCard>
+		</div>
 	);
 }

@@ -54,39 +54,38 @@ export default function MyPositionsTabs({ children }: Props) {
 
 	return (
 		<div className="mt-2">
-			<div className="flex border-b border-card-input-border" role="tablist">
-				{tabs.map((t) => {
-					const isActive = active === t.id;
-					return (
-						<button
-							key={t.id}
-							role="tab"
-							aria-selected={isActive}
-							onClick={() => setActive(t.id)}
-							className={`relative px-4 py-2 text-xs uppercase tracking-[0.18em] font-semibold transition-colors flex items-center gap-2 ${
-								isActive
-									? "text-card-content-highlight tell-glow-red"
-									: "text-text-secondary hover:text-text-primary"
-							}`}
-						>
-							<span>{t.label}</span>
-							{typeof t.count === "number" && (
-								<span
-									className={`text-[0.6rem] tabular-nums px-1.5 py-0.5 border ${
-										t.alert
-											? "border-card-content-highlight text-card-content-highlight tell-glow-red"
-											: "border-card-input-border text-text-secondary"
-									}`}
-								>
-									{t.count}
-								</span>
-							)}
-							{isActive && (
-								<span className="absolute left-0 right-0 -bottom-px h-px bg-card-content-highlight" />
-							)}
-						</button>
-					);
-				})}
+			<div className="bg-layout-primary mb-5 border border-card-input-border overflow-x-auto no-scrollbar">
+				<div className="flex flex-row min-w-max text-text-secondary" role="tablist">
+					{tabs.map((t, i) => {
+						const isActive = active === t.id;
+						return (
+							<button
+								key={t.id}
+								role="tab"
+								aria-selected={isActive}
+								onClick={() => setActive(t.id)}
+								className={`flex-1 min-w-[100px] py-2 px-4 text-xs uppercase tracking-[0.12em] font-semibold text-center border-r border-card-input-border last:border-r-0 transition-colors flex items-center justify-center gap-2 ${
+									isActive
+										? "text-card-content-highlight tell-glow-red bg-card-content-highlight/5 border-b-2 border-b-card-content-highlight"
+										: "cursor-pointer hover:bg-card-body-secondary hover:text-text-primary border-b-2 border-b-transparent"
+								}`}
+							>
+								{t.label}
+								{typeof t.count === "number" && (
+									<span
+										className={`text-[0.6rem] tabular-nums px-1.5 py-0.5 border ${
+											t.alert
+												? "border-card-content-highlight text-card-content-highlight tell-glow-red"
+												: "border-card-input-border text-text-secondary"
+										}`}
+									>
+										{t.count}
+									</span>
+								)}
+							</button>
+						);
+					})}
+				</div>
 			</div>
 
 			<div className="mt-4">

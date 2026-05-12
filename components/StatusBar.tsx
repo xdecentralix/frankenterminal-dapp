@@ -190,7 +190,7 @@ export default function StatusBar({ onOpenPalette }: Props) {
 					</span>
 				</div>
 				<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">
-					<span className="text-text-primary">net</span>
+					<span className="text-text-primary">network</span>
 					<span>{networkName}</span>
 				</div>
 				<div className="hidden lg:flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary">

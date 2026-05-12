@@ -45,7 +45,15 @@ export default function GovernanceMintersTable({ length }: Props) {
 
 	return (
 		<Table>
-			<TableHeader headers={headers} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} actionCol />
+				<TableHeader 
+					headers={headers} 
+					tab={tab} 
+					reverse={reverse} 
+					tabOnChange={handleTabOnChange} 
+					actionCol 
+					gridColsClass="md:grid-cols-[2fr_3fr_2fr_5fr_2fr]"
+					paddingLeft={false}
+				/>
 			<TableBody>
 				{list.length == 0 ? (
 					<TableRowEmpty>{"There are no proposals yet."}</TableRowEmpty>

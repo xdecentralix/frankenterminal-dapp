@@ -45,18 +45,13 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 
 	return (
 		<div
-			className={`relative border border-card-input-border bg-layout-primary px-4 py-3 flex flex-col h-full ${
+			className={`relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4 ${
 				className ?? ""
 			}`}
 		>
-			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-			<div className="flex items-baseline justify-between mb-4 flex-shrink-0">
-				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red">
-					FPS TRADE STREAM
-				</div>
-				<div className="text-xs uppercase tracking-[0.12em] text-text-secondary tabular-nums">
-					{trades.length} ENTRIES · 30s POLL
-				</div>
+			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+			<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-4">
+				FPS TRADE STREAM
 			</div>
 			<div
 				className="font-default text-xs overflow-y-auto pr-1"

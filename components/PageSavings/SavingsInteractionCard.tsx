@@ -187,9 +187,12 @@ export default function SavingsInteractionCard() {
 	};
 
 	return (
-		<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
-			<AppCard>
-				<div className="text-lg font-bold text-center">{!onbehalfToggle ? "Adjustment" : "Save on behalf"}</div>
+		<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto items-stretch">
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">
+					{!onbehalfToggle ? "ADJUSTMENT" : "SAVE ON BEHALF"}
+				</div>
 
 				<div className="mt-8">
 					<TokenInputChain
@@ -262,9 +265,7 @@ export default function SavingsInteractionCard() {
 					)}
 				</div>
 
-				<div className="relative mt-6 border border-card-input-border bg-layout-primary px-4 py-3">
-					<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60"></div>
-
+				<div className="relative mt-6 border border-card-input-border bg-card-body-primary px-4 py-3">
 					<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-2">
 						REFERRAL NOTICE
 					</div>
@@ -302,7 +303,7 @@ export default function SavingsInteractionCard() {
 						</div>
 					)}
 				</div>
-			</AppCard>
+			</div>
 
 			<SavingsDetailsCard
 				account={account}

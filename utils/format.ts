@@ -31,7 +31,7 @@ export const formatCurrency = (value: string | number, minimumFractionDigits = 0
 			maximumFractionDigits,
 			minimumFractionDigits,
 		});
-		return formatter.format(amount);
+		return formatter.format(amount).split(",").join("'");
 	}
 
 	// tiny
@@ -40,7 +40,7 @@ export const formatCurrency = (value: string | number, minimumFractionDigits = 0
 			maximumFractionDigits: amount < 1000 && amount > -1000 ? 2 : 0,
 			minimumFractionDigits: amount < 1000 && amount > -1000 ? 2 : 0,
 		});
-		return formatter.format(amount).split(",").join(" ");
+		return formatter.format(amount).split(",").join("'");
 	}
 
 	// symbol (k, M, B, T)
@@ -70,7 +70,7 @@ export const formatCurrency = (value: string | number, minimumFractionDigits = 0
 			minimumFractionDigits,
 			maximumFractionDigits,
 		});
-		return formatter.format(scaledAmount).split(",").join(" ") + suffix;
+		return formatter.format(scaledAmount).split(",").join("'") + suffix;
 	}
 };
 
@@ -80,7 +80,7 @@ export function formatNumber(value: string): string {
 		decimals = "00";
 	}
 	decimals = (parseFloat(value) - parseFloat(floor)).toFixed(2).toString().split(".")[1];
-	return [floor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"), decimals].join(".");
+	return [floor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1'"), decimals].join(".");
 }
 
 export const formatBigInt = (value?: bigint, units = 18, displayDec = 2): string => {

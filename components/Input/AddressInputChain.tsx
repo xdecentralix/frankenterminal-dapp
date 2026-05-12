@@ -50,11 +50,11 @@ export default function AddressInputChain({
 	return (
 		<div className={className}>
 			<div
-				className={`group border-card-input-border ${
+				className={`group border-card-input-border bg-card-body-primary ${
 					disabled ? "bg-card-input-disabled" : "hover:border-card-input-hover"
 				} focus-within:!border-card-input-focus ${
 					error ? "!border-card-input-error" : ""
-				} text-text-secondary border-2 rounded-lg px-3 py-1`}
+				} text-text-secondary border-2 px-3 py-1`}
 				onClick={handleClick}
 			>
 				{label && <div className="flex text-card-input-label my-1">{label}</div>}
@@ -75,7 +75,7 @@ export default function AddressInputChain({
 						autoFocus={autoFocus}
 					/>
 
-					<div className="w-44 md:w-52 flex-shrink-0">
+					<div className="w-48 md:w-56 flex-shrink-0">
 						<ChainBySelect
 							chains={WAGMI_CHAINS.map((c) => c.name)}
 							chain={chain}

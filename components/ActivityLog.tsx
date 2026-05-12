@@ -25,7 +25,7 @@ export interface ActivityLogEntry {
 
 interface Props {
 	/** Short label rendered as the section header. Renders verbatim in uppercase styling. */
-	label: string;
+	label?: string;
 	/** Optional right-side meta in the header (e.g. `30s POLL`). Entry count is always shown. */
 	meta?: string;
 	entries: ActivityLogEntry[];
@@ -79,14 +79,16 @@ export default function ActivityLog({
 			}`}
 		>
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-			<div className="flex items-baseline justify-between mb-3 flex-shrink-0 gap-2">
-				<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red whitespace-nowrap">
-					{label}
+			{label || meta ? (
+				<div className="flex items-baseline justify-between mb-3 flex-shrink-0 gap-2">
+					<div className="text-[0.7rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red whitespace-nowrap">
+						{label}
+					</div>
+					<div className="text-[0.6rem] uppercase tracking-[0.12em] text-text-secondary tabular-nums whitespace-nowrap">
+						{headerMeta}
+					</div>
 				</div>
-				<div className="text-[0.6rem] uppercase tracking-[0.12em] text-text-secondary tabular-nums whitespace-nowrap">
-					{headerMeta}
-				</div>
-			</div>
+			) : null}
 			<div className="font-default text-xs overflow-y-auto pr-1" style={{ maxHeight: `${visibleRows * rowPx}px` }}>
 				{entries.length === 0 ? (
 					<div className="text-text-secondary uppercase tracking-[0.18em] py-2">&gt; {emptyText}</div>

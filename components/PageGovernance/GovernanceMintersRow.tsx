@@ -31,6 +31,8 @@ export default function GovernanceMintersRow({ headers, tab, minter }: Props) {
 			headers={headers}
 			rawHeader={true}
 			tab={tab}
+			gridColsClass="md:grid-cols-[2fr_3fr_2fr_5fr_2fr]"
+			paddingLeft={false}
 			actionCol={
 				<div className="">
 					{isDisabled ? null : (
@@ -62,7 +64,9 @@ export default function GovernanceMintersRow({ headers, tab, minter }: Props) {
 			<div className="flex flex-col">{(SupportedChainsMap[minter.chainId as ChainId] as Chain).name}</div>
 
 			{/* Comment */}
-			<div className="flex flex-col">{minter.applyMessage}</div>
+			<div className="flex flex-col whitespace-normal break-words max-w-[14rem] leading-tight text-left">
+				{minter.applyMessage}
+			</div>
 
 			{/* State */}
 			<div className={`flex flex-col ${vetoed || passed ? "" : "font-bold"}`}>{vetoed ? "Vetoed" : passed ? "Passed" : stateStr}</div>

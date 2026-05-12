@@ -12,6 +12,8 @@ interface Props {
 	tab: string;
 	rawHeader?: boolean;
 	paddingY?: string;
+	gridColsClass?: string;
+	paddingLeft?: boolean;
 }
 
 export default function TableRow({
@@ -26,6 +28,8 @@ export default function TableRow({
 	classNameMobile = "",
 	rawHeader = false,
 	paddingY,
+	gridColsClass,
+	paddingLeft = true,
 }: Props) {
 	return (
 		<div
@@ -33,10 +37,17 @@ export default function TableRow({
 				paddingY ?? "py-4"
 			} bg-table-row-primary md:hover:bg-table-row-hover cursor-default px-8 xl:px-12 border-t border-table-header-secondary last:rounded-b-lg duration-300`}
 		>
-			<div className="flex sm:pl-8 flex-col justify-between gap-y-5 md:flex-row md:items-center">
+			<div className={`flex ${paddingLeft ? "sm:pl-8" : ""} flex-col justify-between gap-y-5 md:flex-row md:items-center`}>
 				{/* @dev: this is desktop view */}
-				<div className={`max-md:hidden text-right grid flex-grow grid-cols-${colSpan || children.length} items-center`}>
-					{children}
+				<div className={`max-md:hidden text-right grid flex-grow ${gridColsClass || `grid-cols-${colSpan || children.length}`} items-center`}>
+					{children.map((child, i) => {
+						const isComment = headers[i] === "Comment";
+						return (
+							<div key={i} className={`${i > 0 && !isComment ? "text-right" : "text-left"} ${isComment ? "pl-8" : ""}`}>
+								{child}
+							</div>
+						);
+					})}
 				</div>
 
 				{/* @dev: this is mobile view */}

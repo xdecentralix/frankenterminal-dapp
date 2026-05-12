@@ -1,4 +1,3 @@
-import AppCard from "@components/AppCard";
 import { useState } from "react";
 import { useConnection, useChainId, useReadContracts } from "wagmi";
 import { Address, isAddress, zeroAddress } from "viem";
@@ -91,11 +90,14 @@ export default function GovernanceDelegation() {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 			{/* Left Card — Support List */}
-			<AppCard>
-				<div className="mt-2 text-lg font-bold text-center">Voting Support</div>
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">
+					Voting Support
+				</div>
 
 				{/* Header */}
-				<div className="grid grid-cols-2 text-sm font-semibold text-text-secondary border-b border-card-input-border pb-1">
+				<div className="grid grid-cols-2 text-sm font-semibold text-text-secondary border-b border-card-input-border pb-1 mt-4">
 					<div>From</div>
 					<div className="text-right">Voting</div>
 				</div>
@@ -149,14 +151,17 @@ export default function GovernanceDelegation() {
 						</span>
 					)}
 				</div>
-			</AppCard>
+			</div>
 
 			{/* Right Card — Actions */}
-			<AppCard>
-				<div className="flex flex-col gap-4">
-					{/* Delegate to address */}
-					<div className="mt-2 text-lg font-bold text-center">Support an Address</div>
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">
+					Support an Address
+				</div>
 
+				<div className="flex flex-col gap-4 mt-4">
+					{/* Delegate to address */}
 					<AddressInput
 						label="Supported Address"
 						placeholder="Enter the address here"
@@ -169,10 +174,12 @@ export default function GovernanceDelegation() {
 					<GovernanceDelegationAction delegate={delegateAddr} disabled={!isConnected || !isAddress(delegateAddr)} />
 
 					{/* Divider */}
-					<div className="border-t border-card-input-border" />
+					<div className="border-t border-card-input-border my-2" />
 
 					{/* Sync votes to chain */}
-					<div className="text-lg font-bold text-center">Sync Votes to Chain</div>
+					<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">
+						Sync Votes to Chain
+					</div>
 
 					<ChainSyncedVotes
 						label="Votes on Target Chain"
@@ -188,7 +195,7 @@ export default function GovernanceDelegation() {
 						disabled={!isConnected || voters.length === 0}
 					/>
 				</div>
-			</AppCard>
+			</div>
 		</div>
 	);
 }

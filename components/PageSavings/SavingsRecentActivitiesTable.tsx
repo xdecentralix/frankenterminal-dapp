@@ -39,7 +39,7 @@ export default function SavingsRecentActivitiesTable() {
 	const activities = useSelector((state: RootState) => state.savings.savingsActivity);
 
 	if (address == undefined) {
-		return <ActivityLog label="ACTIVITY" entries={[]} emptyText="CONNECT WALLET TO VIEW" />;
+		return <ActivityLog entries={[]} emptyText="CONNECT WALLET TO VIEW" visibleRows={6} />;
 	}
 
 	const ignoreModule = normalizeAddress(ADDRESS[mainnet.id].savingsV2);
@@ -56,9 +56,10 @@ export default function SavingsRecentActivitiesTable() {
 		const dateStr = fmtTime(item.created);
 		return {
 			id: `${item.chainId}-${item.account}-${item.module}-${item.count}-${item.kind}`,
-			tone: cls.tone,
+			tone: "neutral",
 			primary: `${amount} ZCHF`,
 			badge: cls.badge,
+			badgeTone: cls.tone,
 			metaLeft: (
 				<a
 					href={TxUrl(item.txHash as Hash, getChain(item.chainId))}
@@ -78,5 +79,5 @@ export default function SavingsRecentActivitiesTable() {
 
 	const flashId = matching.length > 0 ? `${matching[0].chainId}-${matching[0].account}-${matching[0].module}-${matching[0].count}-${matching[0].kind}` : null;
 
-	return <ActivityLog label="ACTIVITY STREAM" entries={entries} emptyText="NO ACTIVITY YET" flashId={flashId} />;
+	return <ActivityLog entries={entries} emptyText="NO ACTIVITY YET" flashId={flashId} visibleRows={6} />;
 }

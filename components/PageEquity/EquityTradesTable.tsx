@@ -56,5 +56,5 @@ export default function EquityTradesTable({ trades }: Props) {
 
 	const flashId = sorted.length > 0 ? sorted[0].txHash : null;
 
-	return <ActivityLog label="MY TRADES" entries={entries} emptyText="NO TRADES YET" flashId={flashId} />;
+	return <ActivityLog entries={entries} emptyText="NO TRADES YET" flashId={flashId} />;
 }

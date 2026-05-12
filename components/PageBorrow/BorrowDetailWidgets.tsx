@@ -46,9 +46,8 @@ export function SafetyGauge({ math, newPrice, className }: SafetyGaugeProps) {
 	const fillPct = Math.min(100, Math.max(0, buffer));
 
 	return (
-		<div className={`relative border border-card-input-border bg-layout-primary px-4 py-3 ${className ?? ""}`}>
-			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-			<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-3">
+		<div className={`p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border ${className ?? ""}`}>
+			<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
 				SAFETY GAUGE
 			</div>
 
@@ -103,9 +102,8 @@ export function WhatIfChips({ math, newPrice, className }: WhatIfChipsProps) {
 	const drops = [-10, -25, -50];
 
 	return (
-		<div className={`relative border border-card-input-border bg-layout-primary px-4 py-3 ${className ?? ""}`}>
-			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-			<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-3">
+		<div className={`p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border ${className ?? ""}`}>
+			<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
 				WHAT IF
 			</div>
 
@@ -274,9 +272,8 @@ export function TerminalBreakdown({
 	);
 
 	return (
-		<div className={`relative border border-card-input-border bg-layout-primary px-4 py-3 ${className ?? ""}`}>
-			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-			<div className="text-[0.65rem] uppercase tracking-[0.18em] text-card-content-highlight tell-glow-red mb-3">
+		<div className={`p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border ${className ?? ""}`}>
+			<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
 				BREAKDOWN
 			</div>
 
@@ -329,11 +326,12 @@ export function PositionContextStrip({
 	const fmt = (b: bigint) => formatCurrency(formatUnits(b, 18));
 	return (
 		<div
-			className={`flex flex-wrap items-center gap-x-6 gap-y-1 px-3 py-2 border border-card-input-border bg-card-body-primary text-xs uppercase tracking-[0.12em] tabular-nums ${
+			className={`relative border border-card-input-border bg-layout-primary flex flex-wrap items-center gap-x-6 gap-y-1 px-4 py-3 text-xs uppercase tracking-[0.12em] tabular-nums ${
 				className ?? ""
 			}`}
 		>
-			<span className="text-[0.65rem] tracking-[0.18em] text-card-content-highlight tell-glow-red">MARKET CONTEXT</span>
+			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+			<span className="text-[0.65rem] tracking-[0.18em] text-text-primary font-bold">MARKET CONTEXT</span>
 			<span>
 				<span className="text-text-secondary">MINTED:</span>{" "}
 				<span className="text-text-primary">{fmt(totalMinted)} ZCHF</span>

@@ -305,7 +305,7 @@ export default function CCIPRateLimitPage() {
 					<InfoRow
 						label="Configured chain"
 						value={
-							<div className="w-44 md:w-52">
+							<div className="w-48 md:w-56">
 								<ChainBySelect
 									chains={sourceOptions.map((o) => o.name)}
 									chain={sourceChain.name}
@@ -318,7 +318,7 @@ export default function CCIPRateLimitPage() {
 					<InfoRow
 						label="Other chain"
 						value={
-							<div className="w-44 md:w-52">
+							<div className="w-48 md:w-56">
 								<ChainBySelect
 									chains={destinationOptions.map((o) => o.name)}
 									chain={destinationLabel}

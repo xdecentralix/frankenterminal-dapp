@@ -46,27 +46,32 @@ export default function EquityStatStrip({ className }: Props) {
 	const roeTone = roePctFloat > 0 ? "success" : roePctFloat < 0 ? "warning" : "default";
 
 	return (
-		<div className={`relative ${className ?? ""}`}>
-			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+		<div className={`relative bg-layout-primary border border-card-input-border rounded-lg p-4 mb-4 ${className ?? ""}`}>
+			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
 				<AppKpiTile
 					label="FPS PRICE"
 					value={formatCurrency(fpsPriceFloat, 2, 2) ?? "—"}
 					unit="ZCHF"
+					noTopLine={true}
 				/>
 				<AppKpiTile
 					label="TOTAL SUPPLY"
-					value={formatCurrency(fpsSupplyFloat, 2, 2, FormatType.symbol) ?? "—"}
+					value={formatCurrency(fpsSupplyFloat, 1, 1, FormatType.symbol) ?? "—"}
 					unit="FPS"
+					noTopLine={true}
 				/>
 				<AppKpiTile
 					label="MARKET CAP"
-					value={formatCurrency(marketCapFloat, 0, 0, FormatType.symbol) ?? "—"}
+					value={formatCurrency(marketCapFloat, 1, 1, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
+					noTopLine={true}
 				/>
 				<AppKpiTile
-					label="EQUITY CAPITAL"
-					value={formatCurrency(equityCapFloat, 0, 0, FormatType.symbol) ?? "—"}
+					label="EQ CAPITAL"
+					value={formatCurrency(equityCapFloat, 1, 1, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
+					noTopLine={true}
 				/>
 				<AppKpiTile
 					label="NET INCOME"
@@ -74,12 +79,14 @@ export default function EquityStatStrip({ className }: Props) {
 					unit="ZCHF"
 					tone={incomeTone as "success" | "warning" | "default"}
 					hint={<span className="uppercase tracking-[0.12em]">{netIncomeFloat < 0 ? "loss · 1Y" : "1Y window"}</span>}
+					noTopLine={true}
 				/>
 				<AppKpiTile
-					label="RETURN ON EQUITY"
+					label="RETURN ON EQ"
 					value={`${formatCurrency(roePctFloat, 2, 2)}%`}
 					tone={roeTone as "success" | "warning" | "default"}
-					hint={<span className="uppercase tracking-[0.12em]">annualized · 1Y</span>}
+					hint={<span className="uppercase tracking-[0.12em]">annualized (1Y)</span>}
+					noTopLine={true}
 				/>
 			</div>
 		</div>

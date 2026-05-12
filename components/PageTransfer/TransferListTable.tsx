@@ -155,7 +155,8 @@ export default function TransferListTable() {
 
 	return (
 		<div className="grid gap-4">
-			<AppCard>
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 				<div className="grid md:grid-cols-2 gap-4">
 					<AddressInput
 						label="Sender"
@@ -194,7 +195,7 @@ export default function TransferListTable() {
 					/>
 					<AddressInput label="Reference" placeholder="Reference (if any)" value={reference} onChange={setReference} />
 				</div>
-			</AppCard>
+			</div>
 
 			<ActivityLog label="TRANSFER LOG" entries={entries} emptyText="NO TRANSFERS FOUND" flashId={flashId} />
 		</div>

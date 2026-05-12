@@ -1,7 +1,6 @@
 import { shortenAddress } from "../../utils/format";
 import AppButton from "@components/AppButton";
 import NormalInput from "@components/Input/NormalInput";
-import AppCard from "@components/AppCard";
 import { useEffect, useState } from "react";
 import { useConnection, useChainId } from "wagmi";
 import { CONFIG, WAGMI_CHAINS, WAGMI_CONFIG } from "../../app.config";
@@ -103,10 +102,13 @@ export default function GovernanceMintersPropose({}: Props) {
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-			<AppCard>
-				<div className="mt-4 text-lg font-bold text-center">Proposal Process</div>
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">
+					Proposal Process
+				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
 					<TokenInput
 						label="Proposal Fee"
 						symbol="ZCHF"
@@ -144,12 +146,15 @@ export default function GovernanceMintersPropose({}: Props) {
 					<AppLink label="community" href={SOCIAL.Telegram} external={true} className="" /> before proposing it to increase the
 					probability of passing the decentralized governance process.
 				</div>
-			</AppCard>
+			</div>
 
-			<AppCard>
-				<div className="flex flex-col gap-4">
-					<div className="mt-4 text-lg font-bold text-center">Propose a new Module on {chain.name}</div>
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">
+					Propose a new Module on {chain.name}
+				</div>
 
+				<div className="flex flex-col gap-4 mt-4">
 					<AddressInput
 						label="Address"
 						placeholder="Enter the address here"
@@ -171,7 +176,7 @@ export default function GovernanceMintersPropose({}: Props) {
 						</AppButton>
 					</GuardSupportedChain>
 				</div>
-			</AppCard>
+			</div>
 		</div>
 	);
 }

@@ -69,10 +69,11 @@ export default function MintOutstanding() {
 	const visibleMints = showAll ? mintFiltered : mintFiltered.slice(0, INITIAL_VISIBLE);
 
 	return (
-		<AppCard>
+		<div className="relative border border-card-input-border bg-layout-primary p-4 flex flex-col h-full gap-y-4 rounded-lg">
+			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="flex flex-col gap-6">
 				{/* Chart */}
-				<div className="-mx-4 tell-frame bg-layout-primary p-4 mt-2">
+				<div className="mt-2">
 					<ApexChart
 						type="area"
 						height={220}
@@ -171,7 +172,7 @@ export default function MintOutstanding() {
 				</div>
 
 				{/* Maturity list */}
-				<div>
+				<div className="bg-card-body-primary border border-card-input-border p-4 rounded-sm">
 					{visibleMints.map((d, idx) => (
 						<div
 							key={`${d.pos}_${idx}`}
@@ -198,6 +199,6 @@ export default function MintOutstanding() {
 					)}
 				</div>
 			</div>
-		</AppCard>
+		</div>
 	);
 }

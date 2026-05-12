@@ -73,21 +73,22 @@ export default function ReportsFPSYearlyTable({ address, fpsHistory, fpsEarnings
 	const currentYear = new Date().getFullYear();
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 mb-6">
-			{sorted.map((row) => {
-				const isCurrent = row.year === currentYear;
-				const earnings = formatCurrency(formatUnits(row.earnings, 18), 0, 0);
-				const balance = formatCurrency(formatUnits(row.balance, 18), 2, 2);
-				const value = formatCurrency(formatUnits(row.value, 18), 0, 0);
-				const toneColor = row.earnings > 0n ? "text-text-success" : "text-text-primary";
+		<div className="relative bg-layout-primary border border-card-input-border rounded-lg p-4 mt-6 mb-6">
+			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+				{sorted.map((row) => {
+					const isCurrent = row.year === currentYear;
+					const earnings = formatCurrency(formatUnits(row.earnings, 18), 0, 0);
+					const balance = formatCurrency(formatUnits(row.balance, 18), 2, 2);
+					const value = formatCurrency(formatUnits(row.value, 18), 0, 0);
+					const toneColor = row.earnings > 0n ? "text-text-success" : "text-text-primary";
 
-				return (
-					<div key={row.year} className="border border-card-input-border bg-layout-primary p-5 flex flex-col gap-3 relative overflow-hidden">
-						<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-						<div className="flex justify-between items-center text-xs uppercase tracking-[0.18em] font-semibold">
+					return (
+						<div key={row.year} className="border border-card-input-border bg-card-body-primary p-5 flex flex-col gap-3 relative overflow-hidden">
+							<div className="flex justify-between items-center text-xs uppercase tracking-[0.18em] font-semibold">
 							<span className="text-text-secondary">Income Attributable</span>
 							<span className={isCurrent ? "text-text-success" : "text-text-secondary"}>
-								{isCurrent ? "CURRENT" : row.year}
+								{isCurrent ? "CURRENT YEAR" : row.year}
 							</span>
 						</div>
 						<div className={`text-2xl font-bold tabular-nums ${toneColor}`}>
@@ -106,6 +107,7 @@ export default function ReportsFPSYearlyTable({ address, fpsHistory, fpsEarnings
 					</div>
 				);
 			})}
+			</div>
 		</div>
 	);
 }

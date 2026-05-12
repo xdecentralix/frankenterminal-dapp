@@ -50,9 +50,10 @@ export default function DebtAllocation() {
 	});
 
 	return (
-		<AppCard>
+		<div className="relative border border-card-input-border bg-layout-primary p-4 flex flex-col h-full gap-y-4 rounded-lg">
+			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="grid md:grid-cols-2 gap-4">
-				<div className="pr-2 my-auto tell-frame bg-layout-primary p-4">
+				<div className="pr-2 my-auto bg-card-body-primary border border-card-input-border p-4 rounded-sm">
 					<ApexChart
 						height={"350px"}
 						type="donut"
@@ -143,7 +144,7 @@ export default function DebtAllocation() {
 					{labels.length == 0 ? <div className="flex justify-center text-text-warning">No data available.</div> : null}
 				</div>
 
-				<div className="my-auto space-y-1">
+				<div className="my-auto space-y-1 bg-card-body-primary border border-card-input-border p-4 rounded-sm">
 					{labels.map((label, idx) => (
 						<div key={`${label}_${idx}`} className="flex justify-between">
 							<div className="text-text-secondary font-semibold" style={{ color: colors[idx % colors.length] }}>
@@ -164,6 +165,6 @@ export default function DebtAllocation() {
 					</div>
 				</div>
 			</div>
-		</AppCard>
+		</div>
 	);
 }

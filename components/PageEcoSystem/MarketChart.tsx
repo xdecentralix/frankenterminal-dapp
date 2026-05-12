@@ -24,8 +24,9 @@ export default function MarketChart() {
 
 	return (
 		<div className="grid md:grid-cols-2 gap-4">
-			<AppCard>
-				<div className="-m-4 pr-2 tell-frame bg-layout-primary p-4">
+			<div className="relative border border-card-input-border bg-layout-primary p-4 flex flex-col h-full gap-y-4 rounded-lg">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="mt-2">
 					<ApexChart
 						type="line"
 						height={300}
@@ -154,10 +155,11 @@ export default function MarketChart() {
 						<div className="flex justify-center text-text-warning">No data available for selected timeframe.</div>
 					) : null}
 				</div>
-			</AppCard>
+			</div>
 
-			<AppCard>
-				<div className="-m-4 pr-2 tell-frame bg-layout-primary p-4">
+			<div className="relative border border-card-input-border bg-layout-primary p-4 flex flex-col h-full gap-y-4 rounded-lg">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="mt-2">
 					<ApexChart
 						type="bar"
 						height={300}
@@ -268,7 +270,7 @@ export default function MarketChart() {
 						<div className="flex justify-center text-text-warning">No data available for selected timeframe.</div>
 					) : null}
 				</div>
-			</AppCard>
+			</div>
 		</div>
 	);
 }

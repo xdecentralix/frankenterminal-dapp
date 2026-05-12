@@ -118,7 +118,7 @@ export default function GovernanceVotersTable() {
 												value: {
 													fontFamily: "var(--font-tell-mono), monospace",
 													color: "#ffffff",
-													formatter: (val: number) => `${Number(val).toFixed(2)}%`,
+													formatter: (val: any) => `${Number(val).toFixed(2)}%`,
 												},
 												total: {
 													show: true,

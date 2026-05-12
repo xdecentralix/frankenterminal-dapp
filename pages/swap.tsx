@@ -12,7 +12,6 @@ import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { formatBigInt, shortenAddress } from "@utils";
 import { TxToast, renderErrorTxToast } from "@components/TxToast";
 import { WAGMI_CONFIG } from "../app.config";
-import AppCard from "@components/AppCard";
 import { FrankencoinABI } from "@frankencoin/zchf";
 import AppLink from "@components/AppLink";
 import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
@@ -237,10 +236,13 @@ export default function Swap() {
 
 			<div className="md:mt-8">
 				<section className="mx-auto max-w-2xl sm:px-8">
-					<AppCard>
-						<div className="mt-4 text-lg font-bold text-center">Swap {swapStats.otherSymbol} and ZCHF</div>
+					<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+						<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+						<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-2">
+							Swap {swapStats.otherSymbol} and ZCHF
+						</div>
 
-						<div className="mt-8">
+						<div className="mt-4 text-sm text-text-secondary leading-relaxed">
 							The <AppLink className="" label="swap module" href={bridgeUrl} external={true} /> enables 1:1 conversion between
 							other Swiss Franc stablecoins and back, up to certain limits. Currently,{" "}
 							<AppLink className="" label={swapStats.otherLabel} href={swapStats.otherInfoUrl} external={true} /> is
@@ -305,18 +307,7 @@ export default function Swap() {
 								)}
 							</GuardSupportedChain>
 						</div>
-
-						<div className="mt-6">
-							You can also use the{" "}
-							<AppLink
-								className=""
-								label="Uniswap App"
-								href="https://app.uniswap.org/explore/tokens/ethereum/0xb58e61c3098d85632df34eecfb899a1ed80921cb"
-								external={true}
-							/>{" "}
-							to swap other tokens for ZCHF.
-						</div>
-					</AppCard>
+					</div>
 				</section>
 			</div>
 		</>

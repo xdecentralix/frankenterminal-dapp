@@ -128,9 +128,12 @@ export default function TransferInteractionCard() {
 	const isDisabled = !isAddress(recipient) || (refToggle && reference.length == 0) || amount == 0n || errorAmount() != "";
 
 	return (
-		<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
-			<AppCard>
-				<div className="mt-4 text-lg font-bold text-center">Transfer Parameters</div>
+		<section className="grid grid-cols-1 md:grid-cols-8 gap-4 mx-auto items-stretch">
+			<div className="md:col-span-5 relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-2">
+					Transfer Parameters
+				</div>
 
 				<AddressInputChain label="Sender" disabled={true} value={address} chain={chain?.name} onChangeChain={onChangeChain} />
 
@@ -192,7 +195,7 @@ export default function TransferInteractionCard() {
 						setLoaded={setLoaded}
 					/>
 				)}
-			</AppCard>
+			</div>
 
 			<TransferDetailsCard
 				senderAddress={address}

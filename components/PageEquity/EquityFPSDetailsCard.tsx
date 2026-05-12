@@ -58,7 +58,7 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 	}));
 
 	return (
-		<div className="bg-card-body-primary rounded-lg p-4 grid grid-cols-1 gap-2">
+		<div className="grid grid-cols-1">
 			<div id="chart-timeline" className="tell-frame bg-layout-primary p-4 mb-4">
 				<TabInput tabs={TypeCharts} tab={typechart} setTab={setTypechart} />
 

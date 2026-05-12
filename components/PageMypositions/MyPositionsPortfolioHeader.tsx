@@ -97,43 +97,49 @@ export default function MyPositionsPortfolioHeader() {
 	}
 
 	return (
-		<div className="relative">
-			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+		<div className="relative bg-layout-primary border border-card-input-border rounded-lg p-4 mb-6">
+			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 				<AppKpiTile
 					label="TOTAL OWED"
 					value={formatCurrency(parseFloat(formatUnits(totalOwed, 18)), 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
+					noTopLine={true}
 				/>
 				<AppKpiTile
 					label="TOTAL RESERVES"
 					value={formatCurrency(parseFloat(formatUnits(totalReserves, 18)), 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
+					noTopLine={true}
 				/>
 				<AppKpiTile
 					label="TOTAL MINTED"
 					value={formatCurrency(parseFloat(formatUnits(totalMinted, 18)), 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
+					noTopLine={true}
 				/>
-				<AppKpiTile label="POSITIONS" value={positionCount} unit={positionCount === 1 ? "open" : "open"} />
+				<AppKpiTile label="POSITIONS" value={positionCount} unit={positionCount === 1 ? "open" : "open"} noTopLine={true} />
 
 				<AppKpiTile
 					label="COLLATERAL VALUE"
 					value={formatCurrency(collateralValueChf, 0, 0, FormatType.symbol) ?? "—"}
 					unit="ZCHF"
+					noTopLine={true}
 				/>
 				<AppKpiTile
 					label="AVG RATE"
 					value={avgRate > 0 ? `${formatCurrency(avgRate * 100, 2, 2)}%` : "—"}
 					hint={<span className="uppercase tracking-[0.12em]">value-weighted</span>}
+					noTopLine={true}
 				/>
 				<AppKpiTile
 					label="AVG DAYS LEFT"
 					value={avgDays > 0 ? Math.round(avgDays) : "—"}
 					unit="days"
 					hint={<span className="uppercase tracking-[0.12em]">value-weighted</span>}
+					noTopLine={true}
 				/>
 				<div className="relative bg-card-body-primary border border-card-input-border px-5 pt-5 pb-4 flex flex-col justify-between h-full min-h-[130px]">
-					<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 					<div className="text-xs md:text-sm font-bold uppercase tracking-[0.18em] text-text-secondary mb-2">STATUS</div>
 					<div className="flex flex-col gap-1 text-sm tabular-nums mt-auto">
 						<StatusRow color="success" label="safe" count={safeCount} />

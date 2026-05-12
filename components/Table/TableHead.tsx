@@ -11,9 +11,11 @@ interface Props {
 	reverse?: boolean;
 	tabOnChange?: Function;
 	roundedTop?: boolean;
+	gridColsClass?: string;
+	paddingLeft?: boolean;
 }
 
-export default function TableHeader({ headers, subHeaders, actionCol, colSpan, tab = "", reverse = false, tabOnChange, roundedTop = true }: Props) {
+export default function TableHeader({ headers, subHeaders, actionCol, colSpan, tab = "", reverse = false, tabOnChange, roundedTop = true, gridColsClass, paddingLeft = true }: Props) {
 	const handleOnClick = function (active: string) {
 		if (typeof tabOnChange === "function") tabOnChange(active);
 	};
@@ -21,9 +23,9 @@ export default function TableHeader({ headers, subHeaders, actionCol, colSpan, t
 	return (
 		<div className={`items-center justify-between bg-table-header-primary py-4 px-8 md:flex xl:px-12 ${roundedTop ? "rounded-t-lg" : ""}`}>
 			{/* @dev: this is desktop view */}
-			<div className={`max-md:hidden pl-8 flex-grow grid-cols-2 md:grid md:grid-cols-${colSpan || headers.length}`}>
+			<div className={`max-md:hidden ${paddingLeft ? "pl-8" : ""} flex-grow grid-cols-2 md:grid ${gridColsClass || `md:grid-cols-${colSpan || headers.length}`}`}>
 				{headers.map((header, i) => (
-					<div className={`${i > 0 ? "text-right" : ""}`} key={`table-header-${i}`} onClick={(e) => handleOnClick(header)}>
+					<div className={`${i > 0 && header !== "Comment" ? "text-right" : "text-left"} ${header === "Comment" ? "pl-8" : ""}`} key={`table-header-${i}`} onClick={(e) => handleOnClick(header)}>
 						<span
 							className={`font-bold ${!!tab ? "cursor-pointer" : ""} ${
 								tab === header ? "text-text-active" : "text-text-header "
@@ -41,7 +43,7 @@ export default function TableHeader({ headers, subHeaders, actionCol, colSpan, t
 				))}
 				{subHeaders
 					? subHeaders.map((header, i) => (
-							<div className={`${i > 0 ? "text-right" : ""}`} key={`table-header-${i}`}>
+							<div className={`${i > 0 && header !== "Comment" ? "text-right" : "text-left"} ${header === "Comment" ? "pl-8" : ""}`} key={`table-header-${i}`}>
 								<span className="text-text-subheader">{header}</span>
 							</div>
 					  ))
