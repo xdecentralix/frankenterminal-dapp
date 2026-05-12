@@ -96,7 +96,9 @@ export default function PositionDetail() {
 					badges={[
 						{ label: status.label, className: status.cls },
 						{ label: `V${position.version}`, className: "border border-blue-500/30 text-blue-400 bg-blue-500/10" },
-						...(position.isClone ? [{ label: "Clone", className: "border border-purple-500/30 text-purple-400 bg-purple-500/10" }] : []),
+						...(position.isClone
+							? [{ label: "Clone", className: "border border-purple-500/30 text-purple-400 bg-purple-500/10" }]
+							: []),
 					]}
 					actions={
 						<div className="flex flex-wrap gap-4 text-sm">
@@ -139,7 +141,15 @@ export default function PositionDetail() {
 								{formatCurrency(formatUnits(BigInt(position.price), priceDigit))} ZCHF
 							</StatRow>
 							<StatRow label="Nominal LTV">
-								<span className={nominalLTV > 90 ? "text-card-content-highlight" : nominalLTV > 80 ? "text-text-warning" : "text-text-success"}>
+								<span
+									className={
+										nominalLTV > 90
+											? "text-card-content-highlight"
+											: nominalLTV > 80
+											? "text-text-warning"
+											: "text-text-success"
+									}
+								>
 									{formatCurrency(nominalLTV, 2, 2)}%
 								</span>
 							</StatRow>

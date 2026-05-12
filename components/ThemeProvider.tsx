@@ -9,9 +9,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function hexToRgb(hex: string): string {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	return result
-		? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
-		: "0, 255, 65";
+	return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : "0, 255, 65";
 }
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -33,11 +31,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 		document.documentElement.style.setProperty("--theme-accent-rgb", hexToRgb(hex));
 	};
 
-	return (
-		<ThemeContext.Provider value={{ themeAccent, setThemeAccent }}>
-			{children}
-		</ThemeContext.Provider>
-	);
+	return <ThemeContext.Provider value={{ themeAccent, setThemeAccent }}>{children}</ThemeContext.Provider>;
 };
 
 export const useTheme = () => {

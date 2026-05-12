@@ -78,7 +78,10 @@ export default function ChallengesRow({ headers, tab, challenge }: Props) {
 			headers={headers}
 			tab={tab}
 			actionCol={
-				<AppButtonSecondary className="h-10" onClick={() => navigate.push(`/monitoring/${challenge.position}/auction/${challenge.number}`)}>
+				<AppButtonSecondary
+					className="h-10"
+					onClick={() => navigate.push(`/monitoring/${challenge.position}/auction/${challenge.number}`)}
+				>
 					Buy
 				</AppButtonSecondary>
 			}

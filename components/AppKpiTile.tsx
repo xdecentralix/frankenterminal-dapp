@@ -19,9 +19,7 @@ const TONE_CLASSES: Record<NonNullable<Props["tone"]>, string> = {
 };
 
 export default function AppKpiTile({ label, value, unit, hint, className, glow = false, tone = "default", noTopLine = false }: Props) {
-	const valueClasses = `text-2xl md:text-3xl font-bold tabular-nums leading-tight ${TONE_CLASSES[tone]} ${
-		glow ? "ft-glow-accent" : ""
-	}`;
+	const valueClasses = `text-2xl md:text-3xl font-bold tabular-nums leading-tight ${TONE_CLASSES[tone]} ${glow ? "ft-glow-accent" : ""}`;
 
 	return (
 		<div
@@ -38,9 +36,7 @@ export default function AppKpiTile({ label, value, unit, hint, className, glow =
 					<span className={valueClasses}>{value}</span>
 					{unit && <span className="text-xs uppercase tracking-[0.18em] text-text-secondary">{unit}</span>}
 				</div>
-				<div className="h-4 mt-1">
-					{hint && <div className="text-xs text-text-secondary truncate">{hint}</div>}
-				</div>
+				<div className="h-4 mt-1">{hint && <div className="text-xs text-text-secondary truncate">{hint}</div>}</div>
 			</div>
 		</div>
 	);

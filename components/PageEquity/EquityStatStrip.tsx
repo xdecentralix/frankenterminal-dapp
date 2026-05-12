@@ -30,15 +30,12 @@ export default function EquityStatStrip({ className }: Props) {
 	const equityEnd = BigInt(windowed.at(-1)?.totalEquity ?? "0");
 	const equityAvg = (equityStart + equityEnd) / 2n;
 	// returnOnEquityRaw is parseEther(1) == 100% scale; convert to percent float for display.
-	const returnOnEquityRaw =
-		equityAvg > 0n && tDiff > 0n ? (((netIncome * parseEther("1")) / equityAvg) * oneYearMs) / tDiff : 0n;
+	const returnOnEquityRaw = equityAvg > 0n && tDiff > 0n ? (((netIncome * parseEther("1")) / equityAvg) * oneYearMs) / tDiff : 0n;
 	const roePctFloat = parseFloat(formatUnits(returnOnEquityRaw, 18)) * 100;
 
 	const fpsPriceFloat = parseFloat(formatUnits(poolStats.equityPrice, 18));
 	const fpsSupplyFloat = parseFloat(formatUnits(poolStats.equitySupply, 18));
-	const marketCapFloat = parseFloat(
-		formatUnits((poolStats.equitySupply * poolStats.equityPrice) / parseEther("1"), 18)
-	);
+	const marketCapFloat = parseFloat(formatUnits((poolStats.equitySupply * poolStats.equityPrice) / parseEther("1"), 18));
 	const equityCapFloat = parseFloat(formatUnits(poolStats.frankenEquity, 18));
 	const netIncomeFloat = parseFloat(formatUnits(netIncome, 18));
 
@@ -49,12 +46,7 @@ export default function EquityStatStrip({ className }: Props) {
 		<div className={`relative bg-layout-primary border border-card-input-border rounded-lg p-4 mb-4 ${className ?? ""}`}>
 			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-				<AppKpiTile
-					label="FPS PRICE"
-					value={formatCurrency(fpsPriceFloat, 2, 2) ?? "—"}
-					unit="ZCHF"
-					noTopLine={true}
-				/>
+				<AppKpiTile label="FPS PRICE" value={formatCurrency(fpsPriceFloat, 2, 2) ?? "—"} unit="ZCHF" noTopLine={true} />
 				<AppKpiTile
 					label="TOTAL SUPPLY"
 					value={formatCurrency(fpsSupplyFloat, 1, 1, FormatType.symbol) ?? "—"}

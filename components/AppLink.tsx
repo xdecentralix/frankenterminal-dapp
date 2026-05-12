@@ -15,9 +15,7 @@ export default function AppLink({ label, href = "/", external = false, icon = fa
 	const umamiEvent = (external ? "external_link_" : "link_") + label.toLowerCase().replace(/\s+/g, "_");
 	return (
 		<Link
-			className={`${
-				className ?? "flex items-center justify-end pt-2"
-			} text-card-input-max hover:text-white cursor-pointer`}
+			className={`${className ?? "flex items-center justify-end pt-2"} text-card-input-max hover:text-white cursor-pointer`}
 			href={href}
 			target={external ? "_blank" : undefined}
 			rel={external ? "noreferrer" : undefined}

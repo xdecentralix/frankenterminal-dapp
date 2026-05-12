@@ -13,7 +13,7 @@ export default function NavButton({ to, name, external, variant = "primary" }: P
 	const router = useRouter();
 	const active = router.pathname.includes(to);
 	const umamiEvent = "nav_" + name.toLowerCase().replace(/\s+/g, "_");
-	
+
 	const isUtility = variant === "utility";
 
 	return (

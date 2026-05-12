@@ -140,9 +140,7 @@ export function LegalTermsModalProvider({ children }: { children: ReactNode }) {
 						</h2>
 
 						<div className="text-sm text-text-secondary mb-6 space-y-3">
-							<p>
-								Before connecting your wallet, please read and confirm the statement below.
-							</p>
+							<p>Before connecting your wallet, please read and confirm the statement below.</p>
 						</div>
 
 						<div className="mb-6">
@@ -156,24 +154,25 @@ export function LegalTermsModalProvider({ children }: { children: ReactNode }) {
 										<ol className="mt-2 ml-4 list-decimal text-xs text-text-secondary space-y-2">
 											<li>I am at least 18 years old and have legal capacity to enter into this agreement.</li>
 											<li>
-												I am not a resident or citizen of, and not currently located in, any <strong>Restricted Jurisdiction</strong>,
-												and I am not on any applicable sanctions list.
+												I am not a resident or citizen of, and not currently located in, any{" "}
+												<strong>Restricted Jurisdiction</strong>, and I am not on any applicable sanctions list.
 												<span className="block mt-1 text-text-secondary">
 													<strong>Restricted Jurisdictions</strong> are:
 												</span>
 												<ul className="mt-1 ml-4 list-disc text-text-secondary space-y-1">
 													<li>
-														<strong>Sanctions-mandated:</strong> Cuba, Iran, North Korea, Syria, and the Russian-occupied regions of
-														Ukraine (Crimea, Donetsk, Luhansk, Zaporizhzhia, Kherson).
+														<strong>Sanctions-mandated:</strong> Cuba, Iran, North Korea, Syria, and the
+														Russian-occupied regions of Ukraine (Crimea, Donetsk, Luhansk, Zaporizhzhia,
+														Kherson).
 													</li>
 													<li>
-														<strong>Additional Operator-restricted jurisdictions:</strong> the Russian Federation and the Republic of
-														Belarus.
+														<strong>Additional Operator-restricted jurisdictions:</strong> the Russian
+														Federation and the Republic of Belarus.
 													</li>
 												</ul>
 												<span className="block mt-1 text-text-secondary">
-													I am also not listed on the OFAC SDN list, the EU consolidated financial-sanctions list, or the Swiss SECO
-													sanctions list.
+													I am also not listed on the OFAC SDN list, the EU consolidated financial-sanctions list,
+													or the Swiss SECO sanctions list.
 												</span>
 											</li>
 											<li>

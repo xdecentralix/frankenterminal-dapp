@@ -56,8 +56,7 @@ export default function SavingsHistorySparkline({ className, width = 280, height
 	const last = points[points.length - 1];
 	const first = points[0];
 	const trend = last.savings > first.savings ? "up" : last.savings < first.savings ? "down" : "flat";
-	const trendColor =
-		trend === "up" ? "text-text-success" : trend === "down" ? "text-text-warning" : "text-text-secondary";
+	const trendColor = trend === "up" ? "text-text-success" : trend === "down" ? "text-text-warning" : "text-text-secondary";
 	const trendArrow = trend === "up" ? "↑" : trend === "down" ? "↓" : "→";
 	const diff = last.savings - first.savings;
 
@@ -65,15 +64,11 @@ export default function SavingsHistorySparkline({ className, width = 280, height
 		<div className={`relative border border-card-input-border bg-layout-primary px-4 py-3 ${className ?? ""}`}>
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="flex items-baseline justify-between mb-2">
-				<div className="text-[0.75rem] uppercase tracking-[0.18em] text-text-secondary font-bold">
-					TOTAL SAVINGS
-				</div>
-				<div className="text-[0.7rem] uppercase tracking-[0.12em] text-text-secondary tabular-nums">
-					last {series.length} days
-				</div>
+				<div className="text-[0.75rem] uppercase tracking-[0.18em] text-text-secondary font-bold">TOTAL SAVINGS</div>
+				<div className="text-[0.7rem] uppercase tracking-[0.12em] text-text-secondary tabular-nums">last {series.length} days</div>
 			</div>
-			<div className="flex items-center gap-3">
-				<svg width={width} height={height} className="block">
+			<div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+				<svg viewBox={`0 0 ${width} ${height}`} className="block w-full max-w-[280px] h-auto">
 					<path d={path} fill="none" stroke={themeAccent} strokeWidth={1.5} />
 					{points.map((p, i) => (
 						<circle
@@ -88,9 +83,7 @@ export default function SavingsHistorySparkline({ className, width = 280, height
 				</svg>
 				<div className="flex flex-col gap-0.5 ml-3 tabular-nums text-xs uppercase tracking-[0.12em]">
 					<span className="text-text-secondary">CURRENT</span>
-					<span className="text-text-primary text-xl font-bold">
-						{formatCurrency(last.savings / 1_000_000, 2, 2)}M ZCHF
-					</span>
+					<span className="text-text-primary text-xl font-bold">{formatCurrency(last.savings / 1_000_000, 2, 2)}M ZCHF</span>
 					<span className={`${trendColor} text-[0.7rem] mt-0.5`}>
 						{trendArrow} {formatCurrency(Math.abs(diff) / 1_000_000, 2, 2)}M 30d net
 					</span>

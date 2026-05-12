@@ -26,8 +26,7 @@ export const collectHelpers = (address: Address, delegatees: DelegateeMap): Addr
 	return helpers;
 };
 
-export const computeSupporterCount = (address: Address, delegatees: DelegateeMap): number =>
-	collectHelpers(address, delegatees).length;
+export const computeSupporterCount = (address: Address, delegatees: DelegateeMap): number => collectHelpers(address, delegatees).length;
 
 export const useDelegationHelpers = (sender: Address | undefined = zeroAddress): Delegationhelpers => {
 	const { delegatees } = useDelegationQuery();

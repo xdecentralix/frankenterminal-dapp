@@ -56,10 +56,10 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 
 	const isClosedOrCooldown = position.closed || position.denied || position.cooldown * 1000 > Date.now();
 	const isChallenged = positionChallengesActive.length > 0;
-	
+
 	let healthColor = "text-text-secondary";
 	let healthLabel = "—";
-	
+
 	if (!isClosedOrCooldown) {
 		if (isChallenged || maturity <= 0 || liquidationPct < 110) {
 			healthColor = "text-text-danger ft-glow-red";
@@ -186,7 +186,11 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 			<div className="flex flex-col">
 				<div className="flex items-center gap-3 justify-end">
 					<div className="flex flex-col text-right">
-						<span className={liquidationPct < 110 && !isClosedOrCooldown ? `text-md font-bold text-text-danger ft-glow-red` : "text-md"}>
+						<span
+							className={
+								liquidationPct < 110 && !isClosedOrCooldown ? `text-md font-bold text-text-danger ft-glow-red` : "text-md"
+							}
+						>
 							{formatCurrency(liquidationZCHF, 2, 2)} ZCHF
 						</span>
 						<span className="text-sm text-text-subheader font-normal">
@@ -194,13 +198,17 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 						</span>
 					</div>
 					<div className={`flex flex-col text-right hidden md:flex ${healthColor} min-w-16`}>
-						<span className="text-md font-bold tabular-nums">{isClosedOrCooldown || !isFinite(liquidationPct) ? "—" : `${formatCurrency(liquidationPct, 0, 2)}%`}</span>
+						<span className="text-md font-bold tabular-nums">
+							{isClosedOrCooldown || !isFinite(liquidationPct) ? "—" : `${formatCurrency(liquidationPct, 0, 2)}%`}
+						</span>
 						<span className="text-[0.65rem] uppercase tracking-[0.18em] font-semibold">{healthLabel}</span>
 					</div>
 				</div>
 				<div className={`md:hidden mt-2 self-start flex gap-2 items-baseline ${healthColor}`}>
 					<span className="text-[0.65rem] uppercase tracking-[0.18em] font-semibold">{healthLabel}</span>
-					<span className="text-md font-bold tabular-nums">{isClosedOrCooldown || !isFinite(liquidationPct) ? "—" : `${formatCurrency(liquidationPct, 0, 2)}%`}</span>
+					<span className="text-md font-bold tabular-nums">
+						{isClosedOrCooldown || !isFinite(liquidationPct) ? "—" : `${formatCurrency(liquidationPct, 0, 2)}%`}
+					</span>
 				</div>
 			</div>
 

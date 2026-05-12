@@ -372,7 +372,12 @@ export default function GovernanceLeadrateRow({ headers, tab, proposal }: Props)
 						</GuardSupportedChain>
 					) : proposal.isProposal && !proposal.isPending ? (
 						<GuardSupportedChain label="Connect" chain={mainnet}>
-							<AppButtonSecondary className="h-10" disabled={isHidden} isLoading={isApplying} onClick={(e) => handleOnApply(e)}>
+							<AppButtonSecondary
+								className="h-10"
+								disabled={isHidden}
+								isLoading={isApplying}
+								onClick={(e) => handleOnApply(e)}
+							>
 								Apply
 							</AppButtonSecondary>
 						</GuardSupportedChain>

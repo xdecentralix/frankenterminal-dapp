@@ -210,7 +210,7 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 
 	const conversionNote = () => {
 		if (amount != 0n && result != 0n) {
-			const ratio = 100n * amount / result;
+			const ratio = (100n * amount) / result;
 			return `1 ${toSymbol} = ${formatUnits(ratio, 2)} ${fromSymbol}`;
 		} else {
 			return ``;
@@ -236,7 +236,11 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 				/>
 
 				<div className="py-4 text-center z-0">
-					<AppButton className={`h-10 rounded-full`} width="w-10" onClick={() => setTokenFromTo({ from: toSymbol, to: fromSymbol })}>
+					<AppButton
+						className={`h-10 rounded-full`}
+						width="w-10"
+						onClick={() => setTokenFromTo({ from: toSymbol, to: fromSymbol })}
+					>
 						<FontAwesomeIcon icon={faArrowDown} className="w-6 h-6" />
 					</AppButton>
 				</div>
@@ -269,7 +273,7 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 								</AppButton>
 							)
 						) : (
-<AppButton
+							<AppButton
 								isLoading={isRedeeming}
 								disabled={amount == 0n || !!error || !poolStats.equityCanRedeem}
 								onClick={() => handleRedeem()}

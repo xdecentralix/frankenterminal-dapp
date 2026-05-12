@@ -496,9 +496,7 @@ export default function PositionBorrow({}) {
 							<div className="flex items-center gap-2 my-2 px-3 py-2 border border-text-warning/50 bg-text-warning/10 text-text-warning text-xs uppercase tracking-[0.18em]">
 								<span>&gt;</span>
 								<span>
-									{position.start * 1000 > now
-										? "POSITION PENDING GOVERNANCE APPROVAL"
-										: "POSITION IN COOLDOWN PERIOD"}
+									{position.start * 1000 > now ? "POSITION PENDING GOVERNANCE APPROVAL" : "POSITION IN COOLDOWN PERIOD"}
 								</span>
 							</div>
 						)}
@@ -509,7 +507,7 @@ export default function PositionBorrow({}) {
 				<div className="lg:col-span-2">
 					<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
 						<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-						
+
 						<div className="flex flex-col gap-4">
 							<SafetyGauge math={math} newPrice={newPrice} />
 

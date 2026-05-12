@@ -10,8 +10,7 @@ export default function PageCollateral() {
 			</Head>
 
 			<AppTitle title={`Accepted Collateral Assets`}>
-				<div className="text-text-secondary">
-				</div>
+				<div className="text-text-secondary"></div>
 			</AppTitle>
 
 			<div className="my-[2rem]">

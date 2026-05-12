@@ -33,14 +33,16 @@ module.exports = {
 			boxShadow: {
 				"glow-red": "0 0 0 1px rgba(var(--theme-danger-rgb), 0.5), 0 0 16px rgba(var(--theme-danger-rgb), 0.35)",
 				"glow-red-sm": "0 0 6px rgba(var(--theme-danger-rgb), 0.4)",
-				"glow-red-lg": "0 0 0 1px var(--theme-danger), 0 0 24px rgba(var(--theme-danger-rgb), 0.45), 0 0 48px rgba(var(--theme-danger-rgb), 0.2)",
+				"glow-red-lg":
+					"0 0 0 1px var(--theme-danger), 0 0 24px rgba(var(--theme-danger-rgb), 0.45), 0 0 48px rgba(var(--theme-danger-rgb), 0.2)",
 				"inset-red": "inset 0 0 0 1px rgba(var(--theme-danger-rgb), 0.6)",
-				
+
 				"glow-accent": "0 0 0 1px rgba(var(--theme-accent-rgb), 0.5), 0 0 16px rgba(var(--theme-accent-rgb), 0.35)",
 				"glow-accent-sm": "0 0 6px rgba(var(--theme-accent-rgb), 0.4)",
-				"glow-accent-lg": "0 0 0 1px var(--theme-accent), 0 0 24px rgba(var(--theme-accent-rgb), 0.45), 0 0 48px rgba(var(--theme-accent-rgb), 0.2)",
+				"glow-accent-lg":
+					"0 0 0 1px var(--theme-accent), 0 0 24px rgba(var(--theme-accent-rgb), 0.45), 0 0 48px rgba(var(--theme-accent-rgb), 0.2)",
 				"inset-accent": "inset 0 0 0 1px rgba(var(--theme-accent-rgb), 0.6)",
-				
+
 				terminal: "0 0 0 1px #2A2A2A",
 			},
 			textShadow: {

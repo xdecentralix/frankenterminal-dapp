@@ -24,10 +24,11 @@ export type FtSelectOptions = {
 	invertColors?: boolean;
 };
 
-export function ftSelectStyles<Option extends { value: string }>({
-	activeValue,
-	invertColors = false,
-}: FtSelectOptions = {}): StylesConfig<Option, false, GroupBase<Option>> {
+export function ftSelectStyles<Option extends { value: string }>({ activeValue, invertColors = false }: FtSelectOptions = {}): StylesConfig<
+	Option,
+	false,
+	GroupBase<Option>
+> {
 	return {
 		indicatorSeparator: () => ({
 			display: "none",

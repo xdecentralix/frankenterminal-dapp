@@ -26,9 +26,7 @@ export default function GovernanceVotersRow({ headers, tab, voter, votesTotal, c
 				{/* Address + supporter count as sub-text */}
 				<div className="flex flex-col md:text-left max-md:text-right max-md:w-full">
 					<div className="flex items-center gap-2">
-						{color && (
-							<span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: color }}></span>
-						)}
+						{color && <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: color }}></span>}
 						{connectedWallet ? (
 							<AppLink label={"Connected wallet"} href={ContractUrl(voter.holder)} external={true} className="" />
 						) : (

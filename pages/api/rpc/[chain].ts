@@ -30,16 +30,7 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const ALLOWED_CHAINS = [
-	"mainnet",
-	"polygon",
-	"arbitrum",
-	"optimism",
-	"base",
-	"avalanche",
-	"gnosis",
-	"sonic",
-] as const;
+const ALLOWED_CHAINS = ["mainnet", "polygon", "arbitrum", "optimism", "base", "avalanche", "gnosis", "sonic"] as const;
 type AllowedChain = (typeof ALLOWED_CHAINS)[number];
 
 const ALCHEMY_HOST: Record<AllowedChain, string> = {
@@ -155,9 +146,7 @@ function send(res: NextApiResponse, result: ForwardResult): void {
 
 function classifyError(err: unknown): { status: number; error: string } {
 	const aborted = (err as { name?: string })?.name === "AbortError";
-	return aborted
-		? { status: 504, error: "upstream timeout" }
-		: { status: 502, error: "upstream fetch failed" };
+	return aborted ? { status: 504, error: "upstream timeout" } : { status: 502, error: "upstream fetch failed" };
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -195,9 +184,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 	const fallbackKey = process.env.RPC_FALLBACK_ALCHEMY_KEY;
 	const fallbackUrl =
-		fallbackKey && fallbackKey.length > 0
-			? `https://${ALCHEMY_HOST[chainParam]}.g.alchemy.com/v2/${fallbackKey}`
-			: undefined;
+		fallbackKey && fallbackKey.length > 0 ? `https://${ALCHEMY_HOST[chainParam]}.g.alchemy.com/v2/${fallbackKey}` : undefined;
 
 	let primaryResult: ForwardResult | undefined;
 	let primaryError: unknown;
@@ -207,8 +194,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		primaryError = err;
 	}
 
-	const primaryFailed =
-		primaryError !== undefined || (primaryResult !== undefined && primaryResult.status >= 500);
+	const primaryFailed = primaryError !== undefined || (primaryResult !== undefined && primaryResult.status >= 500);
 
 	if (primaryFailed && fallbackUrl) {
 		try {

@@ -209,9 +209,7 @@ export default function CommandPalette({ isOpen, onClose }: Props) {
 				</div>
 				<div className="max-h-[60vh] overflow-y-auto py-1">
 					{grouped.length === 0 ? (
-						<div className="px-4 py-6 text-text-secondary text-sm uppercase tracking-[0.18em]">
-							&gt; NO MATCH FOUND
-						</div>
+						<div className="px-4 py-6 text-text-secondary text-sm uppercase tracking-[0.18em]">&gt; NO MATCH FOUND</div>
 					) : (
 						grouped.map(([group, items]) => (
 							<div key={group} className="py-1">

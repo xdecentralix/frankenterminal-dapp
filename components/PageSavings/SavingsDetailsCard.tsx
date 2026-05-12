@@ -52,7 +52,7 @@ export default function SavingsDetailsCard({
 		<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
 			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">OUTCOME</div>
-			
+
 			<div className="p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border mt-8">
 				<div className="flex">
 					<div className="flex-1 text-text-secondary">Your total balance</div>

@@ -66,9 +66,7 @@ export default function DateInput({
 			<div
 				className={`group border-card-input-border bg-card-body-primary ${
 					disabled ? "bg-card-input-disabled" : "hover:border-card-input-hover"
-				} focus-within:!border-card-input-focus ${
-					error ? "!border-card-input-error" : ""
-				} text-text-secondary border-2 px-3 py-1`}
+				} focus-within:!border-card-input-focus ${error ? "!border-card-input-error" : ""} text-text-secondary border-2 px-3 py-1`}
 				onClick={handleClick}
 			>
 				{label && <div className="flex text-card-input-label my-1">{label}</div>}
@@ -142,9 +140,7 @@ export default function DateInput({
 									<div
 										key={t}
 										className={`font-extrabold ${
-											t === tab
-												? "text-card-input-min"
-												: "cursor-pointer text-card-input-label hover:text-white"
+											t === tab ? "text-card-input-min" : "cursor-pointer text-card-input-label hover:text-white"
 										}`}
 										onClick={(e) => {
 											e.stopPropagation();

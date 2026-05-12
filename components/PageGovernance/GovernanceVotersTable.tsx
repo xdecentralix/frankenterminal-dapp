@@ -41,19 +41,19 @@ export default function GovernanceVotersTable() {
 
 	if (totalVotes > 0n) {
 		const chartVoters = [...combinedVoters].sort((a, b) => (b.votingPowerRatio > a.votingPowerRatio ? 1 : -1));
-		
+
 		chartVoters.forEach((v, idx) => {
 			if (v.votingPowerRatio > 0) {
 				const color = colors[idx % colors.length];
 				rowColors.set(normalizeAddress(v.holder), color);
-				
+
 				let label = shortenAddress(v.holder);
 				if (address && normalizeAddress(v.holder) === normalizeAddress(address)) {
 					label = "You";
 				} else if (normalizeAddress(v.holder) === normalizeAddress(ADDRESS[mainnet.id].wFPS)) {
 					label = "Wrapped FPS";
 				}
-				
+
 				labels.push(label);
 				series.push(v.votingPowerRatio * 100);
 				trackedOwnPower += v.votingPower;
@@ -105,10 +105,10 @@ export default function GovernanceVotersTable() {
 								legend: { show: false },
 								tooltip: {
 									y: {
-										formatter: function(val: number) {
+										formatter: function (val: number) {
 											return `${val.toFixed(2)}%`;
-										}
-									}
+										},
+									},
 								},
 								plotOptions: {
 									pie: {
@@ -142,7 +142,8 @@ export default function GovernanceVotersTable() {
 					<div className="flex flex-col justify-center px-8 md:pr-12 lg:pr-16 max-md:mt-4">
 						<div className="text-xl md:text-2xl font-bold mb-3 text-text-primary">Voting Power Distribution</div>
 						<div className="text-text-secondary text-sm md:text-base leading-relaxed">
-							Distribution of base voting power among the top holders. The table below acts as the legend, showing both base power and delegated power for these top stakeholders.
+							Distribution of base voting power among the top holders. The table below acts as the legend, showing both base
+							power and delegated power for these top stakeholders.
 						</div>
 					</div>
 				</div>
@@ -152,13 +153,27 @@ export default function GovernanceVotersTable() {
 			<TableBody>
 				<>
 					{accountVoteData && (
-						<GovernanceVotersRow headers={headers} tab={tab} voter={accountVoteData} votesTotal={totalVotes} connectedWallet color={rowColors.get(normalizeAddress(accountVoteData.holder))} />
+						<GovernanceVotersRow
+							headers={headers}
+							tab={tab}
+							voter={accountVoteData}
+							votesTotal={totalVotes}
+							connectedWallet
+							color={rowColors.get(normalizeAddress(accountVoteData.holder))}
+						/>
 					)}
 					{sorted.length === 0 ? (
 						<TableRowEmpty>{"There are no voters yet"}</TableRowEmpty>
 					) : (
 						sorted.map((vote) => (
-							<GovernanceVotersRow key={vote.holder} headers={headers} tab={tab} voter={vote} votesTotal={totalVotes} color={rowColors.get(normalizeAddress(vote.holder))} />
+							<GovernanceVotersRow
+								key={vote.holder}
+								headers={headers}
+								tab={tab}
+								voter={vote}
+								votesTotal={totalVotes}
+								color={rowColors.get(normalizeAddress(vote.holder))}
+							/>
 						))
 					)}
 				</>

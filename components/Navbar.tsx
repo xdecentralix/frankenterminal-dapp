@@ -20,7 +20,7 @@ const UTILITY_ITEMS = [
 	{ to: "/report", name: "Report" },
 ];
 
-export function NavItems({ items, variant = "primary" }: { items: typeof MAIN_ITEMS, variant?: "primary" | "utility" }) {
+export function NavItems({ items, variant = "primary" }: { items: typeof MAIN_ITEMS; variant?: "primary" | "utility" }) {
 	return (
 		<>
 			{items.map((item) => (
@@ -43,17 +43,13 @@ export default function Navbar() {
 
 	return (
 		<>
-			<div className="fixed top-0 left-0 right-0 z-10 bg-menu-back/90 relative">
-				<header className="grid grid-cols-[1fr,auto,1fr] items-center md:py-4 py-3 px-4 w-full backdrop-blur relative">
+			<div className="fixed top-0 left-0 right-0 z-10 bg-menu-back/90">
+				<header className="flex justify-between items-center md:grid md:grid-cols-[1fr,auto,1fr] md:py-4 py-3 px-4 w-full backdrop-blur relative">
 					<div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 					{/* Left: logo */}
 					<div className="flex items-center gap-4 md:pl-4">
-						<Link
-							href="/"
-							onClick={() => track("nav_home")}
-							className="flex items-center gap-2 group"
-						>
-							<span className="flex items-center gap-1 text-text-primary font-default font-bold tracking-[0.25em] text-2xl">
+						<Link href="/" onClick={() => track("nav_home")} className="flex items-center gap-2 group">
+							<span className="flex items-center gap-1 text-text-primary font-default font-bold tracking-[0.15em] md:tracking-[0.25em] text-lg md:text-2xl">
 								FRANKENTERMINAL
 							</span>
 						</Link>

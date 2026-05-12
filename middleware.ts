@@ -16,10 +16,9 @@ export function middleware(req: NextRequest) {
 	const country = req.headers.get("x-vercel-ip-country");
 
 	if (country && BLOCKED_COUNTRIES.includes(country.toUpperCase())) {
-		return new NextResponse(
-			`Access denied: Your jurisdiction (${country}) is restricted due to international sanctions.`,
-			{ status: 403 }
-		);
+		return new NextResponse(`Access denied: Your jurisdiction (${country}) is restricted due to international sanctions.`, {
+			status: 403,
+		});
 	}
 
 	return NextResponse.next();

@@ -62,7 +62,12 @@ export default function ForceSellPriceChart({ position, auctionPrice, marketPric
 							text: `Market ${formatCurrency(marketPriceNum, 0, 0)}`,
 							position: "left",
 							offsetX: 65,
-							style: { color: "#16A34A", background: "transparent", fontSize: "10px", padding: { top: 2, bottom: 2, left: 4, right: 4 } },
+							style: {
+								color: "#16A34A",
+								background: "transparent",
+								fontSize: "10px",
+								padding: { top: 2, bottom: 2, left: 4, right: 4 },
+							},
 						},
 					},
 			  ]

@@ -19,9 +19,7 @@ export default function ReportsYearlyTable({ activity }: Props) {
 		const items = activity.filter((i) => new Date(i.created * 1000).getFullYear() === year);
 		const itemsUntil = activity.filter((i) => new Date(i.created * 1000).getFullYear() <= year);
 
-		const collected = items
-			.filter((i) => i.kind === "InterestCollected")
-			.reduce<bigint>((a, b) => a + BigInt(b.amount), 0n);
+		const collected = items.filter((i) => i.kind === "InterestCollected").reduce<bigint>((a, b) => a + BigInt(b.amount), 0n);
 
 		const balances: { [k in ChainId]: bigint } = {} as { [k in ChainId]: bigint };
 		SupportedChainIds.forEach((c) => {
@@ -50,16 +48,17 @@ export default function ReportsYearlyTable({ activity }: Props) {
 					const toneColor = row.collected > 0n ? "text-text-success" : "text-text-primary";
 
 					return (
-						<div key={row.year} className="border border-card-input-border bg-card-body-primary p-5 flex flex-col gap-3 relative overflow-hidden">
+						<div
+							key={row.year}
+							className="border border-card-input-border bg-card-body-primary p-5 flex flex-col gap-3 relative overflow-hidden"
+						>
 							<div className="flex justify-between items-center text-xs uppercase tracking-[0.18em] font-semibold">
 								<span className="text-text-secondary">Interest Collected</span>
 								<span className={isCurrent ? "text-text-success" : "text-text-secondary"}>
 									{isCurrent ? "CURRENT YEAR" : row.year}
 								</span>
 							</div>
-							<div className={`text-2xl font-bold tabular-nums ${toneColor}`}>
-								+{collected} ZCHF
-							</div>
+							<div className={`text-2xl font-bold tabular-nums ${toneColor}`}>+{collected} ZCHF</div>
 							<div className="flex flex-col gap-1.5 mt-2 text-sm text-text-secondary border-t border-card-input-border/60 pt-3">
 								<div className="flex justify-between">
 									<span>Year-End Bal</span>

@@ -33,7 +33,7 @@ export default function GuardToAllowedChainBtn(props: Props) {
 	// Check if wallet is disconnected
 	if (isDisconnected)
 		return (
-<AppButton
+			<AppButton
 				className="h-10"
 				disabled={props.disabled}
 				onClick={() => {
@@ -48,7 +48,7 @@ export default function GuardToAllowedChainBtn(props: Props) {
 	// Check if wallet is connected to one of the available chains
 	if (!isCorrectChain)
 		return (
-<AppButton
+			<AppButton
 				className="h-10"
 				disabled={props.disabled}
 				onClick={() => {

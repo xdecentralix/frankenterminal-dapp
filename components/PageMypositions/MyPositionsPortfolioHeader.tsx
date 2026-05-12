@@ -19,9 +19,7 @@ export default function MyPositionsPortfolioHeader() {
 	const account = overwrite || address || zeroAddress;
 
 	const matchingOpen = positions.filter((p) => normalizeAddress(p.owner) === normalizeAddress(account));
-	const allMine = allPositions.filter(
-		(p) => normalizeAddress(p.owner) === normalizeAddress(account) && !p.closed && !p.denied
-	);
+	const allMine = allPositions.filter((p) => normalizeAddress(p.owner) === normalizeAddress(account) && !p.closed && !p.denied);
 
 	let totalMinted = 0n;
 	let totalReserves = 0n;
@@ -154,12 +152,7 @@ export default function MyPositionsPortfolioHeader() {
 
 function StatusRow({ color, label, count }: { color: "success" | "warning" | "danger"; label: string; count: number }) {
 	const dot = color === "success" ? "bg-text-success" : color === "warning" ? "bg-text-warning" : "bg-text-danger";
-	const text =
-		color === "success"
-			? "text-text-success"
-			: color === "warning"
-			? "text-text-warning"
-			: "text-text-danger";
+	const text = color === "success" ? "text-text-success" : color === "warning" ? "text-text-warning" : "text-text-danger";
 	return (
 		<div className="flex items-center gap-2 uppercase tracking-[0.12em] text-xs">
 			<span className={`inline-block w-1.5 h-1.5 rounded-full ${dot}`} />

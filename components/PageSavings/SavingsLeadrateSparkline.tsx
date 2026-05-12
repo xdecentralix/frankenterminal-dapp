@@ -61,23 +61,20 @@ export default function SavingsLeadrateSparkline({ className, width = 280, heigh
 	const last = points[points.length - 1];
 	const first = points[0];
 	const trend = last.rate > first.rate ? "up" : last.rate < first.rate ? "down" : "flat";
-	const trendColor =
-		trend === "up" ? "text-text-warning" : trend === "down" ? "text-text-success" : "text-text-secondary";
+	const trendColor = trend === "up" ? "text-text-warning" : trend === "down" ? "text-text-success" : "text-text-secondary";
 	const trendArrow = trend === "up" ? "↑" : trend === "down" ? "↓" : "→";
 
 	return (
 		<div className={`relative border border-card-input-border bg-layout-primary px-4 py-3 ${className ?? ""}`}>
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<div className="flex items-baseline justify-between mb-2">
-				<div className="text-[0.75rem] uppercase tracking-[0.18em] text-text-secondary font-bold">
-					SAVINGS RATE HISTORY
-				</div>
+				<div className="text-[0.75rem] uppercase tracking-[0.18em] text-text-secondary font-bold">SAVINGS RATE HISTORY</div>
 				<div className="text-[0.7rem] uppercase tracking-[0.12em] text-text-secondary tabular-nums">
 					last {series.length} changes
 				</div>
 			</div>
-			<div className="flex items-center gap-3">
-				<svg width={width} height={height} className="block">
+			<div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+				<svg viewBox={`0 0 ${width} ${height}`} className="block w-full max-w-[280px] h-auto">
 					<path d={path} fill="none" stroke={themeAccent} strokeWidth={1.5} />
 					{points.map((p, i) => (
 						<circle
@@ -92,9 +89,7 @@ export default function SavingsLeadrateSparkline({ className, width = 280, heigh
 				</svg>
 				<div className="flex flex-col gap-0.5 ml-3 tabular-nums text-xs uppercase tracking-[0.12em]">
 					<span className="text-text-secondary">CURRENT</span>
-					<span className="text-text-primary text-xl font-bold">
-						{formatCurrency(last.rate, 2, 2)}% APR
-					</span>
+					<span className="text-text-primary text-xl font-bold">{formatCurrency(last.rate, 2, 2)}% APR</span>
 					<span className={`${trendColor} text-[0.7rem] mt-0.5`}>
 						{trendArrow} {formatCurrency(Math.abs(last.rate - first.rate), 2, 2)}% change from start
 					</span>

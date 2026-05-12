@@ -409,7 +409,9 @@ export default function PositionAdjust() {
 						? { label: "Cooldown", className: "border border-text-warning text-text-warning bg-text-warning/10" }
 						: { label: "Active", className: "border border-text-success text-text-success bg-text-success/10" },
 					{ label: `V${position.version}`, className: "border border-blue-500/30 text-blue-400 bg-blue-500/10" },
-					...(position.isClone ? [{ label: "Clone", className: "border border-purple-500/30 text-purple-400 bg-purple-500/10" }] : []),
+					...(position.isClone
+						? [{ label: "Clone", className: "border border-purple-500/30 text-purple-400 bg-purple-500/10" }]
+						: []),
 				]}
 				actions={
 					<div className="flex flex-wrap gap-4 text-sm">

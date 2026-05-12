@@ -41,7 +41,14 @@ export default function AppButtonSecondary({
 	} ${width ?? "w-full"}`.trim();
 
 	const button = to ? (
-		<Link href={to} className={btnClass} onClick={(e) => { onClick(e); if (umamiEvent) track(umamiEvent); }}>
+		<Link
+			href={to}
+			className={btnClass}
+			onClick={(e) => {
+				onClick(e);
+				if (umamiEvent) track(umamiEvent);
+			}}
+		>
 			<span>{children}</span>
 		</Link>
 	) : (

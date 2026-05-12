@@ -102,9 +102,10 @@ export default function CookieConsentBanner() {
 				<div className="text-sm text-text-secondary flex-1">
 					<p className="text-text-primary font-semibold mb-1">Analytics consent</p>
 					<p>
-						We use a self-hosted, privacy-preserving analytics tool (Umami) that stores a single identifier in your browser&apos;s
-						local storage. It is not strictly necessary to operate this site, so under EU/CH law we ask before enabling it. Strictly
-						necessary storage (theme, legal-acceptance, this cookie choice) does not require consent. See the{" "}
+						We use a self-hosted, privacy-preserving analytics tool (Umami) that stores a single identifier in your
+						browser&apos;s local storage. It is not strictly necessary to operate this site, so under EU/CH law we ask before
+						enabling it. Strictly necessary storage (theme, legal-acceptance, this cookie choice) does not require consent. See
+						the{" "}
 						<Link href="/privacy#analytics" className="text-card-content-highlight hover:underline">
 							Privacy Policy
 						</Link>{" "}

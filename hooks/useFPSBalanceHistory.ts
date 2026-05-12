@@ -16,11 +16,7 @@ export interface FPSBalanceHistory {
 const BALANCE_HISTORY_QUERY = gql`
 	query FPSBalanceHistory($addr: String!) {
 		eRC20Balances(
-			where: {
-				chainId: 1
-				token: "0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2"
-				OR: [{ from: $addr }, { to: $addr }]
-			}
+			where: { chainId: 1, token: "0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2", OR: [{ from: $addr }, { to: $addr }] }
 			orderBy: "count"
 			orderDirection: "asc"
 			limit: 1000

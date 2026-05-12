@@ -16,9 +16,7 @@ export default function EquityInteractionCard() {
 	return (
 		<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
 			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-			<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-4">
-				TRADE FPS
-			</div>
+			<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-4">TRADE FPS</div>
 
 			{/* Load modules dynamically */}
 			{(tokenFromTo.from === "ZCHF" && tokenFromTo.to === "FPS") || (tokenFromTo.from === "FPS" && tokenFromTo.to === "ZCHF") ? (

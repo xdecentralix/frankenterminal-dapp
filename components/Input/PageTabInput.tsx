@@ -56,7 +56,9 @@ export default function PageTabInput({ tabs, urlParam = "tab", className }: Prop
 										: "cursor-pointer hover:bg-card-body-secondary hover:text-text-primary"
 								}`}
 							>
-								{isActive && <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />}
+								{isActive && (
+									<div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+								)}
 								{tab.label}
 								{tab.badge != null && tab.badge > 0 && (
 									<span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500 text-white text-xs font-bold leading-none">

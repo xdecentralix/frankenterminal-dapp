@@ -84,29 +84,30 @@ export default function ReportsFPSYearlyTable({ address, fpsHistory, fpsEarnings
 					const toneColor = row.earnings > 0n ? "text-text-success" : "text-text-primary";
 
 					return (
-						<div key={row.year} className="border border-card-input-border bg-card-body-primary p-5 flex flex-col gap-3 relative overflow-hidden">
+						<div
+							key={row.year}
+							className="border border-card-input-border bg-card-body-primary p-5 flex flex-col gap-3 relative overflow-hidden"
+						>
 							<div className="flex justify-between items-center text-xs uppercase tracking-[0.18em] font-semibold">
-							<span className="text-text-secondary">Income Attributable</span>
-							<span className={isCurrent ? "text-text-success" : "text-text-secondary"}>
-								{isCurrent ? "CURRENT YEAR" : row.year}
-							</span>
-						</div>
-						<div className={`text-2xl font-bold tabular-nums ${toneColor}`}>
-							+{earnings} ZCHF
-						</div>
-						<div className="flex flex-col gap-1.5 mt-2 text-sm text-text-secondary border-t border-card-input-border/60 pt-3">
-							<div className="flex justify-between">
-								<span>Balance</span>
-								<span className="text-text-primary tabular-nums">{balance} FPS</span>
+								<span className="text-text-secondary">Income Attributable</span>
+								<span className={isCurrent ? "text-text-success" : "text-text-secondary"}>
+									{isCurrent ? "CURRENT YEAR" : row.year}
+								</span>
 							</div>
-							<div className="flex justify-between">
-								<span>Value</span>
-								<span className="text-text-primary tabular-nums">{value} ZCHF</span>
+							<div className={`text-2xl font-bold tabular-nums ${toneColor}`}>+{earnings} ZCHF</div>
+							<div className="flex flex-col gap-1.5 mt-2 text-sm text-text-secondary border-t border-card-input-border/60 pt-3">
+								<div className="flex justify-between">
+									<span>Balance</span>
+									<span className="text-text-primary tabular-nums">{balance} FPS</span>
+								</div>
+								<div className="flex justify-between">
+									<span>Value</span>
+									<span className="text-text-primary tabular-nums">{value} ZCHF</span>
+								</div>
 							</div>
 						</div>
-					</div>
-				);
-			})}
+					);
+				})}
 			</div>
 		</div>
 	);

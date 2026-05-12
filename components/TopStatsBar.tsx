@@ -20,18 +20,8 @@ export default function TopStatsBar() {
 		? "wrong-chain"
 		: "connected";
 
-	const dot =
-		status === "connected"
-			? "bg-text-success"
-			: status === "wrong-chain"
-			? "bg-text-warning"
-			: "bg-text-danger";
-	const text =
-		status === "connected"
-			? "text-text-success"
-			: status === "wrong-chain"
-			? "text-text-warning"
-			: "text-text-danger";
+	const dot = status === "connected" ? "bg-text-success" : status === "wrong-chain" ? "bg-text-warning" : "bg-text-danger";
+	const text = status === "connected" ? "text-text-success" : status === "wrong-chain" ? "text-text-warning" : "text-text-danger";
 
 	const networkName = (() => {
 		const chain = WAGMI_CHAINS.find((c) => c.id === chainId);
@@ -60,7 +50,9 @@ export default function TopStatsBar() {
 
 	const positions = useSelector((state: RootState) => {
 		if (!address) return [];
-		return state.positions.list.list.filter(p => normalizeAddress(p.owner) === normalizeAddress(address as string) && !p.closed && !p.denied);
+		return state.positions.list.list.filter(
+			(p) => normalizeAddress(p.owner) === normalizeAddress(address as string) && !p.closed && !p.denied
+		);
 	});
 	const prices = useSelector((state: RootState) => state.prices.coingecko);
 	const zchfSupplyFloat = useSelector((state: RootState) => state.ecosystem.frankencoinInfo.token.supply);
@@ -74,7 +66,7 @@ export default function TopStatsBar() {
 
 		for (const p of positions) {
 			count++;
-			
+
 			const collTokenPrice = prices[normalizeAddress(p.collateral)]?.price?.usd || 0;
 			const zchfPrice = prices[normalizeAddress(p.zchf)]?.price?.usd || 1;
 			const balance = parseInt(p.collateralBalance) / 10 ** p.collateralDecimals;
@@ -83,7 +75,7 @@ export default function TopStatsBar() {
 
 			const mintedZCHF = parseInt(p.minted) / 10 ** p.zchfDecimals;
 			const reserveContributionFloat = p.reserveContribution / 1_000_000;
-			
+
 			totalMintedFloat += mintedZCHF;
 			totalReservesFloat += mintedZCHF * reserveContributionFloat;
 

@@ -53,10 +53,7 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 			<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mb-4">
 				FPS TRADE STREAM
 			</div>
-			<div
-				className="font-default text-xs overflow-y-auto pr-1"
-				style={{ maxHeight: `${VISIBLE_ROWS * ROW_PX}px` }}
-			>
+			<div className="font-default text-xs overflow-y-auto pr-1" style={{ maxHeight: `${VISIBLE_ROWS * ROW_PX}px` }}>
 				{trades.length === 0 ? (
 					<div className="text-text-secondary uppercase tracking-[0.18em] py-2">&gt; AWAITING DATA</div>
 				) : (
@@ -69,9 +66,7 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 							return (
 								<li
 									key={t.count}
-									className={`${
-										!isLast ? "border-b border-dashed border-card-input-border/40" : ""
-									} ${flash}`}
+									className={`${!isLast ? "border-b border-dashed border-card-input-border/40" : ""} ${flash}`}
 								>
 									<a
 										href={txUrl}

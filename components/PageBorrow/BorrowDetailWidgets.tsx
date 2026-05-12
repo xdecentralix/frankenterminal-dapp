@@ -47,9 +47,7 @@ export function SafetyGauge({ math, newPrice, className }: SafetyGaugeProps) {
 
 	return (
 		<div className={`p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border ${className ?? ""}`}>
-			<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
-				SAFETY GAUGE
-			</div>
+			<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">SAFETY GAUGE</div>
 
 			<div className="flex justify-between text-[0.6rem] uppercase tracking-[0.12em] text-text-secondary mb-1">
 				<span>LIQ PRICE</span>
@@ -103,9 +101,7 @@ export function WhatIfChips({ math, newPrice, className }: WhatIfChipsProps) {
 
 	return (
 		<div className={`p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border ${className ?? ""}`}>
-			<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
-				WHAT IF
-			</div>
+			<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">WHAT IF</div>
 
 			<div className="grid grid-cols-1 gap-2">
 				{drops.map((drop) => {
@@ -116,10 +112,7 @@ export function WhatIfChips({ math, newPrice, className }: WhatIfChipsProps) {
 					const text = BAND_TEXT[band];
 					const label = liquidated ? "HUGE DANGER" : BAND_LABEL[band];
 					return (
-						<div
-							key={drop}
-							className="flex items-center justify-between text-xs uppercase tracking-[0.12em] tabular-nums"
-						>
+						<div key={drop} className="flex items-center justify-between text-xs uppercase tracking-[0.12em] tabular-nums">
 							<span className="text-text-secondary">IF {drop}%</span>
 							<div className="flex items-center gap-3">
 								<span className={`font-bold ${text}`}>{label}</span>
@@ -273,24 +266,12 @@ export function TerminalBreakdown({
 
 	return (
 		<div className={`p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border ${className ?? ""}`}>
-			<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
-				BREAKDOWN
-			</div>
+			<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">BREAKDOWN</div>
 
 			<div className="flex flex-col gap-1">
 				<Line label="MINTED" aux="100%" value={`${fmt(mintedAmount)} ZCHF`} />
-				<Line
-					label="RESERVE"
-					aux={`${formatCurrency(reservePct * 100, 1, 3)}%`}
-					value={`-${fmt(reserveAmount)} ZCHF`}
-					muted
-				/>
-				<Line
-					label="INTEREST"
-					aux={`${formatCurrency(interestPct * 100, 2, 3)}%`}
-					value={`-${fmt(feeAmount)} ZCHF`}
-					muted
-				/>
+				<Line label="RESERVE" aux={`${formatCurrency(reservePct * 100, 1, 3)}%`} value={`-${fmt(reserveAmount)} ZCHF`} muted />
+				<Line label="INTEREST" aux={`${formatCurrency(interestPct * 100, 2, 3)}%`} value={`-${fmt(feeAmount)} ZCHF`} muted />
 				<div className="my-1 border-t border-card-input-border/60 border-dashed" />
 				<Line label="PAID OUT" value={`${fmt(paidOut)} ZCHF`} emphasis />
 			</div>
@@ -333,8 +314,7 @@ export function PositionContextStrip({
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			<span className="text-[0.65rem] tracking-[0.18em] text-text-primary font-bold">MARKET CONTEXT</span>
 			<span>
-				<span className="text-text-secondary">MINTED:</span>{" "}
-				<span className="text-text-primary">{fmt(totalMinted)} ZCHF</span>
+				<span className="text-text-secondary">MINTED:</span> <span className="text-text-primary">{fmt(totalMinted)} ZCHF</span>
 			</span>
 			<span>
 				<span className="text-text-secondary">AVAILABLE:</span>{" "}
@@ -345,9 +325,7 @@ export function PositionContextStrip({
 			</span>
 			<span>
 				<span className="text-text-secondary">CHALLENGES:</span>{" "}
-				<span className={activeChallenges > 0 ? "text-text-danger ft-glow-red" : "text-text-primary"}>
-					{activeChallenges}
-				</span>
+				<span className={activeChallenges > 0 ? "text-text-danger ft-glow-red" : "text-text-primary"}>{activeChallenges}</span>
 			</span>
 		</div>
 	);

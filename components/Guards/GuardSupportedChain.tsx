@@ -46,7 +46,7 @@ export default function GuardSupportedChain({ children, label, disabled, chain, 
 	// Check if wallet is disconnected
 	if (Account.isDisconnected)
 		return (
-<AppButton
+			<AppButton
 				disabled={disabled}
 				onClick={() => {
 					openModal();
@@ -60,7 +60,7 @@ export default function GuardSupportedChain({ children, label, disabled, chain, 
 	// Check if wallet is connected to the correct chains
 	if (!isCorrectChain)
 		return (
-<AppButton
+			<AppButton
 				disabled={disabled}
 				onClick={() => {
 					AppKitNetwork.switchNetwork(chain);

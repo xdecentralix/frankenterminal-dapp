@@ -70,14 +70,18 @@ export default function MyPositionsTabs({ children }: Props) {
 										: "cursor-pointer hover:bg-card-body-secondary hover:text-text-primary"
 								}`}
 							>
-								{isActive && <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />}
+								{isActive && (
+									<div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+								)}
 								{t.label}
 								{typeof t.count === "number" && (
 									<span
 										className={`text-[0.6rem] tabular-nums px-1.5 py-0.5 border ${
 											t.alert
 												? "border-card-content-highlight text-card-content-highlight ft-glow-accent"
-												: isActive ? "border-text-secondary text-text-primary bg-text-secondary/10" : "border-card-input-border text-text-secondary"
+												: isActive
+												? "border-text-secondary text-text-primary bg-text-secondary/10"
+												: "border-card-input-border text-text-secondary"
 										}`}
 									>
 										{t.count}

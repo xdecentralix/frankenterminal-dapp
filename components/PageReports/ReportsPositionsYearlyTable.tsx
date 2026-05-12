@@ -11,11 +11,7 @@ interface Props {
 	ownerPositionValueLocked: OwnerPositionValueLocked[];
 }
 
-export default function ReportsPositionsYearlyTable({
-	ownerPositionFees,
-	ownerPositionDebt,
-	ownerPositionValueLocked,
-}: Props) {
+export default function ReportsPositionsYearlyTable({ ownerPositionFees, ownerPositionDebt, ownerPositionValueLocked }: Props) {
 	const entries = ownerPositionFees.map((i) => ({ year: new Date(i.t * 1000).getFullYear(), fee: i.f }));
 	const entriesDebt = ownerPositionDebt.map((i) => ({ year: i.y, debt: i.d }));
 	const entriesValueLocked = ownerPositionValueLocked.map((i) => ({ year: i.y, value: i.v }));
@@ -50,16 +46,17 @@ export default function ReportsPositionsYearlyTable({
 					const toneColor = row.interestPaid > 0n ? "text-text-danger" : "text-text-primary";
 
 					return (
-						<div key={row.year} className="border border-card-input-border bg-card-body-primary p-5 flex flex-col gap-3 relative overflow-hidden">
+						<div
+							key={row.year}
+							className="border border-card-input-border bg-card-body-primary p-5 flex flex-col gap-3 relative overflow-hidden"
+						>
 							<div className="flex justify-between items-center text-xs uppercase tracking-[0.18em] font-semibold">
 								<span className="text-text-secondary">Interest Paid</span>
 								<span className={isCurrent ? "text-text-success" : "text-text-secondary"}>
 									{isCurrent ? "CURRENT YEAR" : row.year}
 								</span>
 							</div>
-							<div className={`text-2xl font-bold tabular-nums ${toneColor}`}>
-								-{interest} ZCHF
-							</div>
+							<div className={`text-2xl font-bold tabular-nums ${toneColor}`}>-{interest} ZCHF</div>
 							<div className="flex flex-col gap-1.5 mt-2 text-sm text-text-secondary border-t border-card-input-border/60 pt-3">
 								<div className="flex justify-between">
 									<span>Year-End Debt</span>

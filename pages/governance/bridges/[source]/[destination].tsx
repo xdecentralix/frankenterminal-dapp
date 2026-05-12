@@ -301,9 +301,7 @@ export default function CCIPRateLimitPage() {
 
 			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
 				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
-					BRIDGE
-				</div>
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary mb-2">BRIDGE</div>
 				<div className="flex flex-col">
 					<InfoRow
 						label="Configured chain"
@@ -374,9 +372,7 @@ export default function CCIPRateLimitPage() {
 
 			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
 				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
-					NEW RATE LIMITS
-				</div>
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary mb-2">NEW RATE LIMITS</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 					<RateLimitForm

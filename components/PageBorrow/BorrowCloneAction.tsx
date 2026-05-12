@@ -171,19 +171,11 @@ export default function BorrowCloneAction({
 	return (
 		<GuardSupportedChain chain={mainnet}>
 			{requiredColl > userAllowance ? (
-<AppButton
-					disabled={disabled || requiredColl > userBalance}
-					isLoading={isApproving}
-					onClick={() => handleApprove()}
-				>
+				<AppButton disabled={disabled || requiredColl > userBalance} isLoading={isApproving} onClick={() => handleApprove()}>
 					Approve
 				</AppButton>
 			) : (
-<AppButton
-					disabled={disabled || requiredColl > userBalance}
-					isLoading={isCloning}
-					onClick={() => handleClone()}
-				>
+				<AppButton disabled={disabled || requiredColl > userBalance} isLoading={isCloning} onClick={() => handleClone()}>
 					Borrow
 				</AppButton>
 			)}

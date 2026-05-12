@@ -38,7 +38,7 @@ export default function ReserveAllocation() {
 						label: "Others",
 						value: sorted.slice(MAX_ITEMS - 1).reduce((a, b) => a + b.value, 0n),
 					},
-				]
+			  ]
 			: sorted;
 
 	const labels = mapping.map((m) => m.label);
@@ -64,8 +64,8 @@ export default function ReserveAllocation() {
 						height={"350px"}
 						type="donut"
 						options={{
-							chart: { 
-								type: "donut", 
+							chart: {
+								type: "donut",
 								background: "transparent",
 								fontFamily: "var(--font-ft-mono), monospace",
 								dropShadow: {

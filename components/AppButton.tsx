@@ -58,7 +58,14 @@ export default function AppButton({
 	);
 
 	const button = to ? (
-		<Link href={to} className={btnClass} onClick={(e) => { onClick(e); if (umamiEvent) track(umamiEvent); }}>
+		<Link
+			href={to}
+			className={btnClass}
+			onClick={(e) => {
+				onClick(e);
+				if (umamiEvent) track(umamiEvent);
+			}}
+		>
 			{inner}
 		</Link>
 	) : (

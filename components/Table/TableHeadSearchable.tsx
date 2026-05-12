@@ -127,7 +127,9 @@ export default function TableHeadSearchable({
 							aria-checked={inMyWallet}
 							onClick={() => onInMyWalletChange(!inMyWallet)}
 							className={`relative inline-flex h-5 w-9 items-center rounded-sm transition-colors focus:outline-none border ${
-								inMyWallet ? "bg-card-content-highlight border-card-content-highlight" : "bg-card-body-primary border-card-input-border"
+								inMyWallet
+									? "bg-card-content-highlight border-card-content-highlight"
+									: "bg-card-body-primary border-card-input-border"
 							}`}
 						>
 							<span
@@ -136,7 +138,9 @@ export default function TableHeadSearchable({
 								}`}
 							/>
 						</button>
-						<span className="text-sm text-text-secondary whitespace-nowrap uppercase tracking-[0.12em] font-semibold text-xs">In my wallet</span>
+						<span className="text-sm text-text-secondary whitespace-nowrap uppercase tracking-[0.12em] font-semibold text-xs">
+							In my wallet
+						</span>
 					</div>
 
 					{/* Filter button + dropdown */}

@@ -39,7 +39,11 @@ export default function TableRow({
 		>
 			<div className={`flex ${paddingLeft ? "sm:pl-8" : ""} flex-col justify-between gap-y-5 md:flex-row md:items-center`}>
 				{/* @dev: this is desktop view */}
-				<div className={`max-md:hidden text-right grid flex-grow ${gridColsClass || `grid-cols-${colSpan || children.length}`} items-center`}>
+				<div
+					className={`max-md:hidden text-right grid flex-grow ${
+						gridColsClass || `grid-cols-${colSpan || children.length}`
+					} items-center`}
+				>
 					{children.map((child, i) => {
 						const isComment = headers[i] === "Comment";
 						return (

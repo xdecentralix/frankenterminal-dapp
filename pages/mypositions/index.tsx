@@ -56,7 +56,9 @@ export default function Positions() {
 				const responsePositionsFees = await FRANKENCOIN_API_CLIENT.get(`/positions/owner/${overwrite || address}/fees`);
 				if (!isMounted) return;
 				if (responsePositionsFees.data && Array.isArray(responsePositionsFees.data)) {
-					setOwnerPositionFees((responsePositionsFees.data as { t: number; f: string }[]).map((i) => ({ t: i.t, f: BigInt(i.f) })));
+					setOwnerPositionFees(
+						(responsePositionsFees.data as { t: number; f: string }[]).map((i) => ({ t: i.t, f: BigInt(i.f) }))
+					);
 				} else {
 					setOwnerPositionFees([]);
 				}
@@ -142,7 +144,12 @@ export default function Positions() {
 							<AppTitle title="Yearly Accounts">
 								<div className="text-text-secondary">
 									Open positions at the end of each year as well as interest paid. See also the
-									<AppLink className="" label={" report page"} href={`/report?address=${overwrite ?? address ?? zeroAddress}`} />.
+									<AppLink
+										className=""
+										label={" report page"}
+										href={`/report?address=${overwrite ?? address ?? zeroAddress}`}
+									/>
+									.
 								</div>
 							</AppTitle>
 							<ReportsPositionsYearlyTable

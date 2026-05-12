@@ -53,7 +53,7 @@ function SocialIcon({ href, icon, title }: SocialIconProps) {
 
 export default function StatusBar({ onOpenPalette }: Props) {
 	const [now, setNow] = useState<string>("");
-	
+
 	useEffect(() => {
 		const tick = () => {
 			const d = new Date();

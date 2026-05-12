@@ -128,7 +128,8 @@ export default function CollateralOverviewTable() {
 					filtered.map((stat) => {
 						const balanceFormatted = formatCurrency(Number(formatUnits(stat.balance, stat.collateral.decimals)), 2, 2);
 						const avgCollPct = stat.avgCollateral * 100;
-						const collColor = avgCollPct < 110 ? "text-text-danger" : avgCollPct <= 120 ? "text-text-warning" : "text-text-success";
+						const collColor =
+							avgCollPct < 110 ? "text-text-danger" : avgCollPct <= 120 ? "text-text-warning" : "text-text-success";
 						const swapUrl = bridgeSwapUrls[normalizeAddress(stat.original.position)];
 						const isBridge = !!swapUrl;
 

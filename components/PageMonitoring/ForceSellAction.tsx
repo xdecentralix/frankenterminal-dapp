@@ -147,7 +147,9 @@ export default function ForceSellAction({ position, auctionPrice, onBidSuccess }
 				</div>
 				<div className="flex justify-between items-center">
 					<span className="text-text-secondary">Price per unit</span>
-					<span className="text-text-primary font-medium">{formatCurrency(formatUnits(auctionPrice, priceDigits), 2, 2)} ZCHF</span>
+					<span className="text-text-primary font-medium">
+						{formatCurrency(formatUnits(auctionPrice, priceDigits), 2, 2)} ZCHF
+					</span>
 				</div>
 				<div className="flex justify-between items-center">
 					<span className="text-text-secondary">Your balance</span>

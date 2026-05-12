@@ -117,14 +117,10 @@ export default function MypositionsTable() {
 
 	return (
 		<>
-			<AppTitle 
+			<AppTitle
 				className="mb-8"
-				title="Owned Positions" 
-				actions={
-					list.length > 0 ? (
-						<CalendarDropdown onGoogle={handleGoogleCalendar} onIcs={handleDownloadCalendar} />
-					) : undefined
-				}
+				title="Owned Positions"
+				actions={list.length > 0 ? <CalendarDropdown onGoogle={handleGoogleCalendar} onIcs={handleDownloadCalendar} /> : undefined}
 			/>
 			<Table>
 				<TableHeadSearchable

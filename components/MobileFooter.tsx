@@ -78,8 +78,7 @@ export default function MobileFooter() {
 					>
 						app.frankencoin.com
 					</Link>{" "}
-					<span className="text-card-content-highlight/60">·</span>{" "}
-					<span>source </span>
+					<span className="text-card-content-highlight/60">·</span> <span>source </span>
 					<Link
 						href="https://github.com/xdecentralix/frankenterminal-dapp"
 						target="_blank"

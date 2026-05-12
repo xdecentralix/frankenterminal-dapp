@@ -24,15 +24,12 @@ export interface GlobalEquityTrade extends EquityTrade {
 }
 
 export const useGlobalEquityTrades = (limit = 20, pollIntervalMs = 30_000): GlobalEquityTrade[] => {
-	const { data } = useQuery<{ equityTrades: { items: (EquityTrade & { trader: string })[] } }>(
-		GLOBAL_EQUITY_TRADES_QUERY,
-		{
-			client: PONDER_CLIENT,
-			fetchPolicy: "cache-and-network",
-			pollInterval: pollIntervalMs,
-			variables: { limit },
-		}
-	);
+	const { data } = useQuery<{ equityTrades: { items: (EquityTrade & { trader: string })[] } }>(GLOBAL_EQUITY_TRADES_QUERY, {
+		client: PONDER_CLIENT,
+		fetchPolicy: "cache-and-network",
+		pollInterval: pollIntervalMs,
+		variables: { limit },
+	});
 
 	if (!data?.equityTrades?.items) return [];
 

@@ -40,14 +40,7 @@ export function classifyHealth(bufferPct: number, isChallenged = false): HealthB
 	return "safe";
 }
 
-export default function HealthGauge({
-	pct,
-	band = "neutral",
-	label,
-	className,
-	showLabel = true,
-	width = "w-24 md:w-28",
-}: Props) {
+export default function HealthGauge({ pct, band = "neutral", label, className, showLabel = true, width = "w-24 md:w-28" }: Props) {
 	const clamped = Math.max(0, Math.min(100, pct));
 	const fill = band === "neutral" ? "bg-card-input-border" : BAND_FILL[band];
 	const text = BAND_TEXT[band];
@@ -61,7 +54,9 @@ export default function HealthGauge({
 			{showLabel && (
 				<div className={`text-[0.65rem] uppercase tracking-[0.18em] font-semibold ${text}`}>
 					{labelText}
-					{band !== "neutral" && isFinite(pct) && <span className="ml-2 text-text-secondary tabular-nums">{Math.round(clamped)}%</span>}
+					{band !== "neutral" && isFinite(pct) && (
+						<span className="ml-2 text-text-secondary tabular-nums">{Math.round(clamped)}%</span>
+					)}
 				</div>
 			)}
 		</div>

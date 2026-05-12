@@ -128,7 +128,9 @@ export default function MintOutstanding() {
 									},
 									formatter: (value) => {
 										const date = new Date(value);
-										return `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getFullYear()}`;
+										return `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1)
+											.toString()
+											.padStart(2, "0")}.${date.getFullYear()}`;
 									},
 								},
 								axisBorder: { show: true, color: "#2A2A2A" },
@@ -194,7 +196,10 @@ export default function MintOutstanding() {
 
 					{mintFiltered.length > INITIAL_VISIBLE && (
 						<div className="text-center mt-4">
-							<button className="text-sm text-card-content-highlight hover:text-card-content-highlight/80 duration-200 uppercase tracking-[0.12em]" onClick={() => setShowAll(!showAll)}>
+							<button
+								className="text-sm text-card-content-highlight hover:text-card-content-highlight/80 duration-200 uppercase tracking-[0.12em]"
+								onClick={() => setShowAll(!showAll)}
+							>
 								{showAll ? "Show less" : `Show all ${mintFiltered.length} maturities`}
 							</button>
 						</div>

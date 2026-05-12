@@ -62,7 +62,13 @@ export default function AppTitle({
 										<span className={`${classNameTitle ?? ""} font-bold text-2xl text-text-primary`}>{title}</span>
 									</span>
 								)}
-								{badge && <span className={`text-[0.8rem] tabular-nums px-2 py-1 border border-text-secondary text-text-primary bg-text-secondary/10`}>{badge}</span>}
+								{badge && (
+									<span
+										className={`text-[0.8rem] tabular-nums px-2 py-1 border border-text-secondary text-text-primary bg-text-secondary/10`}
+									>
+										{badge}
+									</span>
+								)}
 								{badges?.map((b, i) => (
 									<span key={i} className={`text-xs font-semibold px-2 py-0.5 rounded-full ${b.className}`}>
 										{b.label}

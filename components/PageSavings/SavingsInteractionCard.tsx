@@ -74,8 +74,7 @@ export default function SavingsInteractionCard() {
 	const change: bigint = amount - (userSavingsBalance + userSavingsInterest);
 	const direction: boolean = amount >= userSavingsBalance + userSavingsInterest;
 	const claimable: boolean = userSavingsInterest > 0n;
-	const isCustomReferrer: boolean =
-		newReferrer !== undefined && newReferrer.toLowerCase() !== DEFAULT_REFERRER.toLowerCase();
+	const isCustomReferrer: boolean = newReferrer !== undefined && newReferrer.toLowerCase() !== DEFAULT_REFERRER.toLowerCase();
 
 	// ---------------------------------------------------------------------------
 
@@ -266,9 +265,7 @@ export default function SavingsInteractionCard() {
 				</div>
 
 				<div className="relative mt-6 border border-card-input-border bg-card-body-primary px-4 py-3">
-					<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">
-						REFERRAL NOTICE
-					</div>
+					<div className="text-sm font-bold uppercase tracking-[0.18em] text-text-primary mb-2">REFERRAL NOTICE</div>
 
 					{isCustomReferrer && newReferrer ? (
 						<div className="text-sm text-text-secondary leading-relaxed">
@@ -280,17 +277,15 @@ export default function SavingsInteractionCard() {
 								external={true}
 							/>{" "}
 							with{" "}
-							<span className="text-text-primary font-semibold">
-								{Math.round(Number(newReferralFeePPM / 1000n)) / 10}%
-							</span>{" "}
+							<span className="text-text-primary font-semibold">{Math.round(Number(newReferralFeePPM / 1000n)) / 10}%</span>{" "}
 							of accrued interest as the referral fee.
 						</div>
 					) : (
 						<div className="text-sm text-text-secondary leading-relaxed space-y-2">
 							<div>
-								This frontend defaults to a <span className="text-text-primary font-semibold">10%</span>{" "}
-								referral fee on the interest you accrue. It is paid by the protocol&apos;s referral module out of your interest, not
-								on top of it.
+								This frontend defaults to a <span className="text-text-primary font-semibold">10%</span> referral fee on the
+								interest you accrue. It is paid by the protocol&apos;s referral module out of your interest, not on top of
+								it.
 							</div>
 							<div>
 								<AppLink

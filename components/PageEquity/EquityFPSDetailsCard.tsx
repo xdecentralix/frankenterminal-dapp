@@ -177,14 +177,14 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 										{
 											offset: 0,
 											color: themeAccent,
-											opacity: 0.3
+											opacity: 0.3,
 										},
 										{
 											offset: 100,
 											color: themeAccent,
-											opacity: 0.0
-										}
-									]
+											opacity: 0.0,
+										},
+									],
 								},
 							},
 							tooltip: {

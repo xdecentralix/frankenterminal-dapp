@@ -58,7 +58,7 @@ export default function MyPositionsBidsRow({ headers, tab, bid }: Props) {
 					</AppButtonSecondary>
 				) : (
 					<div className="">
-<AppButtonSecondary
+						<AppButtonSecondary
 							className="h-10"
 							disabled={isDisabled}
 							onClick={() => navigate.push(`/monitoring/${normalizeAddress(challenge.position)}/auction/${challenge.number}`)}

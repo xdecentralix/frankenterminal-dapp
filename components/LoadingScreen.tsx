@@ -44,16 +44,12 @@ export default function LoadingScreen({ title = "FRANKENTERMINAL // initializing
 								alt="Frankenterminal"
 							/>
 						</picture>
-						<h1 className="font-default tracking-[0.25em] uppercase text-xl ft-glow-accent ft-cursor">
-							{title}
-						</h1>
+						<h1 className="font-default tracking-[0.25em] uppercase text-xl ft-glow-accent ft-cursor">{title}</h1>
 					</div>
 
 					{loading.length > 0 && (
 						<div className="w-full ft-frame px-6 py-5 font-default text-[12px] uppercase tracking-[0.12em]">
-							<div className="text-card-content-highlight ft-glow-accent mb-3 text-[10px]">
-								SYSTEM BOOT SEQUENCE
-							</div>
+							<div className="text-card-content-highlight ft-glow-accent mb-3 text-[10px]">SYSTEM BOOT SEQUENCE</div>
 							<ul className="list-none text-left space-y-1.5">
 								{loading.map((item) => (
 									<li key={item.id} className="flex items-center gap-3">
@@ -62,18 +58,10 @@ export default function LoadingScreen({ title = "FRANKENTERMINAL // initializing
 												item.isLoaded ? "bg-text-success" : "bg-text-danger animate-ft-blink"
 											}`}
 										/>
-										<span
-											className={`flex-1 ${
-												item.isLoaded ? "text-text-success" : "text-text-secondary"
-											}`}
-										>
+										<span className={`flex-1 ${item.isLoaded ? "text-text-success" : "text-text-secondary"}`}>
 											{item.title}
 										</span>
-										<span
-											className={`text-[10px] ${
-												item.isLoaded ? "text-text-success" : "text-text-danger"
-											}`}
-										>
+										<span className={`text-[10px] ${item.isLoaded ? "text-text-success" : "text-text-danger"}`}>
 											{item.isLoaded ? "[ OK ]" : "[ .. ]"}
 										</span>
 									</li>

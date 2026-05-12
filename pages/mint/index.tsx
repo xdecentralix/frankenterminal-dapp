@@ -21,8 +21,8 @@ export default function Borrow() {
 
 			<AppTitle title="Borrow">
 				<div className="text-text-secondary">
-					Mint fresh Frankencoins against collateral. Pick a market, define your terms, and receive ZCHF directly into
-					your wallet.
+					Mint fresh Frankencoins against collateral. Pick a market, define your terms, and receive ZCHF directly into your
+					wallet.
 				</div>
 			</AppTitle>
 

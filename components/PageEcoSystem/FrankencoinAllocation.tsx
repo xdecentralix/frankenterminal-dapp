@@ -246,8 +246,8 @@ export default function FrankencoinAllocation() {
 						height={"350px"}
 						type="donut"
 						options={{
-							chart: { 
-								type: "donut", 
+							chart: {
+								type: "donut",
 								background: "transparent",
 								fontFamily: "var(--font-ft-mono), monospace",
 								dropShadow: {

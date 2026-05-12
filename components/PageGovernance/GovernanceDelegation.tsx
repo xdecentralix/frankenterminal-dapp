@@ -52,9 +52,9 @@ export default function GovernanceDelegation() {
 
 	const { data: readData } = useReadContracts({ contracts: contractReads as any });
 
-	const totalVotes: bigint = readData ? ((readData[voters.length + 1]?.result as bigint) ?? 0n) : 0n;
-	const totalDelegated: bigint = readData ? ((readData[voters.length]?.result as bigint) ?? 0n) : 0n;
-	const votingPowers: bigint[] = voters.map((_, i) => (readData ? ((readData[i]?.result as bigint) ?? 0n) : 0n));
+	const totalVotes: bigint = readData ? (readData[voters.length + 1]?.result as bigint) ?? 0n : 0n;
+	const totalDelegated: bigint = readData ? (readData[voters.length]?.result as bigint) ?? 0n : 0n;
+	const votingPowers: bigint[] = voters.map((_, i) => (readData ? (readData[i]?.result as bigint) ?? 0n : 0n));
 
 	const myVotes = votingPowers[0] ?? 0n;
 	const delegatorVotes: { address: Address; votes: bigint }[] = helpers
@@ -84,8 +84,7 @@ export default function GovernanceDelegation() {
 
 	// synced votes on the selected target chain
 	const { syncedVotes, totalVotes: syncTotalVotes } = useVotesSynced(myAddress, helpers, syncChainId);
-	const syncedPct =
-		syncTotalVotes > 0n ? `${formatCurrency((Number(syncedVotes) / Number(syncTotalVotes)) * 100)}%` : "—";
+	const syncedPct = syncTotalVotes > 0n ? `${formatCurrency((Number(syncedVotes) / Number(syncTotalVotes)) * 100)}%` : "—";
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -189,11 +188,7 @@ export default function GovernanceDelegation() {
 						pct={syncedPct}
 					/>
 
-					<GovernanceSyncAction
-						targetChainId={syncChainId}
-						voters={voters}
-						disabled={!isConnected || voters.length === 0}
-					/>
+					<GovernanceSyncAction targetChainId={syncChainId} voters={voters} disabled={!isConnected || voters.length === 0} />
 				</div>
 			</div>
 		</div>

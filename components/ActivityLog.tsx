@@ -73,11 +73,7 @@ export default function ActivityLog({
 	const headerMeta = meta ? `${entries.length} ENTRIES · ${meta}` : `${entries.length} ENTRIES`;
 
 	return (
-		<div
-			className={`relative border border-card-input-border bg-layout-primary px-4 py-3 flex flex-col ${
-				className ?? ""
-			}`}
-		>
+		<div className={`relative border border-card-input-border bg-layout-primary px-4 py-3 flex flex-col ${className ?? ""}`}>
 			<div className="absolute -top-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 			{label || meta ? (
 				<div className="flex items-baseline justify-between mb-3 flex-shrink-0 gap-2">
@@ -114,12 +110,20 @@ export default function ActivityLog({
 											{entry.secondary != null && (
 												<>
 													<span className="text-text-secondary whitespace-nowrap text-base">→</span>
-													<span className={`${entry.secondaryTone ? toneClass(entry.secondaryTone) : "text-text-primary"} font-bold whitespace-nowrap text-base`}>{entry.secondary}</span>
+													<span
+														className={`${
+															entry.secondaryTone ? toneClass(entry.secondaryTone) : "text-text-primary"
+														} font-bold whitespace-nowrap text-base`}
+													>
+														{entry.secondary}
+													</span>
 												</>
 											)}
 										</div>
 										{entry.badge != null && (
-											<span className={`text-[0.7rem] md:text-xs tracking-[0.18em] font-bold whitespace-nowrap ${badgeColor}`}>
+											<span
+												className={`text-[0.7rem] md:text-xs tracking-[0.18em] font-bold whitespace-nowrap ${badgeColor}`}
+											>
 												{entry.badge}
 											</span>
 										)}

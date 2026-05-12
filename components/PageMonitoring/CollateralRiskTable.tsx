@@ -160,7 +160,8 @@ export default function CollateralRiskTable() {
 						const reservePct = row.avgReservePPM / 10_000;
 						const riskPct = row.avgRiskPremiumPPM != null ? row.avgRiskPremiumPPM / 10_000 : null;
 
-						const reserveColor = reservePct >= 20 ? "text-text-success" : reservePct >= 10 ? "text-text-warning" : "text-text-danger";
+						const reserveColor =
+							reservePct >= 20 ? "text-text-success" : reservePct >= 10 ? "text-text-warning" : "text-text-danger";
 						const riskColor =
 							riskPct == null
 								? "text-text-secondary"

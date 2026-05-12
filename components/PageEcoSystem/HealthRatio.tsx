@@ -104,93 +104,95 @@ export default function HealthRatio() {
 						type="area"
 						height={200}
 						options={{
-								colors: [currentPct >= 150 ? "#00FF7F" : currentPct >= 100 ? "#FFB000" : "var(--theme-danger)"],
-								stroke: {
-									curve: "stepline",
-									width: 2,
+							colors: [currentPct >= 150 ? "#00FF7F" : currentPct >= 100 ? "#FFB000" : "var(--theme-danger)"],
+							stroke: {
+								curve: "stepline",
+								width: 2,
+							},
+							fill: {
+								type: "gradient",
+								gradient: {
+									shadeIntensity: 1,
+									opacityFrom: 0.4,
+									opacityTo: 0.05,
+									stops: [0, 100],
 								},
-								fill: {
-									type: "gradient",
-									gradient: {
-										shadeIntensity: 1,
-										opacityFrom: 0.4,
-										opacityTo: 0.05,
-										stops: [0, 100],
-									},
+							},
+							chart: {
+								type: "area",
+								height: 200,
+								sparkline: { enabled: false },
+								dropShadow: {
+									enabled: true,
+									color: currentPct >= 150 ? "#00FF7F" : currentPct >= 100 ? "#FFB000" : "var(--theme-danger)",
+									top: 0,
+									left: 0,
+									blur: 8,
+									opacity: 0.2,
 								},
-								chart: {
-									type: "area",
-									height: 200,
-									sparkline: { enabled: false },
-									dropShadow: {
-										enabled: true,
-										color: currentPct >= 150 ? "#00FF7F" : currentPct >= 100 ? "#FFB000" : "var(--theme-danger)",
-										top: 0,
-										left: 0,
-										blur: 8,
-										opacity: 0.2,
-									},
-									toolbar: { show: false },
-									zoom: { enabled: false },
-									background: "transparent",
-									fontFamily: "var(--font-ft-mono), monospace",
-								},
-								dataLabels: { enabled: false },
-								grid: {
+								toolbar: { show: false },
+								zoom: { enabled: false },
+								background: "transparent",
+								fontFamily: "var(--font-ft-mono), monospace",
+							},
+							dataLabels: { enabled: false },
+							grid: {
+								show: true,
+								borderColor: "#2A2A2A",
+								strokeDashArray: 4,
+								xaxis: { lines: { show: false } },
+							},
+							xaxis: {
+								type: "datetime",
+								labels: {
 									show: true,
-									borderColor: "#2A2A2A",
-									strokeDashArray: 4,
-									xaxis: { lines: { show: false } },
-								},
-								xaxis: {
-									type: "datetime",
-									labels: {
-										show: true,
-										style: {
-											colors: "#888888",
-											fontFamily: "var(--font-ft-mono), monospace",
-										},
-										formatter: (value) => {
-											const date = new Date(value);
-											return `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getFullYear()}`;
-										},
-									},
-									axisBorder: { show: false },
-									axisTicks: { show: false },
-									tooltip: { enabled: false },
-								},
-								yaxis: {
-									labels: {
-										show: true,
-										style: {
-											colors: "#888888",
-											fontFamily: "var(--font-ft-mono), monospace",
-										},
-										formatter: (value) => `${Math.round(value * 10) / 10}%`,
-									},
-									axisBorder: { show: true, color: "#2A2A2A" },
-									axisTicks: { show: true, color: "#2A2A2A" },
-									min: 0,
-									max: (max) => (Math.floor(max / 100) + 1) * 100,
-								},
-								tooltip: {
-									theme: "dark",
 									style: {
-										fontSize: "12px",
+										colors: "#888888",
 										fontFamily: "var(--font-ft-mono), monospace",
 									},
-									marker: { show: false },
-									x: { format: "dd MMM yyyy" },
+									formatter: (value) => {
+										const date = new Date(value);
+										return `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1)
+											.toString()
+											.padStart(2, "0")}.${date.getFullYear()}`;
+									},
 								},
-								annotations: {
-									yaxis: [
-										{
-											y: 100,
-											borderColor: "var(--theme-danger)",
-											strokeDashArray: 4,
-										},
-									],
+								axisBorder: { show: false },
+								axisTicks: { show: false },
+								tooltip: { enabled: false },
+							},
+							yaxis: {
+								labels: {
+									show: true,
+									style: {
+										colors: "#888888",
+										fontFamily: "var(--font-ft-mono), monospace",
+									},
+									formatter: (value) => `${Math.round(value * 10) / 10}%`,
 								},
+								axisBorder: { show: true, color: "#2A2A2A" },
+								axisTicks: { show: true, color: "#2A2A2A" },
+								min: 0,
+								max: (max) => (Math.floor(max / 100) + 1) * 100,
+							},
+							tooltip: {
+								theme: "dark",
+								style: {
+									fontSize: "12px",
+									fontFamily: "var(--font-ft-mono), monospace",
+								},
+								marker: { show: false },
+								x: { format: "dd MMM yyyy" },
+							},
+							annotations: {
+								yaxis: [
+									{
+										y: 100,
+										borderColor: "var(--theme-danger)",
+										strokeDashArray: 4,
+									},
+								],
+							},
 						}}
 						series={[
 							{

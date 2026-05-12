@@ -201,7 +201,9 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 			<div className="relative border border-card-input-border bg-layout-primary p-4 flex flex-col h-full gap-y-4 rounded-lg">
 				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mt-2">Historical Rates</div>
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mt-2">
+					Historical Rates
+				</div>
 
 				<div className="-m-4 pr-2 ft-frame bg-layout-primary p-4 mt-2">
 					<ApexChart
@@ -331,7 +333,9 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 			<div className="relative border border-card-input-border bg-layout-primary p-4 flex flex-col h-full gap-y-4 rounded-lg">
 				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 				<div className="flex flex-col gap-4">
-					<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mt-2">Propose a new Rate</div>
+					<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center mt-2">
+						Propose a new Rate
+					</div>
 
 					<NormalInput
 						symbol="%"
@@ -345,7 +349,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 
 					<div className="h-10 mb-4">
 						<GuardSupportedChain disabled={isDisabledMint || isHiddenMint} chain={mainnet}>
-<AppButton
+							<AppButton
 								disabled={isDisabledMint || isHiddenMint}
 								isLoading={isHandlingMint}
 								onClick={(e) => handleOnClickMint(e)}
@@ -367,7 +371,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 
 					<div className="h-10 mb-4">
 						<GuardSupportedChain disabled={isDisabledSave || isHiddenSave} chain={mainnet}>
-<AppButton
+							<AppButton
 								disabled={isDisabledSave || isHiddenSave}
 								isLoading={isHandlingSave}
 								onClick={(e) => handleOnClickSave(e)}

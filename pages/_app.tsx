@@ -4,6 +4,7 @@ import "../styles/datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 import Script from "next/script";
+import Head from "next/head";
 import { IBM_Plex_Mono } from "next/font/google";
 
 import Layout from "@components/Layout";
@@ -43,6 +44,9 @@ function ConsentedAnalytics() {
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<>
+			<Head>
+				<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+			</Head>
 			<style jsx global>{`
 				:root {
 					--font-ft-mono: ${tellMono.style.fontFamily};

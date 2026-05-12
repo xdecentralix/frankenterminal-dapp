@@ -42,11 +42,21 @@ function ButtonsTab() {
 			<DemoSection title="AppButton">
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 					<AppButton onClick={() => {}}>Primary</AppButton>
-					<AppButton disabled onClick={() => {}}>Disabled</AppButton>
-					<AppButton isLoading onClick={() => {}}>Loading</AppButton>
-					<AppButton error="Something went wrong" onClick={() => {}}>With Error</AppButton>
-					<AppButton warning="Double-check before proceeding" onClick={() => {}}>With Warning</AppButton>
-					<AppButton note="This action is irreversible" onClick={() => {}}>With Note</AppButton>
+					<AppButton disabled onClick={() => {}}>
+						Disabled
+					</AppButton>
+					<AppButton isLoading onClick={() => {}}>
+						Loading
+					</AppButton>
+					<AppButton error="Something went wrong" onClick={() => {}}>
+						With Error
+					</AppButton>
+					<AppButton warning="Double-check before proceeding" onClick={() => {}}>
+						With Warning
+					</AppButton>
+					<AppButton note="This action is irreversible" onClick={() => {}}>
+						With Note
+					</AppButton>
 					<AppButton to="/savings">As Link (to=)</AppButton>
 				</div>
 			</DemoSection>
@@ -54,11 +64,21 @@ function ButtonsTab() {
 			<DemoSection title="AppButtonSecondary">
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 					<AppButtonSecondary onClick={() => {}}>Secondary</AppButtonSecondary>
-					<AppButtonSecondary disabled onClick={() => {}}>Disabled</AppButtonSecondary>
-					<AppButtonSecondary isLoading onClick={() => {}}>Loading</AppButtonSecondary>
-					<AppButtonSecondary error="Action failed" onClick={() => {}}>With Error</AppButtonSecondary>
-					<AppButtonSecondary warning="Double-check before proceeding" onClick={() => {}}>With Warning</AppButtonSecondary>
-					<AppButtonSecondary note="This action is irreversible" onClick={() => {}}>With Note</AppButtonSecondary>
+					<AppButtonSecondary disabled onClick={() => {}}>
+						Disabled
+					</AppButtonSecondary>
+					<AppButtonSecondary isLoading onClick={() => {}}>
+						Loading
+					</AppButtonSecondary>
+					<AppButtonSecondary error="Action failed" onClick={() => {}}>
+						With Error
+					</AppButtonSecondary>
+					<AppButtonSecondary warning="Double-check before proceeding" onClick={() => {}}>
+						With Warning
+					</AppButtonSecondary>
+					<AppButtonSecondary note="This action is irreversible" onClick={() => {}}>
+						With Note
+					</AppButtonSecondary>
 					<AppButtonSecondary to="/savings">As Link (to=)</AppButtonSecondary>
 				</div>
 			</DemoSection>
@@ -329,11 +349,13 @@ function SearchableTableDemo() {
 
 	const handleTabChange = (h: string) => {
 		if (tab === h) setReverse((r) => !r);
-		else { setReverse(false); setTab(h); }
+		else {
+			setReverse(false);
+			setTab(h);
+		}
 	};
 
-	const filtered = MOCK_ROWS
-		.filter((r) => !search || r.symbol.toLowerCase().includes(search.toLowerCase()))
+	const filtered = MOCK_ROWS.filter((r) => !search || r.symbol.toLowerCase().includes(search.toLowerCase()))
 		.filter((r) => !inMyWallet || r.inWallet)
 		.filter((r) => activeFilters.length === 0 || activeFilters.includes(r.category))
 		.sort((a, b) => {
@@ -345,39 +367,45 @@ function SearchableTableDemo() {
 
 	return (
 		<Table>
-			{[
-				<TableHeadSearchable
-					key="head"
-					headers={headers}
-					tab={tab}
-					reverse={reverse}
-					tabOnChange={handleTabChange}
-					colSpan={3}
-					searchPlaceholder="Search assets…"
-					searchValue={search}
-					onSearchChange={setSearch}
-					inMyWallet={inMyWallet}
-					onInMyWalletChange={setInMyWallet}
-					filterOptions={FILTER_OPTIONS}
-					activeFilters={activeFilters}
-					onFiltersChange={setActiveFilters}
-				/>,
-				<TableBody key="body">
-					{filtered.length === 0 ? (
-						<TableRowEmpty>No assets match your filters.</TableRowEmpty>
-					) : (
-						(filtered.map((row) => (
-							<TableRow key={row.symbol} tab={tab} headers={headers} colSpan={3}>
-								{[
-									<div key="a" className="text-left font-semibold text-text-primary">{row.symbol}</div>,
-									<div key="b">{row.balance.toLocaleString()}</div>,
-									<div key="c">${row.value.toLocaleString()}</div>,
-								] as React.ReactElement[]}
-							</TableRow>
-						)) as unknown as React.ReactElement)
-					)}
-				</TableBody>,
-			] as React.ReactElement[]}
+			{
+				[
+					<TableHeadSearchable
+						key="head"
+						headers={headers}
+						tab={tab}
+						reverse={reverse}
+						tabOnChange={handleTabChange}
+						colSpan={3}
+						searchPlaceholder="Search assets…"
+						searchValue={search}
+						onSearchChange={setSearch}
+						inMyWallet={inMyWallet}
+						onInMyWalletChange={setInMyWallet}
+						filterOptions={FILTER_OPTIONS}
+						activeFilters={activeFilters}
+						onFiltersChange={setActiveFilters}
+					/>,
+					<TableBody key="body">
+						{filtered.length === 0 ? (
+							<TableRowEmpty>No assets match your filters.</TableRowEmpty>
+						) : (
+							(filtered.map((row) => (
+								<TableRow key={row.symbol} tab={tab} headers={headers} colSpan={3}>
+									{
+										[
+											<div key="a" className="text-left font-semibold text-text-primary">
+												{row.symbol}
+											</div>,
+											<div key="b">{row.balance.toLocaleString()}</div>,
+											<div key="c">${row.value.toLocaleString()}</div>,
+										] as React.ReactElement[]
+									}
+								</TableRow>
+							)) as unknown as React.ReactElement)
+						)}
+					</TableBody>,
+				] as React.ReactElement[]
+			}
 		</Table>
 	);
 }

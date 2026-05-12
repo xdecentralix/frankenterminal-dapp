@@ -39,7 +39,7 @@ export default function DisplayCollateralBorrowTable({
 					<span className="text-lg">{`${name}`}</span>
 					<span className="text-xs font-normal">{` ${symbolTiny}`}</span>
 				</div>
-				
+
 				{cats && cats.length > 0 && (
 					<div className="hidden md:flex items-center gap-1 mb-1">
 						{cats.slice(0, 2).map((c) => (

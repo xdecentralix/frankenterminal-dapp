@@ -25,10 +25,10 @@ export default function PrivacyPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">1. Controller</h2>
 					<p>
-						The data controller for any personal data processed in connection with the Frankenterminal Interface is the natural person who
-						operates this domain (the &quot;Operator&quot;). The Operator can be reached at{" "}
-						<ObfuscatedEmail user="frankenterminal" host="pm.me" />
-						. The Operator is independent of, and not affiliated with, the Frankencoin Association.
+						The data controller for any personal data processed in connection with the Frankenterminal Interface is the natural
+						person who operates this domain (the &quot;Operator&quot;). The Operator can be reached at{" "}
+						<ObfuscatedEmail user="frankenterminal" host="pm.me" />. The Operator is independent of, and not affiliated with,
+						the Frankencoin Association.
 					</p>
 				</div>
 
@@ -38,28 +38,28 @@ export default function PrivacyPage() {
 					<ul className="mt-2 list-disc ml-5 space-y-1">
 						<li>
 							<strong>Wallet address</strong> and the associated on-chain transaction history that becomes visible when you
-							connect a self-custodial wallet. Under the EDPB&apos;s and several national DPAs&apos; views, a wallet address is
-							considered personal data once it can be linked to an identifiable person.
+							connect a self-custodial wallet. Under the EDPB&apos;s and several national DPAs&apos; views, a wallet address
+							is considered personal data once it can be linked to an identifiable person.
 						</li>
 						<li>
-							<strong>IP address</strong>, transiently, when your browser or wallet routes RPC calls through the Operator&apos;s
-							server-side proxy.
+							<strong>IP address</strong>, transiently, when your browser or wallet routes RPC calls through the
+							Operator&apos;s server-side proxy.
 						</li>
 						<li>
-							<strong>Browser/device metadata</strong> sent by your browser as part of normal HTTP requests (User-Agent, language,
-							viewport).
+							<strong>Browser/device metadata</strong> sent by your browser as part of normal HTTP requests (User-Agent,
+							language, viewport).
 						</li>
 						<li>
-							<strong>Sanctions-screening result</strong> &mdash; a boolean indicating whether the connected wallet matched the
-							OFAC SDN list.
+							<strong>Sanctions-screening result</strong> &mdash; a boolean indicating whether the connected wallet matched
+							the OFAC SDN list.
 						</li>
 						<li>
 							<strong>Anonymised analytics events</strong> (only if you have given consent), such as page views and aggregated
 							button clicks.
 						</li>
 						<li>
-							<strong>Local-storage records</strong> of your acceptance of the Terms of Use and of your cookie/analytics consent
-							decision.
+							<strong>Local-storage records</strong> of your acceptance of the Terms of Use and of your cookie/analytics
+							consent decision.
 						</li>
 					</ul>
 				</div>
@@ -68,21 +68,21 @@ export default function PrivacyPage() {
 					<h2 className="text-text-primary font-bold mb-2">3. Purposes &amp; Legal Bases</h2>
 					<ul className="mt-2 list-disc ml-5 space-y-1">
 						<li>
-							<strong>Operating the interface</strong> (rendering data, formatting unsigned transactions) &mdash; necessary for
-							the performance of the contract or pre-contractual measures (Art. 6(1)(b) GDPR).
+							<strong>Operating the interface</strong> (rendering data, formatting unsigned transactions) &mdash; necessary
+							for the performance of the contract or pre-contractual measures (Art. 6(1)(b) GDPR).
 						</li>
 						<li>
 							<strong>Sanctions screening</strong> against the OFAC SDN list and, in the future, the EU and Swiss SECO lists
-							&mdash; compliance with a legal obligation (Art. 6(1)(c) GDPR) and the Operator&apos;s legitimate interest in not
-							facilitating prohibited transactions (Art. 6(1)(f) GDPR).
+							&mdash; compliance with a legal obligation (Art. 6(1)(c) GDPR) and the Operator&apos;s legitimate interest in
+							not facilitating prohibited transactions (Art. 6(1)(f) GDPR).
 						</li>
 						<li>
 							<strong>Privacy-preserving analytics</strong> via self-hosted Umami &mdash; based on your consent (Art. 6(1)(a)
 							GDPR), which you can withdraw at any time (see section 8 and the &ldquo;Cookie settings&rdquo; control below).
 						</li>
 						<li>
-							<strong>Security and abuse prevention</strong> on the RPC proxy &mdash; the Operator&apos;s legitimate interest in
-							protecting the service from attacks and excessive load (Art. 6(1)(f) GDPR).
+							<strong>Security and abuse prevention</strong> on the RPC proxy &mdash; the Operator&apos;s legitimate interest
+							in protecting the service from attacks and excessive load (Art. 6(1)(f) GDPR).
 						</li>
 					</ul>
 				</div>
@@ -90,16 +90,16 @@ export default function PrivacyPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">4. Recipients &amp; Processors</h2>
 					<p>
-						The Operator does not sell or rent personal data. Data may be transmitted to or processed by the following categories
-						of recipients in order to provide the service:
+						The Operator does not sell or rent personal data. Data may be transmitted to or processed by the following
+						categories of recipients in order to provide the service:
 					</p>
 					<ul className="mt-2 list-disc ml-5 space-y-1">
 						<li>
 							<strong>Reown / WalletConnect</strong> &mdash; wallet-connection infrastructure.
 						</li>
 						<li>
-							<strong>RPC providers</strong> &mdash; self-hosted Ethereum nodes operated by the Operator and, where configured,
-							third-party providers such as Alchemy or Infura.
+							<strong>RPC providers</strong> &mdash; self-hosted Ethereum nodes operated by the Operator and, where
+							configured, third-party providers such as Alchemy or Infura.
 						</li>
 						<li>
 							<strong>Vercel Inc.</strong> (United States) &mdash; web hosting and edge functions.
@@ -115,9 +115,9 @@ export default function PrivacyPage() {
 					<p>
 						Some of the recipients listed above (notably Vercel and certain RPC providers) are based in the United States or
 						process data globally. Where personal data is transferred outside the EEA or Switzerland, the Operator relies on the
-						EU&ndash;US Data Privacy Framework (where the recipient is certified) or, otherwise, on the European Commission&apos;s
-						Standard Contractual Clauses (Decision 2021/914) supplemented by the Swiss FDPIC&apos;s recognised variant for
-						Switzerland-originated data.
+						EU&ndash;US Data Privacy Framework (where the recipient is certified) or, otherwise, on the European
+						Commission&apos;s Standard Contractual Clauses (Decision 2021/914) supplemented by the Swiss FDPIC&apos;s recognised
+						variant for Switzerland-originated data.
 					</p>
 				</div>
 
@@ -143,13 +143,12 @@ export default function PrivacyPage() {
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">7. Automated Decision-Making (Art. 22 GDPR)</h2>
 					<p>
-						When you connect a wallet, the Frankenterminal Interface automatically checks the wallet address against the OFAC SDN list. If the
-						address matches, the wallet is automatically disconnected and you are notified. This is an automated decision that
-						produces legal or similarly significant effects within the meaning of Art. 22 GDPR. The Operator carries out this
-						processing on the basis of a legal obligation (Art. 22(2)(b) GDPR) and the Operator&apos;s legitimate compliance
-						interest. If you believe the result is incorrect, you may request a human review by contacting the Operator at{" "}
-						<ObfuscatedEmail user="frankenterminal" host="pm.me" />
-						.
+						When you connect a wallet, the Frankenterminal Interface automatically checks the wallet address against the OFAC
+						SDN list. If the address matches, the wallet is automatically disconnected and you are notified. This is an
+						automated decision that produces legal or similarly significant effects within the meaning of Art. 22 GDPR. The
+						Operator carries out this processing on the basis of a legal obligation (Art. 22(2)(b) GDPR) and the Operator&apos;s
+						legitimate compliance interest. If you believe the result is incorrect, you may request a human review by contacting
+						the Operator at <ObfuscatedEmail user="frankenterminal" host="pm.me" />.
 					</p>
 				</div>
 
@@ -174,11 +173,15 @@ export default function PrivacyPage() {
 
 				<div id="analytics" className="scroll-mt-24">
 					<h2 className="text-text-primary font-bold mb-2">9. Cookies &amp; Similar Technologies</h2>
-					<p>The Frankenterminal Interface uses local storage (and equivalent &ldquo;similar technologies&rdquo;) in two distinct ways:</p>
+					<p>
+						The Frankenterminal Interface uses local storage (and equivalent &ldquo;similar technologies&rdquo;) in two distinct
+						ways:
+					</p>
 					<ul className="mt-2 list-disc ml-5 space-y-1">
 						<li>
 							<strong>Strictly necessary</strong> (no consent required under ePrivacy Directive Art. 5(3)): your theme
-							preference, your acceptance of the Terms of Use, and the record of your cookie/analytics consent decision itself.
+							preference, your acceptance of the Terms of Use, and the record of your cookie/analytics consent decision
+							itself.
 						</li>
 						<li>
 							<strong>Optional &ndash; consent required:</strong> a single identifier set by the self-hosted Umami analytics
@@ -202,37 +205,35 @@ export default function PrivacyPage() {
 					<h2 className="text-text-primary font-bold mb-2">10. Right to Lodge a Complaint</h2>
 					<p>
 						If you consider that the processing of your personal data infringes applicable data-protection law, you may lodge a
-						complaint with a competent supervisory authority. For Switzerland this is the Federal Data Protection and Information
-						Commissioner (FDPIC), Feldeggweg 1, 3003 Bern. Users in the EU may additionally contact the supervisory authority of
-						the EU Member State of their habitual residence, place of work, or place of the alleged infringement.
+						complaint with a competent supervisory authority. For Switzerland this is the Federal Data Protection and
+						Information Commissioner (FDPIC), Feldeggweg 1, 3003 Bern. Users in the EU may additionally contact the supervisory
+						authority of the EU Member State of their habitual residence, place of work, or place of the alleged infringement.
 					</p>
 				</div>
 
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">11. Children</h2>
 					<p>
-						The Frankenterminal Interface is not directed to persons under 18 years of age. The Operator does not knowingly process personal
-						data of minors. If you believe a minor has nevertheless used the interface, please contact the Operator so that the
-						relevant data can be deleted.
+						The Frankenterminal Interface is not directed to persons under 18 years of age. The Operator does not knowingly
+						process personal data of minors. If you believe a minor has nevertheless used the interface, please contact the
+						Operator so that the relevant data can be deleted.
 					</p>
 				</div>
 
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">12. Changes to This Policy</h2>
 					<p>
-						The Operator may update this Privacy Policy from time to time. The current version is identified by the version number
-						at the top of this page. Material changes are tied to a version bump that automatically triggers a new acceptance
-						prompt the next time you attempt to connect a wallet.
+						The Operator may update this Privacy Policy from time to time. The current version is identified by the version
+						number at the top of this page. Material changes are tied to a version bump that automatically triggers a new
+						acceptance prompt the next time you attempt to connect a wallet.
 					</p>
 				</div>
 
 				<div>
 					<h2 className="text-text-primary font-bold mb-2">13. Contact</h2>
 					<p>
-						For any question regarding this Privacy Policy or to exercise any of the rights described in section 8, please contact
-						the Operator at{" "}
-						<ObfuscatedEmail user="frankenterminal" host="pm.me" />
-						.
+						For any question regarding this Privacy Policy or to exercise any of the rights described in section 8, please
+						contact the Operator at <ObfuscatedEmail user="frankenterminal" host="pm.me" />.
 					</p>
 				</div>
 			</div>

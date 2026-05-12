@@ -38,7 +38,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 			<Navbar />
 
 			<div className="min-h-screen pt-[104px] pb-12 md:pb-[7rem]">
-				<main className="block mb-12 md:mb-16 mx-auto max-w-6xl space-y-8 px-4 md:px-8 2xl:max-w-7xl min-h-content">{children}</main>
+				<main className="block mb-12 md:mb-16 mx-auto max-w-6xl space-y-8 px-4 md:px-8 2xl:max-w-7xl min-h-content">
+					{children}
+				</main>
 				<MobileFooter />
 			</div>
 

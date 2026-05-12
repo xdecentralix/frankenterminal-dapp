@@ -75,7 +75,7 @@ export default function GovernanceVotersAction({ voter, disabled, connectedWalle
 		<div className="">
 			<GuardSupportedChain label="Connect" disabled={isHidden || disabled} chain={mainnet}>
 				<div className="overflow-hidden">
-<AppButtonSecondary
+					<AppButtonSecondary
 						className="h-10 scroll-nopeak"
 						disabled={isHidden || disabled}
 						isLoading={isDelegating}
