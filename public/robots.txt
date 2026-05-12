@@ -1,0 +1,7 @@
+# Frankenterminal — pre-launch lockdown.
+# This file is intentionally restrictive while the bounty entry is in
+# private development. On launch day (31 May), replace with an open
+# `User-agent: *` / `Allow: /` rule (and clear the X-Robots-Tag header
+# in next.config.js by setting ALLOW_INDEXING=true on Vercel).
+User-agent: *
+Disallow: /
