@@ -5,15 +5,20 @@
  * handler, so no upstream URL or API key ever appears in the client bundle.
  *
  * Per chain, the handler builds an ordered attempt list:
- *   1. Alchemy first if `RPC_ALCHEMY_KEY` is set (single key fans out across
- *      all 8 chains via the `ALCHEMY_HOST` map below).
- *   2. The chain's entries in `PUBLIC_RPC_FALLBACKS` from `rpc.config.ts` —
- *      checked into source control because those URLs are public.
+ *   1. The chain's entries in `PUBLIC_RPCS` from `rpc.config.ts` — checked
+ *      into source control because those URLs are public, and tried first
+ *      so we don't burn Alchemy CUs on routine traffic.
+ *   2. Alchemy last (if `RPC_ALCHEMY_KEY` is set) as a last-resort fallback
+ *      when every public provider for the chain has failed.
  *
- * Each attempt is tried in sequence; on transport error or upstream `>= 500`
- * we fall through to the next entry. A 4xx response from any upstream is
- * returned as-is (different providers reject different JSON-RPC methods, and
- * we don't want to silently mask that).
+ * Each attempt is tried in sequence; on transport error or any non-2xx
+ * upstream response we fall through to the next entry. (Different public
+ * providers occasionally 401/403/429/503 — falling through on all non-2xx
+ * means one flaky provider doesn't poison the chain.) We validate the body
+ * before forwarding, so any 4xx we receive from upstream is the upstream's
+ * decision, not a "your request is malformed" signal. After every attempt
+ * has failed, the last response we received (or `502` if every attempt was
+ * a transport error) is returned to the caller.
  *
  * Manual smoke tests (with `yarn dev`):
  *
@@ -34,7 +39,7 @@
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PUBLIC_RPC_FALLBACKS } from "../../../rpc.config";
+import { PUBLIC_RPCS } from "../../../rpc.config";
 
 const ALLOWED_CHAINS = ["mainnet", "polygon", "arbitrum", "optimism", "base", "avalanche", "gnosis", "sonic"] as const;
 export type AllowedChain = (typeof ALLOWED_CHAINS)[number];
@@ -149,12 +154,12 @@ function classifyError(err: unknown): { status: number; error: string } {
 
 function buildAttempts(chain: AllowedChain): string[] {
 	const attempts: string[] = [];
+	for (const url of PUBLIC_RPCS[chain] ?? []) {
+		if (url && url.length > 0) attempts.push(url);
+	}
 	const alchemyKey = process.env.RPC_ALCHEMY_KEY;
 	if (alchemyKey && alchemyKey.length > 0) {
 		attempts.push(`https://${ALCHEMY_HOST[chain]}.g.alchemy.com/v2/${alchemyKey}`);
-	}
-	for (const url of PUBLIC_RPC_FALLBACKS[chain] ?? []) {
-		if (url && url.length > 0) attempts.push(url);
 	}
 	return attempts;
 }
@@ -198,7 +203,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	for (const url of attempts) {
 		try {
 			const result = await forward(url, body);
-			if (result.status < 500) {
+			if (result.status >= 200 && result.status < 300) {
 				return send(res, result);
 			}
 			lastResult = result;
@@ -209,13 +214,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		}
 	}
 
+	if (lastResult !== undefined) {
+		return send(res, lastResult);
+	}
+
 	if (lastError !== undefined) {
 		const { status, error } = classifyError(lastError);
 		return res.status(status).json({ error });
-	}
-
-	if (lastResult !== undefined) {
-		return send(res, lastResult);
 	}
 
 	return res.status(502).json({ error: "all upstreams failed" });
