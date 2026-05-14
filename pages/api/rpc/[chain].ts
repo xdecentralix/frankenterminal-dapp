@@ -4,15 +4,20 @@
  * The wagmi transports in `app.config.ts` route every read call through this
  * handler, so no upstream URL or API key ever appears in the client bundle.
  *
- * Per chain, the handler:
- *   1. Forwards the request to the primary upstream `RPC_<CHAIN>` env var.
- *   2. On a 5xx or transport-level failure (timeout, network error), retries
- *      once against Alchemy using `RPC_FALLBACK_ALCHEMY_KEY` (server-side).
- *   3. Otherwise pipes the upstream response straight back to the browser.
+ * Per chain, the handler builds an ordered attempt list:
+ *   1. Alchemy first if `RPC_ALCHEMY_KEY` is set (single key fans out across
+ *      all 8 chains via the `ALCHEMY_HOST` map below).
+ *   2. The chain's entries in `PUBLIC_RPC_FALLBACKS` from `rpc.config.ts` —
+ *      checked into source control because those URLs are public.
  *
- * Manual smoke tests (with `yarn dev` and the env vars from .env.local):
+ * Each attempt is tried in sequence; on transport error or upstream `>= 500`
+ * we fall through to the next entry. A 4xx response from any upstream is
+ * returned as-is (different providers reject different JSON-RPC methods, and
+ * we don't want to silently mask that).
  *
- *   # 200 — happy path against the configured primary upstream.
+ * Manual smoke tests (with `yarn dev`):
+ *
+ *   # 200 — happy path against the configured upstream chain.
  *   curl -i -X POST http://localhost:3000/api/rpc/mainnet \
  *        -H 'content-type: application/json' \
  *        -d '{"jsonrpc":"2.0","method":"eth_chainId","id":1}'
@@ -25,13 +30,14 @@
  *   # 405 — wrong HTTP verb.
  *   curl -i http://localhost:3000/api/rpc/mainnet
  *
- *   # 503 — chain has no RPC_<CHAIN> env var configured.
+ *   # 503 — Alchemy key unset *and* no fallbacks for this chain.
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
+import { PUBLIC_RPC_FALLBACKS } from "../../../rpc.config";
 
 const ALLOWED_CHAINS = ["mainnet", "polygon", "arbitrum", "optimism", "base", "avalanche", "gnosis", "sonic"] as const;
-type AllowedChain = (typeof ALLOWED_CHAINS)[number];
+export type AllowedChain = (typeof ALLOWED_CHAINS)[number];
 
 const ALCHEMY_HOST: Record<AllowedChain, string> = {
 	mainnet: "eth-mainnet",
@@ -106,22 +112,14 @@ function validateBody(body: unknown): { ok: true } | { ok: false; reason: string
 	return { ok: true };
 }
 
-async function forward(url: string, body: unknown, withBearer: boolean): Promise<ForwardResult> {
-	const headers: Record<string, string> = { "content-type": "application/json" };
-	if (withBearer) {
-		const proxySecret = process.env.RPC_PROXY_SECRET;
-		if (proxySecret && proxySecret.length > 0) {
-			headers["authorization"] = `Bearer ${proxySecret}`;
-		}
-	}
-
+async function forward(url: string, body: unknown): Promise<ForwardResult> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT_MS);
 
 	try {
 		const upstreamRes = await fetch(url, {
 			method: "POST",
-			headers,
+			headers: { "content-type": "application/json" },
 			body: JSON.stringify(body),
 			signal: controller.signal,
 		});
@@ -147,6 +145,18 @@ function send(res: NextApiResponse, result: ForwardResult): void {
 function classifyError(err: unknown): { status: number; error: string } {
 	const aborted = (err as { name?: string })?.name === "AbortError";
 	return aborted ? { status: 504, error: "upstream timeout" } : { status: 502, error: "upstream fetch failed" };
+}
+
+function buildAttempts(chain: AllowedChain): string[] {
+	const attempts: string[] = [];
+	const alchemyKey = process.env.RPC_ALCHEMY_KEY;
+	if (alchemyKey && alchemyKey.length > 0) {
+		attempts.push(`https://${ALCHEMY_HOST[chain]}.g.alchemy.com/v2/${alchemyKey}`);
+	}
+	for (const url of PUBLIC_RPC_FALLBACKS[chain] ?? []) {
+		if (url && url.length > 0) attempts.push(url);
+	}
+	return attempts;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -177,39 +187,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		return res.status(403).json({ error: validation.reason });
 	}
 
-	const primary = process.env[`RPC_${chainParam.toUpperCase()}`];
-	if (!primary || primary.length === 0) {
-		return res.status(503).json({ error: "upstream not configured" });
+	const attempts = buildAttempts(chainParam);
+	if (attempts.length === 0) {
+		return res.status(503).json({ error: "no upstream configured" });
 	}
 
-	const fallbackKey = process.env.RPC_FALLBACK_ALCHEMY_KEY;
-	const fallbackUrl =
-		fallbackKey && fallbackKey.length > 0 ? `https://${ALCHEMY_HOST[chainParam]}.g.alchemy.com/v2/${fallbackKey}` : undefined;
+	let lastError: unknown;
+	let lastResult: ForwardResult | undefined;
 
-	let primaryResult: ForwardResult | undefined;
-	let primaryError: unknown;
-	try {
-		primaryResult = await forward(primary, body, /* withBearer */ true);
-	} catch (err) {
-		primaryError = err;
-	}
-
-	const primaryFailed = primaryError !== undefined || (primaryResult !== undefined && primaryResult.status >= 500);
-
-	if (primaryFailed && fallbackUrl) {
+	for (const url of attempts) {
 		try {
-			const fallbackResult = await forward(fallbackUrl, body, /* withBearer */ false);
-			return send(res, fallbackResult);
+			const result = await forward(url, body);
+			if (result.status < 500) {
+				return send(res, result);
+			}
+			lastResult = result;
+			lastError = undefined;
 		} catch (err) {
-			const { status, error } = classifyError(err);
-			return res.status(status).json({ error });
+			lastError = err;
+			lastResult = undefined;
 		}
 	}
 
-	if (primaryError !== undefined) {
-		const { status, error } = classifyError(primaryError);
+	if (lastError !== undefined) {
+		const { status, error } = classifyError(lastError);
 		return res.status(status).json({ error });
 	}
 
-	return send(res, primaryResult!);
+	if (lastResult !== undefined) {
+		return send(res, lastResult);
+	}
+
+	return res.status(502).json({ error: "all upstreams failed" });
 }
