@@ -20,7 +20,7 @@ export type ConfigEnv = {
 	wagmiId: string;
 };
 
-// DEV: Loaded with defaults, not needed for now.
+// DEV: Loaded with defaults, not needed for now
 // if (!process.env.NEXT_PUBLIC_WAGMI_ID) throw new Error("Project ID is not available");
 
 // Config
