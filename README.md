@@ -37,22 +37,19 @@ NEXT_PUBLIC_LANDINGPAGE_URL=https://frankencoin.com
 NEXT_PUBLIC_APP_URL=https://frankenterminal.app
 NEXT_PUBLIC_API_URL=https://api.frankencoin.com
 NEXT_PUBLIC_PONDER_URL=https://ponder.frankencoin.com
+NEXT_PUBLIC_MORPHOGRAPH_URL=https://blue-api.morpho.org/graphql
 NEXT_PUBLIC_PROFILE=mainnet
 NEXT_PUBLIC_WAGMI_ID=your_reown_project_id
 
 # Server-side RPC proxy (see pages/api/rpc/[chain].ts).
-# Upstream URLs and the Alchemy fallback key are server-only — they
-# never reach the browser bundle.
-RPC_MAINNET=http://...
-RPC_POLYGON=https://polygon.llamarpc.com
-RPC_ARBITRUM=http://...
-RPC_OPTIMISM=http://...
-RPC_BASE=http://...
-RPC_AVALANCHE=https://api.avax.network/ext/bc/C/rpc
-RPC_GNOSIS=http://...
-RPC_SONIC=http://...
-RPC_FALLBACK_ALCHEMY_KEY=your_alchemy_key
+# The proxy tries the public-RPC list in rpc.config.ts first, then
+# falls through to Alchemy on 5xx / transport error. The key is
+# server-only (no NEXT_PUBLIC_ prefix) and is never inlined into
+# the client bundle.
+RPC_ALCHEMY_KEY=your_alchemy_key
 ```
+
+The list of public RPC endpoints used by the proxy is committed in [`rpc.config.ts`](./rpc.config.ts) — they are non-secret URLs and live in the repo for transparency. The proxy implementation is in [`pages/api/rpc/[chain].ts`](./pages/api/rpc/[chain].ts).
 
 ## Development
 
