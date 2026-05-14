@@ -73,31 +73,29 @@ export default function StatusBar({ onOpenPalette }: Props) {
 	const docsLink = useDynamicDocs();
 
 	return (
-		<div className="fixed bottom-0 left-0 right-0 z-40 hidden md:block bg-layout-primary border-t border-card-input-border text-[0.72rem] uppercase tracking-[0.18em] tabular-nums select-none">
+		<div className="fixed bottom-0 left-0 right-0 z-40 hidden md:block bg-layout-primary border-t border-card-input-border text-[0.72rem] uppercase tracking-[0.18em] tabular-nums select-none overflow-x-auto whitespace-nowrap">
 			{/* Red top hairline (matches trade-stream / activity-log chrome) */}
 			<div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-card-content-highlight to-transparent opacity-60 pointer-events-none" />
 
 			{/* Row 1 — brand, attribution, tools, socials */}
-			<div className="flex items-stretch h-9">
+			<div className="flex items-stretch h-9 min-w-max">
 				<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border text-text-secondary truncate">
-					<span>canonical</span>
 					<Link
 						href="https://app.frankencoin.com"
 						target="_blank"
 						rel="noreferrer"
 						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight hover:decoration-card-content-highlight transition-colors"
 					>
-						app.frankencoin.com
+						canonical
 					</Link>
 					<span className="text-card-content-highlight/60">·</span>
-					<span>source</span>
 					<Link
 						href="https://github.com/xdecentralix/frankenterminal-dapp"
 						target="_blank"
 						rel="noreferrer"
 						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight hover:decoration-card-content-highlight transition-colors"
 					>
-						xdecentralix/frankenterminal-dapp
+						source
 					</Link>
 					<span className="text-card-content-highlight/60">·</span>
 					<Link

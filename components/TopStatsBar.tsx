@@ -98,8 +98,8 @@ export default function TopStatsBar() {
 	}, [address]);
 
 	return (
-		<div className="hidden md:flex bg-menu-back/90 backdrop-blur text-[0.72rem] uppercase tracking-[0.18em] tabular-nums select-none overflow-x-auto relative">
-			<div className="flex items-stretch h-9 mx-auto w-full">
+		<div className="hidden md:flex bg-menu-back/90 backdrop-blur text-[0.72rem] uppercase tracking-[0.18em] tabular-nums select-none overflow-x-auto relative whitespace-nowrap">
+			<div className="flex items-stretch h-9 mx-auto w-full min-w-max">
 				<div className="flex items-center gap-2.5 px-4 border-r border-card-input-border/30 text-text-secondary">
 					<span className="text-text-primary">wallet:</span>
 					<div className="flex items-center gap-1.5">

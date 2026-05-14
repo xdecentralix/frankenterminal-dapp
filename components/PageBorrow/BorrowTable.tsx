@@ -57,7 +57,7 @@ export default function BorrowTable() {
 			functionName: "balanceOf" as const,
 			args: [walletAddress ?? zeroAddress],
 		})),
-		query: { enabled: !!walletAddress && inMyWallet },
+		query: { enabled: !!walletAddress },
 	});
 
 	const walletBalanceMap = useMemo(() => {

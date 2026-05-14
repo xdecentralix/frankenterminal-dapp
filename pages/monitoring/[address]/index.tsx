@@ -113,114 +113,117 @@ export default function PositionDetail() {
 				/>
 
 				{/* Detail cards – 2-col desktop, 1-col mobile */}
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<AppCard>
-						<div className="gap-2">
-							<div className="text-base font-bold mb-1">Mint Details</div>
-							<StatRow label="Minted">{formatCurrency(formatUnits(BigInt(position.minted), 18))} ZCHF</StatRow>
-							<StatRow label="Retained Reserve">{formatCurrency(formatUnits(reserve, 18))} ZCHF</StatRow>
-							<StatRow label="Available for Clones">
-								{formatCurrency(formatUnits(BigInt(position.availableForClones), 18))} ZCHF
-							</StatRow>
-							<StatRow label="Limit">{formatCurrency(formatUnits(BigInt(position.limitForClones), 18))} ZCHF</StatRow>
-						</div>
-					</AppCard>
-
-					<AppCard>
-						<div className="gap-2">
-							<div className="text-base font-bold mb-1">Collateral Details</div>
-							<StatRow label="Balance">
-								{formatCurrency(formatUnits(BigInt(position.collateralBalance), position.collateralDecimals))}{" "}
-								{position.collateralSymbol}
-							</StatRow>
-							<StatRow label="Min. Collateral">
-								{formatCurrency(formatUnits(BigInt(position.minimumCollateral), position.collateralDecimals))}{" "}
-								{position.collateralSymbol}
-							</StatRow>
-							<StatRow label="Liquidation Price">
-								{formatCurrency(formatUnits(BigInt(position.price), priceDigit))} ZCHF
-							</StatRow>
-							<StatRow label="Nominal LTV">
-								<span
-									className={
-										nominalLTV > 90
-											? "text-card-content-highlight"
-											: nominalLTV > 80
-											? "text-text-warning"
-											: "text-text-success"
-									}
-								>
-									{formatCurrency(nominalLTV, 2, 2)}%
-								</span>
-							</StatRow>
-						</div>
-					</AppCard>
-
-					<AppCard>
-						<div className="gap-2">
-							<div className="text-base font-bold mb-1">Terms</div>
-							<StatRow label="Annual Interest">{formatCurrency(position.annualInterestPPM / 10000, 2, 2)}%</StatRow>
-							<StatRow label="Reserve Requirement">{formatCurrency(position.reserveContribution / 10000, 2, 2)}%</StatRow>
-							<StatRow label="Auction Duration">{position.challengePeriod / 3600} hours</StatRow>
-						</div>
-					</AppCard>
-
-					<AppCard>
-						<div className="gap-2">
-							<div className="text-base font-bold mb-1">Lifecycle</div>
-							<StatRow label="Start">{formatDateTime(position.isOriginal ? position.start : position.created)}</StatRow>
-							<StatRow label="Expiration">
-								<span className={position.closed ? "text-card-content-highlight" : ""}>
-									{position.closed ? "Closed" : formatDateTime(position.expiration)}
-								</span>
-							</StatRow>
-							{isSubjectToCooldown() && (
-								<StatRow label="Cooldown Until">
-									<span className="text-amber-400">{formatDateTime(position.cooldown)}</span>
-								</StatRow>
-							)}
-						</div>
-					</AppCard>
-
-					{isSubjectToCooldown() && (
-						<AppCard>
+				<div className="relative border border-card-input-border bg-layout-primary p-4 md:p-6 flex flex-col gap-4 rounded-lg mt-6">
+					<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<AppCard className="p-4 flex flex-col gap-y-4 border border-card-input-border">
 							<div className="gap-2">
-								<div className="text-base font-bold text-amber-400 mb-1">Cooldown Active</div>
-								<p className="text-text-secondary text-sm leading-relaxed">
-									The owner recently raised the liquidation price. This position is in a cooldown period until{" "}
-									<span className="text-text-primary font-medium">{formatDateTime(position.cooldown)}</span>. During this
-									time the position can be challenged before additional ZCHF can be minted.
-								</p>
+								<div className="text-base font-bold mb-1">Mint Details</div>
+								<StatRow label="Minted">{formatCurrency(formatUnits(BigInt(position.minted), 18))} ZCHF</StatRow>
+								<StatRow label="Retained Reserve">{formatCurrency(formatUnits(reserve, 18))} ZCHF</StatRow>
+								<StatRow label="Available for Clones">
+									{formatCurrency(formatUnits(BigInt(position.availableForClones), 18))} ZCHF
+								</StatRow>
+								<StatRow label="Limit">{formatCurrency(formatUnits(BigInt(position.limitForClones), 18))} ZCHF</StatRow>
 							</div>
 						</AppCard>
-					)}
 
-					<div className={isSubjectToCooldown() ? "" : "md:col-span-2"}>
-						<AppCard>
-							<AppTitle
-								className="!pt-0"
-								classNameTitle="text-base"
-								title="Active Auctions"
-								badges={[
-									{
-										label: String(challengesActive.length),
-										className:
-											challengesActive.length > 0
-												? "bg-red-500/20 text-red-400"
-												: "bg-card-content-primary text-text-secondary",
-									},
-								]}
-							/>
-							{challengesActive.length === 0 ? (
-								<p className="text-text-secondary text-sm">This position is currently not being challenged.</p>
-							) : (
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-									{challengesActive.map((c, idx) => (
-										<AuctionCard key={c.id || `auction_${idx}`} position={position} challenge={c} />
-									))}
-								</div>
-							)}
+						<AppCard className="p-4 flex flex-col gap-y-4 border border-card-input-border">
+							<div className="gap-2">
+								<div className="text-base font-bold mb-1">Collateral Details</div>
+								<StatRow label="Balance">
+									{formatCurrency(formatUnits(BigInt(position.collateralBalance), position.collateralDecimals))}{" "}
+									{position.collateralSymbol}
+								</StatRow>
+								<StatRow label="Min. Collateral">
+									{formatCurrency(formatUnits(BigInt(position.minimumCollateral), position.collateralDecimals))}{" "}
+									{position.collateralSymbol}
+								</StatRow>
+								<StatRow label="Liquidation Price">
+									{formatCurrency(formatUnits(BigInt(position.price), priceDigit))} ZCHF
+								</StatRow>
+								<StatRow label="Nominal LTV">
+									<span
+										className={
+											nominalLTV > 90
+												? "text-card-content-highlight"
+												: nominalLTV > 80
+												? "text-text-warning"
+												: "text-text-success"
+										}
+									>
+										{formatCurrency(nominalLTV, 2, 2)}%
+									</span>
+								</StatRow>
+							</div>
 						</AppCard>
+
+						<AppCard className="p-4 flex flex-col gap-y-4 border border-card-input-border">
+							<div className="gap-2">
+								<div className="text-base font-bold mb-1">Terms</div>
+								<StatRow label="Annual Interest">{formatCurrency(position.annualInterestPPM / 10000, 2, 2)}%</StatRow>
+								<StatRow label="Reserve Requirement">{formatCurrency(position.reserveContribution / 10000, 2, 2)}%</StatRow>
+								<StatRow label="Auction Duration">{position.challengePeriod / 3600} hours</StatRow>
+							</div>
+						</AppCard>
+
+						<AppCard className="p-4 flex flex-col gap-y-4 border border-card-input-border">
+							<div className="gap-2">
+								<div className="text-base font-bold mb-1">Lifecycle</div>
+								<StatRow label="Start">{formatDateTime(position.isOriginal ? position.start : position.created)}</StatRow>
+								<StatRow label="Expiration">
+									<span className={position.closed ? "text-card-content-highlight" : ""}>
+										{position.closed ? "Closed" : formatDateTime(position.expiration)}
+									</span>
+								</StatRow>
+								{isSubjectToCooldown() && (
+									<StatRow label="Cooldown Until">
+										<span className="text-amber-400">{formatDateTime(position.cooldown)}</span>
+									</StatRow>
+								)}
+							</div>
+						</AppCard>
+
+						{isSubjectToCooldown() && (
+							<AppCard className="p-4 flex flex-col gap-y-4 border border-card-input-border">
+								<div className="gap-2">
+									<div className="text-base font-bold text-amber-400 mb-1">Cooldown Active</div>
+									<p className="text-text-secondary text-sm leading-relaxed">
+										The owner recently raised the liquidation price. This position is in a cooldown period until{" "}
+										<span className="text-text-primary font-medium">{formatDateTime(position.cooldown)}</span>. During this
+										time the position can be challenged before additional ZCHF can be minted.
+									</p>
+								</div>
+							</AppCard>
+						)}
+
+						<div className={isSubjectToCooldown() ? "" : "md:col-span-2"}>
+							<AppCard className="p-4 flex flex-col gap-y-4 border border-card-input-border">
+								<AppTitle
+									className="!pt-0"
+									classNameTitle="text-base"
+									title="Active Auctions"
+									badges={[
+										{
+											label: String(challengesActive.length),
+											className:
+												challengesActive.length > 0
+													? "bg-red-500/20 text-red-400"
+													: "bg-card-content-primary text-text-secondary",
+										},
+									]}
+								/>
+								{challengesActive.length === 0 ? (
+									<p className="text-text-secondary text-sm">This position is currently not being challenged.</p>
+								) : (
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+										{challengesActive.map((c, idx) => (
+											<AuctionCard key={c.id || `auction_${idx}`} position={position} challenge={c} />
+										))}
+									</div>
+								)}
+							</AppCard>
+						</div>
 					</div>
 				</div>
 

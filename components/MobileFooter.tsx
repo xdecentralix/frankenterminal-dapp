@@ -2,10 +2,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faBook, faBookmark, faCodeCommit, faComments } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBookmark, faComments } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faTelegram, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { SOCIAL } from "@utils";
-import { version } from "../package.json";
+import { reopenCookieConsent } from "./CookieConsentBanner";
 
 function useDynamicDocs(): string {
 	const p = usePathname();
@@ -46,8 +46,6 @@ function SocialIcon({ href, icon, title }: SocialIconProps) {
 }
 
 export default function MobileFooter() {
-	const isTestnet = process.env.NEXT_PUBLIC_PROFILE == "testnet";
-	const buildLabel = `v${version} · ${isTestnet ? "DEV" : "PROD"}`;
 	const docsLink = useDynamicDocs();
 
 	return (
@@ -64,40 +62,48 @@ export default function MobileFooter() {
 			</div>
 
 			<div className="text-center leading-relaxed">
-				<div>
-					independent fork <span className="text-card-content-highlight/60">·</span> not affiliated with the Frankencoin
-					Association
-				</div>
-				<div className="mt-1 break-words">
-					<span>canonical </span>
+				<div className="break-words">
 					<Link
 						href="https://app.frankencoin.com"
 						target="_blank"
 						rel="noreferrer"
 						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight"
 					>
-						app.frankencoin.com
+						canonical
 					</Link>{" "}
-					<span className="text-card-content-highlight/60">·</span> <span>source </span>
+					<span className="text-card-content-highlight/60">·</span>{" "}
 					<Link
 						href="https://github.com/xdecentralix/frankenterminal-dapp"
 						target="_blank"
 						rel="noreferrer"
 						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight"
 					>
-						xdecentralix/frankenterminal-dapp
-					</Link>
-					<span className="text-card-content-highlight animate-ft-blink">_</span>
+						source
+					</Link>{" "}
+					<span className="text-card-content-highlight/60">·</span>{" "}
+					<Link
+						href="/terms"
+						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight"
+					>
+						terms
+					</Link>{" "}
+					<span className="text-card-content-highlight/60">·</span>{" "}
+					<Link
+						href="/privacy"
+						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight"
+					>
+						privacy
+					</Link>{" "}
+					<span className="text-card-content-highlight/60">·</span>{" "}
+					<button
+						type="button"
+						onClick={() => reopenCookieConsent()}
+						className="text-text-primary uppercase tracking-[0.14em] underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight"
+					>
+						cookies
+					</button>
+					<span className="text-card-content-highlight animate-ft-blink ml-1">_</span>
 				</div>
-				<Link
-					href={SOCIAL.Github_dapp}
-					target="_blank"
-					rel="noreferrer"
-					className="inline-flex items-center gap-2 mt-3 text-text-secondary hover:text-card-content-highlight"
-				>
-					<FontAwesomeIcon icon={faCodeCommit} className="w-3 h-3" />
-					<span>{buildLabel}</span>
-				</Link>
 			</div>
 		</footer>
 	);

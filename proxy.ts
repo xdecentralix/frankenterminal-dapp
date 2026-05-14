@@ -27,7 +27,7 @@ const GATED_RESPONSE_HEADERS: Record<string, string> = {
 	"referrer-policy": "no-referrer",
 };
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
 	// 1. Geoblock — runs first so sanctioned jurisdictions cannot bypass
 	// via the magic-link query param.
 	//
