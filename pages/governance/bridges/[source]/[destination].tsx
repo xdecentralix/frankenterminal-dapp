@@ -14,6 +14,7 @@ import AppToggle from "@components/AppToggle";
 import AppButton from "@components/AppButton";
 import ChainBySelect from "@components/Input/ChainBySelect";
 import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
+import GuardQualifiedVoter from "@components/Guards/GuardQualifiedVoter";
 import NormalInput from "@components/Input/NormalInput";
 import { renderErrorTxToastDecode, TxToast } from "@components/TxToast";
 import { useDelegationHelpers } from "@hooks";
@@ -279,10 +280,10 @@ export default function CCIPRateLimitPage() {
 	return (
 		<>
 			<Head>
-				<title>Frankenterminal · CCIP Rate Limit</title>
+				<title>Frankenterminal · CCIP Rate Limits</title>
 			</Head>
 
-			<AppTitle title="CCIP Rate Limit">
+			<AppTitle title="CCIP Rate Limits">
 				<div className="text-text-secondary">
 					Configure the incoming and outgoing CCIP rate limits on{" "}
 					<span className="font-medium text-text-primary">{sourceChain.name}</span> for transfers to and from{" "}
@@ -295,7 +296,7 @@ export default function CCIPRateLimitPage() {
 						external={true}
 						className="inline"
 					/>
-					{" for details. Changes take effect immediately and require a qualified voter."}
+					{" for details. Changes take effect immediately — no timelock — but require a qualified FPS voter."}
 				</div>
 			</AppTitle>
 
@@ -372,7 +373,7 @@ export default function CCIPRateLimitPage() {
 
 			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
 				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary mb-2">NEW RATE LIMITS</div>
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary mb-2">RATE LIMITS</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 					<RateLimitForm
@@ -398,11 +399,13 @@ export default function CCIPRateLimitPage() {
 				</div>
 
 				<div className="mt-4 md:max-w-md md:ml-auto">
-					<GuardSupportedChain chainId={sourceChainId}>
-						<AppButton isLoading={isSubmitting} onClick={handleSubmit}>
-							Apply rate limits
-						</AppButton>
-					</GuardSupportedChain>
+					<GuardQualifiedVoter>
+						<GuardSupportedChain chainId={sourceChainId}>
+							<AppButton isLoading={isSubmitting} onClick={handleSubmit}>
+								Apply Rate Limits
+							</AppButton>
+						</GuardSupportedChain>
+					</GuardQualifiedVoter>
 				</div>
 			</div>
 		</>
