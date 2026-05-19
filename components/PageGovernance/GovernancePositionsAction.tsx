@@ -10,6 +10,7 @@ import { Address } from "viem";
 import { PositionQuery } from "@frankencoin/api";
 import { EquityABI, PositionV1ABI, PositionV2ABI } from "@frankencoin/zchf";
 import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
+import GuardQualifiedVoter from "@components/Guards/GuardQualifiedVoter";
 import { mainnet } from "viem/chains";
 import { useDelegationHelpers } from "@hooks";
 
@@ -75,7 +76,7 @@ export default function GovernancePositionsAction({ position, disabled }: Props)
 	};
 
 	return (
-		<div className="">
+		<GuardQualifiedVoter disabled={isHidden || disabled}>
 			<GuardSupportedChain label="Connect" disabled={isHidden || disabled} chain={mainnet}>
 				<AppButtonSecondary
 					className="h-10"
@@ -86,6 +87,6 @@ export default function GovernancePositionsAction({ position, disabled }: Props)
 					Deny
 				</AppButtonSecondary>
 			</GuardSupportedChain>
-		</div>
+		</GuardQualifiedVoter>
 	);
 }

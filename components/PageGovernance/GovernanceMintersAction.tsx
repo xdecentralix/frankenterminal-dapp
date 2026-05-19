@@ -19,6 +19,7 @@ import {
 	SupportedChainsMap,
 } from "@frankencoin/zchf";
 import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
+import GuardQualifiedVoter from "@components/Guards/GuardQualifiedVoter";
 import { useDelegationHelpers } from "@hooks";
 
 interface Props {
@@ -85,7 +86,7 @@ export default function GovernanceMintersAction({ minter, disabled }: Props) {
 	};
 
 	return (
-		<div className="">
+		<GuardQualifiedVoter disabled={isHidden || disabled}>
 			<GuardSupportedChain label="Connect" disabled={isHidden || disabled} chain={SupportedChainsMap[chainId] as Chain}>
 				<AppButtonSecondary
 					className="h-10"
@@ -96,6 +97,6 @@ export default function GovernanceMintersAction({ minter, disabled }: Props) {
 					Veto
 				</AppButtonSecondary>
 			</GuardSupportedChain>
-		</div>
+		</GuardQualifiedVoter>
 	);
 }
