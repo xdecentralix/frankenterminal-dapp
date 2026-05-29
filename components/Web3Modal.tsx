@@ -22,11 +22,11 @@ const modal = createAppKit({
 	},
 	themeMode: "dark",
 	themeVariables: {
-		"--w3m-font-family": "var(--font-ft-mono), monospace",
-		"--w3m-accent": "#00FF41",
-		"--w3m-border-radius-master": "2px",
-		"--w3m-color-mix": "#0A0A0A",
-		"--w3m-color-mix-strength": 20,
+		"--apkt-font-family": "var(--font-ft-mono), monospace",
+		"--apkt-accent": "#00FF41",
+		"--apkt-border-radius-master": "2px",
+		"--apkt-color-mix": "#0A0A0A",
+		"--apkt-color-mix-strength": 20,
 	},
 });
 
@@ -35,7 +35,7 @@ export default function Web3ModalProvider({ children, initialState }: { children
 
 	useEffect(() => {
 		modal.setThemeVariables({
-			"--w3m-accent": themeAccent,
+			"--apkt-accent": themeAccent,
 		});
 	}, [themeAccent]);
 
