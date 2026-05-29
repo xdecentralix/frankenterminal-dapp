@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { PositionQuery, ChallengesQueryItem } from "@frankencoin/api";
-import { Address, formatUnits, parseEther } from "viem";
+import { Address, formatUnits, parseEther, parseUnits } from "viem";
 import TokenInput from "@components/Input/TokenInput";
 import AppButton from "@components/AppButton";
 import AppLink from "@components/AppLink";
@@ -16,6 +16,18 @@ import { ADDRESS, FrankencoinABI, MintingHubV1ABI, MintingHubV2ABI } from "@fran
 import { toast } from "react-toastify";
 import { track } from "@hooks";
 import { mainnet } from "viem/chains";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function fmtDate(d: Date): string {
+	const day = d.getDate();
+	const mon = MONTHS[d.getMonth()];
+	const yr = d.getFullYear();
+	const hh = String(d.getHours()).padStart(2, "0");
+	const mm = String(d.getMinutes()).padStart(2, "0");
+	const ss = String(d.getSeconds()).padStart(2, "0");
+	return `${day} ${mon} ${yr} ${hh}:${mm}:${ss}`;
+}
 
 interface Props {
 	position: PositionQuery;
@@ -83,6 +95,27 @@ export default function AuctionBidAction({ position, challenge, auctionPrice, on
 	}, [isInit, amount, auctionPrice, userBalance, challenge]);
 
 	const remainingSize = BigInt(challenge.size) - BigInt(challenge.filledSize);
+
+	const AVG_BLOCK_TIME_MS = 12_000; // Ethereum mainnet PoS
+	const priceDigits = 36 - position.collateralDecimals;
+	const marketPriceBigInt = marketPriceChf !== undefined ? parseUnits(marketPriceChf.toFixed(6), priceDigits) : undefined;
+	const endTimeMs = (parseInt(challenge.start.toString()) + parseInt(challenge.duration.toString())) * 1000;
+	const remainingMs = Math.max(0, endTimeMs - Date.now());
+
+	let marketReachedAt: string = "—";
+	let estimatedBlockStr: string = "—";
+	if (marketPriceBigInt !== undefined && auctionPrice > 0n) {
+		if (auctionPrice <= marketPriceBigInt) {
+			marketReachedAt = "Now";
+			estimatedBlockStr = data !== undefined ? `#${Number(data).toLocaleString()}` : "—";
+		} else if (remainingMs > 0) {
+			const msUntilMarket = Number((BigInt(remainingMs) * (auctionPrice - marketPriceBigInt)) / auctionPrice);
+			marketReachedAt = fmtDate(new Date(Date.now() + msUntilMarket));
+			if (data !== undefined) {
+				estimatedBlockStr = `#${Number(data) + Math.round(msUntilMarket / AVG_BLOCK_TIME_MS)}`;
+			}
+		}
+	}
 
 	// @dev: issues with amount conversion from string input. Reconvert to bigint.
 	const expectedZCHF = (BigInt(amount) * auctionPrice) / parseEther("1");
@@ -184,6 +217,14 @@ export default function AuctionBidAction({ position, challenge, auctionPrice, on
 					<span className="text-text-primary font-medium">
 						{marketPriceChf !== undefined ? `${formatCurrency(marketPriceChf, 2, 2)} ZCHF` : "—"}
 					</span>
+				</div>
+				<div className="flex justify-between items-center">
+					<span className="text-text-secondary">Reaches market price</span>
+					<span className="text-text-primary font-medium">{marketReachedAt}</span>
+				</div>
+				<div className="flex justify-between items-center">
+					<span className="text-text-secondary">Est. block</span>
+					<span className="text-text-primary font-medium">{estimatedBlockStr}</span>
 				</div>
 				<div className="flex justify-between items-center">
 					<span className="text-text-secondary">Initially available</span>
