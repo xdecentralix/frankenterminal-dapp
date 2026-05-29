@@ -119,6 +119,16 @@ export default function StatusBar({ onOpenPalette }: Props) {
 					>
 						cookies
 					</button>
+					<span className="text-card-content-highlight/60">·</span>
+					<Link
+						href="https://www.coingecko.com?utm_source=frankenterminal&utm_medium=referral"
+						target="_blank"
+						rel="noreferrer"
+						title="Price data by CoinGecko"
+						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight hover:decoration-card-content-highlight transition-colors"
+					>
+						price data by CoinGecko
+					</Link>
 					<span className="text-card-content-highlight animate-ft-blink">_</span>
 				</div>
 

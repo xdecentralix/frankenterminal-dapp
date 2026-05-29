@@ -101,7 +101,17 @@ export default function MobileFooter() {
 						className="text-text-primary uppercase tracking-[0.14em] underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight"
 					>
 						cookies
-					</button>
+					</button>{" "}
+					<span className="text-card-content-highlight/60">·</span>{" "}
+					<Link
+						href="https://www.coingecko.com?utm_source=frankenterminal&utm_medium=referral"
+						target="_blank"
+						rel="noreferrer"
+						title="Price data by CoinGecko"
+						className="text-text-primary underline decoration-card-content-highlight/40 underline-offset-2 hover:text-card-content-highlight"
+					>
+						price data by CoinGecko
+					</Link>
 					<span className="text-card-content-highlight animate-ft-blink ml-1">_</span>
 				</div>
 			</div>
