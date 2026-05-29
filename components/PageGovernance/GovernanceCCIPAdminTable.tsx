@@ -41,18 +41,18 @@ export default function GovernanceCCIPAdminTable() {
 	return (
 		<Table>
 			<div className="rounded-t-lg bg-table-header-primary">
-				<div className="flex flex-wrap items-center gap-2 px-8 xl:px-12 py-3 border-b border-table-header-secondary">
+				<div className="flex flex-wrap items-center gap-2 px-8 xl:px-12 py-3 border-b border-card-input-border">
 					<div className="flex items-center gap-2 ml-auto">
-						<span className="text-sm font-semibold text-text-secondary">Status</span>
-						<div className="flex gap-1">
+						<span className="text-xs font-semibold uppercase tracking-[0.12em] text-text-secondary">Status</span>
+						<div className="flex gap-1.5">
 							{STATUS_OPTIONS.map((s) => (
 								<button
 									key={s}
 									onClick={() => setStatusFilter(s)}
-									className={`px-3 py-1 rounded text-xs font-semibold transition-colors ${
+									className={`px-3 py-1.5 rounded-sm border text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
 										statusFilter === s
-											? "bg-button-default text-white"
-											: "bg-white text-text-secondary border border-gray-200 hover:border-gray-400"
+											? "border-card-content-highlight text-card-content-highlight bg-card-content-highlight/10 shadow-glow-accent"
+											: "border-card-input-border text-text-secondary hover:border-card-content-highlight hover:text-card-content-highlight hover:bg-card-content-highlight/10 hover:shadow-glow-accent"
 									}`}
 								>
 									{s}
