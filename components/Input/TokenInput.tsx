@@ -88,11 +88,11 @@ export default function TokenInput({
 						}`}
 					>
 						{output ? (
-							<div className={`text-3xl py-0 bg-transparent`}>{output}</div>
+							<div className={`text-xl py-0 bg-transparent`}>{output}</div>
 						) : (
 							<BigNumberInput
 								inputRefChild={inputRef}
-								className={`w-full px-0 py-0 text-3xl ${disabled ? "bg-card-input-disabled" : ""}`}
+								className={`w-full px-0 py-0 text-xl ${disabled ? "bg-card-input-disabled" : ""}`}
 								decimals={Number(digit)}
 								placeholder={placeholder}
 								value={value || ""}

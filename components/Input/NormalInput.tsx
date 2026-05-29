@@ -57,11 +57,11 @@ export default function NormalInput({
 						}`}
 					>
 						{output ? (
-							<div className={`text-3xl py-0 bg-transparent`}>{output}</div>
+							<div className={`text-xl py-0 bg-transparent`}>{output}</div>
 						) : (
 							<BigNumberInput
 								inputRefChild={inputRef}
-								className={`w-full px-0 py-0 text-3xl text-right ${
+								className={`w-full px-0 py-0 text-xl text-right ${
 									disabled ? "bg-layout-primary" : "bg-card-body-primary"
 								}`}
 								decimals={Number(digit)}

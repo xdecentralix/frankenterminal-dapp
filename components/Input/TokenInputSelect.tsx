@@ -94,11 +94,11 @@ export default function TokenInputSelect({
 						}`}
 					>
 						{output ? (
-							<div className={`text-3xl py-0 bg-transparent`}>{output}</div>
+							<div className={`text-xl py-0 bg-transparent`}>{output}</div>
 						) : (
 							<BigNumberInput
 								inputRefChild={inputRef}
-								className={`w-full px-0 py-0 text-3xl bg-transparent`}
+								className={`w-full px-0 py-0 text-xl bg-transparent`}
 								decimals={Number(digit)}
 								placeholder={placeholder}
 								value={value || ""}
