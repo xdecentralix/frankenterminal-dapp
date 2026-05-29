@@ -3,29 +3,34 @@ import WalletConnect from "./WalletConnect";
 import NavButton from "./NavButton";
 import { useState } from "react";
 import { useConnection } from "wagmi";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { track } from "../hooks/useAnalytics";
 import TopStatsBar from "./TopStatsBar";
 
-const MAIN_ITEMS = [
+type NavItem = { to: string; name: string; icon?: IconProp };
+
+const MAIN_ITEMS: NavItem[] = [
+	{ to: "/", name: "Home", icon: faHouse },
 	{ to: "/mint", name: "Borrow" },
 	{ to: "/mypositions", name: "Positions" },
 	{ to: "/savings", name: "Earn" },
 	{ to: "/equity", name: "Invest" },
 ];
 
-const UTILITY_ITEMS = [
+const UTILITY_ITEMS: NavItem[] = [
 	{ to: "/transfer", name: "Transfer" },
 	{ to: "/monitoring", name: "Monitoring" },
 	{ to: "/governance", name: "Governance" },
 	{ to: "/report", name: "Report" },
 ];
 
-export function NavItems({ items, variant = "primary" }: { items: typeof MAIN_ITEMS; variant?: "primary" | "utility" }) {
+export function NavItems({ items, variant = "primary" }: { items: NavItem[]; variant?: "primary" | "utility" }) {
 	return (
 		<>
 			{items.map((item) => (
 				<li key={item.to}>
-					<NavButton to={item.to} name={item.name} variant={variant} />
+					<NavButton to={item.to} name={item.name} variant={variant} icon={item.icon} />
 				</li>
 			))}
 		</>

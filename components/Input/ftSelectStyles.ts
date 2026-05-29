@@ -22,13 +22,15 @@ export type FtSelectOptions = {
 	activeValue?: string | null;
 	/** When true, render the control as visually disabled (lower opacity). */
 	invertColors?: boolean;
+	/** Optional font size (e.g. "0.8rem") applied to the control text and options. */
+	fontSize?: string;
 };
 
-export function ftSelectStyles<Option extends { value: string }>({ activeValue, invertColors = false }: FtSelectOptions = {}): StylesConfig<
-	Option,
-	false,
-	GroupBase<Option>
-> {
+export function ftSelectStyles<Option extends { value: string }>({
+	activeValue,
+	invertColors = false,
+	fontSize,
+}: FtSelectOptions = {}): StylesConfig<Option, false, GroupBase<Option>> {
 	return {
 		indicatorSeparator: () => ({
 			display: "none",
@@ -51,6 +53,7 @@ export function ftSelectStyles<Option extends { value: string }>({ activeValue, 
 			borderWidth: "1px",
 			borderRadius: "2px",
 			minHeight: "2.25rem",
+			fontSize: fontSize ?? baseStyles.fontSize,
 			boxShadow: state.isFocused ? `0 0 0 1px ${FT_RED}, 0 0 12px ${FT_RED_HALO}` : "none",
 			opacity: invertColors ? 0.55 : 1,
 			transition: "border-color 150ms ease-out, box-shadow 150ms ease-out",
@@ -62,6 +65,7 @@ export function ftSelectStyles<Option extends { value: string }>({ activeValue, 
 				...baseStyles,
 				backgroundColor: state.isFocused ? FT_RED_TINT : "transparent",
 				color: isSelected ? FT_RED : FT_TEXT_PRIMARY,
+				fontSize: fontSize ?? baseStyles.fontSize,
 				borderLeft: `2px solid ${isSelected || state.isFocused ? FT_RED : "transparent"}`,
 				paddingLeft: "0.625rem",
 				cursor: "pointer",
@@ -72,14 +76,17 @@ export function ftSelectStyles<Option extends { value: string }>({ activeValue, 
 		singleValue: (baseStyles) => ({
 			...baseStyles,
 			color: FT_TEXT_PRIMARY,
+			fontSize: fontSize ?? baseStyles.fontSize,
 		}),
 		placeholder: (baseStyles) => ({
 			...baseStyles,
 			color: FT_TEXT_SECONDARY,
+			fontSize: fontSize ?? baseStyles.fontSize,
 		}),
 		input: (baseStyles) => ({
 			...baseStyles,
 			color: FT_TEXT_PRIMARY,
+			fontSize: fontSize ?? baseStyles.fontSize,
 		}),
 		menu: (baseStyles) => ({
 			...baseStyles,

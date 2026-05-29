@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { track } from "../hooks/useAnalytics";
 
 interface Props {
@@ -7,11 +9,12 @@ interface Props {
 	name: string;
 	external?: boolean;
 	variant?: "primary" | "utility";
+	icon?: IconProp;
 }
 
-export default function NavButton({ to, name, external, variant = "primary" }: Props) {
+export default function NavButton({ to, name, external, variant = "primary", icon }: Props) {
 	const router = useRouter();
-	const active = router.pathname.includes(to);
+	const active = to === "/" ? router.pathname === "/" : router.pathname.includes(to);
 	const umamiEvent = "nav_" + name.toLowerCase().replace(/\s+/g, "_");
 
 	const isUtility = variant === "utility";
@@ -30,8 +33,16 @@ export default function NavButton({ to, name, external, variant = "primary" }: P
 			href={to}
 			target={external ? "_blank" : "_self"}
 			onClick={() => track(umamiEvent)}
+			aria-label={name}
+			title={icon ? name : undefined}
 		>
-			<span>{name}</span>
+			{icon && (
+				<span className="flex items-center h-6 max-md:mr-3">
+					<FontAwesomeIcon icon={icon} className="w-[18px] h-[18px]" />
+				</span>
+			)}
+			{/* icon-only on desktop, icon + label in the mobile sidebar */}
+			<span className={icon ? "md:hidden" : ""}>{name}</span>
 			{/* underline accent for active item */}
 			{!isUtility && (
 				<span

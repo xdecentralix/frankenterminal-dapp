@@ -19,6 +19,7 @@ interface ChainBySelectProps {
 	prefixLabel?: string;
 	tokenLogo?: string;
 	isClearable?: boolean;
+	compact?: boolean;
 }
 
 export default function ChainBySelect({
@@ -31,6 +32,7 @@ export default function ChainBySelect({
 	prefixLabel,
 	tokenLogo,
 	isClearable = false,
+	compact = false,
 }: ChainBySelectProps) {
 	const options = chains.map((o): OptionEntry => {
 		return { value: o, label: o, reverse };
@@ -42,8 +44,10 @@ export default function ChainBySelect({
 		if (typeof chainOnChange == "function") chainOnChange(value?.value ?? null);
 	};
 
+	const logoSize = compact ? 4 : 5;
+
 	return (
-		<div className="flex items-center w-full px-2 max-md:py-2">
+		<div className={`flex items-center w-full max-md:py-2 ${compact ? "px-1.5" : "px-2"}`}>
 			<Select
 				className="-mr-3 w-full"
 				options={options}
@@ -51,7 +55,7 @@ export default function ChainBySelect({
 				value={active}
 				onChange={handleOnChange}
 				isClearable={isClearable}
-				styles={ftSelectStyles<OptionEntry>({ activeValue: chain, invertColors })}
+				styles={ftSelectStyles<OptionEntry>({ activeValue: chain, invertColors, fontSize: compact ? "0.8rem" : undefined })}
 				components={{
 					Option: ({ children, ...props }) => (
 						<components.Option {...props}>
@@ -66,9 +70,9 @@ export default function ChainBySelect({
 							<div className="flex flex-row items-center gap-2 overflow-hidden">
 								<div className="flex-shrink-0">
 									{tokenLogo ? (
-										<TokenLogo currency={tokenLogo} chain={props.data.label} size={5} />
+										<TokenLogo currency={tokenLogo} chain={props.data.label} size={logoSize} />
 									) : (
-										<ChainLogo chain={props.data.label.toLowerCase()} size={5} />
+										<ChainLogo chain={props.data.label.toLowerCase()} size={logoSize} />
 									)}
 								</div>
 								<div className="truncate">{`${prefixLabel ? prefixLabel + " " : ""}${props.data.label}`}</div>
