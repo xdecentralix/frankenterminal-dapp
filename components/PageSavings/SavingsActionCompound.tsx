@@ -13,8 +13,9 @@ import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
 
 interface Props {
 	savingsModule: Address;
-	balance: bigint;
-	change: bigint;
+	amount: bigint;
+	interest: bigint;
+	netInterest: bigint;
 	disabled?: boolean;
 	setLoaded?: Dispatch<SetStateAction<boolean>>;
 	newReferrer?: Address | undefined;
@@ -22,15 +23,16 @@ interface Props {
 	label?: string;
 }
 
-export default function SavingsActionWithdraw({
+export default function SavingsActionCompound({
 	savingsModule,
-	balance,
-	change,
+	amount,
+	interest,
+	netInterest,
 	disabled,
 	setLoaded,
 	newReferrer,
 	newReferralFeePPM,
-	label = "Withdraw",
+	label = "Compound interest",
 }: Props) {
 	const [isAction, setAction] = useState<boolean>(false);
 	const [isHidden, setHidden] = useState<boolean>(false);
@@ -50,17 +52,17 @@ export default function SavingsActionWithdraw({
 				chainId: chainId,
 				abi: SavingsABI,
 				functionName: "adjust",
-				args: newReferrer != undefined ? [balance, newReferrer, Number(newReferralFeePPM)] : [balance],
+				args: newReferrer != undefined ? [amount, newReferrer, Number(newReferralFeePPM)] : [amount],
 			});
 
 			const toastContent = [
 				{
-					title: `Saved amount: `,
-					value: `${formatCurrency(formatUnits(balance, 18))} ZCHF`,
+					title: `New savings: `,
+					value: `${formatCurrency(formatUnits(amount, 18))} ZCHF`,
 				},
 				{
-					title: `Withdraw: `,
-					value: `${formatCurrency(formatUnits(change, 18))} ZCHF`,
+					title: `Interest compounded: `,
+					value: `${formatCurrency(formatUnits(netInterest, 18))} ZCHF`,
 				},
 				{
 					title: "Transaction: ",
@@ -70,14 +72,14 @@ export default function SavingsActionWithdraw({
 
 			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: writeHash, confirmations: 1 }), {
 				pending: {
-					render: <TxToast title={`Withdrawing from savings...`} rows={toastContent} />,
+					render: <TxToast title={`Compounding interest...`} rows={toastContent} />,
 				},
 				success: {
-					render: <TxToast title="Successfully withdrawn" rows={toastContent} />,
+					render: <TxToast title="Interest compounded" rows={toastContent} />,
 				},
 			});
 
-			track("savings_withdrawn", { amount: formatUnits(change, 18) });
+			track("interest_compounded", { amount: formatUnits(netInterest, 18) });
 			setHidden(true);
 		} catch (error) {
 			toast.error(renderErrorTxToast(error));

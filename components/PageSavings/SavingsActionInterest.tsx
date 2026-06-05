@@ -16,9 +16,10 @@ interface Props {
 	balance: bigint;
 	interest: bigint;
 	disabled?: boolean;
-	setLoaded?: (val: boolean) => Dispatch<SetStateAction<boolean>>;
+	setLoaded?: Dispatch<SetStateAction<boolean>>;
 	newReferrer?: Address | undefined;
 	newReferralFeePPM: bigint;
+	label?: string;
 }
 
 export default function SavingsActionInterest({
@@ -29,6 +30,7 @@ export default function SavingsActionInterest({
 	setLoaded,
 	newReferrer,
 	newReferralFeePPM,
+	label = "Claim to wallet",
 }: Props) {
 	const [isAction, setAction] = useState<boolean>(false);
 	const [isHidden, setHidden] = useState<boolean>(false);
@@ -91,7 +93,7 @@ export default function SavingsActionInterest({
 	return (
 		<GuardSupportedChain chain={chain}>
 			<AppButton className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={(e) => handleOnClick(e)}>
-				Adjust
+				{label}
 			</AppButton>
 		</GuardSupportedChain>
 	);

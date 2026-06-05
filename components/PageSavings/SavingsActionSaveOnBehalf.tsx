@@ -16,7 +16,7 @@ interface Props {
 	amount: bigint;
 	onBehalf: Address;
 	disabled?: boolean;
-	setLoaded?: (val: boolean) => Dispatch<SetStateAction<boolean>>;
+	setLoaded?: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function SavingsActionSaveOnBehalf({ savingsModule, amount, onBehalf, disabled, setLoaded }: Props) {

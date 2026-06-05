@@ -15,7 +15,7 @@ import { normalizeAddress } from "../../utils/format";
 
 interface Props {
 	disabled?: boolean;
-	setLoaded?: (val: boolean) => Dispatch<SetStateAction<boolean>>;
+	setLoaded?: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function SavingsActionRedeem({ disabled, setLoaded }: Props) {

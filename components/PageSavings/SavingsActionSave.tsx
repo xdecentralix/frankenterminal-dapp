@@ -16,12 +16,22 @@ interface Props {
 	amount: bigint;
 	interest: bigint;
 	disabled?: boolean;
-	setLoaded?: (val: boolean) => Dispatch<SetStateAction<boolean>>;
+	setLoaded?: Dispatch<SetStateAction<boolean>>;
 	newReferrer?: Address | undefined;
 	newReferralFeePPM: bigint;
+	label?: string;
 }
 
-export default function SavingsActionSave({ savingsModule, amount, interest, disabled, setLoaded, newReferrer, newReferralFeePPM }: Props) {
+export default function SavingsActionSave({
+	savingsModule,
+	amount,
+	interest,
+	disabled,
+	setLoaded,
+	newReferrer,
+	newReferralFeePPM,
+	label = "Deposit",
+}: Props) {
 	const [isAction, setAction] = useState<boolean>(false);
 	const [isHidden, setHidden] = useState<boolean>(false);
 	const account = useConnection();
@@ -80,7 +90,7 @@ export default function SavingsActionSave({ savingsModule, amount, interest, dis
 	return (
 		<GuardSupportedChain chain={chain}>
 			<AppButton className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={(e) => handleOnClick(e)}>
-				Adjust
+				{label}
 			</AppButton>
 		</GuardSupportedChain>
 	);

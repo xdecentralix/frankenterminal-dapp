@@ -13,12 +13,14 @@ interface Props {
 	chain: SupportedChain;
 	balance: bigint;
 	change: bigint;
-	direction: boolean;
+	walletDeposit: bigint;
+	walletWithdrawal: bigint;
 	interest: bigint;
 	locktime: bigint;
 	referrer: Address;
 	referralFeePPM: bigint;
 	referralFees: bigint;
+	resultingBalance?: bigint;
 }
 
 export default function SavingsDetailsCard({
@@ -26,12 +28,14 @@ export default function SavingsDetailsCard({
 	chain,
 	balance,
 	change,
-	direction,
+	walletDeposit,
+	walletWithdrawal,
 	interest,
 	locktime,
 	referrer,
 	referralFeePPM,
 	referralFees,
+	resultingBalance,
 }: Props) {
 	const { savingsBalance } = useSelector((state: RootState) => state.savings);
 
@@ -72,12 +76,10 @@ export default function SavingsDetailsCard({
 
 				<div className="flex">
 					<div className="flex-1 text-text-secondary">
-						{direction ? "To be added from your wallet" : "Withdrawn to your wallet"}
+						{walletWithdrawal > 0n ? "Withdrawn to your wallet" : "To be added from your wallet"}
 					</div>
 					<div className="">
-						{change < 0n ? "-" : ""}{" "}
-						{formatCurrency(formatUnits((change < 0n ? -change : change) - (referrer != zeroAddress ? referralFees : 0n), 18))}{" "}
-						ZCHF
+						{formatCurrency(formatUnits(walletWithdrawal > 0n ? walletWithdrawal : walletDeposit, 18))} ZCHF
 					</div>
 				</div>
 
@@ -95,7 +97,7 @@ export default function SavingsDetailsCard({
 
 				<div className="flex font-bold">
 					<div className="flex-1 text-text-secondary">Resulting balance</div>
-					<div className="">{formatCurrency(formatUnits(balance + change + interest, 18))} ZCHF</div>
+					<div className="">{formatCurrency(formatUnits(resultingBalance ?? balance + change + interest, 18))} ZCHF</div>
 				</div>
 
 				<div className="flex mt-8">
