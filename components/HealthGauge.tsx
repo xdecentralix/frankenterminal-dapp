@@ -18,25 +18,37 @@ const BAND_FILL: Record<HealthBand, string> = {
 	neutral: "bg-card-input-border",
 };
 
-const BAND_TEXT: Record<HealthBand, string> = {
+export const BAND_TEXT: Record<HealthBand, string> = {
 	safe: "text-text-success",
 	watch: "text-text-warning",
 	danger: "text-text-danger ft-glow-red",
 	neutral: "text-text-secondary",
 };
 
-const BAND_LABEL: Record<HealthBand, string> = {
+export const BAND_LABEL: Record<HealthBand, string> = {
 	safe: "SAFE",
 	watch: "WATCH",
 	danger: "DANGER",
 	neutral: "—",
 };
 
+export const LIQUIDATION_HEALTH_DANGER_BELOW = 110;
+export const LIQUIDATION_HEALTH_WATCH_BELOW = 130;
+
 export function classifyHealth(bufferPct: number, isChallenged = false): HealthBand {
 	if (isChallenged) return "danger";
 	if (!isFinite(bufferPct)) return "neutral";
 	if (bufferPct < 10) return "danger";
 	if (bufferPct < 30) return "watch";
+	return "safe";
+}
+
+/** Market price / liquidation price, as displayed on position rows (e.g. 129% = WATCH). */
+export function classifyLiquidationPct(liquidationPct: number, isChallenged = false): HealthBand {
+	if (isChallenged) return "danger";
+	if (!isFinite(liquidationPct)) return "neutral";
+	if (liquidationPct < LIQUIDATION_HEALTH_DANGER_BELOW) return "danger";
+	if (liquidationPct < LIQUIDATION_HEALTH_WATCH_BELOW) return "watch";
 	return "safe";
 }
 

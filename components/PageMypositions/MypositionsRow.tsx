@@ -8,6 +8,7 @@ import MyPositionsDisplayCollateral from "./MyPositionsDisplayCollateral";
 import { useRouter as useNavigate } from "next/navigation";
 import AppButtonSecondary from "@components/AppButtonSecondary";
 import AppBox from "@components/AppBox";
+import { BAND_LABEL, BAND_TEXT, classifyLiquidationPct } from "@components/HealthGauge";
 
 interface Props {
 	headers: string[];
@@ -57,21 +58,13 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 	const isClosedOrCooldown = position.closed || position.denied || position.cooldown * 1000 > Date.now();
 	const isChallenged = positionChallengesActive.length > 0;
 
-	let healthColor = "text-text-secondary";
-	let healthLabel = "—";
-
-	if (!isClosedOrCooldown) {
-		if (isChallenged || maturity <= 0 || liquidationPct < 110) {
-			healthColor = "text-text-danger ft-glow-red";
-			healthLabel = "DANGER";
-		} else if (liquidationPct <= 120) {
-			healthColor = "text-text-warning";
-			healthLabel = "WATCH";
-		} else {
-			healthColor = "text-text-success";
-			healthLabel = "SAFE";
-		}
-	}
+	const healthBand = !isClosedOrCooldown
+		? maturity <= 0
+			? ("danger" as const)
+			: classifyLiquidationPct(liquidationPct, isChallenged)
+		: ("neutral" as const);
+	const healthColor = BAND_TEXT[healthBand];
+	const healthLabel = BAND_LABEL[healthBand];
 
 	const states: string[] = ["Closed", "Challenged", "New Request", "Cooldown", "Expiring Soon", "Expired", "Open"];
 	let stateIdx: number = states.length;

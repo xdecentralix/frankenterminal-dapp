@@ -6,6 +6,7 @@ import { RootState } from "../../redux/redux.store";
 import AppKpiTile from "@components/AppKpiTile";
 import { formatCurrency, FormatType, normalizeAddress } from "@utils";
 import { ChallengesQueryItem } from "@frankencoin/api";
+import { classifyLiquidationPct } from "@components/HealthGauge";
 
 export default function MyPositionsPortfolioHeader() {
 	const positions = useSelector((state: RootState) => state.positions.openPositions);
@@ -73,14 +74,13 @@ export default function MyPositionsPortfolioHeader() {
 		} else if (days <= 0) {
 			dangerCount++;
 		} else {
-			// Health by liquidation distance
 			const liqPrice = parseFloat(formatUnits(BigInt(p.price), 36 - p.collateralDecimals));
-			const oraclePrice = collPriceChf;
-			const buffer = oraclePrice > 0 ? ((oraclePrice - liqPrice) / oraclePrice) * 100 : 0;
+			const liquidationPct = liqPrice > 0 ? (collPriceChf / liqPrice) * 100 : NaN;
+			const band = classifyLiquidationPct(liquidationPct);
 
-			if (buffer < 10) dangerCount++;
-			else if (buffer < 30) watchCount++;
-			else safeCount++;
+			if (band === "danger") dangerCount++;
+			else if (band === "watch") watchCount++;
+			else if (band === "safe") safeCount++;
 		}
 	}
 
