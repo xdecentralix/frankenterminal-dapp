@@ -24,7 +24,7 @@ import { useAppKitNetwork } from "@reown/appkit/react";
 // Frankenterminal defaults: every savings deposit is referred to the maintainer
 // at 10% of the user's accrued interest unless the URL explicitly
 // overrides ?referrer / ?referralFeePPM. Disclosed on the savings page.
-const DEFAULT_REFERRER: Address = "0xD47dFdb6cd458d24B0813543DE8508a8C84f0F83";
+const DEFAULT_REFERRER: Address = "0xD8c454B002e5e8C5bC36cF4aE9e7F117DFA4F1Cc";
 const DEFAULT_REFERRAL_FEE_PPM: bigint = 100_000n;
 
 export default function SavingsInteractionCard() {
