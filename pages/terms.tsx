@@ -190,8 +190,7 @@ export default function TermsPage() {
 						These Terms are governed by the substantive laws of Switzerland, excluding its conflict-of-laws rules and excluding
 						the United Nations Convention on Contracts for the International Sale of Goods. Subject to any mandatory consumer-
 						protection rules in the User&apos;s country of habitual residence, the exclusive place of jurisdiction for any
-						dispute arising out of or in connection with these Terms is{" "}
-						<code className="text-text-primary">{"{{OPERATOR_SEAT}}"}</code>, Switzerland.
+						dispute arising out of or in connection with these Terms is Zurich, Switzerland.
 					</p>
 				</div>
 
