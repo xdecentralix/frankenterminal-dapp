@@ -130,7 +130,8 @@ export const shortenAddress = (address: Address): string => {
 
 export const transactionLink = (explorerUrl: string | undefined, hash: Hash): string => {
 	try {
-		return explorerUrl + "/tx/" + hash;
+		const base = explorerUrl || "https://etherscan.io";
+		return `${base}/tx/${hash}`;
 	} catch {
 		throw new TypeError("Invalid input, Hash can't be parsed");
 	}

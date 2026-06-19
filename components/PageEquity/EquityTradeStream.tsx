@@ -1,11 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { formatUnits } from "viem";
-import { mainnet } from "viem/chains";
+import { formatUnits, Hash } from "viem";
+import { SupportedChains } from "@frankencoin/zchf";
 import { useGlobalEquityTrades } from "@hooks";
-import { formatCurrency, shortenAddress, shortenString } from "@utils";
-
-// FPS trades happen on the equity contract on mainnet.
-const ETHERSCAN_BASE = mainnet.blockExplorers?.default.url ?? "https://etherscan.io";
+import { formatCurrency, shortenAddress, shortenString, TxUrl } from "@utils";
 
 interface Props {
 	className?: string;
@@ -62,7 +59,7 @@ export default function EquityTradeStream({ className, limit = 50 }: Props) {
 							const isInvest = t.kind === "Invested";
 							const flash = "";
 							const isLast = idx === trades.length - 1;
-							const txUrl = `${ETHERSCAN_BASE}/tx/${t.txHash}`;
+							const txUrl = TxUrl(t.txHash as Hash, SupportedChains.mainnet);
 							return (
 								<li
 									key={t.count}

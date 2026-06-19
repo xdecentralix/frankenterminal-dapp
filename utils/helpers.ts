@@ -8,14 +8,18 @@ export const AppUrl = (url: string) => {
 	return path.join(CONFIG.app, url);
 };
 
+const DEFAULT_EXPLORER_URL = "https://etherscan.io";
+
+function blockExplorerUrl(chain: SupportedChain = SupportedChains["mainnet"]): string {
+	return chain?.blockExplorers?.default.url || DEFAULT_EXPLORER_URL;
+}
+
 export const ContractUrl = (address: string, chain: SupportedChain = SupportedChains["mainnet"]) => {
-	const explorerLink = chain?.blockExplorers?.default.url || "https://etherscan.io/";
-	return path.join(explorerLink, "address", address);
+	return `${blockExplorerUrl(chain)}/address/${address}`;
 };
 
 export const TxUrl = (hash: Hash, chain: SupportedChain = SupportedChains["mainnet"]) => {
-	const explorerLink = chain?.blockExplorers?.default.url || "https://etherscan.io/";
-	return path.join(explorerLink, "tx", hash);
+	return `${blockExplorerUrl(chain)}/tx/${hash}`;
 };
 
 export const MorphoMarketUrl = (id: string) => `https://app.morpho.org/ethereum/market/${id}`;
