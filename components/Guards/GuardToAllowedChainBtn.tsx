@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useConnection } from "wagmi";
 import { useAppKit, useAppKitState, useAppKitNetwork } from "@reown/appkit/react";
 import AppButton from "@components/AppButton";
+import { AppKitNetwork } from "@reown/appkit/networks";
 import { useIsConnectedToCorrectChain } from "../../hooks/useWalletConnectStats";
 import { WAGMI_CHAIN } from "../../app.config";
 import { useLegalModal } from "../LegalTermsModalProvider";
@@ -52,7 +53,7 @@ export default function GuardToAllowedChainBtn(props: Props) {
 				className="h-10"
 				disabled={props.disabled}
 				onClick={() => {
-					AppKitNetwork.switchNetwork(WAGMI_CHAIN);
+					AppKitNetwork.switchNetwork(WAGMI_CHAIN as AppKitNetwork);
 					setRequestedChange(true);
 				}}
 			>

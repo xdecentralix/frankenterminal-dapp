@@ -4,14 +4,15 @@ import { useAppKit, useAppKitState, useAppKitNetwork } from "@reown/appkit/react
 import AppButton from "@components/AppButton";
 import { WAGMI_CHAIN, WAGMI_CHAINS } from "../../app.config";
 import { AppKitNetwork } from "@reown/appkit/networks";
-import { ChainId } from "@frankencoin/zchf";
+import { ChainId, SupportedChain } from "@frankencoin/zchf";
+import { Chain } from "viem";
 import { useLegalModal } from "../LegalTermsModalProvider";
 
 interface Props {
 	children?: React.ReactNode;
 	label?: string;
 	disabled?: boolean;
-	chain?: AppKitNetwork;
+	chain?: AppKitNetwork | SupportedChain | Chain;
 	chainId?: ChainId;
 }
 
@@ -63,7 +64,7 @@ export default function GuardSupportedChain({ children, label, disabled, chain, 
 			<AppButton
 				disabled={disabled}
 				onClick={() => {
-					AppKitNetwork.switchNetwork(chain);
+					AppKitNetwork.switchNetwork(chain as AppKitNetwork);
 					setRequestedChange(true);
 				}}
 			>

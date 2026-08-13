@@ -16,6 +16,7 @@ import ReportsYearlyTable from "@components/PageReports/ReportsSavingsYearlyTabl
 import { useSelector } from "react-redux";
 import { getChainByName, normalizeAddress } from "@utils";
 import { useAppKitNetwork } from "@reown/appkit/react";
+import { AppKitNetwork } from "@reown/appkit/networks";
 import { ChainId } from "@frankencoin/zchf";
 
 export default function SavingsPage() {
@@ -53,7 +54,7 @@ export default function SavingsPage() {
 		const targetChain = getChainByName(targetChainToCheck);
 
 		if (targetChain.id != chainId) {
-			AppKitNetwork.switchNetwork(targetChain);
+			AppKitNetwork.switchNetwork(targetChain as AppKitNetwork);
 		}
 
 		setTargetChainName(targetChain.name);

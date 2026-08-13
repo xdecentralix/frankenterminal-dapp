@@ -77,7 +77,7 @@ export const WAGMI_METADATA = {
 	icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 export const WAGMI_ADAPTER = new WagmiAdapter({
-	networks: WAGMI_CHAINS,
+	networks: WAGMI_CHAINS as AppKitNetwork[],
 	transports: {
 		// All chain reads go through the same-origin /api/rpc/<chain> proxy
 		// (see pages/api/rpc/[chain].ts). Upstream URLs and the Alchemy
