@@ -5,3 +5,4 @@ export * from "./format";
 export * from "./math";
 export * from "./helpers";
 export * from "./forceSell";
+export * from "./uniswapV3Math";
