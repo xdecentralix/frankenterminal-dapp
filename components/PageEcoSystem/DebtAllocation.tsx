@@ -6,12 +6,14 @@ import dynamic from "next/dynamic";
 import { formatCurrency, FormatType } from "../../utils/format";
 import { getColors } from "../../utils/constant";
 import { useTheme } from "../ThemeProvider";
+import { useSwapCHFAUStats } from "@hooks";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DebtAllocation() {
 	const { themeAccent } = useTheme();
 	const colors = getColors(themeAccent);
 	const { openPositions } = useSelector((state: RootState) => state.positions);
+	const chfauBridge = useSwapCHFAUStats();
 
 	// Aggregate collateral
 	const byCollateral = new Map<string, bigint>();
@@ -20,6 +22,10 @@ export default function DebtAllocation() {
 		const debt = (BigInt(p.minted) * BigInt(1_000_000 - p.reserveContribution)) / BigInt(1_000_000);
 		byCollateral.set(key, (byCollateral.get(key) ?? 0n) + debt);
 	});
+
+	// @dev: could be excluded since swap bridges repayments are not enforced to repay.
+	// Aggregate swap bridges
+	byCollateral.set("CHFAU", chfauBridge.bridgeMinted);
 
 	const MAX_ITEMS = 10;
 
