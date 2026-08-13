@@ -37,7 +37,6 @@ NEXT_PUBLIC_LANDINGPAGE_URL=https://frankencoin.com
 NEXT_PUBLIC_APP_URL=https://frankenterminal.app
 NEXT_PUBLIC_API_URL=https://api.frankencoin.com
 NEXT_PUBLIC_PONDER_URL=https://ponder.frankencoin.com
-NEXT_PUBLIC_MORPHOGRAPH_URL=https://blue-api.morpho.org/graphql
 NEXT_PUBLIC_PROFILE=mainnet
 NEXT_PUBLIC_WAGMI_ID=your_reown_project_id
 

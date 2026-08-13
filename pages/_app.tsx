@@ -16,7 +16,7 @@ import Web3ModalProvider from "@components/Web3Modal";
 import { LegalTermsModalProvider } from "@components/LegalTermsModalProvider";
 import CookieConsentBanner, { useAnalyticsConsent } from "@components/CookieConsentBanner";
 import { store } from "../redux/redux.store";
-import { MORPHOGRAPH_CLIENT, PONDER_CLIENT } from "../app.config";
+import { PONDER_CLIENT } from "../app.config";
 import BlockUpdater from "@components/BlockUpdater";
 import USGovSanctionList from "@components/USGovSanctionList";
 import { ThemeProvider } from "@components/ThemeProvider";
@@ -59,26 +59,24 @@ export default function App({ Component, pageProps }: AppProps) {
 				<ThemeProvider>
 					<Web3ModalProvider>
 						<LegalTermsModalProvider>
-							<ApolloProvider client={MORPHOGRAPH_CLIENT}>
-								<ApolloProvider client={PONDER_CLIENT}>
-									<ToastContainer
-										className="border-card-content-primary border-2 bg-card-body-primary rounded-lg"
-										toastClassName={(c) => "bg-card-body-primary text-text-primary rounded-lg"}
-										position="bottom-right"
-										hideProgressBar={false}
-										rtl={false}
-										closeButton={false}
-									/>
+							<ApolloProvider client={PONDER_CLIENT}>
+								<ToastContainer
+									className="border-card-content-primary border-2 bg-card-body-primary rounded-lg"
+									toastClassName={(c) => "bg-card-body-primary text-text-primary rounded-lg"}
+									position="bottom-right"
+									hideProgressBar={false}
+									rtl={false}
+									closeButton={false}
+								/>
 
-									<BlockUpdater>
-										<NextSeoProvider />
-										<USGovSanctionList />
-										<Layout>
-											<Component {...pageProps} />
-										</Layout>
-										<CookieConsentBanner />
-									</BlockUpdater>
-								</ApolloProvider>
+								<BlockUpdater>
+									<NextSeoProvider />
+									<USGovSanctionList />
+									<Layout>
+										<Component {...pageProps} />
+									</Layout>
+									<CookieConsentBanner />
+								</BlockUpdater>
 							</ApolloProvider>
 						</LegalTermsModalProvider>
 					</Web3ModalProvider>

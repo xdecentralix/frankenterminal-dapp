@@ -16,7 +16,6 @@ export type ConfigEnv = {
 	app: string;
 	api: string;
 	ponder: string;
-	morphoGraph: string;
 	wagmiId: string;
 };
 
@@ -39,8 +38,6 @@ export const CONFIG: ConfigEnv = {
 	// once the bonus track (own Ponder + own NestJS API) is deployed.
 	api: process.env.NEXT_PUBLIC_API_URL || "https://api.frankencoin.com",
 	ponder: process.env.NEXT_PUBLIC_PONDER_URL || "https://ponder.frankencoin.com",
-	// Public Morpho GraphQL endpoint (third-party).
-	morphoGraph: process.env.NEXT_PUBLIC_MORPHOGRAPH_URL || "https://blue-api.morpho.org/graphql",
 	// Reown / WalletConnect project ID. Owned by the operator of this
 	// frontend; production domains are whitelisted in cloud.reown.com.
 	wagmiId: process.env.NEXT_PUBLIC_WAGMI_ID || "57719c3e0043b726f0685a652e71e422",
@@ -54,11 +51,6 @@ if (CONFIG.verbose) {
 // PONDER CLIENT
 export const PONDER_CLIENT = new ApolloClient({
 	uri: CONFIG.ponder,
-	cache: new InMemoryCache(),
-});
-
-export const MORPHOGRAPH_CLIENT = new ApolloClient({
-	uri: CONFIG.morphoGraph,
 	cache: new InMemoryCache(),
 });
 
