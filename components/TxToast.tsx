@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { shortenHash, transactionLink } from "@utils";
+import { blockExplorerUrl, shortenHash, transactionLink } from "@utils";
 import { Abi, decodeErrorResult, Hash } from "viem";
 import { WAGMI_CHAIN } from "../app.config";
 
@@ -72,11 +72,7 @@ export const TxToast = (props: {
 					<div className="flex items-center gap-1 justify-between text-sm" style={{ minHeight: 8 }} key={row.title}>
 						{row.title && <div>{row.title}</div>}
 						{row.hash ? (
-							<Link
-								href={transactionLink(chain?.blockExplorers?.default.url, row.hash)}
-								target="_blank"
-								className="text-link"
-							>
+							<Link href={transactionLink(blockExplorerUrl(chain), row.hash)} target="_blank" className="text-link">
 								{shortenHash(row.hash)}
 							</Link>
 						) : (

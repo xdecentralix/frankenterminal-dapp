@@ -10,8 +10,17 @@ export const AppUrl = (url: string) => {
 
 const DEFAULT_EXPLORER_URL = "https://etherscan.io";
 
-function blockExplorerUrl(chain: SupportedChain = SupportedChains["mainnet"]): string {
-	return chain?.blockExplorers?.default.url || DEFAULT_EXPLORER_URL;
+// Gnosisscan, the explorer viem bundles for Gnosis, was retired on 2026-08-11.
+// Upstream patches viem itself; overriding here keeps the fix independent of the pinned viem version.
+const EXPLORER_URL_OVERRIDES: Record<number, string> = {
+	100: "https://gnosis.blockscout.com", // gnosis
+};
+
+export function blockExplorerUrl(
+	chain: { id?: number; blockExplorers?: { default: { url: string } } } = SupportedChains["mainnet"]
+): string {
+	const override = chain?.id !== undefined ? EXPLORER_URL_OVERRIDES[chain.id] : undefined;
+	return override ?? chain?.blockExplorers?.default.url ?? DEFAULT_EXPLORER_URL;
 }
 
 export const ContractUrl = (address: string, chain: SupportedChain = SupportedChains["mainnet"]) => {
