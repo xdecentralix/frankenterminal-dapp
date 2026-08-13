@@ -31,6 +31,7 @@ export type CollateralOverviewStat = {
 	lowestInterestRate: number;
 	discussionLink: string;
 	lockedValue: number;
+	avgReserveRatio: number;
 };
 
 export type SwapBridgeStatsReturn = {
@@ -202,6 +203,8 @@ export const useSwapCHFAUStats = (): SwapBridgeStatsReturn => {
 		lowestInterestRate: 0,
 		discussionLink: "",
 		lockedValue: bridgeBalFloat * chfauPrice,
+		// The bridge mints 1:1 without a reserve contribution, so debt equals minted.
+		avgReserveRatio: 0,
 	};
 
 	return {

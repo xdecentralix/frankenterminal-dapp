@@ -10,7 +10,7 @@ import TableRow from "../Table/TableRow";
 import TableRowEmpty from "../Table/TableRowEmpty";
 import TokenLogo from "@components/TokenLogo";
 import { formatCurrency, normalizeAddress, ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, FormatType } from "@utils";
-import { PositionQuery } from "@frankencoin/api";
+import { PositionQuery, PriceQueryObjectArray } from "@frankencoin/api";
 
 const headers = ["Collateral", "Positions", "Risk Premium", "Reserve", "Avg Liq. Price", "Min. Locked"];
 const FILTER_OPTIONS: FilterOption[] = ALL_CATEGORIES.map((c) => ({ label: c, value: c }));
@@ -24,10 +24,10 @@ interface RiskRow {
 	avgRiskPremiumPPM: number | null; // null = V1 only
 	avgReservePPM: number;
 	avgLiqPrice: number; // ZCHF per collateral unit, human-readable
-	minLocked: number; // total min locked in ZCHF across originals
+	minLocked: number; // avg(minColl) × market price in ZCHF
 }
 
-function buildRiskRows(positionsByCollateral: PositionQuery[][]): RiskRow[] {
+function buildRiskRows(positionsByCollateral: PositionQuery[][], prices: PriceQueryObjectArray): RiskRow[] {
 	return positionsByCollateral.map((positions) => {
 		const originals = positions.filter((p) => p.isOriginal);
 		const clones = positions.filter((p) => p.isClone);
@@ -45,11 +45,11 @@ function buildRiskRows(positionsByCollateral: PositionQuery[][]): RiskRow[] {
 
 		const avgLiqPrice = basis.reduce((sum, p) => sum + parseFloat(formatUnits(BigInt(p.price), priceDigit)), 0) / basis.length;
 
-		const minLocked = basis.reduce((sum, p) => {
-			const minColl = parseFloat(formatUnits(BigInt(p.minimumCollateral), p.collateralDecimals));
-			const liqPrice = parseFloat(formatUnits(BigInt(p.price), 36 - p.collateralDecimals));
-			return sum + minColl * liqPrice;
-		}, 0);
+		// What a new opener or a challenger has to put up, so it is the average requirement at market price.
+		const marketPrice = prices[normalizeAddress(positions[0].collateral)]?.price?.chf ?? 0;
+		const avgMinColl =
+			basis.reduce((sum, p) => sum + parseFloat(formatUnits(BigInt(p.minimumCollateral), p.collateralDecimals)), 0) / basis.length;
+		const minLocked = avgMinColl * marketPrice;
 
 		return {
 			collateralAddress: normalizeAddress(positions[0].collateral),
@@ -74,8 +74,9 @@ export default function CollateralRiskTable() {
 
 	const { address: walletAddress } = useConnection();
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions);
+	const { coingecko } = useSelector((state: RootState) => state.prices);
 
-	const rows = useMemo(() => buildRiskRows(openPositionsByCollateral), [openPositionsByCollateral]);
+	const rows = useMemo(() => buildRiskRows(openPositionsByCollateral, coingecko), [openPositionsByCollateral, coingecko]);
 
 	const uniqueCollaterals = useMemo(() => rows.map((r) => r.collateralAddress as Address), [rows]);
 
