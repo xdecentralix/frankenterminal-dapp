@@ -12,6 +12,7 @@ import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
 import AppToggle from "@components/AppToggle";
 import AppButton from "@components/AppButton";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import ChainBySelect from "@components/Input/ChainBySelect";
 import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
 import GuardQualifiedVoter from "@components/Guards/GuardQualifiedVoter";
@@ -96,6 +97,7 @@ export default function CCIPRateLimitPage() {
 	const [outRatePerHour, setOutRatePerHour] = useState<string>("");
 
 	const [isSubmitting, setSubmitting] = useState<boolean>(false);
+	const [isProposing, setProposing] = useState<boolean>(false);
 	const { address } = useAccount();
 	const { helpers } = useDelegationHelpers(address);
 
@@ -275,6 +277,34 @@ export default function CCIPRateLimitPage() {
 		}
 	};
 
+	const handleProposeRemove = async (e: any) => {
+		e.preventDefault();
+		if (!address) return;
+		try {
+			setProposing(true);
+			const writeHash = await writeContract(WAGMI_CONFIG, {
+				address: ADDRESS[sourceChainId].ccipAdmin,
+				chainId: sourceChainId,
+				abi: CCIPAdminABI,
+				functionName: "proposeRemoveChain",
+				args: [destinationSelector, helpers],
+			});
+			const toastContent = [
+				{ title: "Configured chain:", value: sourceChain.name },
+				{ title: "Other chain:", value: destinationChain?.name ?? destinationSelector.toString() },
+				{ title: "Transaction:", hash: writeHash },
+			];
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: writeHash, confirmations: 1 }), {
+				pending: { render: <TxToast title="Proposing chain removal..." rows={toastContent} /> },
+				success: { render: <TxToast title="Removal proposed — 7-day veto window started" rows={toastContent} /> },
+			});
+		} catch (error) {
+			toast.error(renderErrorTxToastDecode(error, [...CCIPAdminABI, ...EquityABI]));
+		} finally {
+			setProposing(false);
+		}
+	};
+
 	const destinationLabel = destinationChain?.name ?? destinationSelector.toString();
 
 	return (
@@ -368,6 +398,24 @@ export default function CCIPRateLimitPage() {
 							)
 						}
 					/>
+				</div>
+			</div>
+
+			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col gap-y-4">
+				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary mb-2">REMOVE LANE</div>
+				<div className="text-sm text-text-secondary">
+					Permanently removes the {sourceChain.name} ↔ {destinationLabel} lane from the token pool. Requires a 7-day veto window
+					before it can be enacted.
+				</div>
+				<div className="mt-4 md:max-w-md md:ml-auto">
+					<GuardQualifiedVoter>
+						<GuardSupportedChain chainId={sourceChainId}>
+							<AppButtonSecondary isLoading={isProposing} onClick={handleProposeRemove}>
+								Propose Removal
+							</AppButtonSecondary>
+						</GuardSupportedChain>
+					</GuardQualifiedVoter>
 				</div>
 			</div>
 
