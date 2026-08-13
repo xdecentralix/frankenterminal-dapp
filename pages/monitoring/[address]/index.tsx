@@ -5,8 +5,9 @@ import AppLink from "@components/AppLink";
 import AppTitle from "@components/AppTitle";
 import MintingUpdatesTable from "@components/PageMonitoring/MintingUpdatesTable";
 import AuctionCard from "@components/PageMonitoring/AuctionCard";
+import ForceSellAuctionCard from "@components/PageMonitoring/ForceSellAuctionCard";
 import StatRow from "@components/PageMonitoring/StatRow";
-import { formatCurrency, formatDateTime, normalizeAddress, shortenAddress, DISCUSSIONS } from "@utils";
+import { formatCurrency, formatDateTime, normalizeAddress, shortenAddress, DISCUSSIONS, isForceSellable } from "@utils";
 import { Address, formatUnits, zeroAddress } from "viem";
 import { useContractUrl } from "@hooks";
 import { useSelector } from "react-redux";
@@ -32,6 +33,8 @@ export default function PositionDetail() {
 
 	const position = positions.find((p) => normalizeAddress(p.position) === normalizeAddress(address));
 	const challengesActive = (challengesPositions.map[normalizeAddress(address)] || []).filter((c) => c.status === "Active");
+	const isForceSellAuction = position ? isForceSellable(position) : false;
+	const auctionsCount = challengesActive.length + (isForceSellAuction ? 1 : 0);
 
 	const positionExplorerUrl = useContractUrl(String(address));
 	const myPosLink = `/mypositions?address=${position?.owner || zeroAddress}`;
@@ -190,8 +193,8 @@ export default function PositionDetail() {
 									<div className="text-base font-bold text-amber-400 mb-1">Cooldown Active</div>
 									<p className="text-text-secondary text-sm leading-relaxed">
 										The owner recently raised the liquidation price. This position is in a cooldown period until{" "}
-										<span className="text-text-primary font-medium">{formatDateTime(position.cooldown)}</span>. During this
-										time the position can be challenged before additional ZCHF can be minted.
+										<span className="text-text-primary font-medium">{formatDateTime(position.cooldown)}</span>. During
+										this time the position can be challenged before additional ZCHF can be minted.
 									</p>
 								</div>
 							</AppCard>
@@ -205,18 +208,19 @@ export default function PositionDetail() {
 									title="Active Auctions"
 									badges={[
 										{
-											label: String(challengesActive.length),
+											label: String(auctionsCount),
 											className:
-												challengesActive.length > 0
+												auctionsCount > 0
 													? "bg-red-500/20 text-red-400"
 													: "bg-card-content-primary text-text-secondary",
 										},
 									]}
 								/>
-								{challengesActive.length === 0 ? (
+								{auctionsCount === 0 ? (
 									<p className="text-text-secondary text-sm">This position is currently not being challenged.</p>
 								) : (
 									<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+										{isForceSellAuction && <ForceSellAuctionCard position={position} />}
 										{challengesActive.map((c, idx) => (
 											<AuctionCard key={c.id || `auction_${idx}`} position={position} challenge={c} />
 										))}
