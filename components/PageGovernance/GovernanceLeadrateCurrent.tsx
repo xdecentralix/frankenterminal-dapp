@@ -15,6 +15,7 @@ import dynamic from "next/dynamic";
 import { LeadrateRateQuery } from "@frankencoin/api";
 import { mainnet } from "viem/chains";
 import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
+import GuardQualifiedVoter from "@components/Guards/GuardQualifiedVoter";
 import { Address } from "viem";
 import { normalizeAddress } from "../../utils/format";
 import { useDelegationHelpers } from "@hooks";
@@ -348,15 +349,17 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 					/>
 
 					<div className="h-10 mb-4">
-						<GuardSupportedChain disabled={isDisabledMint || isHiddenMint} chain={mainnet}>
-							<AppButton
-								disabled={isDisabledMint || isHiddenMint}
-								isLoading={isHandlingMint}
-								onClick={(e) => handleOnClickMint(e)}
-							>
-								Propose Change
-							</AppButton>
-						</GuardSupportedChain>
+						<GuardQualifiedVoter disabled={isDisabledMint || isHiddenMint}>
+							<GuardSupportedChain disabled={isDisabledMint || isHiddenMint} chain={mainnet}>
+								<AppButton
+									disabled={isDisabledMint || isHiddenMint}
+									isLoading={isHandlingMint}
+									onClick={(e) => handleOnClickMint(e)}
+								>
+									Propose Change
+								</AppButton>
+							</GuardSupportedChain>
+						</GuardQualifiedVoter>
 					</div>
 
 					<NormalInput
@@ -370,15 +373,17 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 					/>
 
 					<div className="h-10 mb-4">
-						<GuardSupportedChain disabled={isDisabledSave || isHiddenSave} chain={mainnet}>
-							<AppButton
-								disabled={isDisabledSave || isHiddenSave}
-								isLoading={isHandlingSave}
-								onClick={(e) => handleOnClickSave(e)}
-							>
-								Propose Change
-							</AppButton>
-						</GuardSupportedChain>
+						<GuardQualifiedVoter disabled={isDisabledSave || isHiddenSave}>
+							<GuardSupportedChain disabled={isDisabledSave || isHiddenSave} chain={mainnet}>
+								<AppButton
+									disabled={isDisabledSave || isHiddenSave}
+									isLoading={isHandlingSave}
+									onClick={(e) => handleOnClickSave(e)}
+								>
+									Propose Change
+								</AppButton>
+							</GuardSupportedChain>
+						</GuardQualifiedVoter>
 					</div>
 				</div>
 			</div>

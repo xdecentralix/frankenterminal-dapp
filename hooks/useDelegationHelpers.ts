@@ -23,7 +23,8 @@ export const collectHelpers = (address: Address, delegatees: DelegateeMap): Addr
 		}
 	};
 	collect(address);
-	return helpers;
+	// Equity._checkDuplicatesAndSorted requires the helpers array to be sorted ascending.
+	return helpers.sort();
 };
 
 export const computeSupporterCount = (address: Address, delegatees: DelegateeMap): number => collectHelpers(address, delegatees).length;
