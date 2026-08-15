@@ -6,7 +6,19 @@ const STUBBED_OPTIONAL_DEPS = ["pino-pretty", "lokijs", "encoding", "@metamask/c
 
 const nextConfig = {
 	reactStrictMode: true,
-	transpilePackages: ["@frankencoin/zchf", "@frankencoin/api"],
+	transpilePackages: [
+		"@frankencoin/zchf",
+		"@frankencoin/api",
+		// AppKit's ESM dist does `import { generateChildLogger } from '@walletconnect/logger'`.
+		// Turbopack SSR externalizes that as a Node ESM import, Node then loads the CJS
+		// build, and named exports fail — 500 on every request that loads _app.
+		"@reown/appkit",
+		"@reown/appkit-adapter-wagmi",
+		"@reown/appkit-wallet",
+		"@reown/appkit-utils",
+		"@walletconnect/logger",
+	],
+	serverExternalPackages: ["pino", "thread-stream"],
 
 	turbopack: {
 		// Turbopack `resolveAlias` expects paths relative to the project root,
