@@ -78,18 +78,19 @@ export default function SavingsInteractionCard() {
 	const pendingReferralFees: bigint =
 		newReferrer != undefined && userSavingsInterest > 0n ? (userSavingsInterest * newReferralFeePPM) / 1_000_000n : 0n;
 	const netInterest: bigint = userSavingsInterest - pendingReferralFees;
-	const compoundTargetAmount: bigint = userSavingsBalance + userSavingsInterest - pendingReferralFees;
-	const depositTargetAmount: bigint = userSavingsBalance + userSavingsInterest + deltaAmount;
-	const withdrawTargetAmount: bigint =
-		userSavingsBalance > deltaAmount ? userSavingsBalance - deltaAmount : 0n;
+	// refresh() credits gross interest minus the on-chain referrer fee before adjust()
+	// computes the transferFrom amount. The target must match that post-refresh
+	// saved balance, or a Max deposit tries to pull the fee on top of the wallet
+	// and reverts.
+	const referralDeduction: bigint = userSavingsReferrer != zeroAddress ? userSavingsReferralFees : 0n;
+	const savedAfterRefresh: bigint = userSavingsBalance + userSavingsInterest - referralDeduction;
+	const compoundTargetAmount: bigint = savedAfterRefresh;
+	const depositTargetAmount: bigint = savedAfterRefresh + deltaAmount;
+	const withdrawTargetAmount: bigint = userSavingsBalance > deltaAmount ? userSavingsBalance - deltaAmount : 0n;
 	const outcomeTargetAmount: bigint = tab === "Deposit" ? depositTargetAmount : withdrawTargetAmount;
 	const change: bigint = outcomeTargetAmount - (userSavingsBalance + userSavingsInterest);
-	const walletDeposit: bigint =
-		outcomeTargetAmount > userSavingsBalance + userSavingsInterest
-			? outcomeTargetAmount - userSavingsBalance - userSavingsInterest
-			: 0n;
-	const walletWithdrawal: bigint =
-		outcomeTargetAmount < userSavingsBalance ? userSavingsBalance - outcomeTargetAmount : 0n;
+	const walletDeposit: bigint = tab === "Deposit" ? deltaAmount : 0n;
+	const walletWithdrawal: bigint = outcomeTargetAmount < userSavingsBalance ? userSavingsBalance - outcomeTargetAmount : 0n;
 	const interestActionDisabled: boolean = userSavingsInterest == 0n || userSavingsLocktime > 0n;
 	const isCustomReferrer: boolean = newReferrer !== undefined && newReferrer.toLowerCase() !== DEFAULT_REFERRER.toLowerCase();
 	const displayReferrer: Address = newReferrer ?? userSavingsReferrer;
@@ -99,10 +100,8 @@ export default function SavingsInteractionCard() {
 	const depositMax = userBalance;
 	const withdrawMax = userSavingsBalance;
 
-	const depositButtonLabel =
-		deltaAmount > 0n ? `Deposit ${formatCurrency(formatUnits(deltaAmount, 18))} ZCHF` : "Deposit";
-	const withdrawButtonLabel =
-		deltaAmount > 0n ? `Withdraw ${formatCurrency(formatUnits(deltaAmount, 18))} ZCHF` : "Withdraw";
+	const depositButtonLabel = deltaAmount > 0n ? `Deposit ${formatCurrency(formatUnits(deltaAmount, 18))} ZCHF` : "Deposit";
+	const withdrawButtonLabel = deltaAmount > 0n ? `Withdraw ${formatCurrency(formatUnits(deltaAmount, 18))} ZCHF` : "Withdraw";
 
 	// ---------------------------------------------------------------------------
 
@@ -300,16 +299,14 @@ export default function SavingsInteractionCard() {
 						href={ContractUrl(newReferrer, chain)}
 						external={true}
 					/>{" "}
-					with{" "}
-					<span className="text-text-primary font-semibold">{Math.round(Number(newReferralFeePPM / 1000n)) / 10}%</span>{" "}
-					of accrued interest as the referral fee.
+					with <span className="text-text-primary font-semibold">{Math.round(Number(newReferralFeePPM / 1000n)) / 10}%</span> of
+					accrued interest as the referral fee.
 				</div>
 			) : (
 				<div className="text-sm text-text-secondary leading-relaxed space-y-2">
 					<div>
-						This frontend defaults to a <span className="text-text-primary font-semibold">10%</span>{" "}
-						referral fee on the interest you accrue. It is paid by the protocol&apos;s referral module out of your
-						interest, not on top of it.
+						This frontend defaults to a <span className="text-text-primary font-semibold">10%</span> referral fee on the
+						interest you accrue. It is paid by the protocol&apos;s referral module out of your interest, not on top of it.
 					</div>
 					<div>
 						<AppLink
