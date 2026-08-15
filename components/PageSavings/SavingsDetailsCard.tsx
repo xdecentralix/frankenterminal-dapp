@@ -125,7 +125,7 @@ interface SavingsSavedItemProps {
 function SavingsSavedItem({ savings }: SavingsSavedItemProps) {
 	return (
 		<div className="flex">
-			<div className="flex-1 text-text-secondary pl-2">Therefore on {getChain(savings.chainId).name}</div>
+			<div className="flex-1 text-text-secondary pl-2">Thereof on {getChain(savings.chainId).name}</div>
 			<div className="text-text-secondary">{formatCurrency(formatUnits(BigInt(savings.balance), 18))} ZCHF</div>
 		</div>
 	);
