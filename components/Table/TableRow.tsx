@@ -47,7 +47,10 @@ export default function TableRow({
 					{children.map((child, i) => {
 						const isComment = headers[i] === "Comment";
 						return (
-							<div key={i} className={`${i > 0 && !isComment ? "text-right" : "text-left"} ${isComment ? "pl-8" : ""}`}>
+							<div
+								key={i}
+								className={`min-w-0 ${i > 0 && !isComment ? "text-right" : "text-left"} ${isComment ? "pl-8" : ""}`}
+							>
 								{child}
 							</div>
 						);

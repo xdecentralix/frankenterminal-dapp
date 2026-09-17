@@ -11,6 +11,7 @@ import GovernancePositionsRow from "./GovernancePositionsRow";
 export default function GovernancePositionsTable() {
 	const headers: string[] = ["Collateral", "Position", "Limit", "Interest", "Time Left"];
 	const subHeaders: string[] = ["", "Owner", "Reserve", "Maturity", "Auction duration"];
+	const gridColsClass = "md:grid-cols-[minmax(0,2.2fr)_minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.1fr)] md:gap-x-6";
 	const [tab, setTab] = useState<string>(headers[4]);
 	const [reverse, setReverse] = useState<boolean>(true);
 	const [list, setList] = useState<PositionQuery[]>([]);
@@ -45,7 +46,15 @@ export default function GovernancePositionsTable() {
 
 	return (
 		<Table>
-			<TableHeader headers={headers} subHeaders={subHeaders} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} actionCol />
+			<TableHeader
+				headers={headers}
+				subHeaders={subHeaders}
+				tab={tab}
+				reverse={reverse}
+				tabOnChange={handleTabOnChange}
+				actionCol
+				gridColsClass={gridColsClass}
+			/>
 			<TableBody>
 				{list.length == 0 ? (
 					<TableRowEmpty>
@@ -61,6 +70,7 @@ export default function GovernancePositionsTable() {
 							tab={tab}
 							position={pos}
 							prices={prices}
+							gridColsClass={gridColsClass}
 						/>
 					))
 				)}

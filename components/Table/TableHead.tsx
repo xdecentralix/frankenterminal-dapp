@@ -45,7 +45,7 @@ export default function TableHeader({
 			>
 				{headers.map((header, i) => (
 					<div
-						className={`${i > 0 && header !== "Comment" ? "text-right" : "text-left"} ${header === "Comment" ? "pl-8" : ""}`}
+						className={`min-w-0 ${i > 0 && header !== "Comment" ? "text-right" : "text-left"} ${header === "Comment" ? "pl-8" : ""}`}
 						key={`table-header-${i}`}
 						onClick={(e) => handleOnClick(header)}
 					>
@@ -67,7 +67,7 @@ export default function TableHeader({
 				{subHeaders
 					? subHeaders.map((header, i) => (
 							<div
-								className={`${i > 0 && header !== "Comment" ? "text-right" : "text-left"} ${
+								className={`min-w-0 ${i > 0 && header !== "Comment" ? "text-right" : "text-left"} ${
 									header === "Comment" ? "pl-8" : ""
 								}`}
 								key={`table-header-${i}`}

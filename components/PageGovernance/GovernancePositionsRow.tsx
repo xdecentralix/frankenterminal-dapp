@@ -14,9 +14,10 @@ interface Props {
 	tab: string;
 	position: PositionQuery;
 	prices: PriceQueryObjectArray;
+	gridColsClass?: string;
 }
 
-export default function GovernancePositionsRow({ headers, subHeaders, tab, position, prices }: Props) {
+export default function GovernancePositionsRow({ headers, subHeaders, tab, position, prices, gridColsClass }: Props) {
 	if (!position) return null;
 
 	const marketUsd = prices[normalizeAddress(position.collateral)]?.price?.usd ?? 0;
@@ -33,15 +34,16 @@ export default function GovernancePositionsRow({ headers, subHeaders, tab, posit
 			headers={headers}
 			subHeaders={subHeaders}
 			tab={tab}
+			gridColsClass={gridColsClass}
 			actionCol={
 				<div className="">
 					<GovernancePositionsAction key={position.position} position={position} />
 				</div>
 			}
 		>
-			<div className="flex flex-col max-md:mb-5">
+			<div className="flex min-w-0 flex-col max-md:mb-5">
 				{/* desktop view */}
-				<div className="max-md:hidden flex flex-row items-center">
+				<div className="max-md:hidden flex min-w-0 flex-row items-center">
 					<DisplayCollateralBorrowTable
 						symbol={collateralSymbol}
 						symbolTiny={`v${position.version}`}
@@ -65,7 +67,7 @@ export default function GovernancePositionsRow({ headers, subHeaders, tab, posit
 				</AppBox>
 			</div>
 
-			<div className="flex flex-col">
+			<div className="flex min-w-0 flex-col whitespace-nowrap">
 				<AppLink
 					label={shortenAddress(position.position)}
 					href={`/monitoring/${position.position}`}

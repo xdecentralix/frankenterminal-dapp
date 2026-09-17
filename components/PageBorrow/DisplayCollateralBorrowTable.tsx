@@ -29,19 +29,21 @@ export default function DisplayCollateralBorrowTable({
 	const cats = categories ?? (address ? getCategoriesForCollateral(address) : []);
 
 	return (
-		<div className={`md:-ml-12 flex items-center ${className}`}>
-			<div className="mr-4">
+		<div className={`md:-ml-12 flex items-center min-w-0 ${className ?? ""}`}>
+			<div className="mr-4 shrink-0">
 				<TokenLogo currency={symbol} />
 			</div>
 
-			<div className="flex flex-col justify-center">
-				<div className="text-left font-bold max-lg:w-[8rem] lg:w-[10rem] max-sm:w-[12rem] md:text-nowrap max-md:truncate mb-1">
-					<span className="text-lg">{`${name}`}</span>
-					<span className="text-xs font-normal">{` ${symbolTiny}`}</span>
+			<div className="flex min-w-0 flex-col justify-center overflow-hidden">
+				<div className="mb-1 flex min-w-0 items-baseline gap-1 text-left font-bold">
+					<span className="truncate text-lg leading-tight" title={name}>
+						{name}
+					</span>
+					{symbolTiny ? <span className="shrink-0 text-xs font-normal">{symbolTiny}</span> : null}
 				</div>
 
 				{cats && cats.length > 0 && (
-					<div className="hidden md:flex items-center gap-1 mb-1">
+					<div className="mb-1 hidden items-center gap-1 md:flex">
 						{cats.slice(0, 2).map((c) => (
 							<span
 								key={c}
@@ -54,7 +56,7 @@ export default function DisplayCollateralBorrowTable({
 				)}
 
 				{!hideMyWallet && (
-					<div className="text-text-subheader text-sm text-left max-lg:w-[8rem] lg:w-[10rem] max-sm:w-[12rem] text-nowrap">
+					<div className="truncate text-left text-sm text-text-subheader" title={`${formatCurrency(balance ?? 0, 2, 2)} ${symbol}`}>
 						{formatCurrency(balance ?? 0, 2, 2)} {symbol} • {formatCurrency((balance ?? 0) * price)} ZCHF
 					</div>
 				)}

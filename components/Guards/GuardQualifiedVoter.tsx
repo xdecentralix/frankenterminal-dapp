@@ -19,7 +19,7 @@ export default function GuardQualifiedVoter({ children, disabled }: Props) {
 	if (isDisconnected)
 		return (
 			<AppButton disabled={disabled} onClick={() => AppKit.open()}>
-				Connect Wallet
+				Connect
 			</AppButton>
 		);
 
