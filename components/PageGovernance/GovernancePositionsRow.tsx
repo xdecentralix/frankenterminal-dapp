@@ -1,7 +1,7 @@
-import { Address, formatUnits } from "viem";
+import { formatUnits } from "viem";
 import TableRow from "../Table/TableRow";
 import { PositionQuery, PriceQueryObjectArray } from "@frankencoin/api";
-import { formatCurrency, FormatType, normalizeAddress, shortenAddress } from "../../utils/format";
+import { formatCurrency, FormatType, normalizeAddress, shortenAddress, tokenAmountNumber } from "../../utils/format";
 import GovernancePositionsAction from "./GovernancePositionsAction";
 import DisplayCollateralBorrowTable from "@components/PageBorrow/DisplayCollateralBorrowTable";
 import AppBox from "@components/AppBox";
@@ -17,14 +17,16 @@ interface Props {
 }
 
 export default function GovernancePositionsRow({ headers, subHeaders, tab, position, prices }: Props) {
-	const price = prices[normalizeAddress(position.collateral)];
-	if (!position || !price) return null;
+	if (!position) return null;
 
+	const marketUsd = prices[normalizeAddress(position.collateral)]?.price?.usd ?? 0;
 	const limit = formatUnits(BigInt(position.limitForClones), 18);
 	const maturity = (position.expiration - position.start) / 60 / 60 / 24 / 30;
 	const denyUntil = (position.start * 1000 - Date.now()) / 1000 / 60 / 60;
 
-	const balance = parseFloat(formatUnits(BigInt(position.collateralBalance), position.collateralDecimals));
+	const balance = tokenAmountNumber(position.collateralBalance, position.collateralDecimals);
+	const collateralName = position.collateralName || "Unknown token";
+	const collateralSymbol = position.collateralSymbol || "???";
 
 	return (
 		<TableRow
@@ -41,11 +43,11 @@ export default function GovernancePositionsRow({ headers, subHeaders, tab, posit
 				{/* desktop view */}
 				<div className="max-md:hidden flex flex-row items-center">
 					<DisplayCollateralBorrowTable
-						symbol={position.collateralSymbol}
+						symbol={collateralSymbol}
 						symbolTiny={`v${position.version}`}
-						name={position.collateralName}
+						name={collateralName}
 						address={position.collateral}
-						price={price.price.usd ?? 0}
+						price={marketUsd}
 						balance={balance}
 					/>
 				</div>
@@ -53,11 +55,11 @@ export default function GovernancePositionsRow({ headers, subHeaders, tab, posit
 				{/* mobile view */}
 				<AppBox className="md:hidden flex flex-row items-center">
 					<DisplayCollateralBorrowTable
-						symbol={position.collateralSymbol}
+						symbol={collateralSymbol}
 						symbolTiny={`v${position.version}`}
-						name={position.collateralName}
+						name={collateralName}
 						address={position.collateral}
-						price={price.price.usd ?? 0}
+						price={marketUsd}
 						balance={balance}
 					/>
 				</AppBox>

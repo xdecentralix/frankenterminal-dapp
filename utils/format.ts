@@ -3,6 +3,42 @@ import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Address, Hash, formatUnits, getAddress } from "viem";
 
+/** Equity tokens use 0 decimals; hostile tokens can report anything. viem rejects negatives. */
+export function clampDecimals(decimals: number, fallback = 0): number {
+	if (!Number.isFinite(decimals)) return fallback;
+	return Math.max(0, Math.min(255, Math.trunc(decimals)));
+}
+
+export function formatTokenUnits(value: bigint | string | number, decimals: number): string {
+	try {
+		return formatUnits(BigInt(value), clampDecimals(decimals));
+	} catch {
+		return "0";
+	}
+}
+
+export function tokenAmountNumber(value: bigint | string | number, decimals: number): number {
+	const n = Number(formatTokenUnits(value, decimals));
+	return Number.isFinite(n) ? n : 0;
+}
+
+export function liqPriceDecimals(collateralDecimals: number): number {
+	return clampDecimals(36 - clampDecimals(collateralDecimals));
+}
+
+export function formatLiqPriceUnits(price: bigint | string | number, collateralDecimals: number): string {
+	try {
+		return formatUnits(BigInt(price), liqPriceDecimals(collateralDecimals));
+	} catch {
+		return "0";
+	}
+}
+
+export function liqPriceNumber(price: bigint | string | number, collateralDecimals: number): number {
+	const n = Number(formatLiqPriceUnits(price, collateralDecimals));
+	return Number.isFinite(n) ? n : 0;
+}
+
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 

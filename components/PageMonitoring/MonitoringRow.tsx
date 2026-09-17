@@ -1,10 +1,10 @@
-import { formatUnits, zeroAddress } from "viem";
+import { zeroAddress } from "viem";
 import TableRow from "../Table/TableRow";
 import { PositionQuery, ChallengesQueryItem } from "@frankencoin/api";
 import { RootState } from "../../redux/redux.store";
 import { useSelector } from "react-redux";
 import TokenLogo from "@components/TokenLogo";
-import { formatCurrency, normalizeAddress } from "../../utils/format";
+import { formatCurrency, liqPriceNumber, normalizeAddress, tokenAmountNumber } from "../../utils/format";
 import { useRouter } from "next/navigation";
 import { useContractUrl } from "@hooks";
 import AppButtonSecondary from "@components/AppButtonSecondary";
@@ -27,20 +27,20 @@ export default function MonitoringRow({ headers, tab, position }: Props) {
 
 	const maturity: number = (position.expiration * 1000 - Date.now()) / 1000 / 60 / 60 / 24;
 
-	const balance: number = Math.round((parseInt(position.collateralBalance) / 10 ** position.collateralDecimals) * 100) / 100;
+	const digits: number = position.collateralDecimals;
+	const balance: number = Math.round(tokenAmountNumber(position.collateralBalance, digits) * 100) / 100;
 	const balanceZCHF: number = Math.round(((balance * collTokenPrice) / zchfPrice) * 100) / 100;
-	const liquidationZCHF: number = Math.round((parseInt(position.price) / 10 ** (36 - position.collateralDecimals)) * 100) / 100;
+	const liquidationZCHF: number = Math.round(liqPriceNumber(position.price, digits) * 100) / 100;
 	const liquidationPct: number = Math.round((balanceZCHF / (liquidationZCHF * balance)) * 10000) / 100;
 
-	const digits: number = position.collateralDecimals;
 	const positionChallenges = challenges.map[normalizeAddress(position.position)] ?? [];
 	const positionChallengesActive = positionChallenges.filter((ch: ChallengesQueryItem) => ch.status === "Active");
-	const positionChallengesActiveCollateral =
-		positionChallengesActive.reduce<number>((acc, c) => {
-			return acc + parseInt(formatUnits(c.size, digits - 2)) - parseInt(formatUnits(c.filledSize, digits - 2));
-		}, 0) / 100;
-	const collateralBalanceNumber: number = parseInt(formatUnits(BigInt(position.collateralBalance), digits - 2)) / 100;
-	const challengesRatioPct: number = Math.round((positionChallengesActiveCollateral / collateralBalanceNumber) * 100);
+	const positionChallengesActiveCollateral = positionChallengesActive.reduce<number>((acc, c) => {
+		return acc + tokenAmountNumber(c.size, digits) - tokenAmountNumber(c.filledSize, digits);
+	}, 0);
+	const collateralBalanceNumber: number = tokenAmountNumber(position.collateralBalance, digits);
+	const challengesRatioPct: number =
+		collateralBalanceNumber > 0 ? Math.round((positionChallengesActiveCollateral / collateralBalanceNumber) * 100) : 0;
 
 	const collColor = liquidationPct < 110 ? "text-text-danger" : liquidationPct <= 120 ? "text-text-warning" : "text-text-success";
 	const rowBg =

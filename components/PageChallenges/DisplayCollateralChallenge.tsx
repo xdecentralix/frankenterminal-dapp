@@ -1,4 +1,4 @@
-import { formatBigInt, formatCurrency } from "@utils";
+import { formatBigInt, formatCurrency, tokenAmountNumber } from "@utils";
 import dynamic from "next/dynamic";
 import { useContractUrl } from "../../hooks/useContractUrl";
 import { Address, formatUnits, zeroAddress } from "viem";
@@ -35,7 +35,7 @@ export default function DisplayCollateralChallenge({
 		window.open(url, "_blank");
 	};
 
-	const collateralSize: number = parseInt(formatUnits(BigInt(position.collateralBalance), position.collateralDecimals - 2)) / 100;
+	const collateralSize: number = tokenAmountNumber(position.collateralBalance, position.collateralDecimals);
 	const collateralValue: number = (collateralSize * collateralPrice) / zchfPrice;
 
 	const challengeRemainingSize: number =

@@ -5,11 +5,12 @@ import TableRowEmpty from "../Table/TableRowEmpty";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
 import { ApiChallengesPositions, ChallengesQueryItem, PositionQuery, PriceQueryObjectArray } from "@frankencoin/api";
-import { Address, erc20Abi, formatUnits, zeroAddress } from "viem";
+import { erc20Abi, zeroAddress } from "viem";
 import MonitoringRow from "./MonitoringRow";
+import ErrorBoundary from "../ErrorBoundary";
 import { useEffect, useMemo, useState } from "react";
 import { useConnection, useReadContracts } from "wagmi";
-import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, normalizeAddress } from "@utils";
+import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, liqPriceNumber, normalizeAddress, tokenAmountNumber } from "@utils";
 
 const FILTER_OPTIONS: FilterOption[] = ALL_CATEGORIES.map((c) => ({ label: c, value: c }));
 const STATE_CATEGORIES = ["At Risk", "Challenged", "Healthy"];
@@ -135,7 +136,11 @@ export default function MonitoringTable() {
 				{list.length == 0 ? (
 					<TableRowEmpty>{"There are no active positions."}</TableRowEmpty>
 				) : (
-					list.map((pos) => <MonitoringRow headers={headers} tab={tab} position={pos} key={pos.position} />)
+					list.map((pos) => (
+						<ErrorBoundary key={pos.position}>
+							<MonitoringRow headers={headers} tab={tab} position={pos} />
+						</ErrorBoundary>
+					))
 				)}
 			</TableBody>
 		</Table>
@@ -156,7 +161,7 @@ function sortPositions(
 		// sort for Collateral Value
 		sortingList.sort((a, b) => {
 			const calc = function (p: PositionQuery) {
-				const size: number = parseFloat(formatUnits(BigInt(p.collateralBalance), p.collateralDecimals));
+				const size: number = tokenAmountNumber(p.collateralBalance, p.collateralDecimals);
 				const price: number = prices[normalizeAddress(p.collateral)]?.price?.chf || 1;
 				return size * price;
 			};
@@ -166,7 +171,7 @@ function sortPositions(
 		// sort for price
 		sortingList.sort((a, b) => {
 			const calc = function (p: PositionQuery) {
-				const liqPrice: number = parseFloat(formatUnits(BigInt(p.price), 36 - p.collateralDecimals));
+				const liqPrice: number = liqPriceNumber(p.price, p.collateralDecimals);
 				return liqPrice;
 			};
 			return calc(b) - calc(a);
@@ -175,7 +180,7 @@ function sortPositions(
 		// sort for coll.
 		sortingList.sort((a, b) => {
 			const calc = function (p: PositionQuery) {
-				const liqPrice: number = parseFloat(formatUnits(BigInt(p.price), 36 - p.collateralDecimals));
+				const liqPrice: number = liqPriceNumber(p.price, p.collateralDecimals);
 				const price: number = prices[normalizeAddress(p.collateral)]?.price?.chf || 1;
 				return price / liqPrice;
 			};
@@ -185,13 +190,11 @@ function sortPositions(
 		// sort for Challenged
 		sortingList.sort((a, b) => {
 			const calc = function (p: PositionQuery) {
-				const size: number = parseFloat(formatUnits(BigInt(p.collateralBalance), p.collateralDecimals));
+				const size: number = tokenAmountNumber(p.collateralBalance, p.collateralDecimals);
 				const cp: ChallengesQueryItem[] = challenges.map[normalizeAddress(p.position)] || [];
 				const ca: ChallengesQueryItem[] = cp.filter((c) => c.status === "Active");
 				const cs: number = ca.reduce<number>((n: number, c: ChallengesQueryItem): number => {
-					const _size: number = parseFloat(formatUnits(BigInt(c.size.toString()), p.collateralDecimals));
-					const _filled: number = parseFloat(formatUnits(BigInt(c.filledSize.toString()), p.collateralDecimals));
-					return n + _size - _filled;
+					return n + tokenAmountNumber(c.size, p.collateralDecimals) - tokenAmountNumber(c.filledSize, p.collateralDecimals);
 				}, 0);
 				return cs / size;
 			};
