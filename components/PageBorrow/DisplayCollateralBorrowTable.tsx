@@ -10,7 +10,7 @@ interface Props {
 	address: string;
 	className?: string;
 	balance?: number;
-	price: number;
+	price?: number;
 	hideMyWallet?: boolean;
 	categories?: string[];
 }
@@ -57,7 +57,8 @@ export default function DisplayCollateralBorrowTable({
 
 				{!hideMyWallet && (
 					<div className="truncate text-left text-sm text-text-subheader" title={`${formatCurrency(balance ?? 0, 2, 2)} ${symbol}`}>
-						{formatCurrency(balance ?? 0, 2, 2)} {symbol} • {formatCurrency((balance ?? 0) * price)} ZCHF
+						{formatCurrency(balance ?? 0, 2, 2)} {symbol}
+						{price !== undefined && <> • {formatCurrency((balance ?? 0) * price)} ZCHF</>}
 					</div>
 				)}
 			</div>

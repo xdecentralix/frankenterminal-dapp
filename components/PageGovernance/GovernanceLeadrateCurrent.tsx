@@ -26,15 +26,34 @@ import { useTheme } from "../ThemeProvider";
 const MintModule = normalizeAddress(ADDRESS[mainnet.id].savingsV2);
 const SaveModule = normalizeAddress(ADDRESS[mainnet.id].savingsReferral);
 
+type ChainLeadrateRate = RootState["savings"]["leadrateRate"]["rate"][typeof mainnet.id];
+type ChainLeadrateRates = RootState["savings"]["leadrateRate"]["list"][typeof mainnet.id];
+
 interface Props {}
 
 export default function GovernanceLeadrateCurrent({}: Props) {
+	const chainId = mainnet.id;
+	const rate = useSelector((state: RootState) => state.savings.leadrateRate.rate[chainId]);
+	const rates = useSelector((state: RootState) => state.savings.leadrateRate.list[chainId]);
+
+	// @dev: the rate data is missing until /savings/leadrate/rates has loaded, or when that request failed.
+	// The page must degrade to a notice instead of throwing, otherwise the whole governance page unmounts.
+	if (!rate?.[MintModule] || !rate?.[SaveModule] || !rates?.[MintModule] || !rates?.[SaveModule]) {
+		return (
+			<AppCard>
+				<div className="flex justify-center text-text-warning">Rate data is currently unavailable.</div>
+			</AppCard>
+		);
+	}
+
+	return <GovernanceLeadrateCurrentReady rate={rate} rates={rates} />;
+}
+
+function GovernanceLeadrateCurrentReady({ rate, rates }: { rate: ChainLeadrateRate; rates: ChainLeadrateRates }) {
 	const { themeAccent } = useTheme();
 	const account = useConnection();
 	const chainId = mainnet.id;
 	const { helpers } = useDelegationHelpers(account.address);
-	const rate = useSelector((state: RootState) => state.savings.leadrateRate.rate[chainId]);
-	const rates = useSelector((state: RootState) => state.savings.leadrateRate.list[chainId]);
 
 	const [newRateMint, setNewRateMint] = useState<bigint>(BigInt(rate[MintModule].approvedRate));
 	const [isHandlingMint, setHandlingMint] = useState<boolean>(false);
