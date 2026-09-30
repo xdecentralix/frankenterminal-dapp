@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Address, isAddress, zeroAddress } from "viem";
 import { useConnection } from "wagmi";
-import { useEquityTrades, useFPSBalanceHistory, useFPSEarningsHistory } from "@hooks";
+import { useEquityTrades, useFPSYearlyReport } from "@hooks";
 import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
 import EquityFPSDetailsCard from "@components/PageEquity/EquityFPSDetailsCard";
@@ -11,9 +11,6 @@ import EquityTradesTable from "@components/PageEquity/EquityTradesTable";
 import EquityStatStrip from "@components/PageEquity/EquityStatStrip";
 import EquityTradeStream from "@components/PageEquity/EquityTradeStream";
 import ReportsFPSYearlyTable from "@components/PageReports/ReportsFPSYearlyTable";
-import { ContractUrl } from "@utils";
-import { ADDRESS } from "@frankencoin/zchf";
-import { mainnet } from "viem/chains";
 
 export default function Equity() {
 	const { address } = useConnection();
@@ -23,9 +20,10 @@ export default function Equity() {
 	const hasAddress = !!address || isAddress(queryAddress);
 	const resolvedAddress: Address = isAddress(queryAddress) ? queryAddress : address || zeroAddress;
 
-	const fpsHistory = useFPSBalanceHistory(resolvedAddress);
-	const fpsEarnings = useFPSEarningsHistory(resolvedAddress);
+	const fpsYearlyReport = useFPSYearlyReport(resolvedAddress);
 	const equityTrades = useEquityTrades(resolvedAddress);
+	// FPS Price chart annotations only make sense against pure FPS1 invest/redeem trades.
+	const fpsTrades = equityTrades.filter((t) => t.kind === "Invested" || t.kind === "Redeemed");
 
 	return (
 		<>
@@ -35,9 +33,10 @@ export default function Equity() {
 
 			<AppTitle title="Invest">
 				<div className="text-text-secondary">
-					Invest in or redeem your{" "}
-					<AppLink className="" label="Frankencoin Pool Shares" href={ContractUrl(ADDRESS[mainnet.id].equity)} external={true} />{" "}
-					(FPS) — the governance token of the Frankencoin Ecosystem.
+					Invest in or redeem{" "}
+					<AppLink className="" label="Frankencoin Shares (FCS)" href="/governance/fcs" external={false} />{" "}
+					— the equity and governance token of the Frankencoin Ecosystem — to earn a share of protocol income and vote
+					with a lower veto threshold.
 				</div>
 			</AppTitle>
 
@@ -45,7 +44,7 @@ export default function Equity() {
 			<EquityStatStrip />
 
 			{/* Hero: chart full-width above interaction; trade stream beside the input on desktop */}
-			<EquityFPSDetailsCard equityTrades={equityTrades} />
+			<EquityFPSDetailsCard equityTrades={fpsTrades} />
 
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
 				<div>
@@ -69,7 +68,7 @@ export default function Equity() {
 							.
 						</div>
 					</AppTitle>
-					<ReportsFPSYearlyTable address={resolvedAddress} fpsHistory={fpsHistory} fpsEarnings={fpsEarnings} />
+					<ReportsFPSYearlyTable address={resolvedAddress} rows={fpsYearlyReport} />
 
 					<AppTitle title={isQueryOverride ? "Trades" : "My Trades"}>
 						<div className="text-text-secondary">Investment and redemption history.</div>

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useConnection, useChainId, useReadContracts } from "wagmi";
 import { Address, isAddress, zeroAddress } from "viem";
 import { mainnet } from "viem/chains";
-import { ADDRESS, EquityABI } from "@frankencoin/zchf";
-import { useDelegationQuery, useDelegationHelpers, useVotesSynced } from "@hooks";
+import { ADDRESS, EquityABI, MainnetVotesABI } from "@frankencoin/zchf";
+import { useDelegationQuery, useDelegationHelpers, useVotesSynced, VotingSystem } from "@hooks";
 import { ContractUrl, formatCurrency, normalizeAddress, shortenAddress } from "@utils";
 import AppLink from "@components/AppLink";
 import AddressInput from "@components/Input/AddressInput";
@@ -12,40 +12,48 @@ import { WAGMI_CHAINS } from "../../app.config";
 import GovernanceDelegationAction from "./GovernanceDelegationAction";
 import GovernanceSyncAction from "./GovernanceSyncAction";
 
-export default function GovernanceDelegation() {
+interface Props {
+	system?: VotingSystem;
+}
+
+export default function GovernanceDelegation({ system = "fps" }: Props) {
 	const account = useConnection();
 	useChainId();
 	const myAddress: Address = account.address ?? zeroAddress;
 	const isConnected = !!account.address;
 
+	// FCS delegation lives on MainnetVotes, not on the FCS token itself — same votes/votesDelegated/
+	// totalVotes shape as Equity, just a different contract.
+	const votingContract =
+		system === "fcs"
+			? { address: ADDRESS[mainnet.id].mainnetVotes, abi: MainnetVotesABI }
+			: { address: ADDRESS[mainnet.id].equity, abi: EquityABI };
+
 	// delegation graph
-	const delegationData = useDelegationQuery();
+	const delegationData = useDelegationQuery(system);
 	const myDelegatedTo: Address = (delegationData.owners[normalizeAddress(myAddress)] ?? zeroAddress) as Address;
 
 	// helpers (supporters) for sync and display
-	const { helpers, supporterCount } = useDelegationHelpers(account.address);
+	const { helpers } = useDelegationHelpers(account.address, system);
 	const voters: Address[] = isConnected ? [myAddress, ...helpers] : [];
 
-	// read voting powers from mainnet equity
+	// read voting powers
 	const contractReads = [
 		...voters.map((addr) => ({
-			address: ADDRESS[mainnet.id].equity,
+			...votingContract,
 			chainId: mainnet.id,
-			abi: EquityABI,
 			functionName: "votes" as const,
 			args: [addr] as [Address],
 		})),
 		{
-			address: ADDRESS[mainnet.id].equity,
+			...votingContract,
 			chainId: mainnet.id,
-			abi: EquityABI,
 			functionName: "votesDelegated" as const,
 			args: [myAddress, helpers] as [Address, Address[]],
 		},
 		{
-			address: ADDRESS[mainnet.id].equity,
+			...votingContract,
 			chainId: mainnet.id,
-			abi: EquityABI,
 			functionName: "totalVotes" as const,
 			args: [] as [],
 		},
@@ -84,7 +92,7 @@ export default function GovernanceDelegation() {
 	const syncChainId = WAGMI_CHAINS.find((c) => c.name === syncChain)?.id ?? sideChains[0]?.id ?? 0;
 
 	// synced votes on the selected target chain
-	const { syncedVotes, totalVotes: syncTotalVotes } = useVotesSynced(myAddress, helpers, syncChainId);
+	const { syncedVotes, totalVotes: syncTotalVotes } = useVotesSynced(myAddress, helpers, syncChainId, system);
 	const syncedPct = syncTotalVotes > 0n ? `${formatCurrency((Number(syncedVotes) / Number(syncTotalVotes)) * 100)}%` : "—";
 
 	return (
@@ -92,13 +100,11 @@ export default function GovernanceDelegation() {
 			{/* Left Card — Support List */}
 			<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
 				<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">
-					Voting Support
-				</div>
+				<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">Your Votes</div>
 
 				{/* Header */}
 				<div className="grid grid-cols-2 text-sm font-semibold text-text-secondary border-b border-card-input-border pb-1 mt-4">
-					<div>From</div>
+					<div>Source</div>
 					<div className="text-right">Voting</div>
 				</div>
 
@@ -107,19 +113,8 @@ export default function GovernanceDelegation() {
 				) : (
 					<>
 						{/* Own row */}
-						<div className="grid grid-cols-2 items-start py-1 border-b border-card-input-border">
-							<div className="flex flex-col text-sm">
-								<span className="font-semibold text-text-primary">You</span>
-								{myDelegatedTo !== zeroAddress ? (
-									<span className="text-text-secondary text-xs truncate">→ {shortenAddress(myDelegatedTo)}</span>
-								) : supporterCount > 0 ? (
-									<span className="text-text-secondary text-xs">
-										{supporterCount} supporter{supporterCount !== 1 ? "s" : ""}
-									</span>
-								) : (
-									<span className="text-text-secondary text-xs">no supporters yet</span>
-								)}
-							</div>
+						<div className="grid grid-cols-2 items-center py-1 border-b border-card-input-border">
+							<div className="text-sm font-semibold text-text-primary">Connected wallet</div>
 							<div className="text-right text-sm font-semibold text-text-primary">{formatPct(myVotes)}</div>
 						</div>
 
@@ -143,15 +138,8 @@ export default function GovernanceDelegation() {
 
 				{/* Note */}
 				<div className="text-text-secondary text-sm mt-auto">
-					You can group up with other FPS holders by forming a supporter chain or circle to increase the combined voting power of
-					the group. All addresses that have supported to you — directly or recursively — are your{" "}
-					<span className="text-text-primary font-medium">supporters</span>. When syncing votes to another chain, the voting power
-					of you and all your supporters is included in the sync.{" "}
-					{voters.length > 1 && isConnected && (
-						<span className="text-text-primary font-medium">
-							{voters.length} address{voters.length !== 1 ? "es" : ""} will be synced.
-						</span>
-					)}
+					Your voting power is that of your own address plus all your supporters and their supporters recursively.
+					Supporting others does not reduce your own votes.{" "}
 				</div>
 			</div>
 
@@ -173,7 +161,11 @@ export default function GovernanceDelegation() {
 						error={delegateError}
 					/>
 
-					<GovernanceDelegationAction delegate={delegateAddr} disabled={!isConnected || !isAddress(delegateAddr)} />
+					<GovernanceDelegationAction
+						delegate={delegateAddr}
+						disabled={!isConnected || !isAddress(delegateAddr)}
+						system={system}
+					/>
 
 					{/* Divider */}
 					<div className="border-t border-card-input-border my-2" />
@@ -191,7 +183,12 @@ export default function GovernanceDelegation() {
 						pct={syncedPct}
 					/>
 
-					<GovernanceSyncAction targetChainId={syncChainId} voters={voters} disabled={!isConnected || voters.length === 0} />
+					<GovernanceSyncAction
+						targetChainId={syncChainId}
+						voters={voters}
+						disabled={!isConnected || voters.length === 0}
+						system={system}
+					/>
 				</div>
 			</div>
 		</div>

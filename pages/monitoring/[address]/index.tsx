@@ -42,6 +42,8 @@ export default function PositionDetail() {
 	useEffect(() => {
 		if (!position) return;
 
+		let cancelled = false;
+
 		const fetchAsync = async () => {
 			const reserveData = await readContract(WAGMI_CONFIG, {
 				address: position.zchf,
@@ -50,15 +52,21 @@ export default function PositionDetail() {
 				functionName: "calculateAssignedReserve",
 				args: [BigInt(position.minted), position.reserveContribution],
 			});
+			if (cancelled) return;
 			setReserve(reserveData);
 
 			const updates = await FRANKENCOIN_API_CLIENT.get<ApiMintingUpdateListing>(
 				`/positions/mintingupdates/position/${position.version}/${normalizeAddress(position.position)}`
 			);
+			if (cancelled) return;
 			setMintingUpdates(updates.data.list ?? []);
 		};
 
 		fetchAsync();
+
+		return () => {
+			cancelled = true;
+		};
 	}, [position, chainId]);
 
 	if (!position) return null;

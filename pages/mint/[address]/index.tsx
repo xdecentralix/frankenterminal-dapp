@@ -6,7 +6,7 @@ import TokenInput from "@components/Input/TokenInput";
 import AppButtonSecondary from "@components/AppButtonSecondary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink, faLinkSlash } from "@fortawesome/free-solid-svg-icons";
-import { useConnection, useBlockNumber } from "wagmi";
+import { useConnection } from "wagmi";
 import { readContract } from "wagmi/actions";
 import { formatCurrency, formatDateFromSecs, min, normalizeAddress, toTimestamp, DISCUSSIONS } from "@utils";
 import DateInput from "@components/Input/DateInput";
@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/redux.store";
 import { ADDRESS } from "@frankencoin/zchf";
 import AppLink from "@components/AppLink";
+import { useLiveBlockNumber } from "@hooks";
 import { useRouter as useNavigation } from "next/navigation";
 import { mainnet } from "viem/chains";
 import AppTitle from "@components/AppTitle";
@@ -52,7 +53,7 @@ export default function PositionBorrow({}) {
 	const [userAllowanceHelper, setUserAllowanceHelper] = useState(0n);
 	const [userBalance, setUserBalance] = useState(0n);
 
-	const { data } = useBlockNumber({ watch: true });
+	const { data } = useLiveBlockNumber({ watch: true });
 	const navigate = useNavigation();
 	const account = useConnection();
 	const router = useRouter();

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { useBlockNumber, useConnection, useReadContracts } from "wagmi";
+import { useLiveBlockNumber } from "./useLiveBlockNumber";
+import { useConnection, useReadContracts } from "wagmi";
 import { getPublicClient } from "wagmi/actions";
 import { Address, encodePacked, keccak256, parseAbiItem, zeroAddress } from "viem";
 import { mainnet } from "viem/chains";
@@ -95,7 +96,7 @@ export const useAmplifiedPositions = (
 	}, [createdList, extra]);
 
 	// load the state and owner of each position, refreshed every block
-	const { data: blockNumber } = useBlockNumber({ watch: true });
+	const { data: blockNumber } = useLiveBlockNumber({ watch: true });
 	const {
 		data: stateData,
 		refetch,
@@ -157,7 +158,7 @@ export const useAmplifiedPosition = (amplifier: Address | undefined, position: A
 	const chainId = mainnet.id;
 	const enabled = !!amplifier && !!position;
 
-	const { data: blockNumber } = useBlockNumber({ watch: true });
+	const { data: blockNumber } = useLiveBlockNumber({ watch: true });
 	const { data, refetch, isLoading } = useReadContracts({
 		contracts: [
 			{ chainId, address: amplifier, abi: UniswapAmplifierABI, functionName: "positionCreationDate", args: [position!] },
@@ -217,7 +218,7 @@ export const useAmplifiedPositionFees = (
 		? keccak256(encodePacked(["address", "int24", "int24"], [position.address, position.tickLow, position.tickHigh]))
 		: undefined;
 
-	const { data: blockNumber } = useBlockNumber({ watch: true });
+	const { data: blockNumber } = useLiveBlockNumber({ watch: true });
 	const { data, refetch, isLoading } = useReadContracts({
 		contracts: [
 			{ chainId, address: pool, abi: UniswapV3PoolABI, functionName: "feeGrowthGlobal0X128" },

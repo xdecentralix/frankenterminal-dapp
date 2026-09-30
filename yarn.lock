@@ -1128,21 +1128,21 @@
   dependencies:
     prop-types "^15.8.1"
 
-"@frankencoin/api@^0.3.19":
-  version "0.3.19"
-  resolved "https://registry.yarnpkg.com/@frankencoin/api/-/api-0.3.19.tgz#c4df5d7a0086b1b200f3f1b071f3d60b62bfd71f"
-  integrity sha512-PV6T9RzJz+s2D4kld1SDAuE1ry+agKy2ocBxRc0yAJzjn9lccDb3Ws/wzG6mkNJPdH3ZaHUamNTsG/CTa0+b1g==
+"@frankencoin/api@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@frankencoin/api/-/api-0.4.2.tgz#2529b1abafbdc2187019875ee379d4472c119069"
+  integrity sha512-deNn3VN5dQ7KecV+PHXfuw3ySGt31EMDnRbpgHAfzas4rdm/DI2ADcTuhH4D3ZWDneWxQU+w3/JdkaI8zkG2CQ==
   dependencies:
     "@apollo/client" "^3.10.5"
     "@aws-sdk/client-s3" "^3.620.0"
-    "@frankencoin/zchf" "^0.3.24"
+    "@frankencoin/zchf" "^0.3.30"
     "@nestjs/axios" "^4.0.0"
     "@nestjs/common" "^10.0.0"
     "@nestjs/config" "^3.2.3"
     "@nestjs/core" "^10.0.0"
     "@nestjs/jwt" "^11.0.2"
     "@nestjs/platform-express" "^10.0.0"
-    "@nestjs/schedule" "^4.0.0"
+    "@nestjs/schedule" "^4.1.2"
     "@nestjs/swagger" "^7.3.1"
     "@prisma/client" "5.22.0"
     "@tanstack/react-query" "^5.45.1"
@@ -1157,10 +1157,10 @@
     rxjs "^7.8.1"
     viem "^2.31.7"
 
-"@frankencoin/zchf@^0.3.24", "@frankencoin/zchf@^0.3.25":
-  version "0.3.25"
-  resolved "https://registry.yarnpkg.com/@frankencoin/zchf/-/zchf-0.3.25.tgz#ba1d58027e8b581ad793570fa48ce3efa08bb310"
-  integrity sha512-uQfM2kh+/DqBufKH1SloQXZH4y3scCh4LK0hXEOoa5reC1cOBjYdKh04Ci3Z/HdJ+wL3GcximdD176WGhD/5tA==
+"@frankencoin/zchf@^0.3.30":
+  version "0.3.30"
+  resolved "https://registry.yarnpkg.com/@frankencoin/zchf/-/zchf-0.3.30.tgz#a7e4ba3605b6aeeb6991f014a07016b527bf4bbd"
+  integrity sha512-awjX7PUtcx9ekS4jl4hueqClnm7aVT+GvTRGlP5XkDhLt4cdJ9nR+66ScKG2Y+ZD0y/rNlHJx8UtM1ChCEMZew==
   dependencies:
     ts-node "^10.9.1"
     typescript "^5.2.2"
@@ -1508,7 +1508,7 @@
     multer "2.0.2"
     tslib "2.8.1"
 
-"@nestjs/schedule@^4.0.0":
+"@nestjs/schedule@^4.0.0", "@nestjs/schedule@^4.1.2":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-4.1.2.tgz#1b289d8270463bdf26c0152e4b426105c5730f49"
   integrity sha512-hCTQ1lNjIA5EHxeu8VvQu2Ed2DBLS1GSC6uKPYlBiQe6LL9a7zfE9iVSK+zuK8E2odsApteEBmfAQchc8Hx0Gg==

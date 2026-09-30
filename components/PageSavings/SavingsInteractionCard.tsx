@@ -1,7 +1,8 @@
+import { useLiveBlockNumber } from "@hooks";
 import TokenInputChain from "@components/Input/TokenInputChain";
 import { TabInput } from "@components/Input/TabInput";
 import { ADDRESS, ChainId, ChainIdMain, ChainIdSide, FrankencoinABI, SavingsABI } from "@frankencoin/zchf";
-import { useConnection, useBlockNumber, useChainId } from "wagmi";
+import { useConnection, useChainId } from "wagmi";
 import { Address, isAddress, zeroAddress } from "viem";
 import React, { useEffect, useState } from "react";
 import SavingsDetailsCard from "./SavingsDetailsCard";
@@ -64,7 +65,7 @@ export default function SavingsInteractionCard() {
 
 	const state = status[chainId][savingsAdresse];
 
-	const { data } = useBlockNumber({ watch: true });
+	const { data } = useLiveBlockNumber({ watch: true });
 	const { address } = useConnection();
 	const router = useRouter();
 

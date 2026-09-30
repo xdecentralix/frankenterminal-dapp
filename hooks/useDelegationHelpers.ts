@@ -1,4 +1,4 @@
-import { useDelegationQuery } from "@hooks";
+import { useDelegationQuery, VotingSystem } from "@hooks";
 import { normalizeAddress } from "@utils";
 import { Address, zeroAddress } from "viem";
 
@@ -29,8 +29,8 @@ export const collectHelpers = (address: Address, delegatees: DelegateeMap): Addr
 
 export const computeSupporterCount = (address: Address, delegatees: DelegateeMap): number => collectHelpers(address, delegatees).length;
 
-export const useDelegationHelpers = (sender: Address | undefined = zeroAddress): Delegationhelpers => {
-	const { delegatees } = useDelegationQuery();
+export const useDelegationHelpers = (sender: Address | undefined = zeroAddress, system: VotingSystem = "fps"): Delegationhelpers => {
+	const { delegatees } = useDelegationQuery(system);
 	sender = normalizeAddress(sender);
 
 	if (sender == zeroAddress)
