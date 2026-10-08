@@ -1128,10 +1128,10 @@
   dependencies:
     prop-types "^15.8.1"
 
-"@frankencoin/api@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@frankencoin/api/-/api-0.4.2.tgz#2529b1abafbdc2187019875ee379d4472c119069"
-  integrity sha512-deNn3VN5dQ7KecV+PHXfuw3ySGt31EMDnRbpgHAfzas4rdm/DI2ADcTuhH4D3ZWDneWxQU+w3/JdkaI8zkG2CQ==
+"@frankencoin/api@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@frankencoin/api/-/api-0.4.3.tgz#06d203e936b4089c25a499cc48ef1d966acc35ab"
+  integrity sha512-56S0UMlt6dcw7U4pT3hdI3+Rc6RwgAqlQJpnxqM4T69gUr9nKmizTlbGI3BfbnabAyfXfFdb36+8v7KbiroEoQ==
   dependencies:
     "@apollo/client" "^3.10.5"
     "@aws-sdk/client-s3" "^3.620.0"

@@ -2,11 +2,15 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Address, isAddress, zeroAddress } from "viem";
 import { useConnection } from "wagmi";
+import { store } from "../redux/redux.store";
+import { fetchMarketChart } from "../redux/slices/prices.slice";
+import { useEffect } from "react";
 import { useEquityTrades, useFPSYearlyReport } from "@hooks";
 import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
 import EquityFPSDetailsCard from "@components/PageEquity/EquityFPSDetailsCard";
 import EquityInteractionCard from "@components/PageEquity/EquityInteractionCard";
+import MarketChart from "@components/PageEcoSystem/MarketChart";
 import EquityTradesTable from "@components/PageEquity/EquityTradesTable";
 import EquityStatStrip from "@components/PageEquity/EquityStatStrip";
 import EquityTradeStream from "@components/PageEquity/EquityTradeStream";
@@ -25,6 +29,10 @@ export default function Equity() {
 	// FPS Price chart annotations only make sense against pure FPS1 invest/redeem trades.
 	const fpsTrades = equityTrades.filter((t) => t.kind === "Invested" || t.kind === "Redeemed");
 
+	useEffect(() => {
+		store.dispatch(fetchMarketChart());
+	}, []);
+
 	return (
 		<>
 			<Head>
@@ -33,10 +41,9 @@ export default function Equity() {
 
 			<AppTitle title="Invest">
 				<div className="text-text-secondary">
-					Invest in or redeem{" "}
-					<AppLink className="" label="Frankencoin Shares (FCS)" href="/governance/fcs" external={false} />{" "}
-					— the equity and governance token of the Frankencoin Ecosystem — to earn a share of protocol income and vote
-					with a lower veto threshold.
+					Invest in or redeem <AppLink className="" label="Frankencoin Shares (FCS)" href="/governance/fcs" external={false} /> —
+					the equity and governance token of the Frankencoin Ecosystem — to earn a share of protocol income and vote with a lower
+					veto threshold.
 				</div>
 			</AppTitle>
 
@@ -54,6 +61,14 @@ export default function Equity() {
 					<EquityTradeStream />
 				</div>
 			</div>
+
+			<AppTitle title="Market">
+				<div className="text-text-secondary">
+					This section shows the recent exchange rate and 24h trading volume of FCS on the open market. Data sourced from
+					CoinGecko.
+				</div>
+			</AppTitle>
+			<MarketChart coin="frankencoin-shares" symbol="FCS" />
 
 			{hasAddress && (
 				<>
