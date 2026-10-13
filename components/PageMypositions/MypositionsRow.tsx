@@ -33,9 +33,11 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 	const prices = useSelector((state: RootState) => state.prices.coingecko);
 	const challenges = useSelector((state: RootState) => state.challenges.positions);
 	const bids = useSelector((state: RootState) => state.bids.positions);
-	const collTokenPrice = prices[normalizeAddress(position.collateral)]?.price?.usd;
+	const collTokenPrice = prices[normalizeAddress(position.collateral)]?.price?.usd ?? 0;
 	const zchfPrice = prices[normalizeAddress(position.zchf)]?.price?.usd;
-	if (!collTokenPrice || !zchfPrice) return null;
+	// @dev: wait for the ZCHF price only. A collateral without a market price (e.g. a new token) is still owned and must be listed.
+	if (!zchfPrice) return null;
+	const hasMarketPrice = collTokenPrice > 0;
 
 	const maturity: number = (position.expiration * 1000 - Date.now()) / 1000 / 60 / 60 / 24;
 
@@ -61,7 +63,11 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 	const healthBand = !isClosedOrCooldown
 		? maturity <= 0
 			? ("danger" as const)
-			: classifyLiquidationPct(liquidationPct, isChallenged)
+			: hasMarketPrice
+				? classifyLiquidationPct(liquidationPct, isChallenged)
+				: isChallenged
+					? ("danger" as const)
+					: ("neutral" as const)
 		: ("neutral" as const);
 	const healthColor = BAND_TEXT[healthBand];
 	const healthLabel = BAND_LABEL[healthBand];
@@ -183,18 +189,22 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 					<div className="flex flex-col text-right">
 						<span
 							className={
-								liquidationPct < 110 && !isClosedOrCooldown ? `text-md font-bold text-text-danger ft-glow-red` : "text-md"
+								hasMarketPrice && liquidationPct < 110 && !isClosedOrCooldown
+									? `text-md font-bold text-text-danger ft-glow-red`
+									: "text-md"
 							}
 						>
 							{formatCurrency(liquidationZCHF, 2, 2)} ZCHF
 						</span>
 						<span className="text-sm text-text-subheader font-normal">
-							{formatCurrency(collTokenPrice / zchfPrice, 2, 2)} ZCHF
+							{hasMarketPrice ? `${formatCurrency(collTokenPrice / zchfPrice, 2, 2)} ZCHF` : "—"}
 						</span>
 					</div>
 					<div className={`flex flex-col text-right hidden md:flex ${healthColor} min-w-16`}>
 						<span className="text-md font-bold tabular-nums">
-							{isClosedOrCooldown || !isFinite(liquidationPct) ? "—" : `${formatCurrency(liquidationPct, 0, 2)}%`}
+							{isClosedOrCooldown || !hasMarketPrice || !isFinite(liquidationPct)
+								? "—"
+								: `${formatCurrency(liquidationPct, 0, 2)}%`}
 						</span>
 						<span className="text-[0.65rem] uppercase tracking-[0.18em] font-semibold">{healthLabel}</span>
 					</div>
@@ -202,7 +212,9 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 				<div className={`md:hidden mt-2 self-start flex gap-2 items-baseline ${healthColor}`}>
 					<span className="text-[0.65rem] uppercase tracking-[0.18em] font-semibold">{healthLabel}</span>
 					<span className="text-md font-bold tabular-nums">
-						{isClosedOrCooldown || !isFinite(liquidationPct) ? "—" : `${formatCurrency(liquidationPct, 0, 2)}%`}
+						{isClosedOrCooldown || !hasMarketPrice || !isFinite(liquidationPct)
+							? "—"
+							: `${formatCurrency(liquidationPct, 0, 2)}%`}
 					</span>
 				</div>
 			</div>
