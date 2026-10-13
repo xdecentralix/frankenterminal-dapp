@@ -335,14 +335,12 @@ export default function PositionBorrow({}) {
 				actions={
 					<div className="flex flex-wrap gap-4 text-sm uppercase tracking-[0.12em]">
 						<AppLink className="text-right" label={`Reference`} href={`/monitoring/${position.position}`} external={false} />
-						{DISCUSSIONS[normalizeAddress(position.collateral)] && (
-							<AppLink
-								className="text-right"
-								label={`Discussion`}
-								href={DISCUSSIONS[normalizeAddress(position.collateral)]}
-								external={true}
-							/>
-						)}
+						<AppLink
+							className="text-right"
+							label={`Discussion`}
+							href={DISCUSSIONS[normalizeAddress(position.collateral)] ?? DISCUSSIONS["default"]}
+							external={true}
+						/>
 					</div>
 				}
 			/>
