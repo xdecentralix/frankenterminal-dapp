@@ -15,7 +15,7 @@ import AmplifierPositionRemoveDialog from "@components/PageAmplifier/AmplifierPo
 import AmplifierPositionCollectDialog from "@components/PageAmplifier/AmplifierPositionCollectDialog";
 import AmplifierPositionCreateDialog from "@components/PageAmplifier/AmplifierPositionCreateDialog";
 import AppSelect from "@components/AppSelect";
-import { AmplifiedPositionInfo, useAmplifier, useAmplifiedPositions, useContractUrl } from "@hooks";
+import { AmplifiedPositionInfo, useAmplifier, useAmplifiedPositions, useChfUsdRate, useContractUrl } from "@hooks";
 import { getPriceView } from "../../hooks/useAmplifier";
 import { isDateExpired, shortenAddress } from "@utils";
 import { TEST_AMPLIFIER } from "../../utils/amplifierConstants";
@@ -28,6 +28,7 @@ export default function AmplifierPage() {
 	const overwrite: Address | undefined = paramAddr && isAddress(paramAddr) ? paramAddr : undefined;
 
 	const stats = useAmplifier(amplifier);
+	const forex = useChfUsdRate();
 
 	// base currency of the displayed numbers: CHF (prices as ZCHF per USD, the default)
 	// or USD (prices as USD per ZCHF), remembered across visits
@@ -35,7 +36,7 @@ export default function AmplifierPage() {
 	useEffect(() => {
 		if (localStorage.getItem("amplifier-price-base") === "USD") setPriceBase("USD");
 	}, []);
-	const priceView = getPriceView(stats, priceBase === "USD");
+	const priceView = getPriceView(stats, priceBase === "USD", forex.usdPerChf);
 	const changePriceBase = (base: string) => {
 		setPriceBase(base);
 		localStorage.setItem("amplifier-price-base", base);
@@ -102,21 +103,6 @@ export default function AmplifierPage() {
 			{/* Section Amplifier Overview */}
 			<AppTitle
 				title="Uniswap Amplifier"
-				subtitle={
-					<>
-						The <AppLink className="" label="amplifier" href={amplifierUrl} external={true} /> lets you provide liquidity to the{" "}
-						<AppLink
-							className=""
-							label={`${stats.zchfSymbol} / ${stats.usdSymbol || "..."} Uniswap pool`}
-							href={poolUrl}
-							external={true}
-						/>{" "}
-						while only supplying{" "}
-						<AppLink className="" label={stats.usdSymbol || "the paired token"} href={usdUrl} external={true} /> — the{" "}
-						{stats.zchfSymbol} side is borrowed from the Frankencoin protocol, cutting the capital costs of liquidity
-						provisioning in half.
-					</>
-				}
 				actions={
 					<AppSelect
 						className="w-40"
@@ -128,7 +114,21 @@ export default function AmplifierPage() {
 						onChange={changePriceBase}
 					/>
 				}
-			/>
+			>
+				<div className="text-text-secondary">
+					The <AppLink className="" label="amplifier" href={amplifierUrl} external={true} /> lets you provide liquidity to the{" "}
+					<AppLink
+						className=""
+						label={`${stats.zchfSymbol} / ${stats.usdSymbol || "..."} Uniswap pool`}
+						href={poolUrl}
+						external={true}
+					/>{" "}
+					while only supplying{" "}
+					<AppLink className="" label={stats.usdSymbol || "the paired token"} href={usdUrl} external={true} /> — the{" "}
+					{stats.zchfSymbol} side is borrowed from the Frankencoin protocol, cutting the capital costs of liquidity provisioning
+					in half.
+				</div>
+			</AppTitle>
 
 			{isTestAmplifier && (
 				<div className="mt-4 border border-card-input-border bg-layout-primary p-4 text-text-secondary">
@@ -146,13 +146,14 @@ export default function AmplifierPage() {
 			{/* Section Positions */}
 			<AppTitle
 				title="Amplified Positions"
-				subtitle="All positions created through this amplifier. Yours (if any) are listed first."
 				actions={
 					<AppButton className="h-10 px-4" width="w-auto" disabled={expired} onClick={() => setShowCreate(true)}>
 						Create Position
 					</AppButton>
 				}
-			/>
+			>
+				<div className="text-text-secondary">All positions created through this amplifier. Yours (if any) are listed first.</div>
+			</AppTitle>
 
 			{expired && (
 				<div className="mt-4 text-text-warning">
