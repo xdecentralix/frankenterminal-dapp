@@ -78,7 +78,7 @@ export default function SavingsPage() {
 				<SavingsHistorySparkline className="h-full" />
 			</div>
 
-			<SavingsInteractionCard />
+			<SavingsInteractionCard key={`${chainId}:${account}:${address ?? ""}`} account={account} />
 
 			<AppTitle title="Yearly Accounts">
 				<div className={`text-text-secondary`}>

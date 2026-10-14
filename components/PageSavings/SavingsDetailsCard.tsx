@@ -10,6 +10,7 @@ import { SavingsBalance, SavingsBalanceChainIdMapping } from "@frankencoin/api";
 
 interface Props {
 	account: Address;
+	readOnly: boolean;
 	chain: SupportedChain;
 	balance: bigint;
 	change: bigint;
@@ -25,6 +26,7 @@ interface Props {
 
 export default function SavingsDetailsCard({
 	account,
+	readOnly,
 	chain,
 	balance,
 	change,
@@ -45,7 +47,7 @@ export default function SavingsDetailsCard({
 		entries = Object.values(savingsBalance)
 			.map((m) => Object.values(m))
 			.flat()
-			.filter((m) => BigInt(m.balance) > 0n);
+			.filter((m) => m.account.toLowerCase() === account.toLowerCase() && BigInt(m.balance) > 0n);
 	}
 
 	const activeBalance = entries.filter((i) => i.chainId == chain.id);
@@ -55,33 +57,37 @@ export default function SavingsDetailsCard({
 	return (
 		<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
 			<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
-			<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">OUTCOME</div>
+			<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">
+				{readOnly ? "Savings details" : "Outcome"}
+			</div>
 
 			<div className="p-4 flex flex-col gap-2 bg-card-body-primary border border-card-input-border mt-8">
 				<div className="flex">
-					<div className="flex-1 text-text-secondary">Your total balance</div>
+					<div className="flex-1 text-text-secondary">{readOnly ? "Total saved balance" : "Your total balance"}</div>
 					<div className="text-text-secondary">{formatCurrency(formatUnits(totalBalance, 18))} ZCHF</div>
 				</div>
 				{...inactiveBalance.map((i, idx) => <SavingsSavedItem savings={i} key={`SavingsSavedItem_${idx}`} />)}
 
 				<div className="flex mt-4">
-					<div className="flex-1 text-text-secondary">Your current balance</div>
+					<div className="flex-1 text-text-secondary">{readOnly ? "Current saved balance" : "Your current balance"}</div>
 					<div className="">{formatCurrency(formatUnits(balance, 18))} ZCHF</div>
 				</div>
 
 				<div className="flex">
-					<div className="flex-1 text-text-secondary">Interest to be collected</div>
+					<div className="flex-1 text-text-secondary">{readOnly ? "Accrued interest" : "Interest to be collected"}</div>
 					<div className="">{formatCurrency(formatUnits(interest, 18))} ZCHF</div>
 				</div>
 
-				<div className="flex">
-					<div className="flex-1 text-text-secondary">
-						{walletWithdrawal > 0n ? "Withdrawn to your wallet" : "To be added from your wallet"}
+				{!readOnly ? (
+					<div className="flex">
+						<div className="flex-1 text-text-secondary">
+							{walletWithdrawal > 0n ? "Withdrawn to your wallet" : "To be added from your wallet"}
+						</div>
+						<div className="">
+							{formatCurrency(formatUnits(walletWithdrawal > 0n ? walletWithdrawal : walletDeposit, 18))} ZCHF
+						</div>
 					</div>
-					<div className="">
-						{formatCurrency(formatUnits(walletWithdrawal > 0n ? walletWithdrawal : walletDeposit, 18))} ZCHF
-					</div>
-				</div>
+				) : null}
 
 				{referrer != zeroAddress ? (
 					<div className="flex">
@@ -93,26 +99,32 @@ export default function SavingsDetailsCard({
 					</div>
 				) : null}
 
-				<hr className="border-card-input-border border-dashed my-2" />
+				{!readOnly ? (
+					<>
+						<hr className="border-card-input-border border-dashed my-2" />
 
-				<div className="flex font-bold">
-					<div className="flex-1 text-text-secondary">Resulting balance</div>
-					<div className="">{formatCurrency(formatUnits(resultingBalance ?? balance + change + interest, 18))} ZCHF</div>
-				</div>
+						<div className="flex font-bold">
+							<div className="flex-1 text-text-secondary">Resulting balance</div>
+							<div className="">{formatCurrency(formatUnits(resultingBalance ?? balance + change + interest, 18))} ZCHF</div>
+						</div>
+					</>
+				) : null}
 
 				<div className="flex mt-8">
 					<div className={`flex-1 text-text-secondary`}>
 						{locktime > 0
-							? `Interest starts to continuously accrue after three days, in your case in ${formatCurrency(
-									(parseFloat(locktime.toString()) / 60 / 60).toString()
-							  )} hours.`
+							? `Interest starts to continuously accrue after three days, ${
+									readOnly ? "for this account" : "in your case"
+							  } in ${formatCurrency((parseFloat(locktime.toString()) / 60 / 60).toString())} hours.`
 							: ""}
 					</div>
 				</div>
 
-				<div className="flex pt-6">
-					<SavingsActionRedeem />
-				</div>
+				{!readOnly ? (
+					<div className="flex pt-6">
+						<SavingsActionRedeem owner={account} />
+					</div>
+				) : null}
 			</div>
 		</div>
 	);

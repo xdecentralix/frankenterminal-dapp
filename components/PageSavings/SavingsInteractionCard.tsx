@@ -33,7 +33,11 @@ const DEFAULT_REFERRAL_FEE_PPM: bigint = 100_000n;
 const SAVINGS_TABS = ["Deposit", "Withdraw"] as const;
 type SavingsTab = (typeof SAVINGS_TABS)[number];
 
-export default function SavingsInteractionCard() {
+interface Props {
+	account: Address;
+}
+
+export default function SavingsInteractionCard({ account }: Props) {
 	const { status } = useSelector((state: RootState) => state.savings.savingsInfo);
 	const chainId = useChainId() as ChainId;
 	const chain = getChain(chainId);
@@ -69,8 +73,7 @@ export default function SavingsInteractionCard() {
 	const { address } = useConnection();
 	const router = useRouter();
 
-	const queryAddress: Address = normalizeAddress(String(router.query.address));
-	const account = isAddress(queryAddress) ? queryAddress : address ?? zeroAddress;
+	const canAdjust = address != undefined && normalizeAddress(address) == normalizeAddress(account);
 
 	const queryReferrer: Address = router.query.referrer as Address;
 	const queryReferralFeePPM: string = router.query.referralFeePPM as string;
@@ -225,6 +228,47 @@ export default function SavingsInteractionCard() {
 	const onChangeDeltaAmount = (value: string) => {
 		setDeltaAmount(BigInt(value));
 	};
+	const detailsCard = (
+		<SavingsDetailsCard
+			account={account}
+			readOnly={!canAdjust}
+			chain={chain}
+			balance={userSavingsBalance}
+			change={isLoaded ? change : 0n}
+			walletDeposit={isLoaded && tab === "Deposit" ? walletDeposit : 0n}
+			walletWithdrawal={isLoaded && tab === "Withdraw" ? walletWithdrawal : 0n}
+			interest={isLoaded ? userSavingsInterest : 0n}
+			locktime={userSavingsLocktime}
+			referrer={displayReferrer}
+			referralFeePPM={displayReferralFeePPM}
+			referralFees={displayReferralFees}
+			resultingBalance={isLoaded ? (tab === "Withdraw" ? withdrawTargetAmount : depositTargetAmount) : userSavingsBalance}
+		/>
+	);
+
+	if (!canAdjust) {
+		return (
+			<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto items-stretch">
+				<div className="relative border border-card-input-border bg-layout-primary px-4 py-4 flex flex-col h-full gap-y-4">
+					<div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-card-content-highlight to-transparent opacity-60 pointer-events-none" />
+					<div className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-primary text-center">
+						Savings account view
+					</div>
+					<div className="text-text-secondary text-center">
+						{address == undefined
+							? "Connect your wallet to adjust savings."
+							: `These savings belong to ${shortenAddress(account)}. Connect that account to adjust them.`}
+					</div>
+					{address != undefined ? (
+						<div className="text-center">
+							<AppLink label="View your savings" href="/savings" />
+						</div>
+					) : null}
+				</div>
+				{detailsCard}
+			</section>
+		);
+	}
 
 	const handleTabChange = (value: React.SetStateAction<string>) => {
 		const next = typeof value === "function" ? value(tab) : value;
@@ -265,7 +309,7 @@ export default function SavingsInteractionCard() {
 
 			<div className="mt-4 flex flex-col gap-4">
 				<SavingsActionCompound
-					disabled={interestActionDisabled || netInterest <= 0n}
+					disabled={!isLoaded || interestActionDisabled || netInterest <= 0n}
 					savingsModule={savingsAdresse}
 					amount={compoundTargetAmount}
 					interest={userSavingsInterest}
@@ -275,7 +319,8 @@ export default function SavingsInteractionCard() {
 					setLoaded={setLoaded}
 				/>
 				<SavingsActionInterest
-					disabled={interestActionDisabled}
+					disabled={!isLoaded || interestActionDisabled}
+					owner={account}
 					savingsModule={savingsAdresse}
 					balance={userSavingsBalance}
 					interest={userSavingsInterest}
@@ -373,7 +418,7 @@ export default function SavingsInteractionCard() {
 						<div className="mx-auto my-2 w-full flex-col flex gap-4">
 							{onbehalfToggle ? (
 								<SavingsActionSaveOnBehalf
-									disabled={onbehalfError != "" || onbehalfAddress == "" || deltaAmount == 0n || !!error}
+									disabled={!isLoaded || onbehalfError != "" || onbehalfAddress == "" || deltaAmount == 0n || !!error}
 									savingsModule={savingsAdresse}
 									amount={deltaAmount}
 									onBehalf={onbehalfAddress as Address}
@@ -381,7 +426,8 @@ export default function SavingsInteractionCard() {
 								/>
 							) : (
 								<SavingsActionSave
-									disabled={deltaAmount == 0n || !!error}
+									disabled={!isLoaded || deltaAmount == 0n || !!error}
+									owner={account}
 									savingsModule={savingsAdresse}
 									amount={depositTargetAmount}
 									interest={userSavingsInterest}
@@ -418,7 +464,8 @@ export default function SavingsInteractionCard() {
 
 						<div className="mx-auto my-2 w-full flex-col flex gap-4">
 							<SavingsActionWithdraw
-								disabled={deltaAmount == 0n || userSavingsBalance == 0n || !!error}
+								disabled={!isLoaded || deltaAmount == 0n || userSavingsBalance == 0n || !!error}
+								owner={account}
 								savingsModule={savingsAdresse}
 								balance={withdrawTargetAmount}
 								change={deltaAmount}
@@ -436,20 +483,7 @@ export default function SavingsInteractionCard() {
 				{referralNotice}
 			</div>
 
-			<SavingsDetailsCard
-				account={account}
-				chain={chain}
-				balance={userSavingsBalance}
-				change={isLoaded ? change : 0n}
-				walletDeposit={isLoaded && tab === "Deposit" ? walletDeposit : 0n}
-				walletWithdrawal={isLoaded && tab === "Withdraw" ? walletWithdrawal : 0n}
-				interest={isLoaded ? userSavingsInterest : 0n}
-				locktime={userSavingsLocktime}
-				referrer={displayReferrer}
-				referralFeePPM={displayReferralFeePPM}
-				referralFees={displayReferralFees}
-				resultingBalance={isLoaded ? (tab === "Withdraw" ? withdrawTargetAmount : depositTargetAmount) : userSavingsBalance}
-			/>
+			{detailsCard}
 		</section>
 	);
 }

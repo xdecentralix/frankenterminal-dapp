@@ -12,6 +12,7 @@ import { ChainId, SavingsABI } from "@frankencoin/zchf";
 import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
 
 interface Props {
+	owner: Address;
 	savingsModule: Address;
 	amount: bigint;
 	interest: bigint;
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export default function SavingsActionSave({
+	owner,
 	savingsModule,
 	amount,
 	interest,
@@ -40,12 +42,13 @@ export default function SavingsActionSave({
 
 	const handleOnClick = async function (e: any) {
 		e.preventDefault();
-		if (!account.address) return;
+		if (!account.address || account.address.toLowerCase() != owner.toLowerCase()) return;
 
 		try {
 			setAction(true);
 
 			const writeHash = await writeContract(WAGMI_CONFIG, {
+				account: owner,
 				address: savingsModule,
 				chainId: chainId,
 				abi: SavingsABI,
