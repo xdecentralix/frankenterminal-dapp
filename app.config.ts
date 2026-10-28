@@ -33,11 +33,10 @@ export const CONFIG: ConfigEnv = {
 	// to our own production domain; overridable via env var for previews
 	// and other deployments.
 	app: process.env.NEXT_PUBLIC_APP_URL || "https://frankenterminal.app",
-	// Backend services — default to the canonical Frankencoin endpoints
-	// (qualifying-minimum tier of the bounty). Switch to self-hosted URLs
-	// once the bonus track (own Ponder + own NestJS API) is deployed.
-	api: process.env.NEXT_PUBLIC_API_URL || "https://api.frankencoin.com",
-	ponder: process.env.NEXT_PUBLIC_PONDER_URL || "https://ponder.frankencoin.com",
+	// Pinned to the canonical Frankencoin hosts. Deploy env must not be able
+	// to point this frontend at a private API or indexer.
+	api: "https://api.frankencoin.com",
+	ponder: "https://ponder.frankencoin.com",
 	// Reown / WalletConnect project ID. Owned by the operator of this
 	// frontend; production domains are whitelisted in cloud.reown.com.
 	wagmiId: process.env.NEXT_PUBLIC_WAGMI_ID || "57719c3e0043b726f0685a652e71e422",
